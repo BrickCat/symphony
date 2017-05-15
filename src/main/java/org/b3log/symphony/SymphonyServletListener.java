@@ -98,7 +98,7 @@ public final class SymphonyServletListener extends AbstractServletListener {
         beanManager = Lifecycle.getBeanManager();
 
         final InitMgmtService initMgmtService = beanManager.getReference(InitMgmtService.class);
-        initMgmtService.initSym();
+        //initMgmtService.initSym();
 
         // Register event listeners
         final EventManager eventManager = beanManager.getReference(EventManager.class);

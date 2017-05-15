@@ -53,6 +53,9 @@
         <#if type == "roles">
             <@head title="${rolesAdminLabel} - ${symphonyLabel}"></@head>
         </#if>
+        <#if type == "videos">
+            <@head title="${videoAdminLabel} - ${symphonyLabel}"></@head>
+        </#if>
         <link rel="stylesheet" href="${staticServePath}/css/home.css?${staticResourceVersion}" />
     </head>
     <body>
