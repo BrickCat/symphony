@@ -97,6 +97,9 @@
                                 <#if permissions["menuAdminMisc"].permissionGrant>
                                 <a href="${servePath}/admin/misc"<#if type == "misc"> class="current"</#if>>${miscAdminLabel}</a>
                                 </#if>
+                                <#--<#if permissions["menuAdminVideo"].permissionGrant>
+                                    <a href="${servePath}/admin/video"<#if type == "video"> class="current"</#if>>${videoAdminLabel}</a>
+                                </#if>-->
                             </nav>
                         </div>
                     </div>

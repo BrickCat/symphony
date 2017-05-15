@@ -403,6 +403,9 @@ public final class Permission {
      */
     public static final String PERMISSION_ID_C_MENU_ADMIN_MISC = "menuAdminMisc";
 
+
+    //public static final String PERMISSION_ID_C_MENU_ADMIN_VIDEO = "menuAdminVideo";
+
     // Category constants
     /**
      * Category - common function.
@@ -458,6 +461,11 @@ public final class Permission {
      * Category - menu.
      */
     public static final int PERMISSION_CATEGORY_C_MENU = 10;
+
+    /**
+     * Category - menu.
+     */
+    //public static final int PERMISSION_CATEGORY_C_AIDEO = 11;
 
 
     /**

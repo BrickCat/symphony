@@ -508,7 +508,7 @@ a[class^="icon-"].ft-fade:hover {
     font-size: 12px;
     font-weight: 600;
     line-height: 1;
-    color: $theme-secondary;
+    color: #666;
     background-color: #eee;
     border-radius: 20px;
 }
@@ -784,7 +784,7 @@ a[class*=" icon-"]:hover {
 }
 
 .form label {
-    color: $theme-secondary;
+    color: #666;
     font-size: 15px;
     margin: 10px 0 5px;
     float: left;
@@ -2131,7 +2131,7 @@ label.cmt-anonymous {
     .intro {
         padding: 30px;
         background-color: $blue-lighter;
-        color: $theme-secondary;
+        color: #666;
     }
 
     .form {
@@ -2474,7 +2474,7 @@ code .dec { color: initial; } /* decimal - blue */
 .user-info {
     line-height: 26px;
     font-size: 12px;
-    color: $theme-secondary;
+    color: #666666;
 }
 
 .user-intro {

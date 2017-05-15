@@ -2573,4 +2573,8 @@ public class AdminProcessor {
 
         context.getResponse().sendRedirect(Latkes.getServePath() + "/admin/articles");
     }
+
+
+
+
 }

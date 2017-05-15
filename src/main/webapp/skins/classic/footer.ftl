@@ -21,13 +21,13 @@
                 <a href="${servePath}/statistic">${dataStatLabel}</a>
 
                 <div class="fn-right">&COPY; ${year}
-                    <a rel="copyright" href="https://hacpai.com" target="_blank">hacpai.com</a>
+                    <a rel="copyright" href="http://brickcat.club" target="_blank">brickcat.club</a>
                     ${visionLabel}</div>
             </div>
             <div class="fn-clear ft-smaller">
                        ${sloganLabel}
                     <div class="fn-right">
-                       Powered by <a href="http://b3log.org" target="_blank">B3log 开源</a> •
+                      感谢 B3log 开源 Powered by <a href="http://b3log.org" target="_blank">B3log 开源</a> •
                             <a href="https://github.com/b3log/symphony" target="_blank">Sym</a>
                             ${version} • ${elapsed?c}ms
                     </div>

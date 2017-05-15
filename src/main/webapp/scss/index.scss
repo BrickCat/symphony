@@ -20,7 +20,7 @@
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
  * @author <a href="http://88250.b3log.org">Liang Ding</a>
- * @version 2.32.30.59, May 15, 2017
+ * @version 2.32.30.58, May 8, 2017
  */
 
 @import "variables";
@@ -128,7 +128,7 @@
     left: 120px;
     width: 30px;
     font-size: 22px;
-    color: $theme-secondary;
+    color: #666;
     text-align: center;
     margin-top: -117px;
 
@@ -191,7 +191,7 @@
     .user-nav > a {
       float: left;
       padding: 5px 10px;
-      color: $theme-secondary;
+      color: #666;
       text-decoration: none;
 
       &.ft-red {
@@ -326,13 +326,16 @@
     }
 
     .editor-hide {
-      color: $theme-secondary;
-      margin: -3px 0 6px;
-      font-size: 22px;
+      width: 20px;
+      text-align: center;
+      height: 20px;
+      color: #ccc;
+      line-height: 20px;
+      margin-bottom: 10px;
     }
 
     .editor-hide:hover {
-      color: $black-text;
+      color: $gray;
     }
   }
 
@@ -372,13 +375,13 @@
 }
 
 label.cmt-anonymous {
-  margin: 0 20px 0 0;
-  line-height: 33px;
+  margin: 5px 20px 0 0;
+  line-height: 28px;
 }
 
 .action-btns > span,
 .action-btns > a {
-  color: $theme-secondary;
+  color: #666;
   text-decoration: none;
 }
 
@@ -395,7 +398,7 @@ label.cmt-anonymous {
 }
 
 .action-btns > span.icon-reply-btn {
-  color: $theme-secondary;
+  color: #666;
   font-weight: bold;
 }
 
@@ -578,7 +581,7 @@ label.cmt-anonymous {
 
   .abstract {
     margin-top: 5px;
-    color: $theme-secondary;
+    color: #666;
     display: block;
     text-decoration: none;
   }
@@ -598,7 +601,7 @@ label.cmt-anonymous {
   }
 
   .author {
-    color: $theme-secondary;
+    color: #666;
     font-weight: 600;
   }
 
@@ -708,7 +711,7 @@ label.cmt-anonymous {
     padding: 100px 50px;
     background-color: $blue-lighter;
     width: 40%;
-    color: $theme-secondary;
+    color: #666;
   }
 
   .verify-wrap {
@@ -1281,7 +1284,7 @@ code .dec {
 /* start symhub */
 .symhub {
   li a {
-    color: $theme-secondary;
+    color: #666;
     vertical-align: middle;
     font-size: 16px;
     line-height: 20px;

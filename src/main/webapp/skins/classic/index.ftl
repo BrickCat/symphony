@@ -122,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="index__bottom">
+            <#--<div class="index__bottom">
                 <div class="wrapper">
                     <div class="index-main">
                         <div class="metro-line fn-flex">
@@ -208,7 +208,7 @@
                     </div>
                     <div class="metro-line fn-flex">
                         <div class="metro-item">
-                            <!-- ${ADLabel} -->
+                            <!-- ${ADLabel} &ndash;&gt;
                             <a class="preview" href="https://hacpai.com/man">
                                 <img width="44px" src="${staticServePath}/images/tags/shell.png" alt="${sponsorLabel}">
                                 <b>Hacker's Manual</b>
@@ -227,7 +227,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
     <#include "footer.ftl">   
     <script src="${staticServePath}/js/channel${miniPostfix}.js?${staticResourceVersion}"></script>

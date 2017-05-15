@@ -1,5 +1,5 @@
 <div class="nav">
-    <h1>
+    <h1 style="line-height: 100%">
         ${logoIcon}
     </h1>
     <div class="nav-tabs">
