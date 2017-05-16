@@ -21,7 +21,7 @@ public final class Video {
     /**
      * Video tags
      */
-    private static final String VIDEO_TAGS = "videoTags";
+    private static final String VIDEO_TAG = "videoTag";
     /**
      * Video authorId
      */

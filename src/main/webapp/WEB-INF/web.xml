@@ -67,7 +67,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadFileServlet</servlet-name>
-        <url-pattern>/uploadVideo</url-pattern>
+        <url-pattern>/addVideo</url-pattern>
     </servlet-mapping>
     <!--
     <servlet>

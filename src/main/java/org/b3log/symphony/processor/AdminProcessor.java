@@ -1091,6 +1091,35 @@ public class AdminProcessor {
 
     }
 
+
+
+
+    /**
+     * Shows admin index.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/admin/video", method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+            throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        renderer.setTemplateName("admin/video.ftl");
+        dataModel.put("sideFullAd", "");
+        dataModel.put("headerBanner", "");
+
+
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+    }
+
     /**
      * Shows admin users.
      *
@@ -2573,8 +2602,6 @@ public class AdminProcessor {
 
         context.getResponse().sendRedirect(Latkes.getServePath() + "/admin/articles");
     }
-
-
 
 
 }

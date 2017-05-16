@@ -3,7 +3,6 @@
         ${logoIcon}
     </h1>
     <div class="nav-tabs">
-
         <a pjax-title="${latestLabel} - ${symphonyLabel}" href="${servePath}/recent"<#if selected?? && 'recent' == selected> class="current"</#if>>
            <svg height="16" viewBox="0 0 14 16" width="14">${timeIcon}</svg> ${latestLabel}</a>
         <a href="${servePath}/perfect"<#if selected?? && 'perfect' == selected> class="current"</#if>>

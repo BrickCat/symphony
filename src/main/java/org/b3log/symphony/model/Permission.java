@@ -348,12 +348,21 @@ public final class Permission {
      */
     public static final String PERMISSION_ID_C_MISC_LANGUAGE = "miscLanguage";
 
-
+    /**
+     * Id - video - add - admin.
+     */
     public static final String PERMISSION_ID_C_VIDEO_ADD = "adminAddVideo";
 
+    /**
+     * Id - video - update - admin.
+     */
     public static final String PERMISSION_ID_C_VIDEO_UPDATE = "adminUpdateVideo";
 
+    /**
+     * Id - video - del - admin.
+     */
     public static final String PERMISSION_ID_C_VIDEO_DELETE = "admindeleteVideo";
+
     /**
      * Id - menu - admin.
      */
