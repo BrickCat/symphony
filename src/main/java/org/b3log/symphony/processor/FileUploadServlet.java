@@ -93,41 +93,45 @@ public class FileUploadServlet extends HttpServlet {
         if (QN_ENABLED) {
             return;
         }
+        final String type = req.getParameter("type");
+        if(type != null && "1".equals(type)){
+            LOGGER.info("我简历啊");
+        }else{
+            final String uri = req.getRequestURI();
+            String key = StringUtils.substringAfter(uri, "/upload/");
+            key = StringUtils.substringBeforeLast(key, "?"); // Erase Qiniu template
+            key = StringUtils.substringBeforeLast(key, "?"); // Erase Qiniu template
 
-        final String uri = req.getRequestURI();
-        String key = StringUtils.substringAfter(uri, "/upload/");
-        key = StringUtils.substringBeforeLast(key, "?"); // Erase Qiniu template
-        key = StringUtils.substringBeforeLast(key, "?"); // Erase Qiniu template
+            String path = UPLOAD_DIR + key;
+            path = URLDecoder.decode(path, "UTF-8");
 
-        String path = UPLOAD_DIR + key;
-        path = URLDecoder.decode(path, "UTF-8");
+            if (!FileUtil.isExistingFile(new File(path))) {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 
-        if (!FileUtil.isExistingFile(new File(path))) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
 
-            return;
+            final byte[] data = IOUtils.toByteArray(new FileInputStream(path));
+
+            final String ifNoneMatch = req.getHeader("If-None-Match");
+            final String etag = "\"" + MD5.hash(new String(data)) + "\"";
+
+            resp.addHeader("Cache-Control", "public, max-age=31536000");
+            resp.addHeader("ETag", etag);
+            resp.setHeader("Server", "Latke Static Server (v" + SymphonyServletListener.VERSION + ")");
+
+            if (etag.equals(ifNoneMatch)) {
+                resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+
+                return;
+            }
+
+            final OutputStream output = resp.getOutputStream();
+            IOUtils.write(data, output);
+            output.flush();
+
+            IOUtils.closeQuietly(output);
         }
-
-        final byte[] data = IOUtils.toByteArray(new FileInputStream(path));
-
-        final String ifNoneMatch = req.getHeader("If-None-Match");
-        final String etag = "\"" + MD5.hash(new String(data)) + "\"";
-
-        resp.addHeader("Cache-Control", "public, max-age=31536000");
-        resp.addHeader("ETag", etag);
-        resp.setHeader("Server", "Latke Static Server (v" + SymphonyServletListener.VERSION + ")");
-
-        if (etag.equals(ifNoneMatch)) {
-            resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
-
-            return;
-        }
-
-        final OutputStream output = resp.getOutputStream();
-        IOUtils.write(data, output);
-        output.flush();
-
-        IOUtils.closeQuietly(output);
     }
 
     @Override

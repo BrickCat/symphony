@@ -7,6 +7,7 @@ import org.b3log.latke.logging.Logger;
 import org.b3log.symphony.util.*;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

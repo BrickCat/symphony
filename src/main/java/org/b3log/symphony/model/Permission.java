@@ -361,7 +361,7 @@ public final class Permission {
     /**
      * Id - video - del - admin.
      */
-    public static final String PERMISSION_ID_C_VIDEO_DELETE = "admindeleteVideo";
+    public static final String PERMISSION_ID_C_VIDEO_DELETE = "adminDeleteVideo";
 
     /**
      * Id - menu - admin.

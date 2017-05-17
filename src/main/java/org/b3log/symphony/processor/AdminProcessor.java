@@ -1105,12 +1105,29 @@ public class AdminProcessor {
     @RequestProcessing(value = "/admin/video", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+    public void Video(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
             throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("admin/video.ftl");
+        dataModel.put("sideFullAd", "");
+        dataModel.put("headerBanner", "");
+
+
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+    }
+    @RequestProcessing(value = "/admin/add-video", method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+            throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        renderer.setTemplateName("admin/add-video.ftl");
         dataModel.put("sideFullAd", "");
         dataModel.put("headerBanner", "");
 
