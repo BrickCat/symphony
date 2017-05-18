@@ -1,31 +1,52 @@
+/*
+ * Symphony - A modern community (forum/SNS/blog) platform written in Java.
+ * Copyright (C) 2012-2017,  b3log.org & hacpai.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.b3log.symphony.util.servlet;
+
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 import org.b3log.latke.logging.Logger;
+
 import org.b3log.symphony.util.*;
 
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
- * Created by Seven on 17/5/14.
+ * File upload to local.
+ *
+ * @author <a href="http://88250.b3log.org">Liang Ding</a>
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 1.1.4.4, May 4, 2017
+ * @since 1.4.0
  */
-public class UploadFileServlet extends HttpServlet {
+public class VideoFileServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger = Logger.getLogger(UploadFileServlet.class);
+    private static Logger logger = Logger.getLogger(VideoFileServlet.class);
 
     private ServletFileUpload upload;
 
@@ -79,7 +100,7 @@ public class UploadFileServlet extends HttpServlet {
                 FileItem item = (FileItem)iter.next();
                 if(!item.isFormField()){
                     String fileName = item.getName();
-                    if(StringUtils.isEmpty(fileName)){
+                    if(org.b3log.symphony.util.StringUtils.isEmpty(fileName)){
                         Calendar calendar = Calendar.getInstance();
                         File savePath = new File(UPLOAD_BASE_PATH+File.separator+String.valueOf(calendar
                                 .get(1)) +
@@ -91,7 +112,7 @@ public class UploadFileServlet extends HttpServlet {
                             savePath.mkdirs();
                             String extName = FileUtils.extName(fileName);
                             String newFileName = DateUtils.sdf.format(new Date())+ RandomUtil.random.nextInt(1000);
-                            if(!StringUtils.isEmpty(extName)){
+                            if(!org.b3log.symphony.util.StringUtils.isEmpty(extName)){
                                 newFileName = newFileName+"."+extName;
                             }
                             File saveFile = new File(savePath+File.separator+newFileName);
@@ -174,9 +195,5 @@ public class UploadFileServlet extends HttpServlet {
         this.upload = new ServletFileUpload(factory);
         super.init();
     }
-
-
-
-
 
 }
