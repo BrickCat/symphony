@@ -1,16 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-/*
- * jQuery File Upload Plugin Demo
- * https://github.com/blueimp/jQuery-File-Upload
- *
- * Copyright 2010, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
- */
--->
 <html lang="en">
 <head>
     <!-- Force latest IE rendering engine or ChromeFrame if installed -->
@@ -41,31 +29,21 @@
         <h2 class="lead">Basic Plus UI version</h2>
         <br>
         <!-- The file upload form used as target for the file upload widget -->
-        <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
-            <!-- Redirect browsers with JavaScript disabled to the origin page -->
-            <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+        <form id="fileupload" action="${servePath}/upload?type=1" method="POST" enctype="multipart/form-data">
             <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
             <div class="row fileupload-buttonbar">
                 <div class="col-lg-7">
                     <!-- The fileinput-button span is used to style the file input field as button -->
                     <span class="btn btn-success fileinput-button">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>Add files...</span>
+                    <span>选择视频</span>
                     <input type="file" name="files[]" multiple>
                 </span>
                     <button type="submit" class="btn btn-primary start">
-                        <i class="glyphicon glyphicon-upload"></i>
-                        <span>Start upload</span>
+                        <span>上传</span>
                     </button>
                     <button type="reset" class="btn btn-warning cancel">
-                        <i class="glyphicon glyphicon-ban-circle"></i>
-                        <span>Cancel upload</span>
+                        <span>取消</span>
                     </button>
-                    <button type="button" class="btn btn-danger delete">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        <span>Delete</span>
-                    </button>
-                    <input type="checkbox" class="toggle">
                     <!-- The global file processing state -->
                     <span class="fileupload-process"></span>
                 </div>

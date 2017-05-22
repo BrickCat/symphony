@@ -21,22 +21,36 @@ import jodd.io.FileUtil;
 import jodd.upload.MultipartRequestInputStream;
 import jodd.util.MimeTypes;
 import jodd.util.URLDecoder;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.b3log.latke.Latkes;
+import org.b3log.latke.ioc.LatkeBeanManager;
+import org.b3log.latke.ioc.LatkeBeanManagerImpl;
+import org.b3log.latke.ioc.Lifecycle;
 import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
+import org.b3log.latke.service.LangPropsService;
+import org.b3log.latke.service.LangPropsServiceImpl;
 import org.b3log.latke.util.MD5;
 import org.b3log.symphony.SymphonyServletListener;
+import org.b3log.symphony.service.UserMgmtService;
+import org.b3log.symphony.util.FileUtils;
 import org.b3log.symphony.util.Symphonys;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -135,6 +149,11 @@ public class FileUploadServlet extends HttpServlet {
     }
 
     @Override
+    public void init(ServletConfig servletConfig) throws ServletException {
+        super.init(servletConfig);
+    }
+
+    @Override
     public void doPost(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
         if (QN_ENABLED) {
@@ -142,6 +161,55 @@ public class FileUploadServlet extends HttpServlet {
         }
         final String type = req.getParameter("type");
         if (type != null && "1".equals(type)){
+            final MultipartRequestInputStream multipartRequestInputStream = new MultipartRequestInputStream(req.getInputStream());
+            multipartRequestInputStream.readBoundary();
+            multipartRequestInputStream.readDataHeader("UTF-8");
+
+            String fileName = multipartRequestInputStream.getLastHeader().getFileName();
+            LOGGER.info(fileName);
+
+            String suffix = StringUtils.substringAfterLast(fileName, ".");
+            if (StringUtils.isBlank(suffix)) {
+                final String mimeType = multipartRequestInputStream.getLastHeader().getContentType();
+                String[] exts = MimeTypes.findExtensionsByMimeTypes(mimeType, false);
+
+                if (null != exts && 0 < exts.length) {
+                    suffix = exts[0];
+                } else {
+                    suffix = StringUtils.substringAfter(mimeType, "/");
+                }
+            }
+
+            final String name = StringUtils.substringBeforeLast(fileName, ".");
+            final String processName = name.replaceAll("\\W", "");
+            final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+
+            if (StringUtils.isBlank(processName)) {
+                fileName = uuid + "." + suffix;
+            } else {
+                fileName = uuid + '_' + processName + "." + suffix;
+            }
+            //TODO 根据用户保存
+            final LatkeBeanManager beanManager = Lifecycle.getBeanManager();
+            final UserMgmtService userMgmtService = beanManager.getReference(UserMgmtService.class);
+
+
+
+
+            final OutputStream output = new FileOutputStream(UPLOAD_DIR + fileName);
+            IOUtils.copy(multipartRequestInputStream, output);
+
+            IOUtils.closeQuietly(multipartRequestInputStream);
+            IOUtils.closeQuietly(output);
+
+
+            resp.setContentType("application/json");
+
+            final PrintWriter writer = resp.getWriter();
+            writer.append("{files:[{url:'"+Latkes.getServePath() + "/upload/" + fileName+"',thumbnailUrl:'',name:'"+fileName+"',size:'1024'}]}");
+            writer.flush();
+            writer.close();
+
 
         }else{
             final MultipartRequestInputStream multipartRequestInputStream = new MultipartRequestInputStream(req.getInputStream());
@@ -179,6 +247,7 @@ public class FileUploadServlet extends HttpServlet {
             IOUtils.closeQuietly(output);
 
             final JSONObject data = new JSONObject();
+
             data.put("key", Latkes.getServePath() + "/upload/" + fileName);
             data.put("name", fileName);
 

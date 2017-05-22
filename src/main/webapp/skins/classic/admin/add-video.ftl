@@ -1,5 +1,6 @@
 <#include "macro-admin.ftl">
 <@admin "video">
+<script src="${staticServePath}/js/lib/jquery/jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
 <div class="content">
     <div class="module">
         <div class="module-header">
@@ -7,11 +8,9 @@
         </div>
         <div class="module-panel form">
             <div class="fn-clear">
-                <form class="fn-left" method="POST" enctype="multipart/form-data">
-                    <label class="btn green">
-                    ${videoURl}<input type="file" name="file">
-                    </label>
-                </form>
+                <#if permissions["adminAddVideo"].permissionGrant>
+                    <a class="btn red" onclick="window.location = '${servePath}/admin/add-video-file'">${adminAddVideoPermissionLabel}</a>
+                </#if>
             </div>
         </div>
         <div class="module-header">
