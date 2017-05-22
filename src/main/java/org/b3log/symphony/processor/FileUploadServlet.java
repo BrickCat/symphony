@@ -27,12 +27,14 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.LatkeBeanManager;
 import org.b3log.latke.ioc.LatkeBeanManagerImpl;
 import org.b3log.latke.ioc.Lifecycle;
 import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
+import org.b3log.latke.model.User;
 import org.b3log.latke.service.LangPropsService;
 import org.b3log.latke.service.LangPropsServiceImpl;
 import org.b3log.latke.util.MD5;
@@ -190,6 +192,8 @@ public class FileUploadServlet extends HttpServlet {
                 fileName = uuid + '_' + processName + "." + suffix;
             }
             //TODO 根据用户保存
+            final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
+            final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
             final LatkeBeanManager beanManager = Lifecycle.getBeanManager();
             final UserMgmtService userMgmtService = beanManager.getReference(UserMgmtService.class);
 
