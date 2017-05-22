@@ -140,50 +140,55 @@ public class FileUploadServlet extends HttpServlet {
         if (QN_ENABLED) {
             return;
         }
+        final String type = req.getParameter("type");
+        if (type != null && "1".equals(type)){
 
-        final MultipartRequestInputStream multipartRequestInputStream = new MultipartRequestInputStream(req.getInputStream());
-        multipartRequestInputStream.readBoundary();
-        multipartRequestInputStream.readDataHeader("UTF-8");
+        }else{
+            final MultipartRequestInputStream multipartRequestInputStream = new MultipartRequestInputStream(req.getInputStream());
+            multipartRequestInputStream.readBoundary();
+            multipartRequestInputStream.readDataHeader("UTF-8");
 
-        String fileName = multipartRequestInputStream.getLastHeader().getFileName();
+            String fileName = multipartRequestInputStream.getLastHeader().getFileName();
 
-        String suffix = StringUtils.substringAfterLast(fileName, ".");
-        if (StringUtils.isBlank(suffix)) {
-            final String mimeType = multipartRequestInputStream.getLastHeader().getContentType();
-            String[] exts = MimeTypes.findExtensionsByMimeTypes(mimeType, false);
+            String suffix = StringUtils.substringAfterLast(fileName, ".");
+            if (StringUtils.isBlank(suffix)) {
+                final String mimeType = multipartRequestInputStream.getLastHeader().getContentType();
+                String[] exts = MimeTypes.findExtensionsByMimeTypes(mimeType, false);
 
-            if (null != exts && 0 < exts.length) {
-                suffix = exts[0];
-            } else {
-                suffix = StringUtils.substringAfter(mimeType, "/");
+                if (null != exts && 0 < exts.length) {
+                    suffix = exts[0];
+                } else {
+                    suffix = StringUtils.substringAfter(mimeType, "/");
+                }
             }
+
+            final String name = StringUtils.substringBeforeLast(fileName, ".");
+            final String processName = name.replaceAll("\\W", "");
+            final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+
+            if (StringUtils.isBlank(processName)) {
+                fileName = uuid + "." + suffix;
+            } else {
+                fileName = uuid + '_' + processName + "." + suffix;
+            }
+
+            final OutputStream output = new FileOutputStream(UPLOAD_DIR + fileName);
+            IOUtils.copy(multipartRequestInputStream, output);
+
+            IOUtils.closeQuietly(multipartRequestInputStream);
+            IOUtils.closeQuietly(output);
+
+            final JSONObject data = new JSONObject();
+            data.put("key", Latkes.getServePath() + "/upload/" + fileName);
+            data.put("name", fileName);
+
+            resp.setContentType("application/json");
+
+            final PrintWriter writer = resp.getWriter();
+            writer.append(data.toString());
+            writer.flush();
+            writer.close();
         }
 
-        final String name = StringUtils.substringBeforeLast(fileName, ".");
-        final String processName = name.replaceAll("\\W", "");
-        final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-
-        if (StringUtils.isBlank(processName)) {
-            fileName = uuid + "." + suffix;
-        } else {
-            fileName = uuid + '_' + processName + "." + suffix;
-        }
-
-        final OutputStream output = new FileOutputStream(UPLOAD_DIR + fileName);
-        IOUtils.copy(multipartRequestInputStream, output);
-
-        IOUtils.closeQuietly(multipartRequestInputStream);
-        IOUtils.closeQuietly(output);
-
-        final JSONObject data = new JSONObject();
-        data.put("key", Latkes.getServePath() + "/upload/" + fileName);
-        data.put("name", fileName);
-
-        resp.setContentType("application/json");
-
-        final PrintWriter writer = resp.getWriter();
-        writer.append(data.toString());
-        writer.flush();
-        writer.close();
     }
 }
