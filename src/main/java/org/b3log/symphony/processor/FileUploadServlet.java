@@ -52,7 +52,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -209,8 +211,35 @@ public class FileUploadServlet extends HttpServlet {
 
             resp.setContentType("application/json");
 
+            /*
+            *{
+    "files": [
+        {
+            "name": "picture1.jpg",
+            "size": 902604,
+            "url": "http://example.org/files/picture1.jpg",
+            "thumbnailUrl": "http://example.org/files/thumbnail/picture1.jpg",
+            "deleteUrl": "http://example.org/files/picture1.jpg",
+            "deleteType": "DELETE"
+        }
+    ]
+}*/
+
+
+            JSONObject result = new JSONObject();
+            JSONArray reArray = new JSONArray();
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("name",fileName);
+            long fileSize = new FileInputStream(new File(UPLOAD_DIR+fileName)).available();
+            map.put("size",fileSize/1024+"M");
+            map.put("url",Latkes.getServePath() + "/upload/" + fileName);
+            map.put("thumbnailUrl",Latkes.getServePath() + "/upload/" + fileName);
+            map.put("deleteUrl",Latkes.getServePath() + "/upload/" + fileName);
+            map.put("deleteType","DELETE");
+            reArray.put(map);
+            result.put("files",reArray);
             final PrintWriter writer = resp.getWriter();
-            writer.append("{files:[{url:'"+Latkes.getServePath() + "/upload/" + fileName+"',thumbnailUrl:'',name:'"+fileName+"',size:'1024'}]}");
+            writer.append(result.toString());
             writer.flush();
             writer.close();
 

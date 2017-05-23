@@ -24,10 +24,10 @@
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top">
-
     <div class="container">
-        <h2 class="lead">Basic Plus UI version</h2>
-        <br>
+        <br/>
+        <br/>
+        <br/>
         <!-- The file upload form used as target for the file upload widget -->
         <form id="fileupload" action="${servePath}/upload?type=1" method="POST" enctype="multipart/form-data">
             <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -44,6 +44,11 @@
                     <button type="reset" class="btn btn-warning cancel">
                         <span>取消</span>
                     </button>
+                    <button type="button" class="btn btn-danger delete">
+                        <i class="glyphicon glyphicon-trash"></i>
+                        <span>删除</span>
+                    </button>
+                    <input type="checkbox" class="toggle">
                     <!-- The global file processing state -->
                     <span class="fileupload-process"></span>
                 </div>
