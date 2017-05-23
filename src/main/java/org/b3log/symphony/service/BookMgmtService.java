@@ -139,7 +139,7 @@ public class BookMgmtService {
 
         contentBuilder.append("----\n\n").append("## 关于『书单』\n" +
                 "\n" +
-                "书单是黑客派社区的一个纸质书共享活动，所有书均来自捐赠，原则上当前的书籍持有者有义务将书寄送给需要的会员。我们鼓励你在书籍上**留下笔迹**，任何信息都行，让其他人可以看到一些有意思的内容也是蛮不错的 :sweat_smile: \n" +
+                "书单是搬砖猫社区的一个纸质书共享活动，所有书均来自捐赠，原则上当前的书籍持有者有义务将书寄送给需要的会员。我们鼓励你在书籍上**留下笔迹**，任何信息都行，让其他人可以看到一些有意思的内容也是蛮不错的 :sweat_smile: \n" +
                 "\n" +
                 "### 共享意味着什么\n" +
                 "\n" +
@@ -147,7 +147,7 @@ public class BookMgmtService {
                 "\n" +
                 "### 如何参与\n" +
                 "\n" +
-                "1. 使用微信扫描如下二维码，进入黑客派社区小程序\n" +
+                "1. 使用微信扫描如下二维码，进入搬砖猫社区小程序\n" +
                 "    ![3c04bd33b54a493aa97107a94a1ae706.png](https://img.hacpai.com/file/2017/1/3c04bd33b54a493aa97107a94a1ae706.png) \n" +
                 "2. 按照小程序的指引开始即可\n" +
                 "\n" +
@@ -161,7 +161,7 @@ public class BookMgmtService {
                 "* 丢书大作战\n" +
                 "* 很多社区的书籍交换\n" +
                 "\n" +
-                "大家的出发点都是想让这个世界变得更好。黑客派的『书单』将作为长期活动持续下去，大家随时都能参与进来，让你我的生活变得更丰富有趣！");
+                "大家的出发点都是想让这个世界变得更好。搬砖猫的『书单』将作为长期活动持续下去，大家随时都能参与进来，让你我的生活变得更丰富有趣！");
 
         addArticleRequest.put(Article.ARTICLE_CONTENT, contentBuilder.toString() + "\n\n");
         addArticleRequest.put(Article.ARTICLE_EDITOR_TYPE, 0);
