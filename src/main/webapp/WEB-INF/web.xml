@@ -61,23 +61,7 @@
         <servlet-name>DispatcherServlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>AngularFileManagerServlet</servlet-name>
-        <servlet-class>org.b3log.symphony.util.servlet.AngularFileManagerServlet</servlet-class>
-        <init-param>
-            <param-name>date.format</param-name>
-            <param-value>yyyy-MM-dd hh:mm:ss</param-value>
-        </init-param>
-        <init-param>
-            <param-name>enabled.action</param-name>
-            <param-value>rename,move,remove,edit,createFolder,changePermissions,compress,extract,copy,upload</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AngularFileManagerServlet</servlet-name>
-        <url-pattern>/filemanager</url-pattern>
-    </servlet-mapping>
+
     <servlet>
         <servlet-name>VideoFileServlet</servlet-name>
         <servlet-class>org.b3log.symphony.util.servlet.VideoFileServlet</servlet-class>
