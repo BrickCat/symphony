@@ -1,7 +1,5 @@
 <#include "macro-admin.ftl">
 <@admin "video">
-<link rel="stylesheet" href="${staticServePath}/js/lib/jquery/jbox/2.3/Skins/Gray/jbox.css" rel="stylesheet"type="text/css" />
-<script src="${staticServePath}/js/lib/jquery/jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
 <div class="content">
     <div class="module">
         <div class="module-header">
@@ -10,7 +8,7 @@
         <div class="module-panel form">
             <div class="fn-clear">
                 <#if permissions["adminAddVideo"].permissionGrant>
-                    <a class="btn red" onclick="window.location = '${servePath}/admin/add-video-file'">${adminAddVideoPermissionLabel}</a>
+                    <a class="btn red" onclick="viewIframe('${servePath}/admin/add-video-file')">${adminAddVideoPermissionLabel}</a>
                 </#if>
             </div>
         </div>
@@ -40,4 +38,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function viewIframe(href){
+        layer.open({
+            type: 2,
+            title: '上传视频',
+            maxmin: true,
+            area: ['800px', '500px'],
+            shadeClose: true,
+            content: href
+        });
+    }
+</script>
+<script src="${staticServePath}/js/lib/jquery/jquery-3.1.0.min.js"></script>
+<script src="${staticServePath}/js/lib/layer/layer/layer.js"></script>
 </@admin>
