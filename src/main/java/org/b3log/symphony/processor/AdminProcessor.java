@@ -1143,7 +1143,7 @@ public class AdminProcessor {
             throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
-        renderer.setTemplateName("admin/file/index.ftl");
+        renderer.setTemplateName("admin/file/add-video-file.ftl");
     }
 
     /**
