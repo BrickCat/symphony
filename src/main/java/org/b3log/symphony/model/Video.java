@@ -49,7 +49,7 @@ public final class Video {
     /**
      * Video create time
      */
-    private static final String VIDEO_CREATE_TIME = "videoCreateTime";
+    public static final String VIDEO_CREATE_TIME = "videoCreateTime";
     /**
      * Video Update Time
      */

@@ -16,21 +16,24 @@
             <h2>${modifiableLabel}</h2>
         </div>
         <div class="module-panel form fn-clear">
-            <form action="${servePath}/admin/ad/side" method="POST">
+            <form action="${servePath}/video/add-video" method="POST">
                 <label for="videoTitle">${videoTitle}</label>
-                <input name="videoTitle" type="text"/>
+                <input name="videoTitle" type="text" value="${video.videoTitle}"/>
 
                 <label for="videoTag">${videoTag}</label>
-                <input name="videoTag" type="text"/>
+                <input name="videoTag" type="text" value="${video.vidoeTag}"/>
 
                 <label for="videoRemarks">${videoRemarks}</label>
-                <input name="videoRemarks" type="text"/>
+                <input name="videoRemarks" type="text" value="${video.videoRemarks}"/>
 
                 <label for="videoType">${videoType}</label>
-                <input name="videoType" type="text"/>
+                <input name="videoType" type="text" value="${video.videoType}"/>
 
-                <label for="videoStatus">${videoStatus}</label>
-                <input name="videoTitle" type="text"/>
+                <label>${videoStatus}</label>
+                <select id="videoStatus" name="videoStatus">
+                    <option value="0"<#if 0 == video.videoStatus> selected</#if>>${noLabel}</option>
+                    <option value="1"<#if 1 == video.videoStatus> selected</#if>>${yesLabel}</option>
+                </select>
 
                 <br/><br/>
                 <button type="submit" class="green fn-right">${submitLabel}</button>
