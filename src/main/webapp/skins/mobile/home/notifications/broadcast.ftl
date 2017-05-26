@@ -11,7 +11,14 @@
         <#if "someone" != notification.authorName></a></#if>
         <div class="fn-flex-1 has-view">
             <h2>
-                <@icon notification.articlePerfect notification.articleType></@icon>
+                <#if 1 == notification.articlePerfect>
+                <svg height="20" viewBox="3 4 11 12" width="14">${perfectIcon}</svg>
+                </#if>
+                <#if notification.articleType == 1>
+                <span class="icon-locked" title="${discussionLabel}"></span>
+                <#elseif notification.articleType == 2>
+                <span class="icon-feed" title="${cityBroadcastLabel}"></span>
+                </#if>
                 <a rel="bookmark" href="${notification.url}"> ${notification.articleTitle}</a>
             </h2>
             <div class="ft-gray">
@@ -19,7 +26,7 @@
                 <a rel="tag" class="tag" href="${servePath}/tag/${articleTag.tagURI}">
                     ${articleTag.tagTitle}</a>
                 </#list> <br/>
-                <svg><use xlink:href="#date"></use></svg>
+                <span class="icon-date"></span>
                 ${notification.createTime?string('yyyy-MM-dd HH:mm')}
             </div> 
         </div>

@@ -15,7 +15,16 @@
         </span>
     </div>
     <h2>
-        <@icon article.articlePerfect article.articleType></@icon>
+        <#if 1 == article.articlePerfect>
+            <span class="tooltipped tooltipped-w" aria-label="${perfectLabel}"><svg height="20" width="14" viewBox="3 2 11 12">${perfectIcon}</svg></span>
+        </#if>
+        <#if 1 == article.articleType>
+            <span class="tooltipped tooltipped-w" aria-label="${discussionLabel}"><span class="icon-locked"></span></span>
+            <#elseif 2 == article.articleType>
+                <span class="tooltipped tooltipped-w" aria-label="${cityBroadcastLabel}"><span class="icon-feed"></span></span>
+                <#elseif 3 == article.articleType>
+                    <span class="tooltipped tooltipped-w" aria-label="${thoughtLabel}"><span class="icon-video"></span></span>
+        </#if>
         <a class="ft-a-title" data-id="${article.oId}" data-type="${article.articleType}" rel="bookmark" href="${servePath}${article.articlePermalink}">${article.articleTitleEmoj}
         </a>
     </h2>
@@ -63,6 +72,6 @@
     <span class="heat tooltipped tooltipped-n" aria-label="${postActivityLabel}" style="width:${article.articleHeat*3}px"></span>
 
     <#if article.articleStick gt 0>
-        <span class="cb-stick tooltipped tooltipped-e" aria-label="<#if article.articleStick < 9223372036854775807>${stickLabel}${remainsLabel} ${article.articleStickRemains?c} ${minuteLabel}<#else>${adminLabel}${stickLabel}</#if>"><svg class="icon-pin"><use xlink:href="#pin"></use></svg></span>
+        <span class="cb-stick tooltipped tooltipped-e" aria-label="<#if article.articleStick < 9223372036854775807>${stickLabel}${remainsLabel} ${article.articleStickRemains?c} ${minuteLabel}<#else>${adminLabel}${stickLabel}</#if>"><span class="icon-pin"></span></span>
     </#if>
 </li>

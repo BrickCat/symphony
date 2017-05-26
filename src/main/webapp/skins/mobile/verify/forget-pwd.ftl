@@ -13,9 +13,9 @@
             <div class="wrapper verify">
                 <div class="verify-wrap">
                     <div class="form">
-                        <svg><use xlink:href="#logo"></use></svg>
+                        ${logoIcon2}
                         <div class="input-wrap">
-                            <svg><use xlink:href="#email"></use></svg>
+                            <span class="icon-email"></span>
                             <input id="fpwdEmail" type="text" placeholder="${emailLabel}" autocomplete="off" autofocus="autofocus" />
                         </div>
                         <div class="input-wrap">

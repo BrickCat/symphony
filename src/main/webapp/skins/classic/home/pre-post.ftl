@@ -13,14 +13,14 @@
             <div class="wrapper pre-post">
                 <div>
                     <a href="${servePath}/post?type=0">
-                        <svg><use xlink:href="#article"></use></svg> <br/>
+                        <div class="icon-article"></div>
                         ${articleLabel}
                     </a>
                     <div class="ft-gray">${addNormalArticleTipLabel}</div>
                 </div>
                 <div>
                     <a href="${servePath}/post?type=3">
-                        <svg><use xlink:href="#video"></use></svg> <br/>
+                        <div class="icon-video"></div>
                         ${thoughtLabel}
                     </a>
                     <div class="ft-gray">
@@ -30,14 +30,14 @@
                 </div>
                 <div>
                     <a href="${servePath}/post?type=1">
-                        <svg><use xlink:href="#locked"></use></svg> <br/>
+                        <div class="icon-locked"></div>
                         ${discussionLabel}
                     </a>
                     <div class="ft-gray">${addDiscussionArticleTipLabel}</div>
                 </div>
                 <div>
                     <a href="${servePath}/post?type=2">
-                        <svg><use xlink:href="#feed"></use></svg> <br/>
+                        <div class="icon-feed"></div>
                         ${cityBroadcastLabel}
                     </a>
                     <div class="ft-gray">${addCityArticleTipLabel} <i>${broadcastPoint}</i> ${pointLabel}</div>

@@ -1,5 +1,4 @@
 <#macro list listData>
-<#include "common/title-icon.ftl">
 <div class="article-list list">
     <ul>
         <#assign articleIds = "">

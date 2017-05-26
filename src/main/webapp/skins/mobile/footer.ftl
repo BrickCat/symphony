@@ -1,23 +1,22 @@
 <div class="footer">
     <div class="wrapper ft-smaller">
         <div class="footer-nav">
-            <span>&COPY; ${year}</span>
+            <span class="ft-fade">&COPY; ${year}</span>
             <a rel="copyright" href="https://hacpai.com" target="_blank">hacpai.com</a>
             ${visionLabel}
         </div>
         <div class="fn-hr5"></div>
-        <div>
+        <div class="ft-fade">
             ${sloganLabel}
         </div>
         <div class="fn-hr5"></div>
         <div>
-            <span>Powered by <a href="http://b3log.org" target="_blank">B3log 开源</a> •
-                <a href="https://github.com/b3log/symphony" target="_blank">Sym</a>
+            <span class="ft-fade">Powered by <a href="http://b3log.org" class="ft-gray" target="_blank">B3log 开源</a> • 
+                <a href="https://github.com/b3log/symphony" class="ft-gray" target="_blank">Sym</a>
                 ${version} • ${elapsed?c}ms</span>
         </div>
     </div>
 </div>
-<script src="${staticServePath}/js/symbol-defs${miniPostfix}.js?${staticResourceVersion}"></script>
 <script src="${staticServePath}/js/lib/compress/libs.min.js?${staticResourceVersion}"></script>
 <script src="${staticServePath}/js/common${miniPostfix}.js?${staticResourceVersion}"></script>
 <script>
@@ -44,8 +43,8 @@
         sameCityLabel: '${sameCityLabel}',
         systemLabel: '${systemLabel}',
         newFollowerLabel: '${newFollowerLabel}',
-        makeAsReadLabel: '${makeAsReadLabel}'
-        <#if isLoggedIn>,
+        makeAsReadLabel: '${makeAsReadLabel}',
+        checkIcon: '${checkIcon}'<#if isLoggedIn>,
         currentUserName: '${currentUser.userName}'</#if>
     };
     Util.init(${isLoggedIn?c});

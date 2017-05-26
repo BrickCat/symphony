@@ -16,11 +16,18 @@
             <div class="fn-flex-1">
                 <div>
                     <h2>
-                        <@icon comment.commentArticlePerfect comment.commentArticleType></@icon>
+                        <#if 1 == comment.commentArticlePerfect>
+                        <svg height="20" viewBox="3 4 11 12" width="14">${perfectIcon}</svg>
+                        </#if>
+                        <#if comment.commentArticleType == 1>
+                        <span class="icon-locked" title="${discussionLabel}"></span>
+                        <#elseif comment.commentArticleType == 2>
+                        <span class="icon-feed" title="${cityBroadcastLabel}"></span>
+                        </#if>
                         <a rel="bookmark" href="${comment.commentSharpURL}">${comment.commentArticleTitle}</a>
                     </h2>
                     <span class="ft-gray fn-sub">
-                        <svg><use xlink:href="#date"></use></svg>
+                        <span class="icon-date"></span>
                         ${comment.commentCreateTime?string('yyyy-MM-dd HH:mm')}  
                     </span>
                 </div>

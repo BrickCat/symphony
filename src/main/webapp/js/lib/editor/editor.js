@@ -1070,7 +1070,7 @@
 
         el.className = 'tooltipped tooltipped-ne';
         el.setAttribute('aria-label', label);
-        el.innerHTML = "<svg class='icon-" + options.name + "'><use xlink:href='#" + options.name + "'></use></svg>"
+        el.innerHTML = "<span class='icon-" + options.name + "'></span>"
         return el;
     }
 
@@ -1130,9 +1130,8 @@
         wrap = editor.codemirror.getWrapperElement();
 
         $(editor.element.parentElement).css('z-index', 'inherit');
-        if ('icon-fullscreen' === editor.toolbar.fullscreen.children[0].classList[0]) {
-            editor.toolbar.fullscreen.children[0].setAttribute('class', 'icon-contract');
-            editor.toolbar.fullscreen.children[0].children[0].setAttribute('xlink:href', '#contract');
+        if ('icon-fullscreen' === editor.toolbar.fullscreen.children[0].className) {
+            editor.toolbar.fullscreen.children[0].className = 'icon-contract';
 
             $(editor.element.parentElement).css({
                 'position': 'fixed',
@@ -1164,8 +1163,7 @@
             return false;
         }
 
-        editor.toolbar.fullscreen.children[0].setAttribute('class', 'icon-fullscreen');
-        editor.toolbar.fullscreen.children[0].children[0].setAttribute('xlink:href', '#fullscreen')
+        editor.toolbar.fullscreen.children[0].className = 'icon-fullscreen';
         $(editor.element.parentElement).css({
             'position': 'inherit'
         });
@@ -1533,8 +1531,8 @@
         });
 
         $(window).click(function (event) {
-            if (event.target.classList[0] === 'icon-emoji' ||
-                (event.target.children[0] && event.target.children[0].classList[0] === 'icon-emoji') ||
+            if (event.target.className === 'icon-emoji' ||
+                (event.target.children[0] && event.target.children[0].className === 'icon-emoji') ||
                 $(event.target).closest('.editor-toolbar-emoji').length === 1) {
                 return false;
             }
@@ -1670,7 +1668,7 @@
                             el.className += ' active';
                         }
                     } else {
-                        if (el.children[0].classList[0] !== 'icon-view') {
+                        if (el.children[0].className !== 'icon-view') {
                             el.className = el.className.replace(/\s*active\s*/g, '');
                         }
                     }

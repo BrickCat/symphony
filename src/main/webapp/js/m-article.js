@@ -19,7 +19,7 @@
  * @fileoverview article page and add comment.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.2.0.2, May 24, 2017
+ * @version 0.2.0.1, May 7, 2017
  * @since 2.1.0
  */
 
@@ -80,7 +80,7 @@ var Comment = {
         });
 
         $('#replyUseName').html('<a href="javascript:void(0)" onclick="Comment._bgFade($(\'#' +
-            id + '\'))" class="ft-a-title"><svg><use xlink:href="#edit"></use></svg> ' +
+            id + '\'))" class="ft-a-title"><span class="icon-edit"></span> ' +
             Label.commonUpdateCommentPermissionLabel + '</a>').data('commentId', id);
     },
     /**
@@ -163,7 +163,7 @@ var Comment = {
         $('.anonymous-check').show();
 
         $('.footer').css('margin-bottom', $('.editor-panel').outerHeight() + 'px');
-        $('#replyUseName').html('<a href="javascript:void(0)" onclick="Util.goTop();Comment._bgFade($(\'.article-module\'))" class="ft-a-title"><svg><use xlink:href="#reply-to"></use></svg>'
+        $('#replyUseName').html('<a href="javascript:void(0)" onclick="Util.goTop();Comment._bgFade($(\'.article-module\'))" class="ft-a-title"><span class="icon-reply-to"></span>'
             + $('.article-title').text() + '</a>').removeData();
 
         // 如果 hide 初始化， focus 无效
@@ -194,6 +194,145 @@ var Comment = {
         });
     },
     /**
+     * 初始化帖子
+     * @returns {undefined}
+     */
+    _initHotKey: function () {
+        if (!Label.userKeyboardShortcutsStatus || Label.userKeyboardShortcutsStatus === '1') {
+            return false;
+        }
+
+        $(document).bind('keyup', 'x', function assets() {
+            // listen jump hotkey h
+            Util.prevKey = 'x';
+            setTimeout(function () {
+                Util.prevKey = undefined;
+            }, 1000);
+            return false;
+        }).bind('keyup', 'v', function assets() {
+            // listen jump hotkey h
+            Util.prevKey = 'v';
+            setTimeout(function () {
+                Util.prevKey = undefined;
+            }, 1000);
+            return false;
+        }).bind('keydown', 'r', function assets(event) {
+            if (!Util.prevKey) {
+                // r 回复帖子
+                $('#replyBtn').click();
+            } else if (Util.prevKey === 'v') {
+                // v r 打赏帖子
+                $('#articleRewardContent .icon-points').parent().click();
+            } else if ($('#comments .list > ul > li.focus').length === 1 && Util.prevKey === 'x') {
+                // x r 回复回帖
+                $('#comments .list > ul > li.focus .icon-reply').parent().click();
+            }
+            return false;
+        }).bind('keyup', 'h', function assets() {
+            // x h 感谢选中回贴
+            if ($('#comments .list > ul > li.focus').length === 1 && Util.prevKey === 'x') {
+                $('#comments .list > ul > li.focus .icon-heart').parent().click();
+            }
+            return false;
+        }).bind('keyup', 't', function assets() {
+            // x t 赞同选中回贴
+            if ($('#comments .list > ul > li.focus').length === 1 && Util.prevKey === 'x') {
+                $('#comments .list > ul > li.focus .icon-thumbs-up').parent().click();
+            }
+            return false;
+        }).bind('keyup', 'd', function assets() {
+            // x d 反对选中回贴
+            if ($('#comments .list > ul > li.focus').length === 1 && Util.prevKey === 'x') {
+                $('#comments .list > ul > li.focus .icon-thumbs-down').parent().click();
+            }
+            return false;
+        }).bind('keyup', 'c', function assets() {
+            // x c 查看选中回复的回贴
+            if ($('#comments .list > ul > li.focus .comment-info .fn-pointer.ft-fade').length === 1 && Util.prevKey === 'x') {
+                $('#comments .list > ul > li.focus .comment-info .fn-pointer.ft-fade').click();
+            }
+            return false;
+        }).bind('keyup', 'm', function assets() {
+            // x m 查看选中回贴的回复
+            if ($('#comments .list > ul > li.focus .comment-action > .ft-fade > .fn-pointer').length === 1 && Util.prevKey === 'x') {
+                $('#comments .list > ul > li.focus .comment-action > .ft-fade > .fn-pointer').click();
+            }
+            return false;
+        }).bind('keyup', 'a', function assets() {
+            // x a 管理员编辑选中的回贴
+            if (Util.prevKey === 'x' && $('#comments .list > ul > li.focus .icon-setting').parent().length === 1) {
+                window.location = $('#comments .list > ul > li.focus .icon-setting').parent().attr('href');
+            }
+            return false;
+        }).bind('keyup', 'h', function assets() {
+            // v h 感谢帖子
+            if (Util.prevKey === 'v') {
+                $('#thankArticle').click();
+            }
+            return false;
+        }).bind('keyup', 't', function assets() {
+            // v t 赞同帖子
+            if (Util.prevKey === 'v') {
+                $('.article-header .icon-thumbs-up').parent().click();
+            }
+            return false;
+        }).bind('keyup', 'd', function assets() {
+            // v d 反对帖子
+            if (Util.prevKey === 'v') {
+                $('.article-header .icon-thumbs-down').parent().click();
+            }
+            return false;
+        }).bind('keyup', 'i', function assets() {
+              // v i 关注帖子
+              if (Util.prevKey === 'v') {
+                  $('.article-header .icon-view').parent().click();
+              }
+              return false;
+        }).bind('keyup', 'c', function assets() {
+            // v c 收藏帖子
+            if (Util.prevKey === 'v') {
+                $('.article-header .icon-star').parent().click();
+            }
+            return false;
+        }).bind('keyup', 'l', function assets() {
+            // v h 查看帖子历史
+            if (Util.prevKey === 'v') {
+                $('.article-header .icon-history').parent().click();
+            }
+            return false;
+        }).bind('keyup', 'e', function assets() {
+            // v e 编辑帖子
+            if (Util.prevKey === 'v' && $('.article-actions .icon-edit').parent().length === 1) {
+                window.location = $('.article-actions .icon-edit').parent().attr('href');
+            }
+            return false;
+        }).bind('keyup', 's', function assets() {
+            // v s 置顶帖子
+            if (Util.prevKey === 'v' && $('.article-actions .icon-chevron-up').length === 1) {
+                Article.stick(Label.articleOId);
+            }
+            return false;
+        }).bind('keyup', 'a', function assets() {
+            // v a 管理员编辑帖子 
+            if (Util.prevKey === 'v' && $('.article-actions .icon-setting').parent().length === 1) {
+                window.location = $('.article-actions .icon-setting').parent().attr('href');
+            }
+            return false;
+        }).bind('keyup', 'p', function assets() {
+            // v p 跳转到上一篇帖子 prev
+            if (Util.prevKey === 'v' && $('.article-header a[rel=prev]').length === 1) {
+                window.location = $('.article-header a[rel=prev]').attr('href');
+            }
+            return false;
+        }).bind('keyup', 'n', function assets() {
+            // v n 跳转到下一篇帖子 next
+            if (Util.prevKey === 'v' && $('.article-header a[rel=next]').length === 1) {
+                window.location = $('.article-header a[rel=next]').attr('href');
+            }
+            return false;
+        });
+    },
+    /**
      * 评论初始化
      * @returns {Boolean}
      */
@@ -209,6 +348,8 @@ var Comment = {
         this._initEditorPanel();
 
         $.ua.set(navigator.userAgent);
+
+        this._initHotKey();
 
         $.pjax({
             selector: '.pagination a',
@@ -257,7 +398,7 @@ var Comment = {
                     {name: 'italic'},
                     {name: 'quote'},
                     {name: 'link'},
-                    {name: 'image', html: '<div class="tooltipped tooltipped-n" aria-label="' + Label.uploadFileLabel + '" ><form id="fileUpload" method="POST" enctype="multipart/form-data"><label class="icon-upload"><svg><use xlink:href="#upload"></use></svg><input type="file"/></label></form></div>'},
+                    {name: 'image', html: '<div class="tooltipped tooltipped-n" aria-label="' + Label.uploadFileLabel + '" ><form id="fileUpload" method="POST" enctype="multipart/form-data"><label class="icon-upload"><input type="file"/></label></form></div>'},
                     {name: 'unordered-list'},
                     {name: 'ordered-list'},
                     {name: 'question', action: 'https://hacpai.com/guide/markdown'}
@@ -444,7 +585,7 @@ var Comment = {
             success: function (result, textStatus) {
                 if (result.sc) {
                     $(it).removeAttr('onclick');
-                    var $heart = $('<svg class="ft-red"><use xlink:href="#heart"></use></svg>'),
+                    var $heart = $("<i class='icon-heart ft-red'></i>"),
                             y = $(it).offset().top,
                             x = $(it).offset().left;
                     $heart.css({
@@ -464,7 +605,7 @@ var Comment = {
                             function () {
                                 var cnt = parseInt($(it).text());
 
-                                $(it).html('<svg><use xlink:href="#heart"></use></svg> ' + (cnt + 1)).addClass('ft-red');
+                                $(it).html('<span class="icon-heart"></span> ' + (cnt + 1)).addClass('ft-red');
 
                                 $heart.remove();
                             }
@@ -493,8 +634,7 @@ var Comment = {
         } else {
             if ($(it).find('.icon-chevron-down').length === 0) {
                 // 收起回复
-                $(it).find('.icon-chevron-up').removeClass('icon-chevron-up').addClass('icon-chevron-down').
-                find('use').attr('xlink:href', '#chevron-down');
+                $(it).find('.icon-chevron-up').removeClass('icon-chevron-up').addClass('icon-chevron-down');
                 $commentReplies.html('');
                 return false;
             }
@@ -566,7 +706,7 @@ var Comment = {
                                 + (data.rewarded ? Label.thankedLabel : Label.thankLabel + ' ' + data.rewardedCnt)
                                 + '" class="tooltipped tooltipped-n '
                                 + (data.rewarded ? 'ft-red' : 'ft-fade') + '">'
-                                + ' <svg><use xlink:href="#heart"></use></svg> ' + data.rewardedCnt + '</span> ';
+                                + ' <span class="icon-heart"></span>' + data.rewardedCnt + '</span> ';
                     }
 
                     template += ' ' + Util.getDeviceByUa(data.commentUA) + '</span>';
@@ -574,15 +714,14 @@ var Comment = {
                     template += '<a class="tooltipped tooltipped-nw ft-a-title fn-right" aria-label="' + Label.referenceLabel + '" href="javascript:Comment.goComment(\''
                             + Label.servePath + '/article/' + Label.articleOId + '?p=' + data.paginationCurrentPageNum
                             + '&m=' + Label.userCommentViewMode + '#' + data.oId
-                            + '\')"><svg><use xlink:href="#quote"></use></svg></a></div><div class="content-reset comment">'
+                            + '\')"><span class="icon-quote"></span></a></div><div class="content-reset comment">'
                             + data.commentContent + '</div></div></div></li>';
                 }
                 $commentReplies.html('<ul>' + template + '</ul>');
                 Article.parseLanguage();
 
                 // 如果是回帖的回复需要处理下样式
-                $(it).find('.icon-chevron-down').removeClass('icon-chevron-down').addClass('icon-chevron-up').
-                find('use').attr('xlink:href', '#chevron-up');
+                $(it).find('.icon-chevron-down').removeClass('icon-chevron-down').addClass('icon-chevron-up');
             },
             error: function (result) {
                 alert(result.statusText);
@@ -651,7 +790,7 @@ var Comment = {
                     // reset comment editor
                     Comment.editor.setValue('');
                     $('.editor-preview').html('');
-                    if ($('.icon-view').parent().hasClass('active')) {
+                    if ($('.icon-view').hasClass('active')) {
                         $('.icon-view').click();
                     }
 
@@ -788,11 +927,11 @@ var Article = {
                         downCnt = parseInt($voteDown.text());
                 if (result.sc) {
                     if (0 === result.type) { // cancel up
-                        $voteUp.html('<svg class="icon-thumbs-up"><use xlink:href="#thumbs-up"></use></svg> ' + (upCnt - 1)).removeClass('ft-red');
+                        $voteUp.html('<span class="icon-thumbs-up"></span> ' + (upCnt - 1)).removeClass('ft-red');
                     } else {
-                        $voteUp.html('<svg class="icon-thumbs-up"><use xlink:href="#thumbs-up"></use></svg> ' + (upCnt + 1)).addClass('ft-red');
+                        $voteUp.html('<span class="icon-thumbs-up"></span> ' + (upCnt + 1)).addClass('ft-red');
                         if ($voteDown.hasClass('ft-red')) {
-                            $voteDown.html('<svg class="icon-thumbs-down"><use xlink:href="#thumbs-down"></use></svg> ' + (downCnt - 1)).removeClass('ft-red');
+                            $voteDown.html('<span class="icon-thumbs-down"></span> ' + (downCnt - 1)).removeClass('ft-red');
                         }
                     }
 
@@ -837,11 +976,11 @@ var Article = {
                         downCnt = parseInt($voteDown.text());
                 if (result.sc) {
                     if (1 === result.type) { // cancel down
-                        $voteDown.html('<svg class="icon-thumbs-down"><use xlink:href="#thumbs-down"></use></svg> ' + (downCnt - 1)).removeClass('ft-red');
+                        $voteDown.html('<span class="icon-thumbs-down"></span> ' + (downCnt - 1)).removeClass('ft-red');
                     } else {
-                        $voteDown.html('<svg class="icon-thumbs-down"><use xlink:href="#thumbs-down"></use></svg> ' + (downCnt + 1)).addClass('ft-red');
+                        $voteDown.html('<span class="icon-thumbs-down"></span> ' + (downCnt + 1)).addClass('ft-red');;
                         if ($voteUp.hasClass('ft-red')) {
-                            $voteUp.html('<svg class="icon-thumbs-up"><use xlink:href="#thumbs-up"></use></svg> ' + (upCnt - 1)).removeClass('ft-red');
+                            $voteUp.html('<span class="icon-thumbs-up"></span> ' + (upCnt - 1)).removeClass('ft-red');
                         }
                     }
 
@@ -1055,7 +1194,7 @@ var Article = {
 
             var title = encodeURIComponent(Label.articleTitle + " - " + Label.symphonyLabel),
                     url = encodeURIComponent(shareURL),
-                    picCSS = $(".article-info .avatar").css('background-image');
+                    picCSS = $(".article-info .avatar-mid").css('background-image');
                     pic = picCSS.substring(5, picCSS.length - 2);
 
             var urls = {};
@@ -1105,7 +1244,7 @@ var Article = {
 
                         var cnt = parseInt($('.article-actions .icon-points').parent().text());
                         $('.article-actions .icon-points').parent().addClass('ft-red')
-                        .html('<svg><use xlink:href="#points"></use></svg> ' + (cnt + 1)).removeAttr('onclick');
+                        .html('<span class="icon-points"></span> ' + (cnt + 1)).removeAttr('onclick');
                         return;
                     }
 
@@ -1143,10 +1282,10 @@ var Article = {
             success: function (result, textStatus) {
                 if (result.sc) {
                     var thxCnt = parseInt($('#thankArticle').text());
-                    $("#thankArticle").removeAttr("onclick").html('<svg><use xlink:href="#heart"></use></svg> <span class="ft-13">' + (thxCnt + 1) + '</span>')
+                    $("#thankArticle").removeAttr("onclick").html('<span class="icon-heart"></span> <span class="ft-13">' + (thxCnt + 1) + '</span>')
                     .addClass('ft-red').removeClass('ft-blue');
 
-                    var $heart = $('<svg class="ft-red"><use xlink:href="#heart"></use></svg>'),
+                    var $heart = $("<i class='icon-heart ft-red'></i>"),
                             y = $('#thankArticle').offset().top,
                             x = $('#thankArticle').offset().left;
                     $heart.css({
