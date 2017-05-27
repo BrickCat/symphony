@@ -17,7 +17,7 @@ public final class Video {
     /**
      * Video title
      */
-    public static final String VIDEO_TITLE = "videoTilte";
+    public static final String VIDEO_TITLE = "videoTitle";
     /**
      * Video tags
      */
@@ -89,7 +89,7 @@ public final class Video {
     /**
      * video remarks
      */
-    public static final String VIDEO_REMARKS = "vidoeRemarks";
+    public static final String VIDEO_REMARKS = "videoRemarks";
 
     /**
      * video constructor

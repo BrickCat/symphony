@@ -3,7 +3,9 @@ package org.b3log.symphony.service;
 import org.apache.commons.lang.time.DateUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.ioc.inject.Inject;
+import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
+import org.b3log.latke.repository.RepositoryException;
 import org.b3log.latke.repository.Transaction;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
@@ -58,7 +60,7 @@ public class VideoMgmtService {
      * @return videoId
      * @throws ServiceException
      */
-    public  synchronized String addVideo(final JSONObject requestJSONObject, final HttpServletRequest request) throws ServiceException{
+    public  synchronized String addVideo(String id,final JSONObject requestJSONObject, final HttpServletRequest request) throws ServiceException{
         final Transaction transaction = videoRepository.beginTransaction();
         final JSONObject currentUser = userQueryService.getCurrentUser(request);
         //生成ID
@@ -102,6 +104,17 @@ public class VideoMgmtService {
         video.put(Video.VIDEO_BAD_COUNT,0);
         //视频观看次数
         video.put(Video.VIDEO_WATCH_COUNT,0);
-        return "";
+        try {
+            videoRepository.update(id,video);
+            transaction.commit();
+            return ret;
+        } catch (RepositoryException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            LOGGER.log(Level.ERROR, "Adds a video failed", e);
+            throw new ServiceException(e);
+        }
+
     }
 }

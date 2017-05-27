@@ -1119,22 +1119,7 @@ public class AdminProcessor {
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
 
     }
-    @RequestProcessing(value = "/admin/add-video", method = HTTPRequestMethod.GET)
-    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
-    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
-            throws Exception {
-        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
-        final Map<String, Object> dataModel = renderer.getDataModel();
-        context.setRenderer(renderer);
-        renderer.setTemplateName("admin/add-video.ftl");
-        dataModel.put("sideFullAd", "");
-        dataModel.put("headerBanner", "");
 
-
-
-        dataModelService.fillHeaderAndFooter(request, response, dataModel);
-    }
 
     @RequestProcessing(value = "/admin/add-video-file", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
@@ -1228,6 +1213,18 @@ public class AdminProcessor {
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
+    @RequestProcessing(value = "/admin/add-video", method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void showaddVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+            throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        context.setRenderer(renderer);
+        renderer.setTemplateName("admin/add-video.ftl");
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
     /**
      * Shows add user.
      *
@@ -1248,7 +1245,27 @@ public class AdminProcessor {
 
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
+    @RequestProcessing(value = "/admin/add-video", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void  addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+            throws Exception {
+        context.renderJSON();
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        final String videoTitle = request.getParameter(Video.VIDEO_TITLE);
+        final String videoTag = request.getParameter(Video.VIDEO_TAG);
+        final String videoRemarks = request.getParameter(Video.VIDEO_REMARKS);
+        final String videoType = request.getParameter(Video.VIDEO_TYPE);
+        final String videoStatus = request.getParameter(Video.VIDEO_STATUS);
 
+
+
+
+        final Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("id","1");
+        context.renderJSON(new JSONObject(dataModel)).renderTrueResult().
+                renderJSONValue("1","1");
+    }
     /**
      * Adds a user.
      *
