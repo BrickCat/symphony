@@ -63,12 +63,9 @@ public class VideoMgmtService {
     public  synchronized String addVideo(String id,final JSONObject requestJSONObject, final HttpServletRequest request) throws ServiceException{
         final Transaction transaction = videoRepository.beginTransaction();
         final JSONObject currentUser = userQueryService.getCurrentUser(request);
-        //生成ID
-        final String ret = Ids.genTimeMillisId();
+        String ret = null;
         //创建Video对象
         JSONObject video = new JSONObject();
-        //视频ID
-        video.put(Keys.OBJECT_ID, ret);
         //视频标题
         video.put(Video.VIDEO_TITLE,requestJSONObject.optString(Video.VIDEO_TITLE));
         //视频发布人
@@ -105,7 +102,15 @@ public class VideoMgmtService {
         //视频观看次数
         video.put(Video.VIDEO_WATCH_COUNT,0);
         try {
-            videoRepository.update(id,video);
+            if(null != id){
+                videoRepository.update(id,video);
+            }else{
+                //生成ID
+                 ret = Ids.genTimeMillisId();
+                //视频ID
+                video.put(Keys.OBJECT_ID, ret);
+                videoRepository.add(video);
+            }
             transaction.commit();
             return ret;
         } catch (RepositoryException e) {

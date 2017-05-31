@@ -22,6 +22,7 @@ import jodd.upload.MultipartRequestInputStream;
 import jodd.util.MimeTypes;
 import jodd.util.URLDecoder;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -165,87 +166,60 @@ public class FileUploadServlet extends HttpServlet {
         }
         final String type = req.getParameter("type");
         if (type != null && "1".equals(type)){
-            final MultipartRequestInputStream multipartRequestInputStream = new MultipartRequestInputStream(req.getInputStream());
-            multipartRequestInputStream.readBoundary();
-            multipartRequestInputStream.readDataHeader("UTF-8");
+            req.setCharacterEncoding("UTF-8");
+            resp.setContentType("text/html; charset=UTF-8");
 
-            String fileName = multipartRequestInputStream.getLastHeader().getFileName();
-            LOGGER.info(fileName);
-
-            String suffix = StringUtils.substringAfterLast(fileName, ".");
-            if (StringUtils.isBlank(suffix)) {
-                final String mimeType = multipartRequestInputStream.getLastHeader().getContentType();
-                String[] exts = MimeTypes.findExtensionsByMimeTypes(mimeType, false);
-
-                if (null != exts && 0 < exts.length) {
-                    suffix = exts[0];
-                } else {
-                    suffix = StringUtils.substringAfter(mimeType, "/");
-                }
+            //保存路径
+            String savePath ="C:/upload";
+            File saveDir = new File(savePath);
+            // 如果目录不存在，就创建目录
+            if(!saveDir.exists()){
+                saveDir.mkdir();
             }
-
-            final String name = StringUtils.substringBeforeLast(fileName, ".");
-            final String processName = name.replaceAll("\\W", "");
-            final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-
-            if (StringUtils.isBlank(processName)) {
-                fileName = uuid + "." + suffix;
-            } else {
-                fileName = uuid + '_' + processName + "." + suffix;
+            // 创建文件上传核心类
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            ServletFileUpload sfu = new ServletFileUpload(factory);
+            //设置编码
+            sfu.setHeaderEncoding("UTF-8");
+            try{
+                // 处理表单请求
+                List<FileItem> itemList = sfu.parseRequest(req);
+                Map<String,Object> map = new HashMap<String,Object>();
+                for (FileItem fileItem : itemList) {
+                    // 对应表单中的控件的name
+                    String fieldName = fileItem.getFieldName();
+                    // 如果是普通表单控件
+                    if(fileItem.isFormField()){
+                        String value = fileItem.getString();
+                        //重新编码,解决乱码
+                        value = new String(value.getBytes("ISO-8859-1"),"UTF-8");
+                        map.put(fieldName,value);
+                        // 上传文件
+                    }else{
+                        // 获得文件大小
+                        Long size = fileItem.getSize();
+                        // 获得文件名
+                        String fileName = fileItem.getName();
+                        //将文件保存到指定的路径
+                        File file = new File(UPLOAD_DIR,fileName);
+                        map.put("filePath",Latkes.getServePath() + "/upload/" + fileName);
+                        fileItem.write(file);
+                    }
+                }
+            }catch(FileUploadBase.FileSizeLimitExceededException e){
+                req.setAttribute("msg", "文件太大");
+            }catch(FileUploadException e){
+                e.printStackTrace();
+            }catch(Exception e){
+                e.printStackTrace();
             }
             //TODO 根据用户保存
             final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
             final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
             final LatkeBeanManager beanManager = Lifecycle.getBeanManager();
             final UserMgmtService userMgmtService = beanManager.getReference(UserMgmtService.class);
-            //TODO 上传视频格式转换（中级）
-            //TODO 创建videoService（高）
-            //TODO 上传视频预览不正确，是否保留此功能（高）
-            //TODO 视频的增删改查（高）
-            //TODO 视频播放（跳转页面/iframe弹出）
-            //TODO 增加其他用户上传视频的功能
-            //TODO 前台页面的样式展示，不能雷同黑客派
-            //TODO 网站的定位 程序员与健身（两个大的领域向下细分）
-            final OutputStream output = new FileOutputStream(UPLOAD_DIR + fileName);
-            IOUtils.copy(multipartRequestInputStream, output);
+            final JSONObject video = new JSONObject();
 
-            IOUtils.closeQuietly(multipartRequestInputStream);
-            IOUtils.closeQuietly(output);
-
-
-            resp.setContentType("application/json");
-
-            /*
-            *{
-    "files": [
-        {
-            "name": "picture1.jpg",
-            "size": 902604,
-            "url": "http://example.org/files/picture1.jpg",
-            "thumbnailUrl": "http://example.org/files/thumbnail/picture1.jpg",
-            "deleteUrl": "http://example.org/files/picture1.jpg",
-            "deleteType": "DELETE"
-        }
-    ]
-}*/
-
-
-            JSONObject result = new JSONObject();
-            JSONArray reArray = new JSONArray();
-            Map<String,Object> map = new HashMap<String,Object>();
-            map.put("name",fileName);
-            long fileSize = new FileInputStream(new File(UPLOAD_DIR+fileName)).available();
-            map.put("size",fileSize/1024+"M");
-            map.put("url",Latkes.getServePath() + "/upload/" + fileName);
-            map.put("thumbnailUrl",Latkes.getServePath() + "/upload/" + fileName);
-            map.put("deleteUrl",Latkes.getServePath() + "/upload/" + fileName);
-            map.put("deleteType","DELETE");
-            reArray.put(map);
-            result.put("files",reArray);
-            final PrintWriter writer = resp.getWriter();
-            writer.append(result.toString());
-            writer.flush();
-            writer.close();
 
 
         }else{

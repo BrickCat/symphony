@@ -1248,7 +1248,7 @@ public class AdminProcessor {
     @RequestProcessing(value = "/admin/add-video", method = HTTPRequestMethod.POST)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void  addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+    public Map<String, Object> addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
             throws Exception {
         context.renderJSON();
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
@@ -1263,8 +1263,7 @@ public class AdminProcessor {
 
         final Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("id","1");
-        context.renderJSON(new JSONObject(dataModel)).renderTrueResult().
-                renderJSONValue("1","1");
+        return dataModel;
     }
     /**
      * Adds a user.
