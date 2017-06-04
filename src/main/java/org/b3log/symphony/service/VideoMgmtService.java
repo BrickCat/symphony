@@ -1,6 +1,5 @@
 package org.b3log.symphony.service;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Level;
@@ -10,7 +9,6 @@ import org.b3log.latke.repository.Transaction;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.latke.util.Ids;
-import org.b3log.symphony.model.UserExt;
 import org.b3log.symphony.model.Video;
 import org.b3log.symphony.repository.OptionRepository;
 import org.b3log.symphony.repository.TagRepository;
@@ -31,11 +29,7 @@ public class VideoMgmtService {
      */
     private static final Logger LOGGER = Logger.getLogger(VideoMgmtService.class.getName());
 
-    /**
-     * Vidoe repository
-     */
-    @Inject
-    private VideoRepository videoRepository;
+
     /**
      * Option repository.
      */
@@ -53,7 +47,11 @@ public class VideoMgmtService {
      */
     @Inject
     private UserQueryService userQueryService;
-
+    /**
+     * Vidoe repository
+     */
+    @Inject
+    private VideoRepository videoRepository;
     /**
      * Adds a video
      * @param requestJSONObject
@@ -62,17 +60,21 @@ public class VideoMgmtService {
      */
     public  synchronized String addVideo(String id,final JSONObject requestJSONObject, final HttpServletRequest request) throws ServiceException{
         final Transaction transaction = videoRepository.beginTransaction();
-        final JSONObject currentUser = userQueryService.getCurrentUser(request);
         String ret = null;
         //创建Video对象
         JSONObject video = new JSONObject();
         //视频标题
         video.put(Video.VIDEO_TITLE,requestJSONObject.optString(Video.VIDEO_TITLE));
         //视频发布人
-        video.put(Video.VIDEO_AUTHORID,currentUser.optInt(UserExt.USER_T_ID));
+        video.put(Video.VIDEO_AUTHORID,requestJSONObject.optString(Video.VIDEO_AUTHORID));
         //视频标签
         video.put(Video.VIDEO_TAG,requestJSONObject.optString(Video.VIDEO_TAG));
+        //视频描述
+        video.put(Video.VIDEO_REMARKS,requestJSONObject.optString(Video.VIDEO_REMARKS));
+
         //TODO 和标签表关联
+        //视频连接
+        video.put(Video.VIDEO_URL,requestJSONObject.optString(Video.VIDEO_URL));
         //视频类型
         video.put(Video.VIDEO_TYPE,requestJSONObject.optString(Video.VIDEO_TYPE));
         //视频状态
@@ -86,13 +88,13 @@ public class VideoMgmtService {
         //打赏积分
         video.put(Video.VIDEO_REWARD_POINT,0);
         //创建时间
-        video.put(Video.VIDEO_CREATE_TIME, new Date());
+        video.put(Video.VIDEO_CREATE_TIME, System.currentTimeMillis());
         //更新时间
-        video.put(Video.VIDEO_UPDATE_TIME,new Date());
+        video.put(Video.VIDEO_UPDATE_TIME,System.currentTimeMillis());
         //最后观看时间
-        video.put(Video.VIDEO_LATEST_CMT_TIME,"");
+        video.put(Video.VIDEO_LATEST_CMT_TIME,0L);
         //最后观看人
-        video.put(Video.VIDEO_LATEST_CMTER_NAME,"");
+        video.put(Video.VIDEO_LATEST_CMTER_NAME,0L);
         //下载次数
         video.put(Video.VIDEO_DOWNLOAD_COUNT,0);
         //赞👍
@@ -102,7 +104,7 @@ public class VideoMgmtService {
         //视频观看次数
         video.put(Video.VIDEO_WATCH_COUNT,0);
         try {
-            if(null != id){
+            if(!"".equals(id)){
                 videoRepository.update(id,video);
             }else{
                 //生成ID

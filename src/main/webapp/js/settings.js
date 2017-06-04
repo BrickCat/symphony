@@ -276,6 +276,42 @@ var Settings = {
             }
         });
     },
+    
+    _addVideo:function(){
+        var requestJSONObject = {
+            "videoTitle": $("#videoTitle").val(),
+            "videoTag": $("#videoTag").val(),
+            "videoRemarks": $("#videoRemarks").val(),
+            "videoType": $("videoType").val(),
+            "videoStatus": $("videoStatus").val()
+        };
+        $.ajax({
+            url: Label.servePath + "/admin/add-video",
+            type: "POST",
+            cache: false,
+            data: JSON.stringify(requestJSONObject),
+            beforeSend: function () {
+
+            },
+            error: function (XMLResponse,jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+            success: function (result, textStatus) {
+                alert(1);
+                if(true){
+                    layer.open({
+                        type: 2,
+                        title: '上传视频',
+                        maxmin: true,
+                        area: ['800px', '500px'],
+                        shadeClose: true,
+                        content: Label.servePath +"/admin/add-video-file"
+                    });
+                }
+
+            }
+        });
+    },
     /**
      * @description 积分转账
      * @argument {String} csrfToken CSRF token

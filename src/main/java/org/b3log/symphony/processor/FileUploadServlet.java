@@ -38,9 +38,12 @@ import org.b3log.latke.logging.Logger;
 import org.b3log.latke.model.User;
 import org.b3log.latke.service.LangPropsService;
 import org.b3log.latke.service.LangPropsServiceImpl;
+import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.util.MD5;
 import org.b3log.symphony.SymphonyServletListener;
+import org.b3log.symphony.model.Video;
 import org.b3log.symphony.service.UserMgmtService;
+import org.b3log.symphony.service.VideoMgmtService;
 import org.b3log.symphony.util.FileUtils;
 import org.b3log.symphony.util.Symphonys;
 import org.json.JSONArray;
@@ -181,10 +184,11 @@ public class FileUploadServlet extends HttpServlet {
             ServletFileUpload sfu = new ServletFileUpload(factory);
             //设置编码
             sfu.setHeaderEncoding("UTF-8");
+            Map<String,Object> map = new HashMap<String,Object>();
             try{
                 // 处理表单请求
                 List<FileItem> itemList = sfu.parseRequest(req);
-                Map<String,Object> map = new HashMap<String,Object>();
+
                 for (FileItem fileItem : itemList) {
                     // 对应表单中的控件的name
                     String fieldName = fileItem.getFieldName();
@@ -202,7 +206,7 @@ public class FileUploadServlet extends HttpServlet {
                         String fileName = fileItem.getName();
                         //将文件保存到指定的路径
                         File file = new File(UPLOAD_DIR,fileName);
-                        map.put("filePath",Latkes.getServePath() + "/upload/" + fileName);
+                        map.put("videoUrl",Latkes.getServePath() + "/upload/" + fileName);
                         fileItem.write(file);
                     }
                 }
@@ -217,9 +221,27 @@ public class FileUploadServlet extends HttpServlet {
             final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
             final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
             final LatkeBeanManager beanManager = Lifecycle.getBeanManager();
-            final UserMgmtService userMgmtService = beanManager.getReference(UserMgmtService.class);
+            final VideoMgmtService videoMgmtService = beanManager.getReference(VideoMgmtService.class);
             final JSONObject video = new JSONObject();
-
+            //用户ID
+            video.put(Video.VIDEO_AUTHORID,currentUserId);
+            //videoTitle
+            video.put(Video.VIDEO_TITLE,map.get(Video.VIDEO_TITLE));
+            //videoTag
+            video.put(Video.VIDEO_TAG,map.get(Video.VIDEO_TAG));
+            //videoRemarks
+            video.put(Video.VIDEO_REMARKS,map.get(Video.VIDEO_REMARKS));
+            //videoStatus
+            video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
+            //videoType
+            video.put(Video.VIDEO_TYPE,map.get(Video.VIDEO_TYPE));
+            //videoUrl
+            video.put(Video.VIDEO_URL,map.get(Video.VIDEO_URL));
+            try {
+                videoMgmtService.addVideo("",video,req);
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
 
 
         }else{

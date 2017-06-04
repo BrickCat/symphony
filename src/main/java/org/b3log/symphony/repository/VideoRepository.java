@@ -1,17 +1,17 @@
 package org.b3log.symphony.repository;
 
-import org.b3log.latke.Keys;
+
 import org.b3log.latke.repository.AbstractRepository;
-import org.b3log.latke.repository.Repositories;
-import org.b3log.latke.repository.RepositoryException;
-import org.json.JSONObject;
+import org.b3log.latke.repository.annotation.Repository;
+import org.b3log.symphony.model.Video;
 
 /**
  * Created by 860117030 on 2017/5/24.
  */
+@Repository
 public class VideoRepository extends AbstractRepository {
-    public VideoRepository(String name) {
-        super(name);
+    public VideoRepository() {
+        super(Video.VIDEO);
     }
 
 }

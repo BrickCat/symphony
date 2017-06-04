@@ -1594,6 +1594,91 @@
                     "description": "0: emoji"
                 }
             ]
+        },
+        {
+            "name":"video",
+            "keys":[
+                {
+                    "name": "oId",
+                    "type": "String",
+                    "length": 19
+                },{
+                    "name":"videoTitle",
+                    "type":"String",
+                    "length":255
+                },{
+                    "name":"videoTag",
+                    "type":"String",
+                    "length":255
+                },{
+                    "name":"videoAuthorId",
+                    "type":"String",
+                    "length":19
+                },{
+                    "name":"videoCommentCount",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoViewCount",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoUrl",
+                    "type":"String",
+                    "length":255
+                },{
+                    "name":"videoRewardContent",
+                    "type":"String",
+                    "length":102400
+                },{
+                    "name":"videoRewardPoint",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoCreateTime",
+                    "type":"long"
+                },{
+                    "name":"videoUpdateTime",
+                    "type":"long"
+                },{
+                    "name":"videoLatestCmtTime",
+                    "type":"long"
+                },{
+                    "name":"videoLatestCmterName",
+                    "type":"String",
+                    "length":20
+                },{
+                    "name":"videoDownLoadCount",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoGoodCount",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoBadCount",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoWatchCount",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoType",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoStatus",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoRemarks",
+                    "type":"int",
+                    "length":255
+                }
+
+            ]
+
         }
     ]
 }
