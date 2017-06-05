@@ -1675,6 +1675,10 @@
                     "name":"videoRemarks",
                     "type":"int",
                     "length":255
+                },{
+                    "name":"videoPoint",
+                    "type":"int",
+                    "length":11
                 }
 
             ]

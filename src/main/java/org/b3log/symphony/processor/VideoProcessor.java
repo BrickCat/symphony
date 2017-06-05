@@ -2,8 +2,23 @@ package org.b3log.symphony.processor;
 
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Logger;
+import org.b3log.latke.servlet.HTTPRequestContext;
+import org.b3log.latke.servlet.HTTPRequestMethod;
+import org.b3log.latke.servlet.annotation.After;
+import org.b3log.latke.servlet.annotation.Before;
+import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
+import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
+import org.b3log.symphony.processor.advice.PermissionCheck;
+import org.b3log.symphony.processor.advice.PermissionGrant;
+import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
+import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
 import org.b3log.symphony.service.DataModelService;
+import org.b3log.symphony.service.VideoMgmtService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 
 /**
@@ -34,9 +49,23 @@ public class VideoProcessor {
     @Inject
     private DataModelService dataModelService;
 
+    /**
+     * Video model service
+     */
+    @Inject
+    private VideoMgmtService videoMgmtService;
 
-
-
+    @RequestProcessing(value = "/video/{videoId}", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void updateUser(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+                           final String videoId) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("admin/video.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
 
 
 }

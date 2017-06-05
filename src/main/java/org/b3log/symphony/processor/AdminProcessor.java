@@ -1110,14 +1110,10 @@ public class AdminProcessor {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
-        renderer.setTemplateName("admin/video.ftl");
+        renderer.setTemplateName("admin/videos.ftl");
         dataModel.put("sideFullAd", "");
         dataModel.put("headerBanner", "");
-
-
-
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
-
     }
 
 
@@ -1244,26 +1240,6 @@ public class AdminProcessor {
         final Map<String, Object> dataModel = renderer.getDataModel();
 
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
-    }
-    @RequestProcessing(value = "/admin/add-video", method = HTTPRequestMethod.POST)
-    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
-    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public Map<String, Object> addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
-            throws Exception {
-        context.renderJSON();
-        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
-        final String videoTitle = request.getParameter(Video.VIDEO_TITLE);
-        final String videoTag = request.getParameter(Video.VIDEO_TAG);
-        final String videoRemarks = request.getParameter(Video.VIDEO_REMARKS);
-        final String videoType = request.getParameter(Video.VIDEO_TYPE);
-        final String videoStatus = request.getParameter(Video.VIDEO_STATUS);
-
-
-
-
-        final Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put("id","1");
-        return dataModel;
     }
     /**
      * Adds a user.

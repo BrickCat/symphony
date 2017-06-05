@@ -39,9 +39,12 @@ import org.b3log.latke.model.User;
 import org.b3log.latke.service.LangPropsService;
 import org.b3log.latke.service.LangPropsServiceImpl;
 import org.b3log.latke.service.ServiceException;
+import org.b3log.latke.servlet.HTTPRequestContext;
+import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
 import org.b3log.latke.util.MD5;
 import org.b3log.symphony.SymphonyServletListener;
 import org.b3log.symphony.model.Video;
+import org.b3log.symphony.service.DataModelService;
 import org.b3log.symphony.service.UserMgmtService;
 import org.b3log.symphony.service.VideoMgmtService;
 import org.b3log.symphony.util.FileUtils;
@@ -91,6 +94,11 @@ public class FileUploadServlet extends HttpServlet {
      * Qiniu enabled.
      */
     private static final Boolean QN_ENABLED = Symphonys.getBoolean("qiniu.enabled");
+
+    /**
+     * beanManager
+     */
+    final LatkeBeanManager beanManager = Lifecycle.getBeanManager();
 
     static {
         if (!QN_ENABLED) {
@@ -168,6 +176,7 @@ public class FileUploadServlet extends HttpServlet {
             return;
         }
         final String type = req.getParameter("type");
+        String ret = null;
         if (type != null && "1".equals(type)){
             req.setCharacterEncoding("UTF-8");
             resp.setContentType("text/html; charset=UTF-8");
@@ -197,6 +206,7 @@ public class FileUploadServlet extends HttpServlet {
                         String value = fileItem.getString();
                         //重新编码,解决乱码
                         value = new String(value.getBytes("ISO-8859-1"),"UTF-8");
+
                         map.put(fieldName,value);
                         // 上传文件
                     }else{
@@ -207,7 +217,55 @@ public class FileUploadServlet extends HttpServlet {
                         //将文件保存到指定的路径
                         File file = new File(UPLOAD_DIR,fileName);
                         map.put("videoUrl",Latkes.getServePath() + "/upload/" + fileName);
-                        fileItem.write(file);
+                        //TODO 根据用户保存
+                        final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
+                        final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
+                        final VideoMgmtService videoMgmtService = beanManager.getReference(VideoMgmtService.class);
+                        final JSONObject video = new JSONObject();
+                        //用户ID
+                        video.put(Video.VIDEO_AUTHORID,currentUserId);
+                        //videoTitle
+                        video.put(Video.VIDEO_TITLE,map.get(Video.VIDEO_TITLE));
+                        //videoTag
+                        video.put(Video.VIDEO_TAG,map.get(Video.VIDEO_TAG));
+                        //videoRemarks
+                        video.put(Video.VIDEO_REMARKS,map.get(Video.VIDEO_REMARKS));
+                        //videoStatus
+                        video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
+                        //videoType
+                        video.put(Video.VIDEO_TYPE,map.get(Video.VIDEO_TYPE));
+                        //判断是否需要积分打赏
+                        if("0".equals(map.get(Video.VIDEO_TYPE))){
+                            //videoPoint
+                            video.put(Video.VIDEO_POINT,0);
+                        }else{
+                            //videoPoint
+                            video.put(Video.VIDEO_POINT,map.get(Video.VIDEO_POINT));
+                        }
+                        //videoUrl
+                        video.put(Video.VIDEO_URL,map.get(Video.VIDEO_URL));
+                        try {
+                            if(size > 0){
+                                ret = videoMgmtService.addVideo("",video,req);
+                            }
+                        } catch (ServiceException e) {
+                            e.printStackTrace();
+                        }
+                        if (null!=ret&&!"".equals(ret)){
+                            fileItem.write(file);
+                            resp.sendRedirect(Latkes.getServePath()+"/video/"+ret);
+                        }else{
+                            final HTTPRequestContext context = new HTTPRequestContext();
+                            final AbstractFreeMarkerRenderer renderer = new SkinRenderer(req);
+                            context.setRenderer(renderer);
+                            renderer.setTemplateName("admin/error.ftl");
+                            final Map<String, Object> dataModel = renderer.getDataModel();
+                            dataModel.put(Keys.MSG, "上传失败，请检查填写的视频信息");
+                            final DataModelService dataModelService = beanManager.getReference(DataModelService.class);
+                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            return;
+                        }
+
                     }
                 }
             }catch(FileUploadBase.FileSizeLimitExceededException e){
@@ -217,33 +275,6 @@ public class FileUploadServlet extends HttpServlet {
             }catch(Exception e){
                 e.printStackTrace();
             }
-            //TODO 根据用户保存
-            final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
-            final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
-            final LatkeBeanManager beanManager = Lifecycle.getBeanManager();
-            final VideoMgmtService videoMgmtService = beanManager.getReference(VideoMgmtService.class);
-            final JSONObject video = new JSONObject();
-            //用户ID
-            video.put(Video.VIDEO_AUTHORID,currentUserId);
-            //videoTitle
-            video.put(Video.VIDEO_TITLE,map.get(Video.VIDEO_TITLE));
-            //videoTag
-            video.put(Video.VIDEO_TAG,map.get(Video.VIDEO_TAG));
-            //videoRemarks
-            video.put(Video.VIDEO_REMARKS,map.get(Video.VIDEO_REMARKS));
-            //videoStatus
-            video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
-            //videoType
-            video.put(Video.VIDEO_TYPE,map.get(Video.VIDEO_TYPE));
-            //videoUrl
-            video.put(Video.VIDEO_URL,map.get(Video.VIDEO_URL));
-            try {
-                videoMgmtService.addVideo("",video,req);
-            } catch (ServiceException e) {
-                e.printStackTrace();
-            }
-
-
         }else{
             final MultipartRequestInputStream multipartRequestInputStream = new MultipartRequestInputStream(req.getInputStream());
             multipartRequestInputStream.readBoundary();

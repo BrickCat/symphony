@@ -71,7 +71,8 @@ public class VideoMgmtService {
         video.put(Video.VIDEO_TAG,requestJSONObject.optString(Video.VIDEO_TAG));
         //视频描述
         video.put(Video.VIDEO_REMARKS,requestJSONObject.optString(Video.VIDEO_REMARKS));
-
+        //打赏积分
+        video.put(Video.VIDEO_POINT,requestJSONObject.optString(Video.VIDEO_POINT));
         //TODO 和标签表关联
         //视频连接
         video.put(Video.VIDEO_URL,requestJSONObject.optString(Video.VIDEO_URL));

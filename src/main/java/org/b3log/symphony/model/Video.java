@@ -23,6 +23,10 @@ public final class Video {
      */
     public static final String VIDEO_TAG = "videoTag";
     /**
+     * video point
+     */
+    public static final String VIDEO_POINT = "videoPoint";
+    /**
      * Video authorId
      */
     public static final String VIDEO_AUTHORID = "videoAuthorId";

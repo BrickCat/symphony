@@ -18,14 +18,19 @@
                 <input name="videoRemarks" type="text"/>
 
                 <label for="videoType">${videoType}</label>
-                <input name="videoType" type="text"/>
+                <select id="videoType" name="videoType">
+                    <option value="0" >${videoTypeTrue}</option>
+                    <option value="1" >${videoTypeFalse}</option>
+                </select>
+
+                <label for="videoPoint">${videoPoint}</label>
+                <input name="videoPoint" type="text"/>
 
                 <label>${videoStatus}</label>
-                <div style="margin-left: 10%">
-                    <label><input name="videoStatus" type="radio" value="0" checked="checked" />${videoStatusTrue}&nbsp;&nbsp;</label>
-                    <label><input name="videoStatus" type="radio" value="1" />${videoStatusFalse}</label>
-                </div>
-                <br/><br/><br/>
+                <select id="videoStatus" name="videoStatus">
+                    <option value="0" >${videoStatusTrue}</option>
+                    <option value="1" >${videoStatusFalse}</option>
+                </select>
                 <label class="btn red">
                     ${videoURl}<input type="file" name="file">
                 </label>
