@@ -57,11 +57,11 @@ public class VideoProcessor {
     @Inject
     private VideoMgmtService videoMgmtService;
 
-    @RequestProcessing(value = "/video/{videoId}", method = HTTPRequestMethod.POST)
+    @RequestProcessing(value = "/video", method = HTTPRequestMethod.POST)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void updateUser(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
-                           final String videoId) throws Exception {
+    public void updateUser(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final String ret = request.getParameter("id");
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
         renderer.setTemplateName("admin/video.ftl");
@@ -73,7 +73,7 @@ public class VideoProcessor {
     @RequestProcessing(value = "/video/check", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void showCheckVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response
+    public void showCheckVideoInfo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response
                            ) throws Exception {
         final String type = request.getParameter("type");
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
@@ -81,7 +81,21 @@ public class VideoProcessor {
         renderer.setTemplateName("admin/error.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
         if(Video.VIDEO_TITLE.equals(type)){
-            dataModel.put(Keys.MSG, "视频标题不能为空~  >_<|||");
+            dataModel.put(Keys.MSG, "视频怎么能没有标题呢 ？~  >_<|||");
+        }else if (Video.VIDEO_TAG.equals(type)){
+            dataModel.put(Keys.MSG, "来个标签吧 ( *>.<* ) ~");
+        }else if (Video.VIDEO_REMARKS.equals(type)){
+            dataModel.put(Keys.MSG,"~w_w~ 给你的视频提供描述吧~");
+        }else if (Video.VIDEO_TYPE.equals(type)){
+            dataModel.put(Keys.MSG,"你确定免 (*^＠^*) 费提供下载嘛..(≥◇≤)..~");
+        }else if (Video.VIDEO_POINT.equals(type)){
+            dataModel.put(Keys.MSG,"给你的视频..(≥◇≤)..定个价格（积分）吧~");
+        }else if (Video.VIDEO_STATUS.equals(type)){
+            dataModel.put(Keys.MSG,"你的视频ㄟ(‧‧) (‧‧)ㄟ是否启用啊 啊 啊 啊~");
+        }else if ("videoSize".equals(type)){
+            dataModel.put(Keys.MSG,"你竟然< ( _ _ ) >不上传视频 啊~");
+        }else if ("videoErrorInfo".equals(type)){
+            dataModel.put(Keys.MSG,"( -___- )b上传失败了~呜呜呜~");
         }
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }

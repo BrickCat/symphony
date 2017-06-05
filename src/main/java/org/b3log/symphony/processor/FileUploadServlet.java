@@ -213,11 +213,7 @@ public class FileUploadServlet extends HttpServlet {
                         // 上传文件
                     }else{
                         String videoProperty = "";
-                        final HTTPRequestContext context = new HTTPRequestContext();
-                        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(req);
-                        context.setRenderer(renderer);
-                        renderer.setTemplateName("admin/error.ftl");
-                        final Map<String, Object> dataModel = renderer.getDataModel();
+
                         // 获得文件大小
                         Long size = fileItem.getSize();
                         // 获得文件名
@@ -238,17 +234,15 @@ public class FileUploadServlet extends HttpServlet {
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_TITLE).toString())){
                             video.put(Video.VIDEO_TITLE,map.get(Video.VIDEO_TITLE));
                         }else{
-                            videoProperty=Video.VIDEO_TITLE;
-
-                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+videoProperty);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_TITLE);
+                            return;
                         }
 
                         //videoTag
                         if (StringUtils.isNotBlank(map.get(Video.VIDEO_TAG).toString())){
                             video.put(Video.VIDEO_TAG,map.get(Video.VIDEO_TAG));
                         }else{
-                            dataModel.put(Keys.MSG, "(=@__@=)... 视频标签不能为空~");
-                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_TAG);
                             return;
                         }
 
@@ -256,17 +250,7 @@ public class FileUploadServlet extends HttpServlet {
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_REMARKS).toString())){
                             video.put(Video.VIDEO_REMARKS,map.get(Video.VIDEO_REMARKS));
                         }else{
-                            dataModel.put(Keys.MSG, "视频描述 ⊙﹏⊙‖∣° 不能为空~");
-                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
-                            return;
-                        }
-
-                        //videoStatus
-                        if(StringUtils.isNotBlank(map.get(Video.VIDEO_STATUS).toString())){
-                            video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
-                        }else{
-                            dataModel.put(Keys.MSG, "视频状态不能为 →_→ 空~");
-                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_REMARKS);
                             return;
                         }
 
@@ -279,23 +263,28 @@ public class FileUploadServlet extends HttpServlet {
                                 video.put(Video.VIDEO_POINT,0);
                             }else{
                                 //videoPoint
-                                if(StringUtils.isNotBlank(map.get(Video.VIDEO_TYPE).toString())){
+                                if("".equals(map.get(Video.VIDEO_TYPE).toString())){
                                     video.put(Video.VIDEO_POINT,map.get(Video.VIDEO_POINT));
                                 }else{
-                                    dataModel.put(Keys.MSG, "打赏积分不能为空~（°ο°）~");
-                                    dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                                    resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_POINT);
                                     return;
                                 }
                             }
                         }else{
-                            dataModel.put(Keys.MSG, "（*>.<*）~视频类型不能为空~");
-                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_TYPE);
+                            return;
+                        }
+
+                        //videoStatus
+                        if(StringUtils.isNotBlank(map.get(Video.VIDEO_STATUS).toString())){
+                            video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
+                        }else{
+                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_STATUS);
                             return;
                         }
 
                         if(size <= 0){
-                            dataModel.put(Keys.MSG, "O_o~视频未选择~");
-                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+"videoSize");
                             return;
                         }
 
@@ -311,10 +300,9 @@ public class FileUploadServlet extends HttpServlet {
                         if (null!=ret&&!"".equals(ret)){
                             fileItem.write(file);
                             //跳转到视频页面
-                            resp.sendRedirect(Latkes.getServePath()+"/video/"+ret);
+                            resp.sendRedirect(Latkes.getServePath()+"/video?id="+ret);
                         }else{
-                            dataModel.put(Keys.MSG, "上传失败(((m -_-)m 请检查填写的视频信息--|||");
-                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+"videoErrorInfo");
                             return;
                         }
 
@@ -327,7 +315,6 @@ public class FileUploadServlet extends HttpServlet {
             }catch(Exception e){
                 e.printStackTrace();
             }
-            resp.sendRedirect(Latkes.getServePath()+"/admin/role");
         }else{
             final MultipartRequestInputStream multipartRequestInputStream = new MultipartRequestInputStream(req.getInputStream());
             multipartRequestInputStream.readBoundary();
