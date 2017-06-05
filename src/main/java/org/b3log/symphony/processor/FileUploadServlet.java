@@ -240,7 +240,7 @@ public class FileUploadServlet extends HttpServlet {
                         }else{
                             videoProperty=Video.VIDEO_TITLE;
 
-                            resp.sendRedirect(Latkes.getServePath() + "/admin/roles");
+                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+videoProperty);
                         }
 
                         //videoTag

@@ -69,16 +69,18 @@ public class VideoProcessor {
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
-    @RequestProcessing(value = "/video/check/{videoProperty}", method = HTTPRequestMethod.POST)
+
+    @RequestProcessing(value = "/video/check", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void checkVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
-                           final String videoProperty) throws Exception {
+    public void showCheckVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response
+                           ) throws Exception {
+        final String type = request.getParameter("type");
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
         renderer.setTemplateName("admin/error.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
-        if(Video.VIDEO_TITLE.equals(videoProperty)){
+        if(Video.VIDEO_TITLE.equals(type)){
             dataModel.put(Keys.MSG, "视频标题不能为空~  >_<|||");
         }
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
