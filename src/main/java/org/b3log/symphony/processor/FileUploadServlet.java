@@ -100,6 +100,15 @@ public class FileUploadServlet extends HttpServlet {
      */
     final LatkeBeanManager beanManager = Lifecycle.getBeanManager();
 
+    /**
+     * data model service
+     */
+    final DataModelService dataModelService = beanManager.getReference(DataModelService.class);
+
+    /**
+     * video model service
+     */
+    final VideoMgmtService videoMgmtService = beanManager.getReference(VideoMgmtService.class);
     static {
         if (!QN_ENABLED) {
             final File file = new File(UPLOAD_DIR);
@@ -210,6 +219,11 @@ public class FileUploadServlet extends HttpServlet {
                         map.put(fieldName,value);
                         // 上传文件
                     }else{
+                        final HTTPRequestContext context = new HTTPRequestContext();
+                        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(req);
+                        context.setRenderer(renderer);
+                        renderer.setTemplateName("admin/error.ftl");
+                        final Map<String, Object> dataModel = renderer.getDataModel();
                         // 获得文件大小
                         Long size = fileItem.getSize();
                         // 获得文件名
@@ -220,7 +234,6 @@ public class FileUploadServlet extends HttpServlet {
                         //TODO 根据用户保存
                         final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
                         final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
-                        final VideoMgmtService videoMgmtService = beanManager.getReference(VideoMgmtService.class);
                         final JSONObject video = new JSONObject();
                         //用户ID
                         video.put(Video.VIDEO_AUTHORID,currentUserId);
@@ -244,10 +257,10 @@ public class FileUploadServlet extends HttpServlet {
                         }
                         //videoUrl
                         video.put(Video.VIDEO_URL,map.get(Video.VIDEO_URL));
+                        // TODO check video
+
                         try {
-                            if(size > 0){
                                 ret = videoMgmtService.addVideo("",video,req);
-                            }
                         } catch (ServiceException e) {
                             e.printStackTrace();
                         }
@@ -255,13 +268,7 @@ public class FileUploadServlet extends HttpServlet {
                             fileItem.write(file);
                             resp.sendRedirect(Latkes.getServePath()+"/video/"+ret);
                         }else{
-                            final HTTPRequestContext context = new HTTPRequestContext();
-                            final AbstractFreeMarkerRenderer renderer = new SkinRenderer(req);
-                            context.setRenderer(renderer);
-                            renderer.setTemplateName("admin/error.ftl");
-                            final Map<String, Object> dataModel = renderer.getDataModel();
                             dataModel.put(Keys.MSG, "上传失败，请检查填写的视频信息");
-                            final DataModelService dataModelService = beanManager.getReference(DataModelService.class);
                             dataModelService.fillHeaderAndFooter(req, resp, dataModel);
                             return;
                         }
