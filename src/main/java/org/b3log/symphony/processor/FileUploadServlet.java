@@ -31,13 +31,10 @@ import org.apache.commons.lang.StringUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.LatkeBeanManager;
-import org.b3log.latke.ioc.LatkeBeanManagerImpl;
 import org.b3log.latke.ioc.Lifecycle;
 import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.model.User;
-import org.b3log.latke.service.LangPropsService;
-import org.b3log.latke.service.LangPropsServiceImpl;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.servlet.HTTPRequestContext;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
@@ -45,11 +42,8 @@ import org.b3log.latke.util.MD5;
 import org.b3log.symphony.SymphonyServletListener;
 import org.b3log.symphony.model.Video;
 import org.b3log.symphony.service.DataModelService;
-import org.b3log.symphony.service.UserMgmtService;
 import org.b3log.symphony.service.VideoMgmtService;
-import org.b3log.symphony.util.FileUtils;
 import org.b3log.symphony.util.Symphonys;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.ServletConfig;
@@ -188,10 +182,9 @@ public class FileUploadServlet extends HttpServlet {
         String ret = null;
         if (type != null && "1".equals(type)){
             req.setCharacterEncoding("UTF-8");
-            resp.setContentType("text/html; charset=UTF-8");
 
             //保存路径
-            String savePath ="C:/upload";
+            String savePath ="./upload";
             File saveDir = new File(savePath);
             // 如果目录不存在，就创建目录
             if(!saveDir.exists()){
@@ -219,6 +212,7 @@ public class FileUploadServlet extends HttpServlet {
                         map.put(fieldName,value);
                         // 上传文件
                     }else{
+                        String videoProperty = "";
                         final HTTPRequestContext context = new HTTPRequestContext();
                         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(req);
                         context.setRenderer(renderer);
@@ -231,44 +225,95 @@ public class FileUploadServlet extends HttpServlet {
                         //将文件保存到指定的路径
                         File file = new File(UPLOAD_DIR,fileName);
                         map.put("videoUrl",Latkes.getServePath() + "/upload/" + fileName);
-                        //TODO 根据用户保存
+
+                        //获取当前用户
                         final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
                         final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
+                        // TODO check video
                         final JSONObject video = new JSONObject();
                         //用户ID
                         video.put(Video.VIDEO_AUTHORID,currentUserId);
+
                         //videoTitle
-                        video.put(Video.VIDEO_TITLE,map.get(Video.VIDEO_TITLE));
-                        //videoTag
-                        video.put(Video.VIDEO_TAG,map.get(Video.VIDEO_TAG));
-                        //videoRemarks
-                        video.put(Video.VIDEO_REMARKS,map.get(Video.VIDEO_REMARKS));
-                        //videoStatus
-                        video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
-                        //videoType
-                        video.put(Video.VIDEO_TYPE,map.get(Video.VIDEO_TYPE));
-                        //判断是否需要积分打赏
-                        if("0".equals(map.get(Video.VIDEO_TYPE))){
-                            //videoPoint
-                            video.put(Video.VIDEO_POINT,0);
+                        if(StringUtils.isNotBlank(map.get(Video.VIDEO_TITLE).toString())){
+                            video.put(Video.VIDEO_TITLE,map.get(Video.VIDEO_TITLE));
                         }else{
-                            //videoPoint
-                            video.put(Video.VIDEO_POINT,map.get(Video.VIDEO_POINT));
+                            videoProperty=Video.VIDEO_TITLE;
+
+                            resp.sendRedirect(Latkes.getServePath() + "/admin/roles");
                         }
+
+                        //videoTag
+                        if (StringUtils.isNotBlank(map.get(Video.VIDEO_TAG).toString())){
+                            video.put(Video.VIDEO_TAG,map.get(Video.VIDEO_TAG));
+                        }else{
+                            dataModel.put(Keys.MSG, "(=@__@=)... 视频标签不能为空~");
+                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            return;
+                        }
+
+                        //videoRemarks
+                        if(StringUtils.isNotBlank(map.get(Video.VIDEO_REMARKS).toString())){
+                            video.put(Video.VIDEO_REMARKS,map.get(Video.VIDEO_REMARKS));
+                        }else{
+                            dataModel.put(Keys.MSG, "视频描述 ⊙﹏⊙‖∣° 不能为空~");
+                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            return;
+                        }
+
+                        //videoStatus
+                        if(StringUtils.isNotBlank(map.get(Video.VIDEO_STATUS).toString())){
+                            video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
+                        }else{
+                            dataModel.put(Keys.MSG, "视频状态不能为 →_→ 空~");
+                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            return;
+                        }
+
+                        //videoType
+                        //判断是否需要积分打赏
+                        if(StringUtils.isNotBlank(map.get(Video.VIDEO_TYPE).toString())){
+                            video.put(Video.VIDEO_TYPE,map.get(Video.VIDEO_TYPE));
+                            if("0".equals(map.get(Video.VIDEO_TYPE))){
+                                //videoPoint
+                                video.put(Video.VIDEO_POINT,0);
+                            }else{
+                                //videoPoint
+                                if(StringUtils.isNotBlank(map.get(Video.VIDEO_TYPE).toString())){
+                                    video.put(Video.VIDEO_POINT,map.get(Video.VIDEO_POINT));
+                                }else{
+                                    dataModel.put(Keys.MSG, "打赏积分不能为空~（°ο°）~");
+                                    dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                                    return;
+                                }
+                            }
+                        }else{
+                            dataModel.put(Keys.MSG, "（*>.<*）~视频类型不能为空~");
+                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            return;
+                        }
+
+                        if(size <= 0){
+                            dataModel.put(Keys.MSG, "O_o~视频未选择~");
+                            dataModelService.fillHeaderAndFooter(req, resp, dataModel);
+                            return;
+                        }
+
                         //videoUrl
                         video.put(Video.VIDEO_URL,map.get(Video.VIDEO_URL));
-                        // TODO check video
-
                         try {
-                                ret = videoMgmtService.addVideo("",video,req);
+                            //保存视频信息
+                            ret = videoMgmtService.addVideo("",video,req);
                         } catch (ServiceException e) {
                             e.printStackTrace();
                         }
+                        //信息保存成功则上传文件
                         if (null!=ret&&!"".equals(ret)){
                             fileItem.write(file);
+                            //跳转到视频页面
                             resp.sendRedirect(Latkes.getServePath()+"/video/"+ret);
                         }else{
-                            dataModel.put(Keys.MSG, "上传失败，请检查填写的视频信息");
+                            dataModel.put(Keys.MSG, "上传失败(((m -_-)m 请检查填写的视频信息--|||");
                             dataModelService.fillHeaderAndFooter(req, resp, dataModel);
                             return;
                         }
@@ -282,6 +327,7 @@ public class FileUploadServlet extends HttpServlet {
             }catch(Exception e){
                 e.printStackTrace();
             }
+            resp.sendRedirect(Latkes.getServePath()+"/admin/role");
         }else{
             final MultipartRequestInputStream multipartRequestInputStream = new MultipartRequestInputStream(req.getInputStream());
             multipartRequestInputStream.readBoundary();

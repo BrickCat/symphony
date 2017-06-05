@@ -62,15 +62,6 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>VideoFileServlet</servlet-name>
-        <servlet-class>org.b3log.symphony.util.servlet.VideoFileServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>VideoFileServlet</servlet-name>
-        <url-pattern>/addVidwo</url-pattern>
-    </servlet-mapping>
 
     <!--
     <servlet>

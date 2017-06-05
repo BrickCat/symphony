@@ -1,5 +1,6 @@
 package org.b3log.symphony.processor;
 
+import org.b3log.latke.Keys;
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.servlet.HTTPRequestContext;
@@ -9,6 +10,7 @@ import org.b3log.latke.servlet.annotation.Before;
 import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
+import org.b3log.symphony.model.Video;
 import org.b3log.symphony.processor.advice.PermissionCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
@@ -67,5 +69,18 @@ public class VideoProcessor {
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
-
+    @RequestProcessing(value = "/video/check/{videoProperty}", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void checkVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+                           final String videoProperty) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("admin/error.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        if(Video.VIDEO_TITLE.equals(videoProperty)){
+            dataModel.put(Keys.MSG, "视频标题不能为空~  >_<|||");
+        }
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
 }

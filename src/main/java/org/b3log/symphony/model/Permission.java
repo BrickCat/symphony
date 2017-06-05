@@ -421,6 +421,15 @@ public final class Permission {
 
     public static final String PERMISSION_ID_C_MENU_ADMIN_VIDEO = "menuAdminVideo";
 
+    /**
+     * Id - user - watch - video
+     */
+    public static final String PERMISSION_ID_C_MENU_USER_VIDEO="userWatchVideo";
+    /**
+     * Id - user - watch - video
+     */
+    public static final String PERMISSION_ID_C_MENU_USER_VIDEO_ERROR="userWatchVideoError";
+
     // Category constants
     /**
      * Category - common function.
@@ -480,7 +489,7 @@ public final class Permission {
     /**
      * Category - menu.
      */
-    public static final int PERMISSION_CATEGORY_C_AIDEO = 11;
+    public static final int PERMISSION_CATEGORY_C_VIDEO = 11;
 
 
     /**
