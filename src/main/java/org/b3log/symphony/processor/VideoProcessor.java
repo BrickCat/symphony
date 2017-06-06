@@ -17,6 +17,8 @@ import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
 import org.b3log.symphony.service.DataModelService;
 import org.b3log.symphony.service.VideoMgmtService;
+import org.b3log.symphony.service.VideoQueryService;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,19 +59,33 @@ public class VideoProcessor {
     @Inject
     private VideoMgmtService videoMgmtService;
 
-    @RequestProcessing(value = "/video", method = HTTPRequestMethod.POST)
+    /**
+     *Video queryservice
+     */
+    @Inject
+    private VideoQueryService videoQueryService;
+
+    @RequestProcessing(value = "/video", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
     public void updateUser(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        final String ret = request.getParameter("id");
+        final String videoId = request.getParameter("id");
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
         renderer.setTemplateName("admin/video.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
+        final JSONObject video = videoQueryService.getVideo(videoId);
+        dataModel.put(Video.VIDEO,video);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
-
+    /**
+     *
+     * @param context
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     @RequestProcessing(value = "/video/check", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
