@@ -1260,6 +1260,7 @@ public class AdminProcessor {
             throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         final Map<String, Object> dataModel = renderer.getDataModel();
+
         context.setRenderer(renderer);
         renderer.setTemplateName("admin/add-video.ftl");
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
