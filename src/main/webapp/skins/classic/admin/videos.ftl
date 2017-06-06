@@ -1,7 +1,7 @@
 <#include "macro-admin.ftl">
 <#include "../macro-pagination.ftl">
 <@admin "videos">
-<div class="content admin">
+<div class="list content admin">
     <div class="module list">
         <form method="GET" action="${servePath}/admin/videos" class="form">
             <input name="videoTitileOrVideoTag" type="text" placeholder="${videoURl}/${videoTag}"/>
@@ -11,5 +11,6 @@
             </#if>
         </form>
     </div>
+    <@pagination url="${servePath}/admin/videos"/>
 </div>
 </@admin>
