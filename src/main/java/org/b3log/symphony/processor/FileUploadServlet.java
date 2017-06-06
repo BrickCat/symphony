@@ -263,7 +263,7 @@ public class FileUploadServlet extends HttpServlet {
                                 video.put(Video.VIDEO_POINT,0);
                             }else{
                                 //videoPoint
-                                if("".equals(map.get(Video.VIDEO_TYPE).toString())){
+                                if(!"".equals(map.get(Video.VIDEO_TYPE).toString())){
                                     video.put(Video.VIDEO_POINT,map.get(Video.VIDEO_POINT));
                                 }else{
                                     resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_POINT);

@@ -260,6 +260,11 @@ public class AdminProcessor {
      */
     @Inject
     private DataModelService dataModelService;
+    /**
+     * Video model service
+     */
+    @Inject
+    private VideoQueryService videoQueryService;
 
     /**
      * Removes unused tags.
@@ -1091,41 +1096,23 @@ public class AdminProcessor {
 
     }
 
-
-
-
-    /**
-     * Shows admin index.
-     *
-     * @param context  the specified context
-     * @param request  the specified request
-     * @param response the specified response
-     * @throws Exception exception
-     */
-    @RequestProcessing(value = "/admin/video", method = HTTPRequestMethod.GET)
+    @RequestProcessing(value = "/admin/video", method = HTTPRequestMethod.POST)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void Video(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+    public void showVideos(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
             throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("admin/videos.ftl");
-        dataModel.put("sideFullAd", "");
-        dataModel.put("headerBanner", "");
+
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
 
-    @RequestProcessing(value = "/admin/add-video-file", method = HTTPRequestMethod.GET)
-    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
-    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void addVideofile(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
-            throws Exception {
-        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
-        context.setRenderer(renderer);
-        renderer.setTemplateName("admin/file/add-video-file.ftl");
-    }
+
+
+
 
     /**
      * Shows admin users.
@@ -1145,7 +1132,7 @@ public class AdminProcessor {
         renderer.setTemplateName("admin/users.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
 
-        String pageNumStr = request.getParameter("p");
+          String pageNumStr = request.getParameter("p");
         if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
             pageNumStr = "1";
         }
@@ -2089,6 +2076,58 @@ public class AdminProcessor {
         dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
         dataModel.put(Pagination.PAGINATION_PAGE_NUMS, CollectionUtils.jsonArrayToList(pageNums));
 
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
+    /**
+     * Shows admin index.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/admin/video", method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void Video(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+            throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        renderer.setTemplateName("admin/videos.ftl");
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = PAGE_SIZE;
+        final int windowSize = WINDOW_SIZE;
+        final JSONObject requestJSONObject = new JSONObject();
+        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
+        requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
+        final String videoTitle = request.getParameter(Common.VIDEO_TITLE_TAG);
+        if (!Strings.isEmptyOrNull(videoTitle)) {
+            requestJSONObject.put(Tag.TAG_TITLE, videoTitle);
+        }
+
+        final Map<String, Class<?>> videoFields = new HashMap<>();
+        videoFields.put(Keys.OBJECT_ID, String.class);
+        videoFields.put(Video.VIDEO_TITLE, String.class);
+
+
+        final JSONObject result = videoQueryService.getVideos(requestJSONObject,videoFields);
+        dataModel.put(Video.VIDEOS, CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS)));
+
+        final JSONObject pagination = result.optJSONObject(Pagination.PAGINATION);
+        final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
+        final JSONArray pageNums = pagination.optJSONArray(Pagination.PAGINATION_PAGE_NUMS);
+        dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.opt(0));
+        dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.opt(pageNums.length() - 1));
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, CollectionUtils.jsonArrayToList(pageNums));
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 

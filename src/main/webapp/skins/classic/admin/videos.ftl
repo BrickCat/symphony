@@ -1,6 +1,6 @@
 <#include "macro-admin.ftl">
 <#include "../macro-pagination.ftl">
-<@admin "video">
+<@admin "videos">
 <div class="content admin">
     <div class="module list">
         <form method="GET" action="${servePath}/admin/videos" class="form">

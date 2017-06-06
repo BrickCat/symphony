@@ -217,6 +217,11 @@ public final class Common {
     public static final String TITLE = "title";
 
     /**
+     * Key of video
+     */
+    public static final String VIDEO_TITLE_TAG = "videoTitileOrVideoTag";
+
+    /**
      * Key of WebSocket scheme.
      */
     public static final String WEBSOCKET_SCHEME = "wsScheme";
