@@ -1,5 +1,5 @@
 <#include "macro-admin.ftl">
-<@admin "videos">
+<@admin "video">
 <div class="content">
     <div class="module">
         <div class="module-header">

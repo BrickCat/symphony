@@ -79,6 +79,20 @@ public class VideoProcessor {
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
+    @RequestProcessing(value = "/video/{videoId}",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void showUser(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+                         final String videoId) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("admin/video.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        final JSONObject video = videoQueryService.getVideo(videoId);
+        dataModel.put(Video.VIDEO,video);
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
     /**
      *
      * @param context

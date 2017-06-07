@@ -53,7 +53,7 @@
         <#if type == "roles">
             <@head title="${rolesAdminLabel} - ${symphonyLabel}"></@head>
         </#if>
-        <#if type == "videos">
+        <#if type == "video">
             <@head title="${videoAdminLabel} - ${symphonyLabel}"></@head>
         </#if>
         <link rel="stylesheet" href="${staticServePath}/css/home.css?${staticResourceVersion}" />
@@ -77,7 +77,7 @@
                                 <a href="${servePath}/admin/articles"<#if type == "articles" || type == "addArticle"> class="current"</#if>>${articleAdminLabel}</a>
                                 </#if>
                                 <#if permissions["menuAdminVideo"].permissionGrant>
-                                    <a href="${servePath}/admin/videos"<#if type == "videos"> class="current"</#if>>${videoAdminLabel}</a>
+                                    <a href="${servePath}/admin/videos"<#if type == "video"> class="current"</#if>>${videoAdminLabel}</a>
                                 </#if>
                                 <#if permissions["menuAdminComments"].permissionGrant>
                                 <a href="${servePath}/admin/comments"<#if type == "comments"> class="current"</#if>>${commentAdminLabel}</a>

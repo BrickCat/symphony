@@ -1146,12 +1146,19 @@ public class AdminProcessor {
         requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
         final String videoTitle = request.getParameter(Common.VIDEO_TITLE_TAG);
         if (!Strings.isEmptyOrNull(videoTitle)) {
+            //标题
             requestJSONObject.put(Tag.TAG_TITLE, videoTitle);
         }
-
         final Map<String, Class<?>> videoFields = new HashMap<>();
+        //TODO 视频缩略图
+        //Id
         videoFields.put(Keys.OBJECT_ID, String.class);
+        //标题
         videoFields.put(Video.VIDEO_TITLE, String.class);
+        //状态
+        videoFields.put(Video.VIDEO_STATUS,Integer.class);
+        //描述
+        videoFields.put(Video.VIDEO_REMARKS,String.class);
 
 
         final JSONObject result = videoQueryService.getVideos(requestJSONObject,videoFields);
