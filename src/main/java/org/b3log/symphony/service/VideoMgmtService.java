@@ -125,4 +125,30 @@ public class VideoMgmtService {
         }
 
     }
+
+    /**
+     * Updates the specified tag by the given video id.
+     * <p>
+     * <b>Note</b>: This method just for admin console.
+     * </p>
+     *
+     * @param videoId the given video id
+     * @param video   the specified video
+     * @throws ServiceException service exception
+     */
+    public void updateVideo(final String videoId, final JSONObject video) throws ServiceException {
+        final Transaction transaction = videoRepository.beginTransaction();
+        try{
+            videoRepository.update(videoId,video);
+            transaction.commit();
+
+        }catch (final RepositoryException e){
+            if (transaction.isActive()){
+                transaction.rollback();
+            }
+            LOGGER.log(Level.ERROR, "Updates a video[id=" + videoId + "] failed", e);
+            throw new ServiceException(e);
+        }
+
+    }
 }

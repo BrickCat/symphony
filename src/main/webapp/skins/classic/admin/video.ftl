@@ -1,29 +1,55 @@
 <#include "macro-admin.ftl">
 <#include "../macro-pagination.ftl">
 <@admin "video">
-<link href="${staticServePath}/js/lib/video.js/css/video-js.css" rel="stylesheet">
-<!-- If you'd like to support IE8 -->
-<script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
-<div class="content admin">
-    <#if video ??>
-        <div class="wrapper">
-        ${video.videoTitle}
+<div class="content">
+    <div class="module">
+        <div class="module-header">
+            <h2>${unmodifiableLabel}</h2>
+        </div>
+        <div class="module-panel form fn-clear">
+            <label>Id</label>
+            <input type="text" value="${video.oId}" readonly="readonly">
+            <label>${videoURl}</label>
+            <input type="text" value="${video.videoUrl}" readonly="readonly">
+        </div>
     </div>
-    <video id="my-video" class="video-js" controls preload="auto" width="640" height="264" poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
-        <source src="${video.videoUrl}"/>
-        <p class="vjs-no-js">
-            To view this video please enable JavaScript, and consider upgrading to a web browser that
-            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-        </p>
-    </video>
-    </#if >
+
+    <#if permissions["adminUpdateVideo"].permissionGrant>
+    <div class="module">
+        <div class="module-header">
+            <h2>${modifiableLabel}</h2>
+        </div>
+        <div class="module-panel form fn-clear">
+            <form class="fn-right form" action="${servePath}/video/${video.oId}" method="POST" >
+
+                <label for="videoTitle">${videoTitle}</label>
+                <input type="text" id="videoTitle" name="videoTitle"  value="${video.videoTitle}"/>
+
+                <label for="videoTag">${videoTag}</label>
+                <input id="videoTag" name="videoTag" type="text" value="${video.videoTag}"/>
+
+                <label for="videoRemarks">${videoRemarks}</label>
+                <input id="videoRemarks" name="videoRemarks" type="text" value="${video.videoRemarks}"/>
+
+                <label for="videoType">${videoType}</label>
+                <select id="videoType" name="videoType">
+                    <option value="0" <#if 0== video.videoType>selected</#if>>${videoTypeTrue}</option>
+                    <option value="1" <#if 1== video.videoType>selected</#if>>${videoTypeFalse}</option>
+                </select>
+
+                <label for="videoPoint">${videoPoint}</label>
+                <input id="videoPoint" name="videoPoint" type="text" value="${video.videoPoint}"/>
+
+                <label>${videoStatus}</label>
+                <select id="videoStatus" name="videoStatus">
+                    <option value="0" <#if 0== video.videoStatus>selected</#if>>${videoStatusTrue}</option>
+                    <option value="1" <#if 0== video.videoStatus>selected</#if>>${videoStatusFalse}</option>
+                </select>
+                    <br/><br/><br/>
+                    <button type="submit" class="green fn-right">${submitLabel}</button>
+                </form>
+            </div>
+        </div>
+    </#if>
 </div>
-<script type="text/javascript">
-    var myPlayer = videojs('my-video');
-    videojs("my-video").ready(function() {
-        var myPlayer = this;
-        myPlayer.play();
-        myPlayer.volume(0.5);
-    });
-</script>
 </@admin>

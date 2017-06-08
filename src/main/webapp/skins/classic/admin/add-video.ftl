@@ -3,7 +3,7 @@
 <div class="content">
     <div class="module">
         <div class="module-header">
-            <h2>${modifiableLabel}</h2>
+            <h2>${videoAdd}</h2>
         </div>
 
         <div class="module-panel form fn-clear">

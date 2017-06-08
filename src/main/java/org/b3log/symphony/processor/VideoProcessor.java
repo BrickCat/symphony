@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 import java.util.Map;
 
 
@@ -82,13 +83,44 @@ public class VideoProcessor {
     @RequestProcessing(value = "/video/{videoId}",method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void showUser(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+    public void showVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
                          final String videoId) throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
         renderer.setTemplateName("admin/video.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
         final JSONObject video = videoQueryService.getVideo(videoId);
+        dataModel.put(Video.VIDEO,video);
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+    @RequestProcessing(value = "/video/{videoId}",method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void updateUser(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+                         final String videoId) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("admin/video.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+
+        JSONObject video = videoQueryService.getVideo(videoId);
+
+        final Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()){
+            final String name = parameterNames.nextElement();
+            final String value = request.getParameter(name);
+            if(name.equals(Video.VIDEO_POINT)
+                    ||name.equals(Video.VIDEO_STATUS)
+                    ||name.equals(Video.VIDEO_TYPE)){
+                video.put(name,Integer.valueOf(value));
+            }
+            video.put(name,value);
+        }
+
+        videoMgmtService.updateVideo(videoId,video);
+
+        video = videoQueryService.getVideo(videoId);
+
         dataModel.put(Video.VIDEO,video);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
