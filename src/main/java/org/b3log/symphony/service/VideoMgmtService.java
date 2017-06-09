@@ -14,6 +14,7 @@ import org.b3log.symphony.model.Video;
 import org.b3log.symphony.repository.OptionRepository;
 import org.b3log.symphony.repository.TagRepository;
 import org.b3log.symphony.repository.VideoRepository;
+import org.b3log.symphony.util.Symphonys;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -166,14 +167,30 @@ public class VideoMgmtService {
             if (null == video) {
                 return;
             }
-            File file = new File(video.optString(Video.VIDEO_URL));
-            if(file.exists() && file.isFile()){
-                LOGGER.info("文件存在");
-                return;
+            
+            File file = new File(Symphonys.get("upload.video.dir")+video.optString(Video.VIDEO_URL));
+            if(file.exists()){
+                if(forceDelete(file)){
+                   videoRepository.remove(videoId);
+                }
             }
-            videoRepository.remove(videoId);
+
         }catch(RepositoryException e){
                 e.printStackTrace();
+                LOGGER.log(Level.ERROR, "Delete a video[id=" + videoId + "] failed", e);
             }
         }
+
+
+    public boolean forceDelete(File file) {
+            boolean result = file.delete();
+            int tryCount = 0;
+            while (!result && tryCount++ < 10) {
+                System.gc();    //回收资源
+                result = file.delete();
+            }
+            return result;
+        }
+
+
     }
