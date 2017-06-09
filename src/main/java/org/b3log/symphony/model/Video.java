@@ -19,6 +19,10 @@ public final class Video {
      */
     public static final String VIDEO_TITLE = "videoTitle";
     /**
+     * Video Id
+     */
+    public static final String VIDEO_T_ID = "videoId";
+    /**
      * Video tags
      */
     public static final String VIDEO_TAG = "videoTag";

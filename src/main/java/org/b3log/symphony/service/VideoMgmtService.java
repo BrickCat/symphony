@@ -6,6 +6,7 @@ import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.repository.RepositoryException;
 import org.b3log.latke.repository.Transaction;
+import org.b3log.latke.repository.annotation.Transactional;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.latke.util.Ids;
@@ -16,6 +17,7 @@ import org.b3log.symphony.repository.VideoRepository;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -152,4 +154,26 @@ public class VideoMgmtService {
         }
 
     }
-}
+
+    /**
+     * delete a video
+     * @param videoId
+     */
+    @Transactional
+    public void deleteVideo(final String videoId) {
+        try {
+            final JSONObject video = videoRepository.get(videoId);
+            if (null == video) {
+                return;
+            }
+            File file = new File(video.optString(Video.VIDEO_URL));
+            if(file.exists() && file.isFile()){
+                LOGGER.info("文件存在");
+                return;
+            }
+            videoRepository.remove(videoId);
+        }catch(RepositoryException e){
+                e.printStackTrace();
+            }
+        }
+    }

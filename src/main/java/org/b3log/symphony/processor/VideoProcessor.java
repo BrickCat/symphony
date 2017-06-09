@@ -1,6 +1,7 @@
 package org.b3log.symphony.processor;
 
 import org.b3log.latke.Keys;
+import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.servlet.HTTPRequestContext;
@@ -10,6 +11,7 @@ import org.b3log.latke.servlet.annotation.Before;
 import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
+import org.b3log.symphony.model.Article;
 import org.b3log.symphony.model.Video;
 import org.b3log.symphony.processor.advice.PermissionCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
@@ -93,7 +95,25 @@ public class VideoProcessor {
         dataModel.put(Video.VIDEO,video);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
-    @RequestProcessing(value = "/video/{videoId}",method = HTTPRequestMethod.POST)
+    /**
+     * Removes an article.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+
+    @RequestProcessing(value = "/video/remove-video", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void removeVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final String videoId = request.getParameter(Video.VIDEO_T_ID);
+        videoMgmtService.deleteVideo(videoId);
+
+        response.sendRedirect(Latkes.getServePath() + "/admin/videos");
+    }
+    @RequestProcessing(value = "/video/update/{videoId}",method = HTTPRequestMethod.POST)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
     public void updateUser(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,

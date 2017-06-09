@@ -15,7 +15,7 @@
                 <input name="videoTag" type="text"/>
 
                 <label for="videoRemarks">${videoRemarks}</label>
-                <input name="videoRemarks" type="text"/>
+                <textarea name="videoRemarks" rows="5"></textarea>
 
                 <label for="videoType">${videoType}</label>
                 <select id="videoType" name="videoType">
@@ -24,7 +24,7 @@
                 </select>
 
                 <label for="videoPoint">${videoPoint}</label>
-                <input name="videoPoint" type="text"/>
+                <input name="videoPoint" type="number" value="0"/>
 
                 <label>${videoStatus}</label>
                 <select id="videoStatus" name="videoStatus">

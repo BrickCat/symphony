@@ -220,7 +220,7 @@ public class FileUploadServlet extends HttpServlet {
                         String fileName = fileItem.getName();
                         //将文件保存到指定的路径
                         File file = new File(UPLOAD_DIR,fileName);
-                        map.put("videoUrl",Latkes.getServePath() + "/upload/" + fileName);
+                        map.put("videoUrl","/upload/" + fileName);
 
                         //获取当前用户
                         final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
