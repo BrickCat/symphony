@@ -17,6 +17,7 @@ import org.b3log.symphony.repository.VideoRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +85,12 @@ public class VideoQueryService {
         final JSONArray data = result.optJSONArray(Keys.RESULTS);
         final List<JSONObject> videos = CollectionUtils.<JSONObject>jsonArrayToList(data);
         ret.put(Video.VIDEOS,videos);
+
+        for (int i = 0;i<data.length();i++){
+            final JSONObject video = data.optJSONObject(i);
+            video.put(Video.VIDEO_CREATE_TIME,new Date(video.optLong(Keys.OBJECT_ID)));
+        }
+
         return ret;
     }
 }

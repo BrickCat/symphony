@@ -1159,9 +1159,11 @@ public class AdminProcessor {
         videoFields.put(Video.VIDEO_STATUS,Integer.class);
         //描述
         videoFields.put(Video.VIDEO_REMARKS,String.class);
-
+        //创建日期
+        videoFields.put(Video.VIDEO_CREATE_TIME,String.class);
 
         final JSONObject result = videoQueryService.getVideos(requestJSONObject,videoFields);
+        final List<JSONObject> videos = CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS));
         dataModel.put(Video.VIDEOS, CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS)));
 
         final JSONObject pagination = result.optJSONObject(Pagination.PAGINATION);

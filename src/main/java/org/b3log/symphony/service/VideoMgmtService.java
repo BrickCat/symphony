@@ -89,9 +89,10 @@ public class VideoMgmtService {
         //打赏积分
         video.put(Video.VIDEO_REWARD_POINT,0);
         //创建时间
-        video.put(Video.VIDEO_CREATE_TIME, System.currentTimeMillis());
+        final long currentTimeMillis = System.currentTimeMillis();
+        video.put(Video.VIDEO_CREATE_TIME, currentTimeMillis);
         //更新时间
-        video.put(Video.VIDEO_UPDATE_TIME,System.currentTimeMillis());
+        video.put(Video.VIDEO_UPDATE_TIME, currentTimeMillis);
         //最后观看时间
         video.put(Video.VIDEO_LATEST_CMT_TIME,0L);
         //最后观看人

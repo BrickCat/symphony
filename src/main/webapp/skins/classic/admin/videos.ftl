@@ -33,12 +33,12 @@
                                ${item.videoRemarks}
                                <div class="fn-clear">
                                     <span class="fn-right ft-gray">
-                                        <span class="tooltipped tooltipped-n" aria-label="${articleCountLabel}"><span class="icon-articles"></span></span>
+                                        <span class="tooltipped tooltipped-n" aria-label="${videoCountLabel}"><span class="icon-video"></span></span>
                                     0&nbsp;
                                         <span class="tooltipped tooltipped-n" aria-label="${commentCountLabel}"><span class="icon-cmts"></span></span>
                                     0 &nbsp;
                                         <span class="tooltipped tooltipped-n" aria-label="${createTimeLabel}"><span class="icon-date"></span></span>
-                                    2017-6-6<#-- ${item.userCreateTime?string('yyyy-MM-dd HH:mm')}-->
+                                    ${item.videoCreateTime?string('yyyy-MM-dd HH:mm')}
                                     </span>
                                </div>
                            </div>
