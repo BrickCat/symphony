@@ -4,6 +4,7 @@ import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Logger;
+import org.b3log.latke.model.Pagination;
 import org.b3log.latke.servlet.HTTPRequestContext;
 import org.b3log.latke.servlet.HTTPRequestMethod;
 import org.b3log.latke.servlet.annotation.After;
@@ -11,8 +12,14 @@ import org.b3log.latke.servlet.annotation.Before;
 import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
+import org.b3log.latke.util.CollectionUtils;
+import org.b3log.latke.util.Strings;
 import org.b3log.symphony.model.Article;
+import org.b3log.symphony.model.Common;
+import org.b3log.symphony.model.Tag;
 import org.b3log.symphony.model.Video;
+import org.b3log.symphony.processor.advice.AnonymousViewCheck;
+import org.b3log.symphony.processor.advice.CSRFToken;
 import org.b3log.symphony.processor.advice.PermissionCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
@@ -20,11 +27,14 @@ import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
 import org.b3log.symphony.service.DataModelService;
 import org.b3log.symphony.service.VideoMgmtService;
 import org.b3log.symphony.service.VideoQueryService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -95,6 +105,67 @@ public class VideoProcessor {
         dataModel.put(Video.VIDEO,video);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
+
+    /**
+     * Shows article with the specified article id.
+     *
+     * @param context   the specified context
+     * @param request   the specified request
+     * @param response  the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/video/front/videos", method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
+    public void frontVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        renderer.setTemplateName("/videos.ftl");
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = PAGE_SIZE;
+        final int windowSize = WINDOW_SIZE;
+        final JSONObject requestJSONObject = new JSONObject();
+        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
+        requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
+        final String videoTitle = request.getParameter(Common.VIDEO_TITLE_TAG);
+        if (!Strings.isEmptyOrNull(videoTitle)) {
+            //标题
+            requestJSONObject.put(Tag.TAG_TITLE, videoTitle);
+        }
+        final Map<String, Class<?>> videoFields = new HashMap<>();
+        //TODO 视频缩略图
+        //Id
+        videoFields.put(Keys.OBJECT_ID, String.class);
+        //标题
+        videoFields.put(Video.VIDEO_TITLE, String.class);
+        //状态
+        videoFields.put(Video.VIDEO_STATUS,Integer.class);
+        //描述
+        videoFields.put(Video.VIDEO_REMARKS,String.class);
+        //创建日期
+        videoFields.put(Video.VIDEO_CREATE_TIME,String.class);
+
+        final JSONObject result = videoQueryService.getVideos(requestJSONObject,videoFields);
+        final List<JSONObject> videos = CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS));
+        dataModel.put(Video.VIDEOS, CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS)));
+
+        final JSONObject pagination = result.optJSONObject(Pagination.PAGINATION);
+        final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
+        final JSONArray pageNums = pagination.optJSONArray(Pagination.PAGINATION_PAGE_NUMS);
+        dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.opt(0));
+        dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.opt(pageNums.length() - 1));
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, CollectionUtils.jsonArrayToList(pageNums));
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
     /**
      * Removes an article.
      *

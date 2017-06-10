@@ -225,7 +225,7 @@ public class FileUploadServlet extends HttpServlet {
                         //获取当前用户
                         final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
                         final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
-                        // TODO check video
+
                         final JSONObject video = new JSONObject();
                         //用户ID
                         video.put(Video.VIDEO_AUTHORID,currentUserId);

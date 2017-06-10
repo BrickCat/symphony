@@ -21,7 +21,7 @@
                            <div class="fn-flex-1">
                                <h2>
                                    <#-- 标题 -->
-                                   <a href="${servePath}/video/${item.oId}">${item.videoTitle}</a> •
+                                   <a href="${servePath}/video/front/${item.oId}">${item.videoTitle}</a> •
                                    <#-- 修改 -->
                                    <a href="${servePath}/video/${item.oId}" class="fn-right tooltipped tooltipped-w ft-a-title" aria-label="${editLabel}"><span class="icon-edit"></span></a> &nbsp;
                                    <#if item.videoStatus == 0>

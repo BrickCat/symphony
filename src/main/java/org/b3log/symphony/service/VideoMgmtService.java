@@ -168,7 +168,7 @@ public class VideoMgmtService {
                 return;
             }
             
-            File file = new File(Symphonys.get("upload.video.dir")+video.optString(Video.VIDEO_URL));
+            File file = new File(System.getProperty( "user.dir" )+video.optString(Video.VIDEO_URL));
             if(file.exists()){
                 if(forceDelete(file)){
                    videoRepository.remove(videoId);
