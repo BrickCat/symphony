@@ -103,9 +103,6 @@
         </div>
         <#include "footer.ftl">
         <script src="${staticServePath}/js/lib/waterfall/js/jquery-1.11.0.min.js" type="text/javascript"></script>
-        <script>
-            window.jQuery || document.write('<script src="${staticServePath}/js/lib/waterfall/js/jquery-1.11.0.min.js"><\/script>')
-        </script>
         <script src="${staticServePath}/js/lib/waterfall/js/pinterest_grid.js"></script>
         <script type="text/javascript">
             $(function() {
@@ -118,7 +115,7 @@
                 });
 
             });
-            var isScroll = false;
+            var isScroll = true;
             var p = 1;
             window.onload = function(){
                 $.ajax({
@@ -141,36 +138,33 @@
                     }
                 });
             }
-            var waterFull = '';
             window.onscroll = function getMore(){
-                //下面这句主要是获取网页的总高度，主要是考虑兼容性所以把Ie支持的documentElement也写了，这个方法至少支持IE8
-                var htmlHeight=document.body.scrollHeight||document.documentElement.scrollHeight;
-                //clientHeight是网页在浏览器中的可视高度，
-                var clientHeight=document.body.clientHeight||document.documentElement.clientHeight;
-                //scrollTop是浏览器滚动条的top位置，
-                var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
-                //通过判断滚动条的top位置与可视网页之和与整个网页的高度是否相等来决定是否加载内容；
-                if((scrollTop+clientHeight)==htmlHeight) {
-                    $.ajax({
-                        type: "POST",
-                        url: Label.servePath + '/video/front/videos?p=' + p,
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(textStatus);
-                        },
-                        success: function (result, textStatus) {
-                            var html = '';
-                            for (var i = 0; i < result.videos.length; i++) {
-                                html += '<article class="white-panel">'
-                                        + '<img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">'
-                                        + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
-                                        + '<p>'+result.videos[i].videoRemarks+'</p>'
-                                        + '</article>';
+                if(isScroll){
+                // 当滚动到最底部以上100像素时， 加载新内容
+                    if($(document).height() - $(this).scrollTop() - $(this).height()<25) {
+                        $.ajax({
+                            type: "POST",
+                            url: Label.servePath + '/video/front/videos?p=' + p,
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            },
+                            success: function (result, textStatus) {
+                                var html = '';
+                                for (var i = 0; i < result.videos.length; i++) {
+                                    html += '<article class="white-panel">'
+                                            + '<img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">'
+                                            + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
+                                            + '<p>'+result.videos[i].videoRemarks+'</p>'
+                                            + '</article>';
+                                }
+                                $("#gallery-wrapper").append(html);
+                                p++;
+                                if(result.videos.length == 0){
+                                    isScroll=false;
+                                }
                             }
-                            waterFull+= html;
-                            $("#gallery-wrapper").html(waterFull);
-                            p++;
-                        }
-                    });
+                        });
+                    }
                 }
             }
         </script>

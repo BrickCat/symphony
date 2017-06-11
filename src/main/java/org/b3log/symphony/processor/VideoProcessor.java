@@ -232,10 +232,10 @@ public class VideoProcessor {
             pageNumStr = "1";
         }
         final int pageNum = Integer.valueOf(pageNumStr);
-        final int pageSize = PAGE_SIZE * pageNum;
+        final int pageSize = PAGE_SIZE;
         final int windowSize = WINDOW_SIZE;
         final JSONObject requestJSONObject = new JSONObject();
-        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, 1);
+        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
         requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
         requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
         final String videoTitle = request.getParameter(Common.VIDEO_TITLE_TAG);
