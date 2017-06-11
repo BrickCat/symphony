@@ -1,9 +1,9 @@
 <#include "macro-admin.ftl">
-<@admin "video">
+<@admin "addVideo">
 <div class="content">
     <div class="module">
         <div class="module-header">
-            <h2>${videoAdd}</h2>
+            <h2>${videoAddLabel}</h2>
         </div>
 
         <div class="module-panel form fn-clear">

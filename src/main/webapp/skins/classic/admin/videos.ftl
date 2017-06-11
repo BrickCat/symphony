@@ -7,7 +7,7 @@
             <input name="videoTitileOrVideoTag" type="text" placeholder="${videoURl}/${videoTag}"/>
             <button type="submit" class="green">${searchLabel}</button> &nbsp;
             <#if permissions["adminAddVideo"].permissionGrant>
-                <button type="button" class="btn red" onclick="window.location = '${servePath}/admin/add-video'">${videoAdd}</button>
+                <button type="button" class="btn red" onclick="window.location = '${servePath}/admin/add-video'">${videoAddLabel}</button>
             </#if>
         </form>
         <#if videos ??>

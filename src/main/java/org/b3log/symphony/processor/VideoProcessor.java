@@ -1,5 +1,6 @@
 package org.b3log.symphony.processor;
 
+import org.apache.commons.lang.StringUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.inject.Inject;
@@ -122,47 +123,7 @@ public class VideoProcessor {
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("/videos.ftl");
-        String pageNumStr = request.getParameter("p");
-        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
-            pageNumStr = "1";
-        }
-        final int pageNum = Integer.valueOf(pageNumStr);
-        final int pageSize = PAGE_SIZE;
-        final int windowSize = WINDOW_SIZE;
-        final JSONObject requestJSONObject = new JSONObject();
-        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
-        requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
-        requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
-        final String videoTitle = request.getParameter(Common.VIDEO_TITLE_TAG);
-        if (!Strings.isEmptyOrNull(videoTitle)) {
-            //标题
-            requestJSONObject.put(Tag.TAG_TITLE, videoTitle);
-        }
-        final Map<String, Class<?>> videoFields = new HashMap<>();
-        //TODO 视频缩略图
-        //Id
-        videoFields.put(Keys.OBJECT_ID, String.class);
-        //标题
-        videoFields.put(Video.VIDEO_TITLE, String.class);
-        //状态
-        videoFields.put(Video.VIDEO_STATUS,Integer.class);
-        //描述
-        videoFields.put(Video.VIDEO_REMARKS,String.class);
-        //创建日期
-        videoFields.put(Video.VIDEO_CREATE_TIME,String.class);
 
-        final JSONObject result = videoQueryService.getVideos(requestJSONObject,videoFields);
-        final List<JSONObject> videos = CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS));
-        dataModel.put(Video.VIDEOS, CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS)));
-
-        final JSONObject pagination = result.optJSONObject(Pagination.PAGINATION);
-        final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
-        final JSONArray pageNums = pagination.optJSONArray(Pagination.PAGINATION_PAGE_NUMS);
-        dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.opt(0));
-        dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.opt(pageNums.length() - 1));
-        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
-        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
-        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, CollectionUtils.jsonArrayToList(pageNums));
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
@@ -214,6 +175,7 @@ public class VideoProcessor {
 
         dataModel.put(Video.VIDEO,video);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
+        response.sendRedirect(Latkes.getServePath() + "/admin/videos");
     }
 
     /**
@@ -223,7 +185,7 @@ public class VideoProcessor {
      * @param response
      * @throws Exception
      */
-    @RequestProcessing(value = "/video/check", method = HTTPRequestMethod.GET)
+    @RequestProcessing(value = "/video/front/check", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
     public void showCheckVideoInfo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response
@@ -251,5 +213,52 @@ public class VideoProcessor {
             dataModel.put(Keys.MSG,"( -___- )b上传失败了~呜呜呜~");
         }
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+    /**
+     * Lists mans.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/video/front/videos", method = HTTPRequestMethod.POST)
+    public void listMans(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
+            throws Exception {
+        context.renderJSON().renderTrueResult();
+
+        String pageNumStr = request.getParameter("p");
+        if (StringUtils.isBlank(pageNumStr)) {
+            pageNumStr = "1";
+        }
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = PAGE_SIZE * pageNum;
+        final int windowSize = WINDOW_SIZE;
+        final JSONObject requestJSONObject = new JSONObject();
+        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, 1);
+        requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
+        requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
+        final String videoTitle = request.getParameter(Common.VIDEO_TITLE_TAG);
+        if (!Strings.isEmptyOrNull(videoTitle)) {
+            //标题
+            requestJSONObject.put(Tag.TAG_TITLE, videoTitle);
+        }
+        final Map<String, Class<?>> videoFields = new HashMap<>();
+        //TODO 视频缩略图
+        //Id
+        videoFields.put(Keys.OBJECT_ID, String.class);
+        //标题
+        videoFields.put(Video.VIDEO_TITLE, String.class);
+        //状态
+        videoFields.put(Video.VIDEO_STATUS,Integer.class);
+        //描述
+        videoFields.put(Video.VIDEO_REMARKS,String.class);
+        //创建日期
+        videoFields.put(Video.VIDEO_CREATE_TIME,String.class);
+
+        final JSONObject result = videoQueryService.getVideos(requestJSONObject,videoFields);
+        final List<JSONObject> videos = CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS));
+
+        context.renderJSONValue(Video.VIDEOS, videos);
     }
 }

@@ -234,7 +234,7 @@ public class FileUploadServlet extends HttpServlet {
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_TITLE).toString())){
                             video.put(Video.VIDEO_TITLE,map.get(Video.VIDEO_TITLE));
                         }else{
-                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_TITLE);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_TITLE);
                             return;
                         }
 
@@ -242,7 +242,7 @@ public class FileUploadServlet extends HttpServlet {
                         if (StringUtils.isNotBlank(map.get(Video.VIDEO_TAG).toString())){
                             video.put(Video.VIDEO_TAG,map.get(Video.VIDEO_TAG));
                         }else{
-                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_TAG);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_TAG);
                             return;
                         }
 
@@ -250,7 +250,7 @@ public class FileUploadServlet extends HttpServlet {
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_REMARKS).toString())){
                             video.put(Video.VIDEO_REMARKS,map.get(Video.VIDEO_REMARKS));
                         }else{
-                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_REMARKS);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_REMARKS);
                             return;
                         }
 
@@ -266,12 +266,12 @@ public class FileUploadServlet extends HttpServlet {
                                 if(!"".equals(map.get(Video.VIDEO_TYPE).toString())){
                                     video.put(Video.VIDEO_POINT,map.get(Video.VIDEO_POINT));
                                 }else{
-                                    resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_POINT);
+                                    resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_POINT);
                                     return;
                                 }
                             }
                         }else{
-                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_TYPE);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_TYPE);
                             return;
                         }
 
@@ -279,12 +279,12 @@ public class FileUploadServlet extends HttpServlet {
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_STATUS).toString())){
                             video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
                         }else{
-                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+Video.VIDEO_STATUS);
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_STATUS);
                             return;
                         }
 
                         if(size <= 0){
-                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+"videoSize");
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"videoSize");
                             return;
                         }
 
@@ -300,9 +300,9 @@ public class FileUploadServlet extends HttpServlet {
                         if (null!=ret&&!"".equals(ret)){
                             fileItem.write(file);
                             //跳转到视频页面
-                            resp.sendRedirect(Latkes.getServePath()+"/video?id="+ret);
+                            resp.sendRedirect(Latkes.getServePath()+"/admin/videos");
                         }else{
-                            resp.sendRedirect(Latkes.getServePath() + "/video/check?type="+"videoErrorInfo");
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"videoErrorInfo");
                             return;
                         }
 

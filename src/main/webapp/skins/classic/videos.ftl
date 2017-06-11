@@ -55,88 +55,15 @@
             <div class="wrapper">
                 <div class="content">
                     <div class="module">
-                        <div class="module-header">  
+                        <div class="module-header">
                             <h2>
                                 ${trendVideosLabel}
                             </h2>
                         </div>
                         <div class="module-panel list">
                             <section id="gallery-wrapper">
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">
-                                    <h1><a href="#">Title 1</a></h1>
-                                    <p>Description 1</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/2.jpg" class="thumb">
-                                    <h1><a href="#">Title 2</a></h1>
-                                    <p>Description 2</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/3.jpg" class="thumb">
-                                    <h1><a href="#">Title 3</a></h1>
-                                    <p>Description 3</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/4.jpg" class="thumb">
-                                    <h1><a href="#">Title 4</a></h1>
-                                    <p>Description 4</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/5.jpg" class="thumb">
-                                    <h1><a href="#">Title 5</a></h1>
-                                    <p>Description 5</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/6.jpg" class="thumb">
-                                    <h1><a href="#">Title 6</a></h1>
-                                    <p>Description 6</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/7.jpg" class="thumb">
-                                    <h1><a href="#">Title 7</a></h1>
-                                    <p>Description 7</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/8.jpg" class="thumb">
-                                    <h1><a href="#">Title 8</a></h1>
-                                    <p>Description 8</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/9.jpg" class="thumb">
-                                    <h1><a href="#">Title 9</a></h1>
-                                    <p>Description 9</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/10.jpg" class="thumb">
-                                    <h1><a href="#">Title 10</a></h1>
-                                    <p>Description 10</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/11.jpg" class="thumb">
-                                    <h1><a href="#">Title 11</a></h1>
-                                    <p>Description 11</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/12.jpg" class="thumb">
-                                    <h1><a href="#">Title 12</a></h1>
-                                    <p>Description 12</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/13.jpg" class="thumb">
-                                    <h1><a href="#">Title 13</a></h1>
-                                    <p>Description 13</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/14.jpg" class="thumb">
-                                    <h1><a href="#">Title 14</a></h1>
-                                    <p>Description 14</p>
-                                </article>
-                                <article class="white-panel">
-                                    <img src="${staticServePath}/js/lib/waterfall/img/15.jpg" class="thumb">
-                                    <h1><a href="#">Title 15</a></h1>
-                                    <p>Description 15</p>
-                                </article>
+
+
                             </section>
                                <#-- <#list videos as video>
                                 <li class="fn-flex">
@@ -155,30 +82,20 @@
                                     </div>
                                 </li>
                                 </#list>-->
-                            </ul>
+
                         </div>
                     </div>
                 </div>
                 <div class="side">
                     <#include 'common/person-info.ftl'/>
                     <div class="module">
-                        <div class="module-header">  
+                        <div class="module-header">
                             <h2>
                                 ${coldVideosLabel}
                             </h2>
                         </div>
-                        <div class="module-panel">
-                            <ul class="module-list">
-                                <#--<#list coldTags as tag>
-                                <li>
-                                    <#if tag.tagIconPath!="">
-                                    <div class="avatar-small" style="background-image: url('${staticServePath}/images/tags/${tag.tagIconPath}')" alt="${tag.tagTitle}"></div>
-                                    </#if>
-                                    <a class="ft-a-title" rel="tag" href="${servePath}/tag/${tag.tagURI}">${tag.tagTitle}</a>
-                                    <div class="content-reset">${tag.tagDescription}</div>
-                                </li>
-                                </#list>-->
-                            </ul>
+                        <div class="module-panel list">
+
                         </div>
                     </div>
                 </div>
@@ -201,6 +118,61 @@
                 });
 
             });
+            var isScroll = false;
+            var p = 1;
+            window.onload = function(){
+                $.ajax({
+                    type: "POST",
+                    url: Label.servePath + '/video/front/videos?p=' + 1,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus);
+                    },
+                    success: function (result, textStatus) {
+                        var html = '';
+                        for (var i = 0; i < result.videos.length; i++) {
+                            html += '<article class="white-panel">'
+                                    + '<img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">'
+                                    + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
+                                    + '<p>'+result.videos[i].videoRemarks+'</p>'
+                                    + '</article>';
+                        }
+                        $("#gallery-wrapper").html(html);
+                        p++;
+                    }
+                });
+            }
+            var waterFull = '';
+            window.onscroll = function getMore(){
+                //下面这句主要是获取网页的总高度，主要是考虑兼容性所以把Ie支持的documentElement也写了，这个方法至少支持IE8
+                var htmlHeight=document.body.scrollHeight||document.documentElement.scrollHeight;
+                //clientHeight是网页在浏览器中的可视高度，
+                var clientHeight=document.body.clientHeight||document.documentElement.clientHeight;
+                //scrollTop是浏览器滚动条的top位置，
+                var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
+                //通过判断滚动条的top位置与可视网页之和与整个网页的高度是否相等来决定是否加载内容；
+                if((scrollTop+clientHeight)==htmlHeight) {
+                    $.ajax({
+                        type: "POST",
+                        url: Label.servePath + '/video/front/videos?p=' + p,
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        },
+                        success: function (result, textStatus) {
+                            var html = '';
+                            for (var i = 0; i < result.videos.length; i++) {
+                                html += '<article class="white-panel">'
+                                        + '<img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">'
+                                        + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
+                                        + '<p>'+result.videos[i].videoRemarks+'</p>'
+                                        + '</article>';
+                            }
+                            waterFull+= html;
+                            $("#gallery-wrapper").html(waterFull);
+                            p++;
+                        }
+                    });
+                }
+            }
         </script>
     </body>
 </html>
