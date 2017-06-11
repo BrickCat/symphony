@@ -27,7 +27,7 @@ public class TODO {
      */
     //TODO 视频重新上传，先老视频删除再上传
 
-    //TODO 上传视频空间限制，积分购买
+    //TODO 上传视频空间限制，积分购买（增加字段videoSize,根据size判断）user表增加uploadSize字段
 
     //TODO 视频修改完善
 
