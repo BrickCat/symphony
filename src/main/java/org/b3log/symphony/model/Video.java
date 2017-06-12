@@ -57,6 +57,14 @@ public final class Video {
     /**
      * Video create time
      */
+    public static final String VIDEO_SIZE = "videoSize";
+    /**
+     * Video create time
+     */
+    public static final String VIDEO_IMAGE_PATH = "videoImgPath";
+    /**
+     * Video create time
+     */
     public static final String VIDEO_CREATE_TIME = "videoCreateTime";
     /**
      * Video Update Time

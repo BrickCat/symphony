@@ -133,6 +133,12 @@ public class UserMgmtService {
     private NotificationMgmtService notificationMgmtService;
 
     /**
+     * vidoesize service
+     */
+    @Inject
+    private VideoSizeMgmtService videoSizeMgmtService;
+
+    /**
      * Tries to login with cookie.
      *
      * @param request  the specified request
@@ -576,7 +582,10 @@ public class UserMgmtService {
             }
 
             transaction.commit();
-
+            final JSONObject videoSize = new JSONObject();
+            videoSize.put(VideoSize.USER_ID,ret);
+            videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
+            videoSizeMgmtService.addVideoSize("",videoSize);
             if (UserExt.USER_STATUS_C_VALID == status) {
                 // Point
                 pointtransferMgmtService.transfer(Pointtransfer.ID_C_SYS, ret,

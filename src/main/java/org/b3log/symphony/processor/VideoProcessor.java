@@ -15,10 +15,7 @@ import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
 import org.b3log.latke.util.CollectionUtils;
 import org.b3log.latke.util.Strings;
-import org.b3log.symphony.model.Article;
-import org.b3log.symphony.model.Common;
-import org.b3log.symphony.model.Tag;
-import org.b3log.symphony.model.Video;
+import org.b3log.symphony.model.*;
 import org.b3log.symphony.processor.advice.AnonymousViewCheck;
 import org.b3log.symphony.processor.advice.CSRFToken;
 import org.b3log.symphony.processor.advice.PermissionCheck;
@@ -211,6 +208,8 @@ public class VideoProcessor {
             dataModel.put(Keys.MSG,"你竟然< ( _ _ ) >不上传视频 啊~");
         }else if ("videoErrorInfo".equals(type)){
             dataModel.put(Keys.MSG,"( -___- )b上传失败了~呜呜呜~");
+        }else if("userMaxSize".equals(VideoSize.USER_MAX_VIDEO_SIZE)){
+            dataModel.put(Keys.MSG,"( -___- )b上传空间用完了 (≥◇≤)积分可以购买哟~");
         }
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }

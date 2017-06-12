@@ -1673,16 +1673,41 @@
                     "length":11
                 },{
                     "name":"videoRemarks",
-                    "type":"int",
+                    "type":"String",
                     "length":255
                 },{
                     "name":"videoPoint",
+                    "type":"int",
+                    "length":11
+                },{
+                    "name":"videoImgPath",
+                    "type":"String",
+                    "length":255
+                },{
+                    "name":"videoSize",
                     "type":"int",
                     "length":11
                 }
 
             ]
 
+        },{
+            "name":"videoSize",
+            "keys":[
+                {
+                    "name": "oId",
+                    "type": "String",
+                    "length": 19
+                },{
+                    "name":"userId",
+                    "type":"String",
+                    "length":19
+                },{
+                    "name":"userMaxSize",
+                    "type":"int",
+                    "length":11
+                }
+            ]
         }
     ]
 }

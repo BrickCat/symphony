@@ -91,6 +91,10 @@ public class VideoMgmtService {
         video.put(Video.VIDEO_REWARD_CONTETN,requestJSONObject.optString(Video.VIDEO_REWARD_CONTETN));
         //打赏积分
         video.put(Video.VIDEO_REWARD_POINT,0);
+        //视频缩略图地址
+        video.put(Video.VIDEO_IMAGE_PATH,requestJSONObject.optString(Video.VIDEO_IMAGE_PATH));
+        //视频大小
+        video.put(Video.VIDEO_SIZE,requestJSONObject.optString(Video.VIDEO_SIZE));
         //创建时间
         final long currentTimeMillis = System.currentTimeMillis();
         video.put(Video.VIDEO_CREATE_TIME, currentTimeMillis);
@@ -110,6 +114,10 @@ public class VideoMgmtService {
         video.put(Video.VIDEO_WATCH_COUNT,0);
         try {
             if(!"".equals(id)){
+                final JSONObject oldVideo = videoRepository.get(id);
+                if(null == oldVideo){
+                    throw new ServiceException("更新video失败");
+                }
                 videoRepository.update(id,video);
             }else{
                 //生成ID

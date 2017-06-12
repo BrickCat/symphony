@@ -5,12 +5,7 @@ import java.util.List;
 /**
  * Created by Seven on 17/5/14.
  */
-public class StringUtils {
-
-    public static boolean isEmpty(String str)
-  {
-     return (str == null) || (str.trim().length() == 0);
-   }
+public class VideoUtils {
     /**
      * 获得视频缩略图，获取成功返回true，获取失败返回false
      * @param ffmpegPath  是ffmpeg.exe存放的路径
