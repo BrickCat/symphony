@@ -10,7 +10,9 @@ import org.b3log.latke.repository.Transaction;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.latke.util.Ids;
+import org.b3log.symphony.model.UserExt;
 import org.b3log.symphony.model.VideoSize;
+import org.b3log.symphony.repository.UserRepository;
 import org.b3log.symphony.repository.VideoSizeRepository;
 import org.json.JSONObject;
 
@@ -29,7 +31,11 @@ public class VideoSizeMgmtService {
 
     @Inject
     private VideoSizeRepository videoSizeRepository;
-
+    /**
+     * User repository.
+     */
+    @Inject
+    private UserRepository userRepository;
 
     public  synchronized String addVideoSize(final String id,final JSONObject requestJSONObject) throws ServiceException {
         final Transaction transaction = videoSizeRepository.beginTransaction();
