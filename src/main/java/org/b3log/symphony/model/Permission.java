@@ -430,6 +430,10 @@ public final class Permission {
      */
     public static final String PERMISSION_ID_C_MENU_USER_VIDEO_ERROR="userWatchVideoError";
 
+    /**
+     * Id - user - exchange - size
+     */
+    public static final String PERMISSION_ID_C_MENU_USER_EXCHANGE_SIZE="userExchangeSize";
     // Category constants
     /**
      * Category - common function.

@@ -95,5 +95,24 @@ public class VideoSizeProcessor {
         response.sendRedirect(Latkes.getServePath() + "/admin/users");
     }
 
+    @RequestProcessing(value = "/video/update/{userId}/exchange-size", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void exchangeSize(final String userId,final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        LOGGER.info(userId);
+        final JSONObject videoSize = new JSONObject();
+        final String size = request.getParameter(VideoSize.USER_MAX_VIDEO_SIZE);
+        videoSize.put(VideoSize.USER_ID, userId);
+        final Map<String, Class<?>> videoSizeFields = new HashMap<>();
+        videoSizeFields.put(Keys.OBJECT_ID,String.class);
+        videoSizeFields.put(VideoSize.USER_ID,String.class);
+        videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
+        final JSONObject result = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
+        final List<JSONObject> list = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(VideoSize.VIDEO_SIZE));
+        final JSONObject currVideoSize = list.get(0);
+        currVideoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
+        videoSizeMgmtService.addVideoSize(currVideoSize.optString(Keys.OBJECT_ID),currVideoSize);
+        response.sendRedirect(Latkes.getServePath() + "/admin/users");
+    }
 
 }
