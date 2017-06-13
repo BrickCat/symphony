@@ -96,22 +96,15 @@ public class VideoSizeProcessor {
     @Inject
     private NotificationMgmtService notificationMgmtService;
 
-    @RequestProcessing(value = "/video/update/{userId}", method = HTTPRequestMethod.POST)
+    @RequestProcessing(value = "/video/update/{userId}/init-size", method = HTTPRequestMethod.POST)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
-    public void updateUser(final String userId,final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public void initSize(final String userId,final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         LOGGER.info(userId);
         final JSONObject videoSize = new JSONObject();
         videoSize.put(VideoSize.USER_ID, userId);
-        final Map<String, Class<?>> videoSizeFields = new HashMap<>();
-        videoSizeFields.put(Keys.OBJECT_ID,String.class);
-        videoSizeFields.put(VideoSize.USER_ID,String.class);
-        videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
-        final JSONObject result = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
-        final List<JSONObject> list = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(VideoSize.VIDEO_SIZE));
-        final JSONObject currVideoSize = list.get(0);
-        currVideoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
-        videoSizeMgmtService.addVideoSize(currVideoSize.optString(Keys.OBJECT_ID),currVideoSize);
+        videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
+        videoSizeMgmtService.addVideoSize("",videoSize);
         response.sendRedirect(Latkes.getServePath() + "/admin/users");
     }
 
@@ -129,8 +122,14 @@ public class VideoSizeProcessor {
             videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
             final JSONObject result = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
             final List<JSONObject> list = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(VideoSize.VIDEO_SIZE));
+            if(list.size() == 0){
+                videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
+                videoSizeMgmtService.addVideoSize("",videoSize);
+            }
+            final JSONObject cuerrresult = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
+            final List<JSONObject> currrlist = CollectionUtils.<JSONObject>jsonArrayToList(cuerrresult.optJSONArray(VideoSize.VIDEO_SIZE));
             //获取此UserId的存储空间数据
-            final JSONObject currVideoSize = list.get(0);
+            final JSONObject currVideoSize = currrlist.get(0);
             //根据选择的空间赋值扣除的积分
             int point = 0;
             switch (Integer.valueOf(size)){
@@ -163,7 +162,7 @@ public class VideoSizeProcessor {
             final JSONObject user = userQueryService.getUser(userId);
             final int currentPoint = user.optInt(UserExt.USER_POINT);
 
-            if (currentPoint - point < Symphonys.getInt("pointExchangeMin")) {
+            if (currentPoint - point < Symphonys.getInt("videoSizeExchangeMin")) {
                 final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
                 context.setRenderer(renderer);
                 renderer.setTemplateName("admin/error.ftl");
@@ -177,7 +176,7 @@ public class VideoSizeProcessor {
             final String memo = String.valueOf(Math.floor(point / (double) Symphonys.getInt("pointExchangeUnit")));
 
             final String transferId = pointtransferMgmtService.transfer(userId, Pointtransfer.ID_C_SYS,
-                    Pointtransfer.TRANSFER_TYPE_C_EXCHANGE, point, memo, System.currentTimeMillis());
+                    Pointtransfer.TRANSFER_TYPE_C_SIZE, point, memo, System.currentTimeMillis());
 
             final JSONObject notification = new JSONObject();
             notification.put(Notification.NOTIFICATION_USER_ID, userId);
@@ -187,7 +186,7 @@ public class VideoSizeProcessor {
             notificationMgmtService.addPointExchangeNotification(notification);
             int currSize = currVideoSize.getInt(VideoSize.USER_MAX_VIDEO_SIZE);
             //修改空间大小
-            currVideoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.valueOf(size+currSize));
+            currVideoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.valueOf(size)+currSize);
             videoSizeMgmtService.addVideoSize(currVideoSize.optString(Keys.OBJECT_ID), currVideoSize);
 
         }catch (final Exception e) {

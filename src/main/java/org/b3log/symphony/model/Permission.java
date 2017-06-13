@@ -434,6 +434,11 @@ public final class Permission {
      * Id - user - exchange - size
      */
     public static final String PERMISSION_ID_C_MENU_USER_EXCHANGE_SIZE="userExchangeSize";
+
+    /**
+     * Id - user - exchange - size
+     */
+    public static final String PERMISSION_ID_C_MENU_USER_INIT_SIZE="userInitSize";
     // Category constants
     /**
      * Category - common function.

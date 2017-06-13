@@ -210,6 +210,10 @@ public class VideoProcessor {
             dataModel.put(Keys.MSG,"( -___- )b上传失败了~呜呜呜~");
         }else if("userMaxSize".equals(VideoSize.USER_MAX_VIDEO_SIZE)){
             dataModel.put(Keys.MSG,"( -___- )b上传空间用完了 (≥◇≤)积分可以购买哟~");
+        }else if ("format".equals(type)){
+            dataModel.put(Keys.MSG,"..(≥◇≤)..格式出错了哟~");
+        }else{
+            dataModel.put(Keys.MSG,"< ( _ _ ) >就剩"+type+"M这么点儿存储空间了，快去积分兑换吧~");
         }
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }

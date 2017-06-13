@@ -571,6 +571,36 @@ public class PointtransferQueryService {
                         desTemplate = desTemplate.replace("{article}", perfectArticleLink);
 
                         break;
+                    case Pointtransfer.TRANSFER_TYPE_C_SIZE:
+                        String size = "";
+                        switch (Integer.valueOf(record.optString(Pointtransfer.SUM))){
+                            case 100:
+                                size = "100M";
+                                break;
+                            case 240:
+                                size = "300M";
+                                break;
+                            case 380:
+                                size = "500M";
+                                break;
+                            case 560:
+                                size = "800M";
+                                break;
+                            case 780:
+                                size = "1G";
+                                break;
+                            case 1800:
+                                size = "3G";
+                                break;
+                            case 2800:
+                                size = "5G";
+                                break;
+                            default:
+                                break;
+                        }
+                        desTemplate = desTemplate.replace("{size}", size);
+
+                        break;
                     default:
                         LOGGER.warn("Invalid point type [" + type + "]");
                 }

@@ -34,6 +34,10 @@
                 <label class="btn red">
                     ${videoURl}<input type="file" name="file">
                 </label>
+                <label >
+                    <p class="ft-red" style="margin-top: 5px;">目前只支持MP4格式的视频</p>
+                </label>
+
                 <br/><br/><br/>
                 <button type="submit" class="green fn-right">${submitLabel}</button>
             </form>

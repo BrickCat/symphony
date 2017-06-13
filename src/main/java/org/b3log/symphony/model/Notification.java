@@ -202,6 +202,11 @@ public final class Notification {
      */
     public static final int DATA_TYPE_C_ARTICLE_VOTE_DOWN = 28;
 
+    /**
+     * Data type - article vote down.
+     */
+    public static final int DATA_TYPE_POINT_SIZE = 29;
+
     //// Transient ////
     /**
      * Key of unread notification count.

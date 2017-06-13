@@ -32,6 +32,7 @@ import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.LatkeBeanManager;
 import org.b3log.latke.ioc.Lifecycle;
+import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.model.User;
@@ -42,9 +43,7 @@ import org.b3log.symphony.SymphonyServletListener;
 import org.b3log.symphony.model.Tag;
 import org.b3log.symphony.model.Video;
 import org.b3log.symphony.model.VideoSize;
-import org.b3log.symphony.service.DataModelService;
-import org.b3log.symphony.service.VideoMgmtService;
-import org.b3log.symphony.service.VideoSizeQueryService;
+import org.b3log.symphony.service.*;
 import org.b3log.symphony.util.Symphonys;
 import org.b3log.symphony.util.VideoUtils;
 import org.json.JSONObject;
@@ -111,6 +110,16 @@ public class FileUploadServlet extends HttpServlet {
      * videosize query service
      */
     final VideoSizeQueryService videoSizeQueryService = beanManager.getReference(VideoSizeQueryService.class);
+
+    /**
+     * videosize Mgmt service
+     */
+    final VideoSizeMgmtService videoSizeMgmtService = beanManager.getReference(VideoSizeMgmtService.class);
+
+    /**
+     * Video model service
+     */
+    final VideoQueryService videoQueryService = beanManager.getReference(VideoQueryService.class);
 
     static {
         if (!QN_ENABLED) {
@@ -228,8 +237,7 @@ public class FileUploadServlet extends HttpServlet {
                         Long size = fileItem.getSize();
                         // 获得文件名
                         String fileName = fileItem.getName();
-                        //将文件保存到指定的路径
-                        File file = new File(UPLOAD_DIR,fileName);
+
                         map.put("videoUrl","/upload/" + fileName);
 
                         //获取当前用户
@@ -239,7 +247,12 @@ public class FileUploadServlet extends HttpServlet {
                         final JSONObject video = new JSONObject();
                         //用户ID
                         video.put(Video.VIDEO_AUTHORID,currentUserId);
-
+                        //格式
+                        String suffix = StringUtils.substringAfterLast(fileName, ".");
+                        if(!"mp4".equals(suffix)){
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"format");
+                            return;
+                        }
                         //videoTitle
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_TITLE).toString())){
                             video.put(Video.VIDEO_TITLE,map.get(Video.VIDEO_TITLE));
@@ -292,13 +305,34 @@ public class FileUploadServlet extends HttpServlet {
                         videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
                         final JSONObject result = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
                         final List<JSONObject> list = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(VideoSize.VIDEO_SIZE));
-                        final JSONObject currVideoSize = list.get(0);
-                        if(null != null){
-                            if(size>currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)){
-                                resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+VideoSize.USER_MAX_VIDEO_SIZE);
-                                return;
+                        if(list.size() == 0){
+                            videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
+                            videoSizeMgmtService.addVideoSize("",videoSize);
+                        }else{
+                            final JSONObject currresult = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
+                            final List<JSONObject> currrlist = CollectionUtils.<JSONObject>jsonArrayToList(currresult.optJSONArray(VideoSize.VIDEO_SIZE));
+                            final JSONObject currVideoSize = list.get(0);
+                            //获取此用户的所有视频大小
+                            final JSONObject requestJSONObject = new JSONObject();
+                            requestJSONObject.put(Video.VIDEO_AUTHORID, currentUserId);
+                            final Map<String, Class<?>> videoFields = new HashMap<>();
+                            videoFields.put(Video.VIDEO_SIZE,Integer.class);
+                            final JSONObject videoResult = videoQueryService.getVideos(requestJSONObject,videoFields);
+                            final List<JSONObject> videos = CollectionUtils.jsonArrayToList(videoResult.optJSONArray(Video.VIDEOS));
+                            int allSize = 0;
+                            for (JSONObject v : videos) {
+                                allSize+=v.optInt(Video.VIDEO_SIZE);
+                            }
+                            if(allSize+size/1024000 > currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)){
+                                if(size>currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)){
+                                    resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+(currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)-allSize));
+                                    return;
+                                }
                             }
                         }
+
+
+
 
                         //videoStatus
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_STATUS).toString())){
@@ -312,7 +346,7 @@ public class FileUploadServlet extends HttpServlet {
                             resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"videoSize");
                             return;
                         }else{
-                            video.put(Video.VIDEO_SIZE,size/1024);
+                            video.put(Video.VIDEO_SIZE,size/1024000);
                         }
                         //imagePath
                         final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -329,6 +363,8 @@ public class FileUploadServlet extends HttpServlet {
                         }
                         //信息保存成功则上传文件
                         if (null!=ret&&!"".equals(ret)){
+                            //将文件保存到指定的路径
+                            File file = new File(UPLOAD_DIR,fileName);
                             fileItem.write(file);
                             if(VideoUtils.getVideoImage(Symphonys.get("video.ffmpeg.path"),System.getProperty( "user.dir" )+"/upload/" + fileName,imagePath)){
                                 //跳转到视频页面

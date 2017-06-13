@@ -541,6 +541,41 @@ public class NotificationQueryService {
                         desTemplate = desTemplate.replace("{point}", String.valueOf(sum6));
 
                         break;
+                    case Notification.DATA_TYPE_POINT_SIZE:
+                        desTemplate = langPropsService.get("notificationSizeExchangeLabel");
+
+                        final JSONObject transfer9 = pointtransferRepository.get(dataId);
+                        final int sum9 = transfer9.optInt(Pointtransfer.SUM);
+                        String size = "";
+                        switch (sum9){
+                            case 100:
+                                size = "100M";
+                                break;
+                            case 240:
+                                size = "300M";
+                                break;
+                            case 380:
+                                size = "500M";
+                                break;
+                            case 560:
+                                size = "800M";
+                                break;
+                            case 780:
+                                size = "1G";
+                                break;
+                            case 1800:
+                                size = "3G";
+                                break;
+                            case 2800:
+                                size = "5G";
+                                break;
+                            default:
+                                break;
+                        }
+                        desTemplate = desTemplate.replace("{size}", size);
+                        desTemplate = desTemplate.replace("{point}", String.valueOf(sum9));
+
+                        break;
                     case Notification.DATA_TYPE_C_ABUSE_POINT_DEDUCT:
                         desTemplate = langPropsService.get("notificationAbusePointDeductLabel");
 

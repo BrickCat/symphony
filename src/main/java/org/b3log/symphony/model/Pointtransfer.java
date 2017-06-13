@@ -362,6 +362,11 @@ public final class Pointtransfer {
     public static final int TRANSFER_SUM_C_UPDATE_COMMENT = Symphonys.getInt("pointUpdateComment");
 
     /**
+     * Transfer type - Exchange.
+     */
+    public static final int TRANSFER_TYPE_C_SIZE = 33;
+
+    /**
      * Private constructor.
      */
     private Pointtransfer() {
