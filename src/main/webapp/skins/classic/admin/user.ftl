@@ -375,7 +375,7 @@
             </div>
             <div class="module-panel form fn-clear">
                 <form action="${servePath}/video/update/${user.oId}/exchange-size" method="POST">
-                    <label>${videoSizeLabel}</label>
+                    <label>${userNameLabel}</label>
                     <input type="text" name="userName" value="${user.userName}" readonly="readonly" />
 
                     <label>${videoSizeLabel}</label>

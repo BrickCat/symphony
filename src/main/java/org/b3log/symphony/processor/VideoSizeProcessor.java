@@ -121,17 +121,17 @@ public class VideoSizeProcessor {
     public void exchangeSize(final String userId,final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         try{
             final JSONObject videoSize = new JSONObject();
+            videoSize.put(VideoSize.USER_ID,userId);
             final String size = request.getParameter(VideoSize.USER_MAX_VIDEO_SIZE);
-            videoSize.put(VideoSize.USER_ID, userId);
-            videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,size);
             final Map<String, Class<?>> videoSizeFields = new HashMap<>();
             videoSizeFields.put(Keys.OBJECT_ID,String.class);
             videoSizeFields.put(VideoSize.USER_ID,String.class);
             videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
             final JSONObject result = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
             final List<JSONObject> list = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(VideoSize.VIDEO_SIZE));
+            //获取此UserId的存储空间数据
             final JSONObject currVideoSize = list.get(0);
-
+            //根据选择的空间赋值扣除的积分
             int point = 0;
             switch (Integer.valueOf(size)){
                 case 100:
@@ -183,9 +183,11 @@ public class VideoSizeProcessor {
             notification.put(Notification.NOTIFICATION_USER_ID, userId);
             notification.put(Notification.NOTIFICATION_DATA_ID, transferId);
 
+            //获取当前空间
             notificationMgmtService.addPointExchangeNotification(notification);
+            int currSize = currVideoSize.getInt(VideoSize.USER_MAX_VIDEO_SIZE);
             //修改空间大小
-            currVideoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.valueOf(size));
+            currVideoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.valueOf(size+currSize));
             videoSizeMgmtService.addVideoSize(currVideoSize.optString(Keys.OBJECT_ID), currVideoSize);
 
         }catch (final Exception e) {
