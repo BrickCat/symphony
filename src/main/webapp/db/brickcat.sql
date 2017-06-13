@@ -1,22 +1,24 @@
 /*
-Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
-Source Server         : xxl-job
-Source Server Version : 50628
-Source Host           : localhost:3306
-Source Database       : brickcat
+ Source Server         : brickcat
+ Source Server Type    : MySQL
+ Source Server Version : 50718
+ Source Host           : localhost
+ Source Database       : brickcat
 
-Target Server Type    : MYSQL
-Target Server Version : 50628
-File Encoding         : 65001
+ Target Server Type    : MySQL
+ Target Server Version : 50718
+ File Encoding         : utf-8
 
-Date: 2017-06-13 17:45:11
+ Date: 06/13/2017 22:54:23 PM
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+SET NAMES utf8;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for `brickcat_article`
+--  Table structure for `brickcat_article`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_article`;
 CREATE TABLE `brickcat_article` (
@@ -59,12 +61,14 @@ CREATE TABLE `brickcat_article` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_article
+--  Records of `brickcat_article`
 -- ----------------------------
+BEGIN;
 INSERT INTO `brickcat_article` VALUES ('1495610344271', 'Welcome to Sym community &hearts;', 'Sym,Announcement', '1495610341604', '1', '2', 'Hello, everyone!', '', '0', '/article/1495610344271', '1495610344193', '1495610344193', '1496665446462', 'admin', '0.12691298096948478', '1', '0', '1495610344271', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '0', '');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_book`
+--  Table structure for `brickcat_book`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_book`;
 CREATE TABLE `brickcat_book` (
@@ -93,11 +97,7 @@ CREATE TABLE `brickcat_book` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_book
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_character`
+--  Table structure for `brickcat_character`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_character`;
 CREATE TABLE `brickcat_character` (
@@ -109,11 +109,7 @@ CREATE TABLE `brickcat_character` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_character
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_client`
+--  Table structure for `brickcat_client`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_client`;
 CREATE TABLE `brickcat_client` (
@@ -129,11 +125,7 @@ CREATE TABLE `brickcat_client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_client
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_comment`
+--  Table structure for `brickcat_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_comment`;
 CREATE TABLE `brickcat_comment` (
@@ -158,12 +150,14 @@ CREATE TABLE `brickcat_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_comment
+--  Records of `brickcat_comment`
 -- ----------------------------
+BEGIN;
 INSERT INTO `brickcat_comment` VALUES ('1496665446466', null, ':smile: ', '1496665446523', '1495610341604', '1495610344271', '/article/1495610344271#1496665446466', '', '0', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36', '0', '0', '0', '0', '0', '');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_domain`
+--  Table structure for `brickcat_domain`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_domain`;
 CREATE TABLE `brickcat_domain` (
@@ -184,11 +178,7 @@ CREATE TABLE `brickcat_domain` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_domain
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_domain_tag`
+--  Table structure for `brickcat_domain_tag`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_domain_tag`;
 CREATE TABLE `brickcat_domain_tag` (
@@ -199,11 +189,7 @@ CREATE TABLE `brickcat_domain_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_domain_tag
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_emotion`
+--  Table structure for `brickcat_emotion`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_emotion`;
 CREATE TABLE `brickcat_emotion` (
@@ -216,11 +202,7 @@ CREATE TABLE `brickcat_emotion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_emotion
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_follow`
+--  Table structure for `brickcat_follow`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_follow`;
 CREATE TABLE `brickcat_follow` (
@@ -232,11 +214,7 @@ CREATE TABLE `brickcat_follow` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_follow
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_invitecode`
+--  Table structure for `brickcat_invitecode`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_invitecode`;
 CREATE TABLE `brickcat_invitecode` (
@@ -251,11 +229,7 @@ CREATE TABLE `brickcat_invitecode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_invitecode
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_link`
+--  Table structure for `brickcat_link`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_link`;
 CREATE TABLE `brickcat_link` (
@@ -273,11 +247,7 @@ CREATE TABLE `brickcat_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_link
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_liveness`
+--  Table structure for `brickcat_liveness`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_liveness`;
 CREATE TABLE `brickcat_liveness` (
@@ -296,14 +266,14 @@ CREATE TABLE `brickcat_liveness` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_liveness
+--  Records of `brickcat_liveness`
 -- ----------------------------
-INSERT INTO `brickcat_liveness` VALUES ('1495610344848', '1495610341604', '20170524', '0', '1', '0', '0', '0', '0', '0', '0');
-INSERT INTO `brickcat_liveness` VALUES ('1496665435341', '1495610341604', '20170605', '0', '0', '1', '0', '0', '0', '0', '1');
-INSERT INTO `brickcat_liveness` VALUES ('1497273001935', '1495610341604', '20170612', '0', '0', '0', '0', '0', '0', '0', '1');
+BEGIN;
+INSERT INTO `brickcat_liveness` VALUES ('1495610344848', '1495610341604', '20170524', '0', '1', '0', '0', '0', '0', '0', '0'), ('1496665435341', '1495610341604', '20170605', '0', '0', '1', '0', '0', '0', '0', '1'), ('1497273001935', '1495610341604', '20170612', '0', '0', '0', '0', '0', '0', '0', '1');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_notification`
+--  Table structure for `brickcat_notification`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_notification`;
 CREATE TABLE `brickcat_notification` (
@@ -316,15 +286,14 @@ CREATE TABLE `brickcat_notification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_notification
+--  Records of `brickcat_notification`
 -- ----------------------------
-INSERT INTO `brickcat_notification` VALUES ('1495610341916', '1495610341604', '', '16', '1');
-INSERT INTO `brickcat_notification` VALUES ('1495610342165', '1495610341994', '', '16', '0');
-INSERT INTO `brickcat_notification` VALUES ('1497278160776', '1497278160243', '', '16', '0');
-INSERT INTO `brickcat_notification` VALUES ('1497347062874', '1497278160243', '1497347048591', '10', '0');
+BEGIN;
+INSERT INTO `brickcat_notification` VALUES ('1495610341916', '1495610341604', '', '16', '1'), ('1495610342165', '1495610341994', '', '16', '0'), ('1497278160776', '1497278160243', '', '16', '0'), ('1497347062874', '1497278160243', '1497347048591', '10', '0'), ('1497362496209', '1495610341604', '1497362494700', '10', '1'), ('1497362769802', '1495610341604', '1497362768685', '10', '1'), ('1497364137360', '1495610341604', '1497364120193', '10', '1');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_option`
+--  Table structure for `brickcat_option`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_option`;
 CREATE TABLE `brickcat_option` (
@@ -335,23 +304,14 @@ CREATE TABLE `brickcat_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_option
+--  Records of `brickcat_option`
 -- ----------------------------
-INSERT INTO `brickcat_option` VALUES ('miscAllowAddArticle', '0', 'misc');
-INSERT INTO `brickcat_option` VALUES ('miscAllowAddComment', '0', 'misc');
-INSERT INTO `brickcat_option` VALUES ('miscAllowAnonymousView', '0', 'misc');
-INSERT INTO `brickcat_option` VALUES ('miscAllowRegister', '0', 'misc');
-INSERT INTO `brickcat_option` VALUES ('miscLanguage', '0', 'misc');
-INSERT INTO `brickcat_option` VALUES ('statisticArticleCount', '1', 'statistic');
-INSERT INTO `brickcat_option` VALUES ('statisticCmtCount', '1', 'statistic');
-INSERT INTO `brickcat_option` VALUES ('statisticDomainCount', '0', 'statistic');
-INSERT INTO `brickcat_option` VALUES ('statisticLinkCount', '0', 'statistic');
-INSERT INTO `brickcat_option` VALUES ('statisticMaxOnlineVisitorCount', '4', 'statistic');
-INSERT INTO `brickcat_option` VALUES ('statisticMemberCount', '3', 'statistic');
-INSERT INTO `brickcat_option` VALUES ('statisticTagCount', '3', 'statistic');
+BEGIN;
+INSERT INTO `brickcat_option` VALUES ('miscAllowAddArticle', '0', 'misc'), ('miscAllowAddComment', '0', 'misc'), ('miscAllowAnonymousView', '0', 'misc'), ('miscAllowRegister', '0', 'misc'), ('miscLanguage', '0', 'misc'), ('statisticArticleCount', '1', 'statistic'), ('statisticCmtCount', '1', 'statistic'), ('statisticDomainCount', '0', 'statistic'), ('statisticLinkCount', '0', 'statistic'), ('statisticMaxOnlineVisitorCount', '4', 'statistic'), ('statisticMemberCount', '3', 'statistic'), ('statisticTagCount', '3', 'statistic');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_permission`
+--  Table structure for `brickcat_permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_permission`;
 CREATE TABLE `brickcat_permission` (
@@ -361,85 +321,14 @@ CREATE TABLE `brickcat_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_permission
+--  Records of `brickcat_permission`
 -- ----------------------------
-INSERT INTO `brickcat_permission` VALUES ('adminAddVideo', '11');
-INSERT INTO `brickcat_permission` VALUES ('adminDeleteVideo', '11');
-INSERT INTO `brickcat_permission` VALUES ('adminUpdateVideo', '11');
-INSERT INTO `brickcat_permission` VALUES ('adUpdateADSide', '8');
-INSERT INTO `brickcat_permission` VALUES ('adUpdateBanner', '8');
-INSERT INTO `brickcat_permission` VALUES ('articleAddArticle', '2');
-INSERT INTO `brickcat_permission` VALUES ('articleCancelStickArticle', '2');
-INSERT INTO `brickcat_permission` VALUES ('articleReindexArticle', '2');
-INSERT INTO `brickcat_permission` VALUES ('articleReindexArticles', '2');
-INSERT INTO `brickcat_permission` VALUES ('articleRemoveArticle', '2');
-INSERT INTO `brickcat_permission` VALUES ('articleStickArticle', '2');
-INSERT INTO `brickcat_permission` VALUES ('articleUpdateArticleBasic', '2');
-INSERT INTO `brickcat_permission` VALUES ('commentRemoveComment', '3');
-INSERT INTO `brickcat_permission` VALUES ('commentUpdateCommentBasic', '3');
-INSERT INTO `brickcat_permission` VALUES ('commonAddArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonAddArticleAnonymous', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonAddComment', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonAddCommentAnonymous', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonAtParticipants', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonAtUser', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonBadArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonBadComment', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonExchangeIC', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonFollowArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonGoodArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonGoodComment', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonRemoveArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonRemoveComment', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonStickArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonThankArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonThankComment', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonUpdateArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonUpdateComment', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonUseIL', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonViewArticleHistory', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonViewCommentHistory', '0');
-INSERT INTO `brickcat_permission` VALUES ('commonWatchArticle', '0');
-INSERT INTO `brickcat_permission` VALUES ('domainAddDomain', '4');
-INSERT INTO `brickcat_permission` VALUES ('domainAddDomainTag', '4');
-INSERT INTO `brickcat_permission` VALUES ('domainRemoveDomain', '4');
-INSERT INTO `brickcat_permission` VALUES ('domainRemoveDomainTag', '4');
-INSERT INTO `brickcat_permission` VALUES ('domainUpdateDomainBasic', '4');
-INSERT INTO `brickcat_permission` VALUES ('icGenIC', '7');
-INSERT INTO `brickcat_permission` VALUES ('icUpdateICBasic', '7');
-INSERT INTO `brickcat_permission` VALUES ('menuAdmin', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminAD', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminArticles', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminComments', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminDomains', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminIcs', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminMisc', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminRoles', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminRWs', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminTags', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminUsers', '10');
-INSERT INTO `brickcat_permission` VALUES ('menuAdminVideo', '10');
-INSERT INTO `brickcat_permission` VALUES ('miscAllowAddArticle', '9');
-INSERT INTO `brickcat_permission` VALUES ('miscAllowAddComment', '9');
-INSERT INTO `brickcat_permission` VALUES ('miscAllowAnonymousView', '9');
-INSERT INTO `brickcat_permission` VALUES ('miscLanguage', '9');
-INSERT INTO `brickcat_permission` VALUES ('miscRegisterMethod', '9');
-INSERT INTO `brickcat_permission` VALUES ('rwAddReservedWord', '6');
-INSERT INTO `brickcat_permission` VALUES ('rwRemoveReservedWord', '6');
-INSERT INTO `brickcat_permission` VALUES ('rwUpdateReservedWordBasic', '6');
-INSERT INTO `brickcat_permission` VALUES ('tagUpdateTagBasic', '5');
-INSERT INTO `brickcat_permission` VALUES ('userAddPoint', '1');
-INSERT INTO `brickcat_permission` VALUES ('userAddUser', '1');
-INSERT INTO `brickcat_permission` VALUES ('userDeductPoint', '1');
-INSERT INTO `brickcat_permission` VALUES ('userExchangePoint', '1');
-INSERT INTO `brickcat_permission` VALUES ('userExchangeSize', '11');
-INSERT INTO `brickcat_permission` VALUES ('userUpdateUserAdvanced', '1');
-INSERT INTO `brickcat_permission` VALUES ('userUpdateUserBasic', '1');
-INSERT INTO `brickcat_permission` VALUES ('userWatchVideo', '11');
-INSERT INTO `brickcat_permission` VALUES ('userWatchVideoError', '11');
+BEGIN;
+INSERT INTO `brickcat_permission` VALUES ('adminAddVideo', '11'), ('adminDeleteVideo', '11'), ('adminUpdateVideo', '11'), ('adUpdateADSide', '8'), ('adUpdateBanner', '8'), ('articleAddArticle', '2'), ('articleCancelStickArticle', '2'), ('articleReindexArticle', '2'), ('articleReindexArticles', '2'), ('articleRemoveArticle', '2'), ('articleStickArticle', '2'), ('articleUpdateArticleBasic', '2'), ('commentRemoveComment', '3'), ('commentUpdateCommentBasic', '3'), ('commonAddArticle', '0'), ('commonAddArticleAnonymous', '0'), ('commonAddComment', '0'), ('commonAddCommentAnonymous', '0'), ('commonAtParticipants', '0'), ('commonAtUser', '0'), ('commonBadArticle', '0'), ('commonBadComment', '0'), ('commonExchangeIC', '0'), ('commonFollowArticle', '0'), ('commonGoodArticle', '0'), ('commonGoodComment', '0'), ('commonRemoveArticle', '0'), ('commonRemoveComment', '0'), ('commonStickArticle', '0'), ('commonThankArticle', '0'), ('commonThankComment', '0'), ('commonUpdateArticle', '0'), ('commonUpdateComment', '0'), ('commonUseIL', '0'), ('commonViewArticleHistory', '0'), ('commonViewCommentHistory', '0'), ('commonWatchArticle', '0'), ('domainAddDomain', '4'), ('domainAddDomainTag', '4'), ('domainRemoveDomain', '4'), ('domainRemoveDomainTag', '4'), ('domainUpdateDomainBasic', '4'), ('icGenIC', '7'), ('icUpdateICBasic', '7'), ('menuAdmin', '10'), ('menuAdminAD', '10'), ('menuAdminArticles', '10'), ('menuAdminComments', '10'), ('menuAdminDomains', '10'), ('menuAdminIcs', '10'), ('menuAdminMisc', '10'), ('menuAdminRoles', '10'), ('menuAdminRWs', '10'), ('menuAdminTags', '10'), ('menuAdminUsers', '10'), ('menuAdminVideo', '10'), ('miscAllowAddArticle', '9'), ('miscAllowAddComment', '9'), ('miscAllowAnonymousView', '9'), ('miscLanguage', '9'), ('miscRegisterMethod', '9'), ('rwAddReservedWord', '6'), ('rwRemoveReservedWord', '6'), ('rwUpdateReservedWordBasic', '6'), ('tagUpdateTagBasic', '5'), ('userAddPoint', '1'), ('userAddUser', '1'), ('userDeductPoint', '1'), ('userExchangePoint', '1'), ('userExchangeSize', '11'), ('userInitSize', '11'), ('userUpdateUserAdvanced', '1'), ('userUpdateUserBasic', '1'), ('userWatchVideo', '11'), ('userWatchVideoError', '11');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_pointtransfer`
+--  Table structure for `brickcat_pointtransfer`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_pointtransfer`;
 CREATE TABLE `brickcat_pointtransfer` (
@@ -456,17 +345,14 @@ CREATE TABLE `brickcat_pointtransfer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_pointtransfer
+--  Records of `brickcat_pointtransfer`
 -- ----------------------------
-INSERT INTO `brickcat_pointtransfer` VALUES ('1495610341853', 'sys', '1495610341604', '500', '0', '500', '1495610341853', '0', '1495610341604');
-INSERT INTO `brickcat_pointtransfer` VALUES ('1495610342103', 'sys', '1495610341994', '500', '0', '500', '1495610342087', '0', '1495610341994');
-INSERT INTO `brickcat_pointtransfer` VALUES ('1495610344770', '1495610341604', 'sys', '20', '480', '0', '1495610344770', '1', '1495610344271');
-INSERT INTO `brickcat_pointtransfer` VALUES ('1496665446608', '1495610341604', 'sys', '2', '478', '0', '1496665446603', '3', '1496665446466');
-INSERT INTO `brickcat_pointtransfer` VALUES ('1497278160714', 'sys', '1497278160243', '500', '0', '500', '1497278160709', '0', '1497278160243');
-INSERT INTO `brickcat_pointtransfer` VALUES ('1497347048591', '1497278160243', 'sys', '100', '400', '0', '1497347046966', '16', '0.0');
+BEGIN;
+INSERT INTO `brickcat_pointtransfer` VALUES ('1495610341853', 'sys', '1495610341604', '500', '0', '500', '1495610341853', '0', '1495610341604'), ('1495610342103', 'sys', '1495610341994', '500', '0', '500', '1495610342087', '0', '1495610341994'), ('1495610344770', '1495610341604', 'sys', '20', '480', '0', '1495610344770', '1', '1495610344271'), ('1496665446608', '1495610341604', 'sys', '2', '478', '0', '1496665446603', '3', '1496665446466'), ('1497278160714', 'sys', '1497278160243', '500', '0', '500', '1497278160709', '0', '1497278160243'), ('1497347048591', '1497278160243', 'sys', '100', '400', '0', '1497347046966', '16', '0.0'), ('1497362494700', '1495610341604', 'sys', '100', '378', '0', '1497362493577', '16', '0.0'), ('1497362768685', '1495610341604', 'sys', '100', '278', '0', '1497362767403', '16', '0.0'), ('1497364120193', '1495610341604', 'sys', '100', '178', '0', '1497364118675', '33', '0.0');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_referral`
+--  Table structure for `brickcat_referral`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_referral`;
 CREATE TABLE `brickcat_referral` (
@@ -482,11 +368,7 @@ CREATE TABLE `brickcat_referral` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_referral
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_revision`
+--  Table structure for `brickcat_revision`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_revision`;
 CREATE TABLE `brickcat_revision` (
@@ -499,13 +381,14 @@ CREATE TABLE `brickcat_revision` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_revision
+--  Records of `brickcat_revision`
 -- ----------------------------
-INSERT INTO `brickcat_revision` VALUES ('1495610344583', '0', '1495610344271', '{\"articleTitle\":\"Welcome to Sym community &hearts;\",\"articleContent\":\"Hello, everyone!\"}', '1495610341604');
-INSERT INTO `brickcat_revision` VALUES ('1496665446549', '1', '1496665446466', '{\"commentContent\":\":smile: \"}', '1495610341604');
+BEGIN;
+INSERT INTO `brickcat_revision` VALUES ('1495610344583', '0', '1495610344271', '{\"articleTitle\":\"Welcome to Sym community &hearts;\",\"articleContent\":\"Hello, everyone!\"}', '1495610341604'), ('1496665446549', '1', '1496665446466', '{\"commentContent\":\":smile: \"}', '1495610341604');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_reward`
+--  Table structure for `brickcat_reward`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_reward`;
 CREATE TABLE `brickcat_reward` (
@@ -517,11 +400,7 @@ CREATE TABLE `brickcat_reward` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_reward
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_role`
+--  Table structure for `brickcat_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_role`;
 CREATE TABLE `brickcat_role` (
@@ -532,17 +411,14 @@ CREATE TABLE `brickcat_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_role
+--  Records of `brickcat_role`
 -- ----------------------------
-INSERT INTO `brickcat_role` VALUES ('adminRole', 'Admin', '');
-INSERT INTO `brickcat_role` VALUES ('defaultRole', 'Default', '');
-INSERT INTO `brickcat_role` VALUES ('leaderRole', 'Leader', '');
-INSERT INTO `brickcat_role` VALUES ('memberRole', 'Member', '');
-INSERT INTO `brickcat_role` VALUES ('regularRole', 'Regular', '');
-INSERT INTO `brickcat_role` VALUES ('visitorRole', 'Visitor', '');
+BEGIN;
+INSERT INTO `brickcat_role` VALUES ('adminRole', 'Admin', ''), ('defaultRole', 'Default', ''), ('leaderRole', 'Leader', ''), ('memberRole', 'Member', ''), ('regularRole', 'Regular', ''), ('visitorRole', 'Visitor', '');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_role_permission`
+--  Table structure for `brickcat_role_permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_role_permission`;
 CREATE TABLE `brickcat_role_permission` (
@@ -553,190 +429,14 @@ CREATE TABLE `brickcat_role_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_role_permission
+--  Records of `brickcat_role_permission`
 -- ----------------------------
-INSERT INTO `brickcat_role_permission` VALUES ('1495610331823', 'memberRole', 'commonGoodComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610331885', 'memberRole', 'commonAtUser');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610331947', 'memberRole', 'commonFollowArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332010', 'memberRole', 'commonBadComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332072', 'memberRole', 'commonGoodArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332135', 'memberRole', 'commonUseIL');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332197', 'memberRole', 'commonBadArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332259', 'memberRole', 'commonAddComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332322', 'memberRole', 'commonUpdateArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332384', 'memberRole', 'commonWatchArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332447', 'memberRole', 'commonUpdateComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332509', 'memberRole', 'commonAddArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332571', 'memberRole', 'commonThankArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332634', 'memberRole', 'commonRemoveArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332696', 'memberRole', 'commonRemoveComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1495610332759', 'memberRole', 'commonThankComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653002632', 'regularRole', 'commonAddArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653002683', 'regularRole', 'commonAddArticleAnonymous');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653002733', 'regularRole', 'commonAddComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653002783', 'regularRole', 'commonAddCommentAnonymous');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653002833', 'regularRole', 'commonAtParticipants');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653002883', 'regularRole', 'commonAtUser');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653002933', 'regularRole', 'commonBadArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653002983', 'regularRole', 'commonBadComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003033', 'regularRole', 'commonExchangeIC');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003083', 'regularRole', 'commonFollowArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003133', 'regularRole', 'commonGoodArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003183', 'regularRole', 'commonGoodComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003233', 'regularRole', 'commonRemoveArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003283', 'regularRole', 'commonRemoveComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003333', 'regularRole', 'commonStickArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003383', 'regularRole', 'commonThankArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003433', 'regularRole', 'commonThankComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003483', 'regularRole', 'commonUpdateArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003533', 'regularRole', 'commonUpdateComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003583', 'regularRole', 'commonUseIL');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003633', 'regularRole', 'commonViewArticleHistory');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003686', 'regularRole', 'commonViewCommentHistory');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003736', 'regularRole', 'commonWatchArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003788', 'regularRole', 'tagUpdateTagBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003838', 'regularRole', 'menuAdmin');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003888', 'regularRole', 'menuAdminTags');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003938', 'regularRole', 'userWatchVideo');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653003988', 'regularRole', 'userWatchVideoError');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012246', 'leaderRole', 'rwAddReservedWord');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012299', 'leaderRole', 'rwRemoveReservedWord');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012350', 'leaderRole', 'rwUpdateReservedWordBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012401', 'leaderRole', 'commentUpdateCommentBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012452', 'leaderRole', 'articleCancelStickArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012503', 'leaderRole', 'articleReindexArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012553', 'leaderRole', 'articleStickArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012603', 'leaderRole', 'articleUpdateArticleBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012653', 'leaderRole', 'commonAddArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012704', 'leaderRole', 'commonAddArticleAnonymous');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012755', 'leaderRole', 'commonAddComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012806', 'leaderRole', 'commonAddCommentAnonymous');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012857', 'leaderRole', 'commonAtParticipants');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012908', 'leaderRole', 'commonAtUser');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653012959', 'leaderRole', 'commonBadArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013010', 'leaderRole', 'commonBadComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013061', 'leaderRole', 'commonExchangeIC');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013112', 'leaderRole', 'commonFollowArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013163', 'leaderRole', 'commonGoodArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013214', 'leaderRole', 'commonGoodComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013265', 'leaderRole', 'commonRemoveArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013316', 'leaderRole', 'commonRemoveComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013366', 'leaderRole', 'commonStickArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013416', 'leaderRole', 'commonThankArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013467', 'leaderRole', 'commonThankComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013518', 'leaderRole', 'commonUpdateArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013569', 'leaderRole', 'commonUpdateComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013619', 'leaderRole', 'commonUseIL');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013669', 'leaderRole', 'commonViewArticleHistory');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013719', 'leaderRole', 'commonViewCommentHistory');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013769', 'leaderRole', 'commonWatchArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013819', 'leaderRole', 'tagUpdateTagBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013870', 'leaderRole', 'userAddPoint');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013921', 'leaderRole', 'userAddUser');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653013972', 'leaderRole', 'userDeductPoint');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014023', 'leaderRole', 'userExchangePoint');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014073', 'leaderRole', 'userUpdateUserAdvanced');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014124', 'leaderRole', 'userUpdateUserBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014175', 'leaderRole', 'menuAdmin');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014226', 'leaderRole', 'menuAdminArticles');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014277', 'leaderRole', 'menuAdminComments');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014328', 'leaderRole', 'menuAdminIcs');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014379', 'leaderRole', 'menuAdminRWs');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014430', 'leaderRole', 'menuAdminTags');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014483', 'leaderRole', 'menuAdminUsers');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014534', 'leaderRole', 'userWatchVideo');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014585', 'leaderRole', 'userWatchVideoError');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014636', 'leaderRole', 'icGenIC');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653014687', 'leaderRole', 'icUpdateICBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033444', 'defaultRole', 'commonAddArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033495', 'defaultRole', 'commonAddComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033545', 'defaultRole', 'commonFollowArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033595', 'defaultRole', 'commonRemoveArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033645', 'defaultRole', 'commonRemoveComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033695', 'defaultRole', 'commonThankArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033745', 'defaultRole', 'commonThankComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033795', 'defaultRole', 'commonUpdateArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033845', 'defaultRole', 'commonUpdateComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033895', 'defaultRole', 'commonWatchArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033945', 'defaultRole', 'userWatchVideo');
-INSERT INTO `brickcat_role_permission` VALUES ('1496653033995', 'defaultRole', 'userWatchVideoError');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332759634', 'adminRole', 'rwAddReservedWord');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332759685', 'adminRole', 'rwRemoveReservedWord');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332759735', 'adminRole', 'rwUpdateReservedWordBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332759785', 'adminRole', 'miscAllowAddArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332759835', 'adminRole', 'miscAllowAddComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332759886', 'adminRole', 'miscAllowAnonymousView');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332759936', 'adminRole', 'miscLanguage');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332759986', 'adminRole', 'miscRegisterMethod');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760036', 'adminRole', 'commentRemoveComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760086', 'adminRole', 'commentUpdateCommentBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760136', 'adminRole', 'articleAddArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760186', 'adminRole', 'articleCancelStickArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760236', 'adminRole', 'articleReindexArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760286', 'adminRole', 'articleReindexArticles');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760336', 'adminRole', 'articleRemoveArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760387', 'adminRole', 'articleStickArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760437', 'adminRole', 'articleUpdateArticleBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760487', 'adminRole', 'commonAddArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760537', 'adminRole', 'commonAddArticleAnonymous');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760587', 'adminRole', 'commonAddComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760637', 'adminRole', 'commonAddCommentAnonymous');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760687', 'adminRole', 'commonAtParticipants');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760737', 'adminRole', 'commonAtUser');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760787', 'adminRole', 'commonBadArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760837', 'adminRole', 'commonBadComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760887', 'adminRole', 'commonExchangeIC');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760937', 'adminRole', 'commonFollowArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332760987', 'adminRole', 'commonGoodArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761037', 'adminRole', 'commonGoodComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761087', 'adminRole', 'commonRemoveArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761138', 'adminRole', 'commonRemoveComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761188', 'adminRole', 'commonStickArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761238', 'adminRole', 'commonThankArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761288', 'adminRole', 'commonThankComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761338', 'adminRole', 'commonUpdateArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761388', 'adminRole', 'commonUpdateComment');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761438', 'adminRole', 'commonUseIL');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761488', 'adminRole', 'commonViewArticleHistory');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761538', 'adminRole', 'commonViewCommentHistory');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761588', 'adminRole', 'commonWatchArticle');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761638', 'adminRole', 'adUpdateADSide');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761688', 'adminRole', 'adUpdateBanner');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761738', 'adminRole', 'tagUpdateTagBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761788', 'adminRole', 'userAddPoint');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761839', 'adminRole', 'userAddUser');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761889', 'adminRole', 'userDeductPoint');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761939', 'adminRole', 'userExchangePoint');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332761989', 'adminRole', 'userUpdateUserAdvanced');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762040', 'adminRole', 'userUpdateUserBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762091', 'adminRole', 'menuAdmin');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762142', 'adminRole', 'menuAdminAD');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762193', 'adminRole', 'menuAdminArticles');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762244', 'adminRole', 'menuAdminComments');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762295', 'adminRole', 'menuAdminDomains');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762346', 'adminRole', 'menuAdminIcs');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762397', 'adminRole', 'menuAdminMisc');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762448', 'adminRole', 'menuAdminRoles');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762499', 'adminRole', 'menuAdminRWs');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762550', 'adminRole', 'menuAdminTags');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762600', 'adminRole', 'menuAdminUsers');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762650', 'adminRole', 'menuAdminVideo');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762700', 'adminRole', 'adminAddVideo');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762750', 'adminRole', 'adminDeleteVideo');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762801', 'adminRole', 'adminUpdateVideo');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762852', 'adminRole', 'userExchangeSize');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762903', 'adminRole', 'userWatchVideo');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332762954', 'adminRole', 'userWatchVideoError');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332763005', 'adminRole', 'icGenIC');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332763056', 'adminRole', 'icUpdateICBasic');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332763107', 'adminRole', 'domainAddDomain');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332763160', 'adminRole', 'domainAddDomainTag');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332763211', 'adminRole', 'domainRemoveDomain');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332763262', 'adminRole', 'domainRemoveDomainTag');
-INSERT INTO `brickcat_role_permission` VALUES ('1497332763313', 'adminRole', 'domainUpdateDomainBasic');
+BEGIN;
+INSERT INTO `brickcat_role_permission` VALUES ('1495610331823', 'memberRole', 'commonGoodComment'), ('1495610331885', 'memberRole', 'commonAtUser'), ('1495610331947', 'memberRole', 'commonFollowArticle'), ('1495610332010', 'memberRole', 'commonBadComment'), ('1495610332072', 'memberRole', 'commonGoodArticle'), ('1495610332135', 'memberRole', 'commonUseIL'), ('1495610332197', 'memberRole', 'commonBadArticle'), ('1495610332259', 'memberRole', 'commonAddComment'), ('1495610332322', 'memberRole', 'commonUpdateArticle'), ('1495610332384', 'memberRole', 'commonWatchArticle'), ('1495610332447', 'memberRole', 'commonUpdateComment'), ('1495610332509', 'memberRole', 'commonAddArticle'), ('1495610332571', 'memberRole', 'commonThankArticle'), ('1495610332634', 'memberRole', 'commonRemoveArticle'), ('1495610332696', 'memberRole', 'commonRemoveComment'), ('1495610332759', 'memberRole', 'commonThankComment'), ('1496653002632', 'regularRole', 'commonAddArticle'), ('1496653002683', 'regularRole', 'commonAddArticleAnonymous'), ('1496653002733', 'regularRole', 'commonAddComment'), ('1496653002783', 'regularRole', 'commonAddCommentAnonymous'), ('1496653002833', 'regularRole', 'commonAtParticipants'), ('1496653002883', 'regularRole', 'commonAtUser'), ('1496653002933', 'regularRole', 'commonBadArticle'), ('1496653002983', 'regularRole', 'commonBadComment'), ('1496653003033', 'regularRole', 'commonExchangeIC'), ('1496653003083', 'regularRole', 'commonFollowArticle'), ('1496653003133', 'regularRole', 'commonGoodArticle'), ('1496653003183', 'regularRole', 'commonGoodComment'), ('1496653003233', 'regularRole', 'commonRemoveArticle'), ('1496653003283', 'regularRole', 'commonRemoveComment'), ('1496653003333', 'regularRole', 'commonStickArticle'), ('1496653003383', 'regularRole', 'commonThankArticle'), ('1496653003433', 'regularRole', 'commonThankComment'), ('1496653003483', 'regularRole', 'commonUpdateArticle'), ('1496653003533', 'regularRole', 'commonUpdateComment'), ('1496653003583', 'regularRole', 'commonUseIL'), ('1496653003633', 'regularRole', 'commonViewArticleHistory'), ('1496653003686', 'regularRole', 'commonViewCommentHistory'), ('1496653003736', 'regularRole', 'commonWatchArticle'), ('1496653003788', 'regularRole', 'tagUpdateTagBasic'), ('1496653003838', 'regularRole', 'menuAdmin'), ('1496653003888', 'regularRole', 'menuAdminTags'), ('1496653003938', 'regularRole', 'userWatchVideo'), ('1496653003988', 'regularRole', 'userWatchVideoError'), ('1496653012246', 'leaderRole', 'rwAddReservedWord'), ('1496653012299', 'leaderRole', 'rwRemoveReservedWord'), ('1496653012350', 'leaderRole', 'rwUpdateReservedWordBasic'), ('1496653012401', 'leaderRole', 'commentUpdateCommentBasic'), ('1496653012452', 'leaderRole', 'articleCancelStickArticle'), ('1496653012503', 'leaderRole', 'articleReindexArticle'), ('1496653012553', 'leaderRole', 'articleStickArticle'), ('1496653012603', 'leaderRole', 'articleUpdateArticleBasic'), ('1496653012653', 'leaderRole', 'commonAddArticle'), ('1496653012704', 'leaderRole', 'commonAddArticleAnonymous'), ('1496653012755', 'leaderRole', 'commonAddComment'), ('1496653012806', 'leaderRole', 'commonAddCommentAnonymous'), ('1496653012857', 'leaderRole', 'commonAtParticipants'), ('1496653012908', 'leaderRole', 'commonAtUser'), ('1496653012959', 'leaderRole', 'commonBadArticle'), ('1496653013010', 'leaderRole', 'commonBadComment'), ('1496653013061', 'leaderRole', 'commonExchangeIC'), ('1496653013112', 'leaderRole', 'commonFollowArticle'), ('1496653013163', 'leaderRole', 'commonGoodArticle'), ('1496653013214', 'leaderRole', 'commonGoodComment'), ('1496653013265', 'leaderRole', 'commonRemoveArticle'), ('1496653013316', 'leaderRole', 'commonRemoveComment'), ('1496653013366', 'leaderRole', 'commonStickArticle'), ('1496653013416', 'leaderRole', 'commonThankArticle'), ('1496653013467', 'leaderRole', 'commonThankComment'), ('1496653013518', 'leaderRole', 'commonUpdateArticle'), ('1496653013569', 'leaderRole', 'commonUpdateComment'), ('1496653013619', 'leaderRole', 'commonUseIL'), ('1496653013669', 'leaderRole', 'commonViewArticleHistory'), ('1496653013719', 'leaderRole', 'commonViewCommentHistory'), ('1496653013769', 'leaderRole', 'commonWatchArticle'), ('1496653013819', 'leaderRole', 'tagUpdateTagBasic'), ('1496653013870', 'leaderRole', 'userAddPoint'), ('1496653013921', 'leaderRole', 'userAddUser'), ('1496653013972', 'leaderRole', 'userDeductPoint'), ('1496653014023', 'leaderRole', 'userExchangePoint'), ('1496653014073', 'leaderRole', 'userUpdateUserAdvanced'), ('1496653014124', 'leaderRole', 'userUpdateUserBasic'), ('1496653014175', 'leaderRole', 'menuAdmin'), ('1496653014226', 'leaderRole', 'menuAdminArticles'), ('1496653014277', 'leaderRole', 'menuAdminComments'), ('1496653014328', 'leaderRole', 'menuAdminIcs'), ('1496653014379', 'leaderRole', 'menuAdminRWs'), ('1496653014430', 'leaderRole', 'menuAdminTags'), ('1496653014483', 'leaderRole', 'menuAdminUsers'), ('1496653014534', 'leaderRole', 'userWatchVideo'), ('1496653014585', 'leaderRole', 'userWatchVideoError'), ('1496653014636', 'leaderRole', 'icGenIC'), ('1496653014687', 'leaderRole', 'icUpdateICBasic'), ('1496653033444', 'defaultRole', 'commonAddArticle'), ('1496653033495', 'defaultRole', 'commonAddComment'), ('1496653033545', 'defaultRole', 'commonFollowArticle'), ('1496653033595', 'defaultRole', 'commonRemoveArticle'), ('1496653033645', 'defaultRole', 'commonRemoveComment'), ('1496653033695', 'defaultRole', 'commonThankArticle'), ('1496653033745', 'defaultRole', 'commonThankComment'), ('1496653033795', 'defaultRole', 'commonUpdateArticle'), ('1496653033845', 'defaultRole', 'commonUpdateComment'), ('1496653033895', 'defaultRole', 'commonWatchArticle'), ('1496653033945', 'defaultRole', 'userWatchVideo'), ('1496653033995', 'defaultRole', 'userWatchVideoError'), ('1497361558598', 'adminRole', 'rwAddReservedWord'), ('1497361558651', 'adminRole', 'rwRemoveReservedWord'), ('1497361558705', 'adminRole', 'rwUpdateReservedWordBasic'), ('1497361558759', 'adminRole', 'miscAllowAddArticle'), ('1497361558813', 'adminRole', 'miscAllowAddComment'), ('1497361558868', 'adminRole', 'miscAllowAnonymousView'), ('1497361558923', 'adminRole', 'miscLanguage'), ('1497361558977', 'adminRole', 'miscRegisterMethod'), ('1497361559033', 'adminRole', 'commentRemoveComment'), ('1497361559086', 'adminRole', 'commentUpdateCommentBasic'), ('1497361559141', 'adminRole', 'articleAddArticle'), ('1497361559194', 'adminRole', 'articleCancelStickArticle'), ('1497361559249', 'adminRole', 'articleReindexArticle'), ('1497361559305', 'adminRole', 'articleReindexArticles'), ('1497361559358', 'adminRole', 'articleRemoveArticle'), ('1497361559413', 'adminRole', 'articleStickArticle'), ('1497361559469', 'adminRole', 'articleUpdateArticleBasic'), ('1497361559523', 'adminRole', 'commonAddArticle'), ('1497361559579', 'adminRole', 'commonAddArticleAnonymous'), ('1497361559635', 'adminRole', 'commonAddComment'), ('1497361559689', 'adminRole', 'commonAddCommentAnonymous'), ('1497361559740', 'adminRole', 'commonAtParticipants'), ('1497361559794', 'adminRole', 'commonAtUser'), ('1497361559848', 'adminRole', 'commonBadArticle'), ('1497361559902', 'adminRole', 'commonBadComment'), ('1497361559957', 'adminRole', 'commonExchangeIC'), ('1497361560011', 'adminRole', 'commonFollowArticle'), ('1497361560065', 'adminRole', 'commonGoodArticle'), ('1497361560120', 'adminRole', 'commonGoodComment'), ('1497361560173', 'adminRole', 'commonRemoveArticle'), ('1497361560227', 'adminRole', 'commonRemoveComment'), ('1497361560283', 'adminRole', 'commonStickArticle'), ('1497361560336', 'adminRole', 'commonThankArticle'), ('1497361560390', 'adminRole', 'commonThankComment'), ('1497361560444', 'adminRole', 'commonUpdateArticle'), ('1497361560498', 'adminRole', 'commonUpdateComment'), ('1497361560553', 'adminRole', 'commonUseIL'), ('1497361560608', 'adminRole', 'commonViewArticleHistory'), ('1497361560661', 'adminRole', 'commonViewCommentHistory'), ('1497361560712', 'adminRole', 'commonWatchArticle'), ('1497361560768', 'adminRole', 'adUpdateADSide'), ('1497361560822', 'adminRole', 'adUpdateBanner'), ('1497361560877', 'adminRole', 'tagUpdateTagBasic'), ('1497361560930', 'adminRole', 'userAddPoint'), ('1497361560982', 'adminRole', 'userAddUser'), ('1497361561036', 'adminRole', 'userDeductPoint'), ('1497361561090', 'adminRole', 'userExchangePoint'), ('1497361561144', 'adminRole', 'userUpdateUserAdvanced'), ('1497361561199', 'adminRole', 'userUpdateUserBasic'), ('1497361561254', 'adminRole', 'menuAdmin'), ('1497361561309', 'adminRole', 'menuAdminAD'), ('1497361561364', 'adminRole', 'menuAdminArticles'), ('1497361561419', 'adminRole', 'menuAdminComments'), ('1497361561473', 'adminRole', 'menuAdminDomains'), ('1497361561527', 'adminRole', 'menuAdminIcs'), ('1497361561582', 'adminRole', 'menuAdminMisc'), ('1497361561636', 'adminRole', 'menuAdminRoles'), ('1497361561692', 'adminRole', 'menuAdminRWs'), ('1497361561747', 'adminRole', 'menuAdminTags'), ('1497361561802', 'adminRole', 'menuAdminUsers'), ('1497361561854', 'adminRole', 'menuAdminVideo'), ('1497361561906', 'adminRole', 'adminAddVideo'), ('1497361561961', 'adminRole', 'adminDeleteVideo'), ('1497361562014', 'adminRole', 'adminUpdateVideo'), ('1497361562065', 'adminRole', 'userExchangeSize'), ('1497361562119', 'adminRole', 'userInitSize'), ('1497361562172', 'adminRole', 'userWatchVideo'), ('1497361562227', 'adminRole', 'userWatchVideoError'), ('1497361562280', 'adminRole', 'icGenIC'), ('1497361562335', 'adminRole', 'icUpdateICBasic'), ('1497361562390', 'adminRole', 'domainAddDomain'), ('1497361562443', 'adminRole', 'domainAddDomainTag'), ('1497361562494', 'adminRole', 'domainRemoveDomain'), ('1497361562548', 'adminRole', 'domainRemoveDomainTag'), ('1497361562602', 'adminRole', 'domainUpdateDomainBasic');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_tag`
+--  Table structure for `brickcat_tag`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_tag`;
 CREATE TABLE `brickcat_tag` (
@@ -761,14 +461,14 @@ CREATE TABLE `brickcat_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_tag
+--  Records of `brickcat_tag`
 -- ----------------------------
-INSERT INTO `brickcat_tag` VALUES ('1495610342228', '1', '1', '0', '0', 'Announcement', 'announcement', '', '', '', '0', '0', '0', 'Announcement', 'Announcement', '', '0.40132683279748127');
-INSERT INTO `brickcat_tag` VALUES ('1495610342368', '1', '1', '0', '0', 'Sym', 'Sym', '[Sym](https://github.com/b3log/symphony) 是一个用 [Java] 实现的现代化社区（论坛/社交网络/博客）平台，“下一代的社区系统，为未来而构建”。', 'sym.png', '', '0', '0', '0', 'Sym', 'Sym', '', '0.584039700538823');
-INSERT INTO `brickcat_tag` VALUES ('1495610344006', '0', '0', '0', '0', 'B3log', 'B3log', '[B3log](http://b3log.org) 是一个开源组织，名字来源于“Bulletin Board Blog”缩写，目标是将独立博客与论坛结合，形成一种新的网络社区体验，详细请看 [B3log 构思](https://hacpai.com/b3log)。目前 B3log 已经开源了多款产品： [Solo] 、 [Sym] 、 [Wide] 。', 'b3log.png', '', '0', '0', '0', 'B3log', 'B3log', '', '0.7006963128290313');
+BEGIN;
+INSERT INTO `brickcat_tag` VALUES ('1495610342228', '1', '1', '0', '0', 'Announcement', 'announcement', '', '', '', '0', '0', '0', 'Announcement', 'Announcement', '', '0.40132683279748127'), ('1495610342368', '1', '1', '0', '0', 'Sym', 'Sym', '[Sym](https://github.com/b3log/symphony) 是一个用 [Java] 实现的现代化社区（论坛/社交网络/博客）平台，“下一代的社区系统，为未来而构建”。', 'sym.png', '', '0', '0', '0', 'Sym', 'Sym', '', '0.8536186362388165'), ('1495610344006', '0', '0', '0', '0', 'B3log', 'B3log', '[B3log](http://b3log.org) 是一个开源组织，名字来源于“Bulletin Board Blog”缩写，目标是将独立博客与论坛结合，形成一种新的网络社区体验，详细请看 [B3log 构思](https://hacpai.com/b3log)。目前 B3log 已经开源了多款产品： [Solo] 、 [Sym] 、 [Wide] 。', 'b3log.png', '', '0', '0', '0', 'B3log', 'B3log', '', '0.279619819111396');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_tag_article`
+--  Table structure for `brickcat_tag_article`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_tag_article`;
 CREATE TABLE `brickcat_tag_article` (
@@ -783,13 +483,14 @@ CREATE TABLE `brickcat_tag_article` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_tag_article
+--  Records of `brickcat_tag_article`
 -- ----------------------------
-INSERT INTO `brickcat_tag_article` VALUES ('1495610344334', '1495610344271', '1495610342368', '1', '1496665446462', '0', '0');
-INSERT INTO `brickcat_tag_article` VALUES ('1495610344458', '1495610344271', '1495610342228', '1', '1496665446462', '0', '0');
+BEGIN;
+INSERT INTO `brickcat_tag_article` VALUES ('1495610344334', '1495610344271', '1495610342368', '1', '1496665446462', '0', '0'), ('1495610344458', '1495610344271', '1495610342228', '1', '1496665446462', '0', '0');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_tag_tag`
+--  Table structure for `brickcat_tag_tag`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_tag_tag`;
 CREATE TABLE `brickcat_tag_tag` (
@@ -801,12 +502,14 @@ CREATE TABLE `brickcat_tag_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_tag_tag
+--  Records of `brickcat_tag_tag`
 -- ----------------------------
+BEGIN;
 INSERT INTO `brickcat_tag_tag` VALUES ('1495610344708', '1495610342368', '1495610342228', '1');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_tag_user_link`
+--  Table structure for `brickcat_tag_user_link`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_tag_user_link`;
 CREATE TABLE `brickcat_tag_user_link` (
@@ -819,11 +522,7 @@ CREATE TABLE `brickcat_tag_user_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_tag_user_link
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_user`
+--  Table structure for `brickcat_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_user`;
 CREATE TABLE `brickcat_user` (
@@ -899,15 +598,14 @@ CREATE TABLE `brickcat_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_user
+--  Records of `brickcat_user`
 -- ----------------------------
-INSERT INTO `brickcat_user` VALUES ('1495610341604', '1', 'sym@b3log.org', 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/b9e29c04b8fb4265ba63bfbd9f2112b3_timg.jpeg', '1', '', '', '', '', 'adminRole', '1', '1', '3', '0', '478', '22', '0', '0', '1495610344193', '1496665446462', '1497347084179', '0:0:0:0:0:0:0:1', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '1496672480785', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341588', '1', 'zh_CN', 'Asia/Shanghai', '0');
-INSERT INTO `brickcat_user` VALUES ('1495610341994', '2', 'default_commenter@b3log.org', 'Default Commenter', '9e30b1a9f57d2a0fc9c76fcc1e984b11', '', '', '', '', '', '2', 'http://localhost:9090/upload/0263e50c93364b059365ef95461f3848.jpg', '0', '', '', '', '', 'defaultCommenterRole', '0', '0', '0', '0', '500', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341994', '1', 'en_US', 'Asia/Shanghai', '0');
-INSERT INTO `brickcat_user` VALUES ('1497277766038', '3', '549595297@qq.com', 'viseosize', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/87a43004bbf74cbcad20972c03da2e66.jpg', '0', '', '', '', '', 'defaultRole', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1497277766036', '1', 'zh_CN', 'Asia/Shanghai', '1');
-INSERT INTO `brickcat_user` VALUES ('1497278160243', '3', '54959597@qq.com', 'viseosize1', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/59e6b136e37841bdb10e34a99b83e624.jpg', '0', '', '', '', '', 'defaultRole', '0', '0', '0', '0', '400', '100', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1497278160241', '1', 'zh_CN', 'Asia/Shanghai', '1');
+BEGIN;
+INSERT INTO `brickcat_user` VALUES ('1495610341604', '1', 'sym@b3log.org', 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/b9e29c04b8fb4265ba63bfbd9f2112b3_timg.jpeg', '1', '', '', '', '', 'adminRole', '1', '1', '3', '0', '178', '322', '0', '0', '1495610344193', '1496665446462', '1497365576073', '0:0:0:0:0:0:0:1', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '1496672480785', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341588', '1', 'zh_CN', 'Asia/Shanghai', '0'), ('1495610341994', '2', 'default_commenter@b3log.org', 'Default Commenter', '9e30b1a9f57d2a0fc9c76fcc1e984b11', '', '', '', '', '', '2', 'http://localhost:9090/upload/0263e50c93364b059365ef95461f3848.jpg', '0', '', '', '', '', 'defaultCommenterRole', '0', '0', '0', '0', '500', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341994', '1', 'en_US', 'Asia/Shanghai', '0'), ('1497277766038', '3', '549595297@qq.com', 'viseosize', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/87a43004bbf74cbcad20972c03da2e66.jpg', '0', '', '', '', '', 'defaultRole', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1497277766036', '1', 'zh_CN', 'Asia/Shanghai', '1'), ('1497278160243', '3', '54959597@qq.com', 'viseosize1', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/59e6b136e37841bdb10e34a99b83e624.jpg', '0', '', '', '', '', 'defaultRole', '0', '0', '0', '0', '400', '100', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1497278160241', '1', 'zh_CN', 'Asia/Shanghai', '1');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_user_book_article`
+--  Table structure for `brickcat_user_book_article`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_user_book_article`;
 CREATE TABLE `brickcat_user_book_article` (
@@ -919,11 +617,7 @@ CREATE TABLE `brickcat_user_book_article` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_user_book_article
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_user_tag`
+--  Table structure for `brickcat_user_tag`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_user_tag`;
 CREATE TABLE `brickcat_user_tag` (
@@ -935,16 +629,14 @@ CREATE TABLE `brickcat_user_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_user_tag
+--  Records of `brickcat_user_tag`
 -- ----------------------------
-INSERT INTO `brickcat_user_tag` VALUES ('1495610342306', '1495610341604', '1495610342228', '0');
-INSERT INTO `brickcat_user_tag` VALUES ('1495610342430', '1495610341604', '1495610342368', '0');
-INSERT INTO `brickcat_user_tag` VALUES ('1495610344084', '1495610341604', '1495610344006', '0');
-INSERT INTO `brickcat_user_tag` VALUES ('1495610344396', '1495610341604', '1495610342368', '1');
-INSERT INTO `brickcat_user_tag` VALUES ('1495610344521', '1495610341604', '1495610342228', '1');
+BEGIN;
+INSERT INTO `brickcat_user_tag` VALUES ('1495610342306', '1495610341604', '1495610342228', '0'), ('1495610342430', '1495610341604', '1495610342368', '0'), ('1495610344084', '1495610341604', '1495610344006', '0'), ('1495610344396', '1495610341604', '1495610342368', '1'), ('1495610344521', '1495610341604', '1495610342228', '1');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_verifycode`
+--  Table structure for `brickcat_verifycode`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_verifycode`;
 CREATE TABLE `brickcat_verifycode` (
@@ -960,11 +652,7 @@ CREATE TABLE `brickcat_verifycode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_verifycode
--- ----------------------------
-
--- ----------------------------
--- Table structure for `brickcat_video`
+--  Table structure for `brickcat_video`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_video`;
 CREATE TABLE `brickcat_video` (
@@ -995,38 +683,14 @@ CREATE TABLE `brickcat_video` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_video
+--  Records of `brickcat_video`
 -- ----------------------------
-INSERT INTO `brickcat_video` VALUES ('1496638069239', '111', '0', '111', '1495610341604', '0', '0', 'http://localhost:9090/upload/', '', '0', '1496638069187', '1496638069187', '0', '0', '0', '0', '0', '0', '0', '0', '111', null, null);
-INSERT INTO `brickcat_video` VALUES ('1496673448296', '111', '0', '111', '1495610341604', '0', '0', 'http://localhost:9090/upload/timg.jpeg', '', '0', '1496673448285', '1496673448285', '0', '0', '0', '0', '0', '0', '0', '0', '11', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497017889515', '一条测试的视频', '0', '测试', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497017889514', '1497017889514', '0', '0', '0', '0', '0', '0', '0', '0', 'hgjhkgjkycggbykjjkjngbhjvjljhglgjhcgbvcbvbnbnbnnbnmnmnmnmn,nbbnvbvbfhghkjhljkjll/mm./,m,.n,mmn,bmnvhvgjkhjk,.nn,.n,mn,mn,', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497145876115', '哈哈111111', '0', '测试', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497145876105', '1497145876105', '0', '0', '0', '0', '0', '0', '0', '0', 'dfghsdfgd', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146222699', 'dfg', '0', 'gs', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146222698', '1497146222698', '0', '0', '0', '0', '0', '0', '0', '0', 'df', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146335761', 'dfgsg', '0', 'fsdg', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146335759', '1497146335759', '0', '0', '0', '0', '0', '0', '0', '0', 'fdgs', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146762824', 'ge\'r\'w\'t', '0', '问题', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146762817', '1497146762817', '0', '0', '0', '0', '0', '0', '0', '0', '我问他', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146859252', '梵蒂冈', '0', '东方故事', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146859252', '1497146859252', '0', '0', '0', '0', '0', '0', '0', '0', '分公司', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146874863', '大公司', '0', '梵蒂冈', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146874863', '1497146874863', '0', '0', '0', '0', '0', '0', '0', '0', ' 电饭锅', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146893515', '分公司法定', '0', '十多个', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146893515', '1497146893515', '0', '0', '0', '0', '0', '0', '0', '0', ' 电风扇', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146909365', '施工队', '0', 'g\'d', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146909365', '1497146909365', '0', '0', '0', '0', '0', '0', '0', '0', ' 感受到', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146928864', '是大法官', '0', '电饭锅', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146928864', '1497146928864', '0', '0', '0', '0', '0', '0', '0', '0', '东方故事', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146956135', '单方事故', '0', '单方事故', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146956135', '1497146956135', '0', '0', '0', '0', '0', '0', '0', '0', '第三个', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146973801', '格式的风格', '0', '大锅饭', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146973801', '1497146973801', '0', '0', '0', '0', '0', '0', '0', '0', ' 水电费', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497146992781', '东方故事', '0', '第三方', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146992781', '1497146992781', '0', '0', '0', '0', '0', '0', '0', '0', '的双方各', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497147101112', '梵蒂冈', '0', '格式', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147101112', '1497147101112', '0', '0', '0', '0', '0', '0', '0', '0', '给对方', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497147116247', '电饭锅', '0', '电饭锅', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147116247', '1497147116247', '0', '0', '0', '0', '0', '0', '0', '0', '电饭锅', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497147136352', '告诉对方', '0', '第三方', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147136352', '1497147136352', '0', '0', '0', '0', '0', '0', '0', '0', '感受到', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497147152963', '分公司答复', '0', '发给 ', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147152963', '1497147152963', '0', '0', '0', '0', '0', '0', '0', '0', '电饭锅', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497147168904', '告诉对方', '0', '收到', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147168904', '1497147168904', '0', '0', '0', '0', '0', '0', '0', '0', '格式大范甘迪电饭锅大地飞歌电饭锅豆腐干豆腐的', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497147192150', '发光时代', '0', 'SD敢达', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147192150', '1497147192150', '0', '0', '0', '0', '0', '0', '0', '0', '根深蒂固', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497147763935', 'gdfsg', '0', 'dfg', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147763934', '1497147763934', '0', '0', '0', '0', '0', '0', '0', '0', 'dfg', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497150826168', '大', '0', '都是', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497150826166', '1497150826166', '0', '0', '0', '0', '0', '0', '0', '0', '发生 对符合公司和分公司的鬼斧神工和豆腐干豆腐三个地方电饭锅电饭锅电饭锅电饭锅电饭锅', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497151370589', 'fdg', '0', 'fdgs', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497151370589', '1497151370589', '0', '0', '0', '0', '0', '0', '0', '0', 'dfgs刚好合适的体验伟业突然说得对vegdf班干部体验GV推背图不好 TV让他VB人头狗VB3本人特别vetgv', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497172170507', 'fdgd ', '0', 'dfgd', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497172170498', '1497172170498', '0', '0', '0', '0', '0', '0', '0', '0', 'dgdsf', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497172184454', 'fgsdfgdfsgdfsg', '0', 'dfg', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497172184454', '1497172184454', '0', '0', '0', '0', '0', '0', '0', '0', 'sdfgdfsgdfgdfgdf', null, null);
-INSERT INTO `brickcat_video` VALUES ('1497273066380', 'c', '0', 'c', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497273066380', '1497273066380', '0', '0', '0', '0', '0', '0', '0', '0', 'c', './upload/cf3bcbcd44a747d18cf21b84f356d7c6.png', '258453');
+BEGIN;
+INSERT INTO `brickcat_video` VALUES ('1496638069239', '111', '0', '111', '1495610341604', '0', '0', 'http://localhost:9090/upload/', '', '0', '1496638069187', '1496638069187', '0', '0', '0', '0', '0', '0', '0', '0', '111', null, null), ('1496673448296', '111', '0', '111', '1495610341604', '0', '0', 'http://localhost:9090/upload/timg.jpeg', '', '0', '1496673448285', '1496673448285', '0', '0', '0', '0', '0', '0', '0', '0', '11', null, null), ('1497017889515', '一条测试的视频', '0', '测试', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497017889514', '1497017889514', '0', '0', '0', '0', '0', '0', '0', '0', 'hgjhkgjkycggbykjjkjngbhjvjljhglgjhcgbvcbvbnbnbnnbnmnmnmnmn,nbbnvbvbfhghkjhljkjll/mm./,m,.n,mmn,bmnvhvgjkhjk,.nn,.n,mn,mn,', null, null), ('1497145876115', '哈哈111111', '0', '测试', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497145876105', '1497145876105', '0', '0', '0', '0', '0', '0', '0', '0', 'dfghsdfgd', null, null), ('1497146222699', 'dfg', '0', 'gs', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146222698', '1497146222698', '0', '0', '0', '0', '0', '0', '0', '0', 'df', null, null), ('1497146335761', 'dfgsg', '0', 'fsdg', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146335759', '1497146335759', '0', '0', '0', '0', '0', '0', '0', '0', 'fdgs', null, null), ('1497146762824', 'ge\'r\'w\'t', '0', '问题', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146762817', '1497146762817', '0', '0', '0', '0', '0', '0', '0', '0', '我问他', null, null), ('1497146859252', '梵蒂冈', '0', '东方故事', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146859252', '1497146859252', '0', '0', '0', '0', '0', '0', '0', '0', '分公司', null, null), ('1497146874863', '大公司', '0', '梵蒂冈', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146874863', '1497146874863', '0', '0', '0', '0', '0', '0', '0', '0', ' 电饭锅', null, null), ('1497146893515', '分公司法定', '0', '十多个', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146893515', '1497146893515', '0', '0', '0', '0', '0', '0', '0', '0', ' 电风扇', null, null), ('1497146909365', '施工队', '0', 'g\'d', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146909365', '1497146909365', '0', '0', '0', '0', '0', '0', '0', '0', ' 感受到', null, null), ('1497146928864', '是大法官', '0', '电饭锅', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146928864', '1497146928864', '0', '0', '0', '0', '0', '0', '0', '0', '东方故事', null, null), ('1497146956135', '单方事故', '0', '单方事故', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146956135', '1497146956135', '0', '0', '0', '0', '0', '0', '0', '0', '第三个', null, null), ('1497146973801', '格式的风格', '0', '大锅饭', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146973801', '1497146973801', '0', '0', '0', '0', '0', '0', '0', '0', ' 水电费', null, null), ('1497146992781', '东方故事', '0', '第三方', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497146992781', '1497146992781', '0', '0', '0', '0', '0', '0', '0', '0', '的双方各', null, null), ('1497147101112', '梵蒂冈', '0', '格式', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147101112', '1497147101112', '0', '0', '0', '0', '0', '0', '0', '0', '给对方', null, null), ('1497147116247', '电饭锅', '0', '电饭锅', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147116247', '1497147116247', '0', '0', '0', '0', '0', '0', '0', '0', '电饭锅', null, null), ('1497147136352', '告诉对方', '0', '第三方', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147136352', '1497147136352', '0', '0', '0', '0', '0', '0', '0', '0', '感受到', null, null), ('1497147152963', '分公司答复', '0', '发给 ', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147152963', '1497147152963', '0', '0', '0', '0', '0', '0', '0', '0', '电饭锅', null, null), ('1497147168904', '告诉对方', '0', '收到', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147168904', '1497147168904', '0', '0', '0', '0', '0', '0', '0', '0', '格式大范甘迪电饭锅大地飞歌电饭锅豆腐干豆腐的', null, null), ('1497147192150', '发光时代', '0', 'SD敢达', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147192150', '1497147192150', '0', '0', '0', '0', '0', '0', '0', '0', '根深蒂固', null, null), ('1497147763935', 'gdfsg', '0', 'dfg', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497147763934', '1497147763934', '0', '0', '0', '0', '0', '0', '0', '0', 'dfg', null, null), ('1497150826168', '大', '0', '都是', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497150826166', '1497150826166', '0', '0', '0', '0', '0', '0', '0', '0', '发生 对符合公司和分公司的鬼斧神工和豆腐干豆腐三个地方电饭锅电饭锅电饭锅电饭锅电饭锅', null, null), ('1497151370589', 'fdg', '0', 'fdgs', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497151370589', '1497151370589', '0', '0', '0', '0', '0', '0', '0', '0', 'dfgs刚好合适的体验伟业突然说得对vegdf班干部体验GV推背图不好 TV让他VB人头狗VB3本人特别vetgv', null, null), ('1497172170507', 'fdgd ', '0', 'dfgd', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497172170498', '1497172170498', '0', '0', '0', '0', '0', '0', '0', '0', 'dgdsf', null, null), ('1497172184454', 'fgsdfgdfsgdfsg', '0', 'dfg', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497172184454', '1497172184454', '0', '0', '0', '0', '0', '0', '0', '0', 'sdfgdfsgdfgdfgdf', null, null), ('1497273066380', 'c', '0', 'c', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497273066380', '1497273066380', '0', '0', '0', '0', '0', '0', '0', '0', 'c', './upload/cf3bcbcd44a747d18cf21b84f356d7c6.png', '258453'), ('1497365519534', '发给对方是个', '0', '电风扇', '1495610341604', '0', '0', '/upload/[示范60mbps]HD.Club-4K-Chimei-inn-60mbps.mp4', '', '0', '1497365519514', '1497365519514', '0', '0', '0', '0', '0', '0', '0', '0', '分公司鬼地方个格式的非官方的梵蒂冈格式 会更好股份 激光焊接就看', './upload/b489cef63e8541428a15a7ef9dd96f90.png', '258');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_videosize`
+--  Table structure for `brickcat_videosize`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_videosize`;
 CREATE TABLE `brickcat_videosize` (
@@ -1037,13 +701,14 @@ CREATE TABLE `brickcat_videosize` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of brickcat_videosize
+--  Records of `brickcat_videosize`
 -- ----------------------------
-INSERT INTO `brickcat_videosize` VALUES ('1497277766516', '1497277766038', '500');
-INSERT INTO `brickcat_videosize` VALUES ('1497278160651', '1497278160243', '100');
+BEGIN;
+INSERT INTO `brickcat_videosize` VALUES ('1497277766516', '1497277766038', '500'), ('1497278160651', '1497278160243', '100'), ('1497362139350', '1497278160243', '500'), ('1497362709010', '1495610341604', '700');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `brickcat_vote`
+--  Table structure for `brickcat_vote`
 -- ----------------------------
 DROP TABLE IF EXISTS `brickcat_vote`;
 CREATE TABLE `brickcat_vote` (
@@ -1055,6 +720,4 @@ CREATE TABLE `brickcat_vote` (
   PRIMARY KEY (`oId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of brickcat_vote
--- ----------------------------
+SET FOREIGN_KEY_CHECKS = 1;
