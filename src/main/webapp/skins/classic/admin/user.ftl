@@ -367,5 +367,20 @@
             </form>
         </div>
     </div>
+
+    <div class="module">
+        <div class="module-header">
+            <h2>${compensateInitSizeLabel}</h2>
+        </div>
+        <div class="module-panel form fn-clear">
+            <form action="${servePath}/video/update/${user.oId}" method="POST">
+                <label>${userNameLabel}</label>
+                <input type="text" name="userName" value="${user.userName}" readonly="readonly" />
+
+                <br/><br/>
+                <button type="submit" class="green fn-right">${submitLabel}</button>
+            </form>
+        </div>
+    </div>
 </div>
 </@admin>
