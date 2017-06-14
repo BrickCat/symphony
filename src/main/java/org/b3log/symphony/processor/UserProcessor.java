@@ -465,6 +465,10 @@ public class UserProcessor {
         pointTransferTipLabel = pointTransferTipLabel.replace("{point}", Symphonys.get("pointTransferMin"));
         dataModel.put("pointTransferTipLabel", pointTransferTipLabel);
 
+        String sizeTransferTipLabel = (String) dataModel.get("sizeTransferTipLabel");
+        sizeTransferTipLabel = sizeTransferTipLabel.replace("{point}", Symphonys.get("pointTransferMin"));
+        dataModel.put("sizeTransferTipLabel", sizeTransferTipLabel);
+
         String dataExportTipLabel = (String) dataModel.get("dataExportTipLabel");
         dataExportTipLabel = dataExportTipLabel.replace("{point}",
                 String.valueOf(Pointtransfer.TRANSFER_SUM_C_DATA_EXPORT));
@@ -489,6 +493,10 @@ public class UserProcessor {
         }
 
         dataModel.put(Invitecode.INVITECODES, (Object) invitecodes);
+
+        //获取当前用户
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        dataModel.put(User.USER,currentUser);
 
         if (requestURI.contains("function")) {
             final String emojis = emotionQueryService.getEmojis(userId);

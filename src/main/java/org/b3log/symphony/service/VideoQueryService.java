@@ -93,4 +93,27 @@ public class VideoQueryService {
 
         return ret;
     }
+
+    public JSONObject getUserVideoSize(JSONObject requestJSONObject, Map<String, Class<?>> videoFields) throws ServiceException {
+        final JSONObject ret = new JSONObject();
+        final Query query = new Query().addSort(Keys.OBJECT_ID, SortDirection.DESCENDING);
+        for (final Map.Entry<String, Class<?>> tagField : videoFields.entrySet()) {
+            query.addProjection(tagField.getKey(), tagField.getValue());
+        }
+        if (requestJSONObject.has(Video.VIDEO_AUTHORID)) {
+            query.setFilter(new PropertyFilter(Video.VIDEO_AUTHORID, FilterOperator.EQUAL, requestJSONObject.optString(Video.VIDEO_AUTHORID)));
+        }
+        JSONObject result = null;
+
+        try {
+            result = videoRepository.get(query);
+        } catch (RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets tags failed", e);
+            throw new ServiceException(e);
+        }
+        final JSONArray data = result.optJSONArray(Keys.RESULTS);
+        final List<JSONObject> videos = CollectionUtils.<JSONObject>jsonArrayToList(data);
+        ret.put(Video.VIDEOS,videos);
+        return ret;
+    }
 }

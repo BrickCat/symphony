@@ -814,7 +814,27 @@ public class NotificationMgmtService {
             throw new ServiceException(msg);
         }
     }
+    /**
+     * Adds a 'size exchange' type notification with the specified request json object.
+     *
+     * @param requestJSONObject the specified request json object, for example,
+     *                          "userId"; "",
+     *                          "dataId": "" // transfer record id
+     * @throws ServiceException service exception
+     */
+    @Transactional
+    public void addSizeExchangeNotification(final JSONObject requestJSONObject) throws ServiceException{
+        try {
+            requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_POINT_SIZE);
 
+            addNotification(requestJSONObject);
+        } catch (final RepositoryException e) {
+            final String msg = "Adds notification [type=size_exchange] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+    }
     /**
      * Adds a notification with the specified request json object.
      *
@@ -845,26 +865,6 @@ public class NotificationMgmtService {
             }
         });
     }
-    /**
-     * Adds a 'size exchange' type notification with the specified request json object.
-     *
-     * @param requestJSONObject the specified request json object, for example,
-     *                          "userId"; "",
-     *                          "dataId": "" // transfer record id
-     * @throws ServiceException service exception
-     */
-    @Transactional
-    public void addSizeExchangeNotification(final JSONObject requestJSONObject) throws ServiceException{
-        try {
-            requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_POINT_SIZE);
 
-            addNotification(requestJSONObject);
-        } catch (final RepositoryException e) {
-            final String msg = "Adds notification [type=size_exchange] failed";
-            LOGGER.log(Level.ERROR, msg, e);
-
-            throw new ServiceException(msg);
-        }
-    }
 
 }

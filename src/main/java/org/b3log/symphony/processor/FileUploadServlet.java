@@ -55,6 +55,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -232,9 +233,10 @@ public class FileUploadServlet extends HttpServlet {
                         // 上传文件
                     }else{
                         String videoProperty = "";
-
+                        DecimalFormat df = new DecimalFormat("0.00");//格式化小数，不足的补0
                         // 获得文件大小
                         Long size = fileItem.getSize();
+
                         // 获得文件名
                         String fileName = fileItem.getName();
 
@@ -317,23 +319,20 @@ public class FileUploadServlet extends HttpServlet {
                             requestJSONObject.put(Video.VIDEO_AUTHORID, currentUserId);
                             final Map<String, Class<?>> videoFields = new HashMap<>();
                             videoFields.put(Video.VIDEO_SIZE,Integer.class);
-                            final JSONObject videoResult = videoQueryService.getVideos(requestJSONObject,videoFields);
+                            final JSONObject videoResult = videoQueryService.getUserVideoSize(requestJSONObject,videoFields);
                             final List<JSONObject> videos = CollectionUtils.jsonArrayToList(videoResult.optJSONArray(Video.VIDEOS));
                             int allSize = 0;
                             for (JSONObject v : videos) {
                                 allSize+=v.optInt(Video.VIDEO_SIZE);
                             }
-                            if(allSize+size/1024000 > currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)){
+                            String bigSize = df.format(allSize + (float)size/1048576);
+                            if(Double.parseDouble(bigSize) > currVideoSize.optDouble(VideoSize.USER_MAX_VIDEO_SIZE)){
                                 if(size>currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)){
                                     resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+(currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)-allSize));
                                     return;
                                 }
                             }
                         }
-
-
-
-
                         //videoStatus
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_STATUS).toString())){
                             video.put(Video.VIDEO_STATUS,map.get(Video.VIDEO_STATUS));
@@ -346,11 +345,12 @@ public class FileUploadServlet extends HttpServlet {
                             resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"videoSize");
                             return;
                         }else{
-                            video.put(Video.VIDEO_SIZE,size/1024000);
+                            float sizes =  (float)size/1048576;
+                            video.put(Video.VIDEO_SIZE,df.format(sizes));
                         }
                         //imagePath
                         final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-                        String imagePath = UPLOAD_DIR +uuid+".png";
+                        String imagePath = System.getProperty( "user.dir" )+"/upload/"+uuid+".png";
                         video.put(Video.VIDEO_IMAGE_PATH,imagePath);
 
                         //videoUrl
