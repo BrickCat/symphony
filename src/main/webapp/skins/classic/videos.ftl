@@ -125,11 +125,11 @@
                     success: function (result, textStatus) {
                         var html = '';
                         for (var i = 0; i < result.videos.length; i++) {
-                            html += '<article class="white-panel">'
+                            html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
                                     + '<img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">'
-                                    + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
+                                    + '<h1><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'+result.videos[i].videoTitle+'</a></h1>'
                                     + '<p>'+result.videos[i].videoRemarks+'</p>'
-                                    + '</article>';
+                                    + '</a></article>';
                         }
                         $("#gallery-wrapper").html(html);
                     }
@@ -155,7 +155,7 @@
                                 for (var i = 0; i < result.videos.length; i++) {
                                     html += '<article class="white-panel">'
                                             + '<img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">'
-                                            + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
+                                            + '<h1><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'+result.videos[i].videoTitle+'</a></h1>'
                                             + '<p>'+result.videos[i].videoRemarks+'</p>'
                                             + '</article>';
                                 }

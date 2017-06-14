@@ -125,6 +125,28 @@ public class VideoProcessor {
     }
 
     /**
+     * Shows video with the specified article id.
+     *
+     * @param context   the specified context
+     * @param request   the specified request
+     * @param response  the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/video/front/{videoId}/show-video", method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
+    public void frontShowVideo(final String videoId,final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        renderer.setTemplateName("/video.ftl");
+        final JSONObject video = videoQueryService.getVideo(videoId);
+        dataModel.put(Video.VIDEO,video);
+        dataModel.put(Common.SELECTED, Common.VIDEOS);
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
+    /**
      * Removes an article.
      *
      * @param context  the specified context
