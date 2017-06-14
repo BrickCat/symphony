@@ -115,7 +115,6 @@
 
             });
             var isScroll = true;
-            var p = 1;
             window.onload = function(){
                 $.ajax({
                     type: "POST",
@@ -133,14 +132,18 @@
                                     + '</article>';
                         }
                         $("#gallery-wrapper").html(html);
-                        p++;
                     }
                 });
             }
+            var p = 2;
             window.onscroll = function getMore(){
+
+
                 if(isScroll){
+
                 // 当滚动到最底部以上100像素时， 加载新内容
-                    if($(document).height() - $(this).scrollTop() - $(this).height()<25) {
+                    if($(document).height() - $(this).scrollTop() - $(this).height()<100) {
+                        alert(p);
                         $.ajax({
                             type: "POST",
                             url: Label.servePath + '/video/front/videos?p=' + p,

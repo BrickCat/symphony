@@ -35,7 +35,7 @@
                     ${videoURl}<input type="file" name="file">
                 </label>
                 <label >
-                    <p class="ft-red" style="margin-top: 5px;">目前只支持MP4格式的视频</p>
+                    <p class="ft-red" style="margin-top: 5px; margin-left: 10px">目前只支持MP4格式的视频</p>
                 </label>
 
                 <br/><br/><br/>

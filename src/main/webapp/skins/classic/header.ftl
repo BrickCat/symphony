@@ -16,7 +16,7 @@
         <#--<a href="https://hacpai.com/tag/book_share"<#if selected?? && 'book' == selected> class="current"</#if>>
            <svg height="16" viewBox="0 -1 17 14" width="16">${bookIcon}</svg> ${bookShareLabel}</a>-->
         <a href="${servePath}/video/front/videos">
-           <svg height="16" viewBox="0 -1 17 14" width="16">${bookIcon}</svg> ${bookShareLabel}</a>
+           <svg height="16" viewBox="0 -1 17 14" width="16">${videoIcon}</svg> ${videoLabel}</a>
         <#list domains as domain>
             <a pjax-title="${domain.domainTitle} - ${domainLabel} - ${symphonyLabel}" href="${servePath}/domain/${domain.domainURI}"<#if selected?? && selected == domain.domainURI> class="current"</#if>>${domain.domainIconPath} ${domain.domainTitle}</a>
         </#list>
