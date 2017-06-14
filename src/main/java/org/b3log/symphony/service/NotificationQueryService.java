@@ -448,6 +448,8 @@ public class NotificationQueryService {
                 Notification.DATA_TYPE_C_INVITATION_LINK_USED));
         subFilters.add(new PropertyFilter(Notification.NOTIFICATION_DATA_TYPE, FilterOperator.EQUAL,
                 Notification.DATA_TYPE_C_POINT_PERFECT_ARTICLE));
+        subFilters.add(new PropertyFilter(Notification.NOTIFICATION_DATA_TYPE, FilterOperator.EQUAL,
+                Notification.DATA_TYPE_POINT_SIZE));
 
         filters.add(new CompositeFilter(CompositeFilterOperator.OR, subFilters));
 

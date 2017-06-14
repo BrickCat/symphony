@@ -15,6 +15,7 @@ import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
 import org.b3log.latke.util.CollectionUtils;
+import org.b3log.latke.util.Ids;
 import org.b3log.latke.util.Strings;
 import org.b3log.symphony.model.*;
 import org.b3log.symphony.processor.advice.AnonymousViewCheck;
@@ -172,18 +173,15 @@ public class VideoSizeProcessor {
                 dataModelService.fillHeaderAndFooter(request, response, dataModel);
                 return;
             }
-
-            final String memo = String.valueOf(Math.floor(point / (double) Symphonys.getInt("pointExchangeUnit")));
-
             final String transferId = pointtransferMgmtService.transfer(userId, Pointtransfer.ID_C_SYS,
-                    Pointtransfer.TRANSFER_TYPE_C_SIZE, point, memo, System.currentTimeMillis());
+                    Pointtransfer.TRANSFER_TYPE_C_SIZE, point, size, System.currentTimeMillis());
 
             final JSONObject notification = new JSONObject();
             notification.put(Notification.NOTIFICATION_USER_ID, userId);
             notification.put(Notification.NOTIFICATION_DATA_ID, transferId);
 
-            //获取当前空间
-            notificationMgmtService.addPointExchangeNotification(notification);
+            //通知
+            notificationMgmtService.addSizeExchangeNotification(notification);
             int currSize = currVideoSize.getInt(VideoSize.USER_MAX_VIDEO_SIZE);
             //修改空间大小
             currVideoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.valueOf(size)+currSize);
