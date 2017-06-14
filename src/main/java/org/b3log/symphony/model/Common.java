@@ -472,6 +472,11 @@ public final class Common {
     public static final String TIMELINE = "timeline";
 
     /**
+     * Key of timeline.
+     */
+    public static final String VIDEOS = "videos";
+
+    /**
      * Key of timelines.
      */
     public static final String TIMELINES = "timelines";

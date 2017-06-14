@@ -13,10 +13,10 @@
         </#if>
         <a href="${servePath}/timeline"<#if selected?? && 'timeline' == selected> class="current"</#if>>
            <svg height="14" viewBox="0 0 16 14" width="16">${timelineIcon}</svg> ${timelineLabel}</a>
-        <a href="https://hacpai.com/tag/book_share"<#if selected?? && 'book' == selected> class="current"</#if>>
+        <#--<a href="https://hacpai.com/tag/book_share"<#if selected?? && 'book' == selected> class="current"</#if>>
+           <svg height="16" viewBox="0 -1 17 14" width="16">${bookIcon}</svg> ${bookShareLabel}</a>-->
+        <a href="${servePath}/video/front/videos">
            <svg height="16" viewBox="0 -1 17 14" width="16">${bookIcon}</svg> ${bookShareLabel}</a>
-        <a href="${servePath}/video/front/videos"<#if selected?? && 'video' == selected> class="current"</#if>>
-            <span class="icon-video" height="16" width="16"></span> ${bookShareLabel}</a>
         <#list domains as domain>
             <a pjax-title="${domain.domainTitle} - ${domainLabel} - ${symphonyLabel}" href="${servePath}/domain/${domain.domainURI}"<#if selected?? && selected == domain.domainURI> class="current"</#if>>${domain.domainIconPath} ${domain.domainTitle}</a>
         </#list>

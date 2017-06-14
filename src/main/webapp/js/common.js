@@ -865,34 +865,34 @@ var Util = {
                 };
 
                 var count = result.unreadNotificationCnt;
-                // mobile
-                $.ua.set(navigator.userAgent);
-                if ($.ua.device.type && $.ua.device.type === 'mobile') {
-                    if (0 < count) {
-                        $("#aNotifications").removeClass("no-msg").addClass("msg").text(count).attr('href', 'javascript:void(0)');
-                        if (0 === result.userNotifyStatus && window.localStorage.hadNotificate !== count.toString()) {
-                            Util.notifyMsg(count);
-                            window.localStorage.hadNotificate = count;
-                        }
-
-                        var notiHTML = genLiHTML(result);
-
-                        if ($('#notificationsPanel').length === 1) {
-                            $('#notificationsPanel ul').html(notiHTML);
-                            return false;
-                        }
-                        $(".main:first").prepend('<div id="notificationsPanel" class="tab-current fn-clear fn-none"><ul class="tab fn-clear">' +
-                                notiHTML + '</ul></div>');
-
-                        $("#aNotifications").click(function () {
-                            $('#notificationsPanel').slideToggle();
-                        });
-                    } else {
-                        window.localStorage.hadNotificate = 'false';
-                        $("#aNotifications").removeClass("msg").addClass("no-msg").text(count).attr('href', Label.servePath + '/notifications');
-                    }
-                    return false;
-                }
+                // // mobile
+                // $.ua.set(navigator.userAgent);
+                // if ($.ua.device.type && $.ua.device.type === 'mobile') {
+                //     if (0 < count) {
+                //         $("#aNotifications").removeClass("no-msg").addClass("msg").text(count).attr('href', 'javascript:void(0)');
+                //         if (0 === result.userNotifyStatus && window.localStorage.hadNotificate !== count.toString()) {
+                //             Util.notifyMsg(count);
+                //             window.localStorage.hadNotificate = count;
+                //         }
+                //
+                //         var notiHTML = genLiHTML(result);
+                //
+                //         if ($('#notificationsPanel').length === 1) {
+                //             $('#notificationsPanel ul').html(notiHTML);
+                //             return false;
+                //         }
+                //         $(".main:first").prepend('<div id="notificationsPanel" class="tab-current fn-clear fn-none"><ul class="tab fn-clear">' +
+                //                 notiHTML + '</ul></div>');
+                //
+                //         $("#aNotifications").click(function () {
+                //             $('#notificationsPanel').slideToggle();
+                //         });
+                //     } else {
+                //         window.localStorage.hadNotificate = 'false';
+                //         $("#aNotifications").removeClass("msg").addClass("no-msg").text(count).attr('href', Label.servePath + '/notifications');
+                //     }
+                //     return false;
+                // }
 
                 // browser
                 if (0 < count) {

@@ -120,7 +120,7 @@ public class VideoProcessor {
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("/videos.ftl");
-
+        dataModel.put(Common.SELECTED, Common.VIDEOS);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 

@@ -7,7 +7,6 @@
         </@head>
         <link rel="stylesheet" href="${staticServePath}/css/index.css?${staticResourceVersion}" />
         <link rel="canonical" href="${servePath}/videos">
-        <link rel="stylesheet" href="${staticServePath}/js/lib/waterfall/css/normalize.css">
         <link rel="stylesheet" type="text/css" href="${staticServePath}/js/lib/waterfall/css/default.css">
             <style type="text/css">
                 #gallery-wrapper {
