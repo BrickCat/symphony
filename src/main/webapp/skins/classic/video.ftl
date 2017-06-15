@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="${staticServePath}/js/lib/highlight.js-9.6.0/styles/github.css">
         <link rel="stylesheet" href="${staticServePath}/css/index.css?${staticResourceVersion}" />
         <link rel="stylesheet" href="${staticServePath}/js/lib/editor/codemirror.min.css?${staticResourceVersion}">
-
+         <link href="${staticServePath}/js/lib/video.js/css/videojs-vjsdownload.css" rel="stylesheet">
         <!-- Open Graph -->
         <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="article" />
@@ -138,13 +138,25 @@
                         <source src="${servePath}${video.videoUrl}" type="video/mp4">
                     </video>
                     <script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
+                    <script src="${staticServePath}/js/lib/video.js/js/videojs-vjsdownload.js"></script>
                     <script type="text/javascript">
+                        var myPlayer = videojs('my-video');
                         var myPlayer = videojs('my-video');
                         videojs("my-video").ready(function() {
                             var myPlayer = this;
                             myPlayer.play();
-                            myPlayer.volume(0.5);
-                        });
+                            plugins: {
+                                vjsdownload:{
+                                    beforeElement: 'playbackRateMenuButton', // default fullscreenMenuToggle
+                                            textControl: 'Download video', // default "Download video"
+                                            name: 'downloadButton' // default "downloadButton"
+                                }
+                            }
+                        }, function() {
+                            console.log('Callback video-js initiated');
+                            this.on('downloadvideo', function(){
+                                console.log('downloadvideo triggered');
+                            }););
                     </script>
                 </div>
             </div>
