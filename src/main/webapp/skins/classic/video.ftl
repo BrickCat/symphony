@@ -140,23 +140,25 @@
                     <script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
                     <script src="${staticServePath}/js/lib/video.js/js/videojs-vjsdownload.js"></script>
                     <script type="text/javascript">
-                        var myPlayer = videojs('my-video');
-                        var myPlayer = videojs('my-video');
-                        videojs("my-video").ready(function() {
-                            var myPlayer = this;
-                            myPlayer.play();
+
+                        var player = videojs(document.querySelector('.video-js'), {
+                            "playbackRates": [1, 1.5, 2],
+                            "autoplay": true,
                             plugins: {
                                 vjsdownload:{
-                                    beforeElement: 'playbackRateMenuButton', // default fullscreenMenuToggle
-                                            textControl: 'Download video', // default "Download video"
-                                            name: 'downloadButton' // default "downloadButton"
+                                    beforeElement: 'playbackRateMenuButton',
+                                    textControl: 'Download video',
+                                    name: 'downloadButton'
                                 }
                             }
-                        }, function() {
-                            console.log('Callback video-js initiated');
+                        } , function() {
                             this.on('downloadvideo', function(){
-                                console.log('downloadvideo triggered');
-                            }););
+                                var fileURL=window.open ('${servePath}${video.videoUrl}',"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
+                                fileURL.document.execCommand("SaveAs");
+                                fileURL.window.close();
+                                fileURL.close();
+                            });
+                        });
                     </script>
                 </div>
             </div>
