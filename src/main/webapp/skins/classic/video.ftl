@@ -27,7 +27,7 @@
         <meta name="twitter:description" content="${video.videoRemarks}" />
         <meta name="twitter:title" content="${video.videoTitle} - ${symphonyLabel}" />
     </head>
-    <body itemscope itemtype="http://schema.org/Product" class="article">
+    <body itemscope itemtype="http://schema.org/Product" class="article" oncontextmenu=self.event.returnValue=false onselectstart="return false">
 
         <#include "header.ftl">
         <div class="article-body">
