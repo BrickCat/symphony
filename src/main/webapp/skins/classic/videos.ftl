@@ -126,7 +126,7 @@
                         var html = '';
                         for (var i = 0; i < result.videos.length; i++) {
                             html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
-                                    + '<img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">'
+                                    + '<img src="${servePath}'+result.videos[i].videoImgPath+'" class="thumb">'
                                     + '<h1><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'+result.videos[i].videoTitle+'</a></h1>'
                                     + '<p>'+result.videos[i].videoRemarks+'</p>'
                                     + '</a></article>';

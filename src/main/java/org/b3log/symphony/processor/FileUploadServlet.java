@@ -239,8 +239,8 @@ public class FileUploadServlet extends HttpServlet {
 
                         // 获得文件名
                         String fileName = fileItem.getName();
-
-                        map.put("videoUrl","/upload/" + fileName);
+                        //UUID
+                        final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
                         //获取当前用户
                         final JSONObject currentUser = (JSONObject) req.getAttribute(User.USER);
@@ -251,6 +251,8 @@ public class FileUploadServlet extends HttpServlet {
                         video.put(Video.VIDEO_AUTHORID,currentUserId);
                         //格式
                         String suffix = StringUtils.substringAfterLast(fileName, ".");
+                        fileName = uuid+"."+suffix;
+                        map.put("videoUrl","/upload/" + fileName);
                         if(!"mp4".equals(suffix)){
                             resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"format");
                             return;
@@ -349,9 +351,8 @@ public class FileUploadServlet extends HttpServlet {
                             video.put(Video.VIDEO_SIZE,df.format(sizes));
                         }
                         //imagePath
-                        final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
                         String imagePath = System.getProperty( "user.dir" )+"/upload/"+uuid+".png";
-                        video.put(Video.VIDEO_IMAGE_PATH,imagePath);
+                        video.put(Video.VIDEO_IMAGE_PATH,"/upload/"+uuid+".png");
 
                         //videoUrl
                         video.put(Video.VIDEO_URL,map.get(Video.VIDEO_URL));
@@ -366,7 +367,7 @@ public class FileUploadServlet extends HttpServlet {
                             //将文件保存到指定的路径
                             File file = new File(UPLOAD_DIR,fileName);
                             fileItem.write(file);
-                            if(VideoUtils.getVideoImage(Symphonys.get("video.ffmpeg.path"),System.getProperty( "user.dir" )+"/upload/" + fileName,imagePath)){
+                            if(VideoUtils.getVideoImage(System.getProperty( "user.dir" )+"/upload/" + fileName,imagePath)){
                                 //跳转到视频页面
                                 resp.sendRedirect(Latkes.getServePath()+"/admin/videos");
                             }else{

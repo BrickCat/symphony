@@ -174,7 +174,7 @@ public class VideoProcessor {
         renderer.setTemplateName("admin/video.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
 
-        JSONObject video = videoQueryService.getVideo(videoId);
+        JSONObject oldVideo = videoQueryService.getVideo(videoId);
 
         final Enumeration<String> parameterNames = request.getParameterNames();
         while (parameterNames.hasMoreElements()){
@@ -183,16 +183,16 @@ public class VideoProcessor {
             if(name.equals(Video.VIDEO_POINT)
                     ||name.equals(Video.VIDEO_STATUS)
                     ||name.equals(Video.VIDEO_TYPE)){
-                video.put(name,Integer.valueOf(value));
+                oldVideo.put(name,Integer.valueOf(value));
             }
-            video.put(name,value);
+            oldVideo.put(name,value);
         }
 
-        videoMgmtService.updateVideo(videoId,video);
+        videoMgmtService.updateVideo(videoId,oldVideo);
 
-        video = videoQueryService.getVideo(videoId);
+        JSONObject newVideo  = videoQueryService.getVideo(videoId);
 
-        dataModel.put(Video.VIDEO,video);
+        dataModel.put(Video.VIDEO,newVideo);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
         response.sendRedirect(Latkes.getServePath() + "/admin/videos");
     }
@@ -274,6 +274,8 @@ public class VideoProcessor {
         videoFields.put(Video.VIDEO_TITLE, String.class);
         //状态
         videoFields.put(Video.VIDEO_STATUS,Integer.class);
+        //图片地址
+        videoFields.put(Video.VIDEO_IMAGE_PATH,String.class);
         //描述
         videoFields.put(Video.VIDEO_REMARKS,String.class);
         //创建日期
