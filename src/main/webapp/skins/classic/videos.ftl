@@ -125,8 +125,14 @@
                     success: function (result, textStatus) {
                         var html = '';
                         for (var i = 0; i < result.videos.length; i++) {
+                            var imageUrl = '';
+                            if(result.videos[i].videoImgPath == ''){
+                                imageUrl = '${staticServePath}/images/video/sport.png';
+                            }else{
+                                imageUrl = '${servePath}'+result.videos[i].videoImgPath;
+                            }
                             html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
-                                    + '<img src="${servePath}'+result.videos[i].videoImgPath+'" class="thumb">'
+                                    + '<img src="'+imageUrl+'" class="thumb">'
                                     + '<h1><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'+result.videos[i].videoTitle+'</a></h1>'
                                     + '<p>'+result.videos[i].videoRemarks+'</p>'
                                     + '</a></article>';

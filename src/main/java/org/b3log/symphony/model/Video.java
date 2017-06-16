@@ -108,6 +108,41 @@ public final class Video {
     public static final String VIDEO_REMARKS = "videoRemarks";
 
     /**
+     * Key of video vote.
+     */
+    public static final String VIDEO_T_VOTE = "videoVote";
+
+    /**
+     * video status - public.
+     */
+    public static final int VIDEO_STATUS_C_TRUE = 0;
+
+    /**
+     * Key of video author.
+     */
+    public static final String VIDEO_T_AUTHOR = "videoAuthor";
+
+    /**
+     * Key of video author name.
+     */
+    public static final String VIDEO_T_AUTHOR_NAME = "videoAuthorName";
+
+    /**
+     * Key of video author URL.
+     */
+    public static final String VIDEO_T_AUTHOR_URL = "videoAuthorURL";
+
+    /**
+     * Key of video author intro.
+     */
+    public static final String VIDEO_T_AUTHOR_INTRO = "videoAuthorIntro";
+    /**
+     * Key of video comments.
+     */
+    public static final String VIDEO_T_COMMENTS = "videoComments";
+
+
+    /**
      * video constructor
      */
     private Video(){

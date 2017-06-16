@@ -38,6 +38,7 @@ import org.b3log.symphony.model.UserExt;
 import org.b3log.symphony.service.ArticleQueryService;
 import org.b3log.symphony.service.CommentQueryService;
 import org.b3log.symphony.service.OptionQueryService;
+import org.b3log.symphony.service.VideoQueryService;
 import org.b3log.symphony.util.StatusCodes;
 import org.json.JSONObject;
 
@@ -92,7 +93,7 @@ public class CommentAddValidation extends BeforeRequestProcessAdvice {
         final OptionQueryService optionQueryService = beanManager.getReference(OptionQueryService.class);
         final ArticleQueryService articleQueryService = beanManager.getReference(ArticleQueryService.class);
         final CommentQueryService commentQueryService = beanManager.getReference(CommentQueryService.class);
-
+        final VideoQueryService videoQueryService = beanManager.getReference(VideoQueryService.class);
         final JSONObject exception = new JSONObject();
         exception.put(Keys.STATUS_CODE, StatusCodes.ERR);
 
@@ -106,7 +107,18 @@ public class CommentAddValidation extends BeforeRequestProcessAdvice {
         }
 
         try {
+
             final String articleId = requestJSONObject.optString(Article.ARTICLE_T_ID);
+            if(requestJSONObject.has("type")){
+                if (Strings.isEmptyOrNull(articleId)) {
+                    throw new RequestProcessAdviceException(exception.put(Keys.MSG, langPropsService.get("commentVideoErrorLabel")));
+                }
+                final JSONObject video = videoQueryService.getVideo(articleId);
+                if(null == video){
+                    throw new RequestProcessAdviceException(exception.put(Keys.MSG, langPropsService.get("commentVideoErrorLabel")));
+                }
+                return;
+            }
             if (Strings.isEmptyOrNull(articleId)) {
                 throw new RequestProcessAdviceException(exception.put(Keys.MSG, langPropsService.get("commentArticleErrorLabel")));
             }

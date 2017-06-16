@@ -28,7 +28,6 @@
         <meta name="twitter:title" content="${video.videoTitle} - ${symphonyLabel}" />
     </head>
     <body itemscope itemtype="http://schema.org/Product" class="article" oncontextmenu=self.event.returnValue=false onselectstart="return false">
-
         <#include "header.ftl">
         <div class="article-body">
             <div class="wrapper">
@@ -133,8 +132,8 @@
                 <h1 class="article-title">
                     ${video.videoTitle}
                 </h1>
-                <div  class="aplayer">
-                    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="840" height="384" poster="${servePath}${video.videoImgPath}" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>
+                <div  class="aplayer" style="margin-top: 15px;">
+                    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="840" height="384" poster="<#if video.videoImgPath??>${servePath}${video.videoImgPath}</#if>" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>
                         <source src="${servePath}${video.videoUrl}" type="video/mp4">
                     </video>
                     <script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
@@ -147,13 +146,13 @@
                             plugins: {
                                 vjsdownload:{
                                     beforeElement: 'playbackRateMenuButton',
-                                    textControl: 'Download video',
+                                    textControl: 'Download',
                                     name: 'downloadButton'
                                 }
                             }
                         } , function() {
                             this.on('downloadvideo', function(){
-                                var fileURL=window.open ('${servePath}${video.videoUrl}',"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
+                                var fileURL=window.open ('${servePath}${video.videoUrl}',"height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
                                 fileURL.document.execCommand("SaveAs");
                                 fileURL.window.close();
                                 fileURL.close();
@@ -161,8 +160,127 @@
                         });
                     </script>
                 </div>
+                <#--内容-->
+                <h3 style="margin-top: 15px">${videoDesIcon}&nbsp;&nbsp;${videoDescLabel}</h3>
+
+                <div class="content-reset article-content" style="margin-top: -5px;">
+                    ${video.videoRemarks}hgdhghdhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                </div>
+            </div>
+        </div>
+
+        <div class="main <#--<#if video.videoComments?size == 0>--> fn-none<#--</#if>-->">
+            <div class="wrapper" id="articleCommentsPanel">
+            <#if pjax><!---- pjax {#comments} start ----></#if>
+                <div class="module comments" id="comments">
+                    <div class="comments-header module-header">
+                        <span class="article-cmt-cnt"><#--${article.articleCommentCount} 回帖数-->12 ${cmtLabel}</span>
+                        <span class="fn-right<#--评论列表<#if article.articleComments?size == 0>--> fn-none<#--</#if>-->">
+                            <a class="tooltipped tooltipped-nw" href="javascript:Comment.exchangeCmtSort(${userCommentViewMode})"
+                               aria-label="<#if 0 == userCommentViewMode>${changeToLabel}${realTimeLabel}${cmtViewModeLabel}<#else>${changeToLabel}${traditionLabel}${cmtViewModeLabel}</#if>"><span class="icon-<#if 0 == userCommentViewMode>sortasc<#else>time</#if>"></span></a>&nbsp;
+                            <a class="tooltipped tooltipped-nw" href="javascript:Comment._bgFade($('#bottomComment'))" aria-label="${jumpToBottomCommentLabel}"><span class="icon-chevron-down"></span></a>
+                        </span>
+                    </div>
+                    <div class="list">
+                        <ul>
+                        <#assign notificationCmtIds = "">
+                            <#list video.videoComments as comment>
+                            <#assign notificationCmtIds = notificationCmtIds + comment.oId>
+                            <#if comment_has_next><#assign notificationCmtIds = notificationCmtIds + ","></#if>
+                            <#include 'common/comment.ftl' />
+                        </#list>
+                        </ul>
+                        <div id="bottomComment"></div>
+                    </div>
+                    <@pagination url="${servePath}<#---->" query="m=${userCommentViewMode}#comments" pjaxTitle="${video.videoTitle} - ${symphonyLabel}" />
+                </div>
+                <#if pjax><!---- pjax {#comments} end ----></#if>
             </div>
         </div>
         <#include "footer.ftl">
+        <span class="tooltipped tooltipped-w radio-btn" onclick="Comment._toggleReply()"
+              data-hasPermission="${permissions['commonAddComment'].permissionGrant?c}"
+              aria-label="${cmtLabel}"><span class="icon-reply"></span></span>
+        <#if isLoggedIn >
+        <div class="editor-panel">
+            <div class="editor-bg"></div>
+            <div class="wrapper">
+                <div class="form fn-clear comment-wrap">
+                    <div class="fn-flex">
+                        <div id="replyUseName" class="fn-flex-1 fn-ellipsis"></div>
+                        <span class="tooltipped tooltipped-w fn-pointer editor-hide" onclick="Comment._toggleReply()" aria-label="${hideLabel}"> <span class="icon-chevron-down"></span></span>
+                    </div>
+                    <div class="article-comment-content">
+                        <textarea id="commentContent" placeholder="${commentEditorPlaceholderLabel}"></textarea>
+                        <div class="fn-clear comment-submit">
+                            <div class="tip fn-left" id="addCommentTip"></div>
+                            <div class="fn-right">
+                                <#if permissions["commonAddCommentAnonymous"].permissionGrant>
+                                    <label class="cmt-anonymous">${anonymousLabel}<input type="checkbox" id="commentAnonymous"></label>
+                                </#if>
+                                <button class="red" onclick="Comment.add('${video.oId}', '${csrfToken}')">${submitLabel}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </#if>
+        <script src="${staticServePath}/js/lib/compress/article-libs.min.js?${staticResourceVersion}"></script>
+        <script src="${staticServePath}/js/channel${miniPostfix}.js?${staticResourceVersion}"></script>
+        <script src="${staticServePath}/js/video.js?${staticResourceVersion}"></script>
+        <script>
+            Label.commentErrorLabel = "${commentErrorLabel}";
+            Label.symphonyLabel = "${symphonyLabel}";
+            Label.thankSentLabel = "${thankSentLabel}";
+            Label.articleOId = "${video.oId}";
+            Label.articleTitle = "${video.videoTitle}";
+            Label.recordDeniedLabel = "${recordDeniedLabel}";
+            Label.recordDeviceNotFoundLabel = "${recordDeviceNotFoundLabel}";
+            Label.csrfToken = "${csrfToken}";
+            Label.notAllowCmtLabel = "${notAllowCmtLabel}";
+            Label.upLabel = "${upLabel}";
+            Label.downLabel = "${downLabel}";
+            Label.confirmRemoveLabel = "${confirmRemoveLabel}";
+            Label.removedLabel = "${removedLabel}";
+            Label.uploadLabel = "${uploadLabel}";
+            Label.userCommentViewMode = ${userCommentViewMode};
+            Label.stickConfirmLabel = "${stickConfirmLabel}";
+            Label.audioRecordingLabel = '${audioRecordingLabel}';
+            Label.uploadingLabel = '${uploadingLabel}';
+            Label.copiedLabel = '${copiedLabel}';
+            Label.copyLabel = '${copyLabel}';
+            Label.noRevisionLabel = "${noRevisionLabel}";
+            Label.thankedLabel = "${thankedLabel}";
+            Label.thankLabel = "${thankLabel}";
+            Label.isAdminLoggedIn = ${isAdminLoggedIn?c};
+            Label.adminLabel = '${adminLabel}';
+            Label.thankSelfLabel = '${thankSelfLabel}';
+            Label.replyLabel = '${replyLabel}';
+            Label.articleAuthorName = '${video.videoAuthorName}';
+            Label.referenceLabel = '${referenceLabel}';
+            Label.goCommentLabel = '${goCommentLabel}';
+            Label.addBoldLabel = '${addBoldLabel}';
+            Label.addItalicLabel = '${addItalicLabel}';
+            Label.insertQuoteLabel = '${insertQuoteLabel}';
+            Label.addBulletedLabel = '${addBulletedLabel}';
+            Label.addNumberedListLabel = '${addNumberedListLabel}';
+            Label.addLinkLabel = '${addLinkLabel}';
+            Label.undoLabel = '${undoLabel}';
+            Label.redoLabel = '${redoLabel}';
+            Label.previewLabel = '${previewLabel}';
+            Label.helpLabel = '${helpLabel}';
+            Label.fullscreenLabel = '${fullscreenLabel}';
+            Label.uploadFileLabel = '${uploadFileLabel}';
+            Label.commonUpdateCommentPermissionLabel = '${commonUpdateCommentPermissionLabel}';
+            Label.insertEmojiLabel = '${insertEmojiLabel}';
+            Label.commonAtUser = '${permissions["commonAtUser"].permissionGrant?c}';
+            Label.noPermissionLabel = '${noPermissionLabel}';
+            Label.rewardLabel = '${rewardLabel}';
+            <#if isLoggedIn>
+            Label.currentUserName = '${currentUser.userName}';
+            Label.notificationCmtIds = '${notificationCmtIds}';
+            </#if>
+        </script>
     </body>
 </html>

@@ -6,6 +6,8 @@ import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.model.Pagination;
+import org.b3log.latke.model.User;
+import org.b3log.latke.service.LangPropsService;
 import org.b3log.latke.servlet.HTTPRequestContext;
 import org.b3log.latke.servlet.HTTPRequestMethod;
 import org.b3log.latke.servlet.annotation.After;
@@ -14,6 +16,8 @@ import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
 import org.b3log.latke.util.CollectionUtils;
+import org.b3log.latke.util.Paginator;
+import org.b3log.latke.util.Stopwatchs;
 import org.b3log.latke.util.Strings;
 import org.b3log.symphony.model.*;
 import org.b3log.symphony.processor.advice.AnonymousViewCheck;
@@ -22,14 +26,14 @@ import org.b3log.symphony.processor.advice.PermissionCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
-import org.b3log.symphony.service.DataModelService;
-import org.b3log.symphony.service.VideoMgmtService;
-import org.b3log.symphony.service.VideoQueryService;
+import org.b3log.symphony.service.*;
+import org.b3log.symphony.util.Symphonys;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +79,39 @@ public class VideoProcessor {
      */
     @Inject
     private VideoQueryService videoQueryService;
+
+    /**
+     * User query service.
+     */
+    @Inject
+    private UserQueryService userQueryService;
+
+    /**
+     * Follow query service.
+     */
+    @Inject
+    private FollowQueryService followQueryService;
+
+    /**
+     * Vote query service.
+     */
+    @Inject
+    private VoteQueryService voteQueryService;
+    /**
+     * Reward query service.
+     */
+    @Inject
+    private RewardQueryService rewardQueryService;
+    /**
+     * Comment query service.
+     */
+    @Inject
+    private CommentQueryService commentQueryService;
+    /**
+     * Language service.
+     */
+    @Inject
+    private LangPropsService langPropsService;
 
     @RequestProcessing(value = "/video", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
@@ -138,10 +175,125 @@ public class VideoProcessor {
     public void frontShowVideo(final String videoId,final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
-        final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("/video.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+
         final JSONObject video = videoQueryService.getVideo(videoId);
+
+        if(null == video){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        final HttpSession session = request.getSession(false);
+        if (null != session){
+            session.setAttribute(Video.VIDEO_T_ID,videoId);
+        }
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+        final String authorId = video.optString(Video.VIDEO_AUTHORID);
+
+        final JSONObject author = userQueryService.getUser(authorId);
+        if (Video.VIDEO_STATUS_C_TRUE == video.optInt(Video.VIDEO_STATUS)){
+            video.put(Video.VIDEO_T_AUTHOR_NAME,author.optString(User.USER_NAME));
+            video.put(Video.VIDEO_T_AUTHOR_URL, author.optString(User.USER_URL));
+            video.put(Video.VIDEO_T_AUTHOR_INTRO, author.optString(UserExt.USER_INTRO));
+        }else{
+            video.put(Video.VIDEO_T_AUTHOR_NAME, UserExt.ANONYMOUS_USER_NAME);
+            video.put(Video.VIDEO_T_AUTHOR_URL, "");
+            video.put(Video.VIDEO_T_AUTHOR_INTRO, "");
+        }
         dataModel.put(Video.VIDEO,video);
+
+        video.put(Common.IS_MY_ARTICLE, false);
+
+        video.put(Video.VIDEO_T_AUTHOR, author);
+
+        String cmtViewModeStr = request.getParameter("m");
+
+        JSONObject currentUser;
+        String currentUserId = null;
+        final boolean isLoggedIn = (Boolean) dataModel.get(Common.IS_LOGGED_IN);
+
+        if (isLoggedIn) {
+            currentUser = (JSONObject) dataModel.get(Common.CURRENT_USER);
+            currentUserId = currentUser.optString(Keys.OBJECT_ID);
+            video.put(Common.IS_MY_ARTICLE, currentUserId.equals(video.optString(Video.VIDEO_AUTHORID)));
+
+            final boolean isFollowing = followQueryService.isFollowing(currentUserId, videoId, Follow.FOLLOWING_TYPE_C_ARTICLE);
+            dataModel.put(Common.IS_FOLLOWING, isFollowing);
+
+            final boolean isWatching = followQueryService.isFollowing(currentUserId, videoId, Follow.FOLLOWING_TYPE_C_ARTICLE_WATCH);
+            dataModel.put(Common.IS_WATCHING, isWatching);
+
+            final int videoeVote = voteQueryService.isVoted(currentUserId, videoId);
+            video.put(Video.VIDEO_T_VOTE, videoeVote);
+
+            if (Strings.isEmptyOrNull(cmtViewModeStr) || !Strings.isNumeric(cmtViewModeStr)) {
+                cmtViewModeStr = currentUser.optString(UserExt.USER_COMMENT_VIEW_MODE);
+            }
+        } else if (Strings.isEmptyOrNull(cmtViewModeStr) || !Strings.isNumeric(cmtViewModeStr)) {
+            cmtViewModeStr = "0";
+        }
+
+        final int cmtViewMode = Integer.valueOf(cmtViewModeStr);
+        dataModel.put(UserExt.USER_COMMENT_VIEW_MODE, cmtViewMode);
+
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = Symphonys.getInt("articleCommentsPageSize");
+        final int windowSize = Symphonys.getInt("articleCommentsWindowSize");
+
+        final int commentCnt = video.getInt(Video.VIDEO_COMMENT_COUNT);
+        final int pageCount = (int) Math.ceil((double) commentCnt / (double) pageSize);
+
+        final List<Integer> pageNums = Paginator.paginate(pageNum, pageSize, pageCount, windowSize);
+
+        if (!pageNums.isEmpty()) {
+            dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.get(0));
+            dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.get(pageNums.size() - 1));
+        }
+
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
+        dataModel.put(Common.VIDEO_COMMENTS_PAGE_SIZE, pageSize);
+
+        // Load comments
+        final List<JSONObject> videoComments =
+                commentQueryService.getArticleComments(avatarViewMode, videoId, pageNum, pageSize, cmtViewMode);
+        video.put(Video.VIDEO_T_COMMENTS, (Object) videoComments);
+
+        // Fill comment thank
+        Stopwatchs.start("Fills comment thank");
+        try{
+            final String thankTemplate = langPropsService.get("thankConfirmLabel");
+            for (final JSONObject comment : videoComments){
+                comment.put(Comment.COMMENT_T_NICE, comment.optDouble(Comment.COMMENT_SCORE, 0D));
+
+                final String thankStr = thankTemplate.replace("{point}", String.valueOf(Symphonys.getInt("pointThankComment")))
+                        .replace("{user}", comment.optJSONObject(Comment.COMMENT_T_COMMENTER).optString(User.USER_NAME));
+                comment.put(Comment.COMMENT_T_THANK_LABEL, thankStr);
+
+                final String commentId = comment.optString(Keys.OBJECT_ID);
+                if (isLoggedIn) {
+                    comment.put(Common.REWARDED,
+                            rewardQueryService.isRewarded(currentUserId, commentId, Reward.TYPE_C_COMMENT));
+                    final int commentVote = voteQueryService.isVoted(currentUserId, commentId);
+                    comment.put(Comment.COMMENT_T_VOTE, commentVote);
+                }
+                comment.put(Common.REWARED_COUNT, rewardQueryService.rewardedCount(commentId, Reward.TYPE_C_COMMENT));
+            }
+
+        }finally {
+            Stopwatchs.end();
+        }
+
         dataModel.put(Common.SELECTED, Common.VIDEOS);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }

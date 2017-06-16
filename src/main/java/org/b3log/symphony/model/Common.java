@@ -812,6 +812,11 @@ public final class Common {
     public static final String ARTICLE_COMMENTS_PAGE_SIZE = "articleCommentsPageSize";
 
     /**
+     * Key of video comments page size.
+     */
+    public static final String VIDEO_COMMENTS_PAGE_SIZE = "videoCommentsPageSize";
+
+    /**
      * Key of weight.
      */
     public static final String WEIGHT = "weight";

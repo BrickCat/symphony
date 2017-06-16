@@ -33,7 +33,7 @@ public class VideoUtils {
         commands.add("-t");
         commands.add("0.001");
         commands.add("-s");
-        commands.add("142*142");//这里设置输出图片的大小
+        commands.add("157*94");//这里设置输出图片的大小
         commands.add(outImagePath);//这里设置输出的截图的保存路径
 
         try {
