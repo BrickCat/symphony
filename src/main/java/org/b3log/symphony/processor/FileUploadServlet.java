@@ -40,6 +40,7 @@ import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.util.CollectionUtils;
 import org.b3log.latke.util.MD5;
 import org.b3log.symphony.SymphonyServletListener;
+import org.b3log.symphony.model.Role;
 import org.b3log.symphony.model.Tag;
 import org.b3log.symphony.model.Video;
 import org.b3log.symphony.model.VideoSize;
@@ -122,6 +123,12 @@ public class FileUploadServlet extends HttpServlet {
      */
     final VideoQueryService videoQueryService = beanManager.getReference(VideoQueryService.class);
 
+    /**
+     * Article management service.
+     */
+    @Inject
+    final ArticleMgmtService articleMgmtService = beanManager.getReference(ArticleMgmtService.class);
+
     static {
         if (!QN_ENABLED) {
             final File file = new File(UPLOAD_DIR);
@@ -145,45 +152,43 @@ public class FileUploadServlet extends HttpServlet {
         if (QN_ENABLED) {
             return;
         }
-        final String type = req.getParameter("type");
-        if(type != null && "1".equals(type)){
-            LOGGER.info("我简历啊");
-        }else{
-            final String uri = req.getRequestURI();
-            String key = StringUtils.substringAfter(uri, "/upload/");
-            key = StringUtils.substringBeforeLast(key, "?"); // Erase Qiniu template
-            key = StringUtils.substringBeforeLast(key, "?"); // Erase Qiniu template
 
-            String path = UPLOAD_DIR + key;
-            path = URLDecoder.decode(path, "UTF-8");
+        final String uri = req.getRequestURI();
+        String key = StringUtils.substringAfter(uri, "/upload/");
+        key = StringUtils.substringBeforeLast(key, "?"); // Erase Qiniu template
+        key = StringUtils.substringBeforeLast(key, "?"); // Erase Qiniu template
 
-            if (!FileUtil.isExistingFile(new File(path))) {
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        String path = UPLOAD_DIR + key;
+        path = URLDecoder.decode(path, "UTF-8");
 
-                return;
-            }
+        if (!FileUtil.isExistingFile(new File(path))) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 
-            final byte[] data = IOUtils.toByteArray(new FileInputStream(path));
-
-            final String ifNoneMatch = req.getHeader("If-None-Match");
-            final String etag = "\"" + MD5.hash(new String(data)) + "\"";
-
-            resp.addHeader("Cache-Control", "public, max-age=31536000");
-            resp.addHeader("ETag", etag);
-            resp.setHeader("Server", "Latke Static Server (v" + SymphonyServletListener.VERSION + ")");
-
-            if (etag.equals(ifNoneMatch)) {
-                resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
-
-                return;
-            }
-
-            final OutputStream output = resp.getOutputStream();
-            IOUtils.write(data, output);
-            output.flush();
-
-            IOUtils.closeQuietly(output);
+            return;
         }
+
+        final byte[] data = IOUtils.toByteArray(new FileInputStream(path));
+
+
+        final String ifNoneMatch = req.getHeader("If-None-Match");
+        final String etag = "\"" + MD5.hash(new String(data)) + "\"";
+
+        resp.addHeader("Cache-Control", "public, max-age=31536000");
+        resp.addHeader("ETag", etag);
+        resp.setHeader("Server", "Latke Static Server (v" + SymphonyServletListener.VERSION + ")");
+        resp.addHeader("Content-Length",""+new File(path).length());
+        if (etag.equals(ifNoneMatch)) {
+            resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+
+            return;
+        }
+
+        final OutputStream output = resp.getOutputStream();
+        IOUtils.write(data, output);
+        output.flush();
+
+        IOUtils.closeQuietly(output);
+
     }
 
     @Override
@@ -236,7 +241,10 @@ public class FileUploadServlet extends HttpServlet {
                         DecimalFormat df = new DecimalFormat("0.00");//格式化小数，不足的补0
                         // 获得文件大小
                         Long size = fileItem.getSize();
-
+                        if(200*1024*1024 < size){
+                            resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"MaxSize");
+                            return;
+                        }
                         // 获得文件名
                         String fileName = fileItem.getName();
                         //UUID
@@ -272,7 +280,11 @@ public class FileUploadServlet extends HttpServlet {
                             resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_TAG);
                             return;
                         }
-
+                        String videoTags = video.optString(Video.VIDEO_TAG);
+                        if (!Role.ROLE_ID_C_ADMIN.equals(currentUser.optString(User.USER_ROLE))) {
+                            videoTags = articleMgmtService.filterReservedTags(videoTags);
+                        }
+                        video.put(Video.VIDEO_TAG,videoTags);
                         //videoRemarks
                         if(StringUtils.isNotBlank(map.get(Video.VIDEO_REMARKS).toString())){
                             video.put(Video.VIDEO_REMARKS,map.get(Video.VIDEO_REMARKS));
@@ -367,20 +379,23 @@ public class FileUploadServlet extends HttpServlet {
                             //将文件保存到指定的路径
                             File file = new File(UPLOAD_DIR,fileName);
                             fileItem.write(file);
-                            if(VideoUtils.getVideoImage(System.getProperty( "user.dir" )+"/upload/" + fileName,imagePath)){
-                                //跳转到视频页面
-                                resp.sendRedirect(Latkes.getServePath()+"/admin/videos");
+                            if("0".equals(map.get("videoImage").toString())){
+                                if(VideoUtils.getVideoImage(System.getProperty( "user.dir" )+"/upload/" + fileName,imagePath)){
+                                    //跳转到视频页面
+                                    resp.sendRedirect(Latkes.getServePath()+"/admin/videos");
+                                }else{
+                                    videoMgmtService.deleteVideo(ret);
+                                }
                             }else{
-                                videoMgmtService.deleteVideo(ret);
+                                resp.sendRedirect(Latkes.getServePath()+"/admin/videos");
                             }
-
                         }else{
                             resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"videoErrorInfo");
                             return;
                         }
-
                     }
                 }
+
             }catch(FileUploadBase.FileSizeLimitExceededException e){
                 req.setAttribute("msg", "文件太大");
             }catch(FileUploadException e){

@@ -147,6 +147,11 @@ public class CommentMgmtService {
      */
     @Inject
     private LivenessMgmtService livenessMgmtService;
+    /**
+     * video res
+     */
+    @Inject
+    private VideoRepository videoRepository;
 
     /**
      * Removes a comment specified with the given comemnt id. A comemnt is removable if:
@@ -351,13 +356,25 @@ public class CommentMgmtService {
                 }
             }
 
-            article = articleRepository.get(articleId);
+            if(requestJSONObject.has("type")){
+                article = videoRepository.get(articleId);
+            }else{
+                article = articleRepository.get(articleId);
+            }
+
 
             if (!fromClient && !TuringQueryService.ROBOT_NAME.equals(commenterName)) {
                 int pointSum = Pointtransfer.TRANSFER_SUM_C_ADD_COMMENT;
 
                 // Point
-                final String articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
+                String articleAuthorId="";
+
+                if(requestJSONObject.has("type")){
+                    articleAuthorId = article.optString(Video.VIDEO_AUTHORID);
+                }else{
+                    articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
+                }
+
                 if (articleAuthorId.equals(commentAuthorId)) {
                     pointSum = Pointtransfer.TRANSFER_SUM_C_ADD_SELF_ARTICLE_COMMENT;
                 }
@@ -375,12 +392,22 @@ public class CommentMgmtService {
         final Transaction transaction = commentRepository.beginTransaction();
 
         try {
-            article.put(Article.ARTICLE_COMMENT_CNT, article.optInt(Article.ARTICLE_COMMENT_CNT) + 1);
-            article.put(Article.ARTICLE_LATEST_CMTER_NAME, commenter.optString(User.USER_NAME));
-            if (Comment.COMMENT_ANONYMOUS_C_ANONYMOUS == commentAnonymous) {
-                article.put(Article.ARTICLE_LATEST_CMTER_NAME, UserExt.ANONYMOUS_USER_NAME);
+            if(requestJSONObject.has("type")){
+                article.put(Video.VIDEO_COMMENT_COUNT,article.optInt(Video.VIDEO_COMMENT_COUNT)+1);
+                article.put(Video.VIDEO_LATEST_CMTER_NAME,commenter.optString(User.USER_NAME));
+                if (Comment.COMMENT_ANONYMOUS_C_ANONYMOUS == commentAnonymous) {
+                    article.put(Video.VIDEO_LATEST_CMTER_NAME, UserExt.ANONYMOUS_USER_NAME);
+                }
+                article.put(Video.VIDEO_LATEST_CMT_TIME, currentTimeMillis);
+            }else{
+                article.put(Article.ARTICLE_COMMENT_CNT, article.optInt(Article.ARTICLE_COMMENT_CNT) + 1);
+                article.put(Article.ARTICLE_LATEST_CMTER_NAME, commenter.optString(User.USER_NAME));
+                if (Comment.COMMENT_ANONYMOUS_C_ANONYMOUS == commentAnonymous) {
+                    article.put(Article.ARTICLE_LATEST_CMTER_NAME, UserExt.ANONYMOUS_USER_NAME);
+                }
+                article.put(Article.ARTICLE_LATEST_CMT_TIME, currentTimeMillis);
             }
-            article.put(Article.ARTICLE_LATEST_CMT_TIME, currentTimeMillis);
+
 
             final String ret = Ids.genTimeMillisId();
             final JSONObject comment = new JSONObject();
@@ -433,18 +460,30 @@ public class CommentMgmtService {
             final int cmtCnt = cmtCntOption.optInt(Option.OPTION_VALUE);
             cmtCntOption.put(Option.OPTION_VALUE, String.valueOf(cmtCnt + 1));
 
-            articleRepository.update(articleId, article); // Updates article comment count, latest commenter name and time
+            if(requestJSONObject.has("type")){
+                videoRepository.update(articleId,article);
+            }else{
+                articleRepository.update(articleId, article); // Updates article comment count, latest commenter name and time
+            }
             optionRepository.update(Option.ID_C_STATISTIC_CMT_COUNT, cmtCntOption); // Updates global comment count
             // Updates tag comment count and User-Tag relation
-            final String tagsString = article.optString(Article.ARTICLE_TAGS);
+            String tagsString = "";
+            if(requestJSONObject.has("type")){
+                tagsString = article.optString(Video.VIDEO_TAG);
+            }else{
+                tagsString = article.optString(Article.ARTICLE_TAGS);
+            }
+
             final String[] tagStrings = tagsString.split(",");
             for (int i = 0; i < tagStrings.length; i++) {
                 final String tagTitle = tagStrings[i].trim();
                 final JSONObject tag = tagRepository.getByTitle(tagTitle);
-                tag.put(Tag.TAG_COMMENT_CNT, tag.optInt(Tag.TAG_COMMENT_CNT) + 1);
-                tag.put(Tag.TAG_RANDOM_DOUBLE, Math.random());
+                if(null != tag){
+                    tag.put(Tag.TAG_COMMENT_CNT, tag.optInt(Tag.TAG_COMMENT_CNT) + 1);
+                    tag.put(Tag.TAG_RANDOM_DOUBLE, Math.random());
 
-                tagRepository.update(tag.optString(Keys.OBJECT_ID), tag);
+                    tagRepository.update(tag.optString(Keys.OBJECT_ID), tag);
+                }
             }
 
             // Updates user comment count, latest comment time
@@ -462,13 +501,16 @@ public class CommentMgmtService {
             final String commentId = commentRepository.add(comment);
 
             // Updates tag-article relation stat.
-            final List<JSONObject> tagArticleRels = tagArticleRepository.getByArticleId(articleId);
-            for (final JSONObject tagArticleRel : tagArticleRels) {
-                tagArticleRel.put(Article.ARTICLE_LATEST_CMT_TIME, currentTimeMillis);
-                tagArticleRel.put(Article.ARTICLE_COMMENT_CNT, article.optInt(Article.ARTICLE_COMMENT_CNT));
+            if(!requestJSONObject.has("type")){
+                final List<JSONObject> tagArticleRels = tagArticleRepository.getByArticleId(articleId);
+                for (final JSONObject tagArticleRel : tagArticleRels) {
+                    tagArticleRel.put(Article.ARTICLE_LATEST_CMT_TIME, currentTimeMillis);
+                    tagArticleRel.put(Article.ARTICLE_COMMENT_CNT, article.optInt(Article.ARTICLE_COMMENT_CNT));
 
-                tagArticleRepository.update(tagArticleRel.optString(Keys.OBJECT_ID), tagArticleRel);
+                    tagArticleRepository.update(tagArticleRel.optString(Keys.OBJECT_ID), tagArticleRel);
+                }
             }
+
 
             // Revision
             final JSONObject revision = new JSONObject();

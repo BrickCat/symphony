@@ -87,7 +87,10 @@ public final class Vote {
      * Data Type - Tag.
      */
     public static final int DATA_TYPE_C_TAG = 3;
-
+    /**
+     * Data Type - Article.
+     */
+    public static final int DATA_TYPE_C_VIDEO = 4;
     /**
      * Private constructor.
      */

@@ -25,9 +25,11 @@ import org.b3log.latke.repository.*;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.symphony.model.Article;
 import org.b3log.symphony.model.Comment;
+import org.b3log.symphony.model.Video;
 import org.b3log.symphony.model.Vote;
 import org.b3log.symphony.repository.ArticleRepository;
 import org.b3log.symphony.repository.CommentRepository;
+import org.b3log.symphony.repository.VideoRepository;
 import org.b3log.symphony.repository.VoteRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,6 +69,12 @@ public class VoteQueryService {
      */
     @Inject
     private CommentRepository commentRepository;
+
+    /**
+     * Video repository.
+     */
+    @Inject
+    private VideoRepository videoRepository;
 
     /**
      * Determines whether the specified user dose vote the specified entity.
@@ -119,7 +127,15 @@ public class VoteQueryService {
                 }
 
                 return article.optString(Article.ARTICLE_AUTHOR_ID).equals(userId);
-            } else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
+            } else if(Vote.DATA_TYPE_C_VIDEO == dataType){
+                final JSONObject video = videoRepository.get(dataId);
+                if (null == video){
+                    LOGGER.log(Level.ERROR, "Not found video [id={0}]", dataId);
+
+                    return false;
+                }
+                return video.optString(Video.VIDEO_AUTHORID).equals(userId);
+            }else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
                 final JSONObject comment = commentRepository.get(dataId);
                 if (null == comment) {
                     LOGGER.log(Level.ERROR, "Not found comment [id={0}]", dataId);

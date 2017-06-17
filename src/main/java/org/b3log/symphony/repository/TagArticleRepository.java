@@ -23,6 +23,7 @@ import org.b3log.latke.repository.annotation.Repository;
 import org.b3log.latke.util.CollectionUtils;
 import org.b3log.symphony.model.Article;
 import org.b3log.symphony.model.Tag;
+import org.b3log.symphony.model.Video;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -75,6 +76,17 @@ public class TagArticleRepository extends AbstractRepository {
     public List<JSONObject> getByArticleId(final String articleId) throws RepositoryException {
         final Query query = new Query().setFilter(
                 new PropertyFilter(Article.ARTICLE + "_" + Keys.OBJECT_ID, FilterOperator.EQUAL, articleId)).
+                setPageCount(1);
+
+        final JSONObject result = get(query);
+        final JSONArray array = result.optJSONArray(Keys.RESULTS);
+
+        return CollectionUtils.jsonArrayToList(array);
+    }
+
+    public List<JSONObject> getByVideoId(final String videoId) throws RepositoryException {
+        final Query query = new Query().setFilter(
+                new PropertyFilter(Video.VIDEO + "_" + Keys.OBJECT_ID, FilterOperator.EQUAL, videoId)).
                 setPageCount(1);
 
         final JSONObject result = get(query);

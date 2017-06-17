@@ -832,7 +832,7 @@ var Comment = {
     }
 };
 
-var Article = {
+var Video = {
     initAudio: function () {
         $('.content-audio').each(function () {
             var $it = $(this);

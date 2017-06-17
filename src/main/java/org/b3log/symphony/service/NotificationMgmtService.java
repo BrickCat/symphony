@@ -103,6 +103,20 @@ public class NotificationMgmtService {
         }
     }
 
+    @Transactional
+    public void addVideoVoteUpNotification(final JSONObject requestJSONObject) throws ServiceException {
+        try {
+            requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_C_VIDEO_VOTE_UP);
+
+            addNotification(requestJSONObject);
+        } catch (final RepositoryException e) {
+            final String msg = "Adds notification [type=video_vote_up] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+    }
+
     /**
      * Add a 'comment vote down' type notification with the specified request json object.
      *

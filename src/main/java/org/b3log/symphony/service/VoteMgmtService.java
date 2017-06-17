@@ -25,14 +25,8 @@ import org.b3log.latke.repository.RepositoryException;
 import org.b3log.latke.repository.annotation.Transactional;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
-import org.b3log.symphony.model.Article;
-import org.b3log.symphony.model.Comment;
-import org.b3log.symphony.model.Liveness;
-import org.b3log.symphony.model.Vote;
-import org.b3log.symphony.repository.ArticleRepository;
-import org.b3log.symphony.repository.CommentRepository;
-import org.b3log.symphony.repository.TagArticleRepository;
-import org.b3log.symphony.repository.VoteRepository;
+import org.b3log.symphony.model.*;
+import org.b3log.symphony.repository.*;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -75,6 +69,12 @@ public class VoteMgmtService {
      */
     @Inject
     private CommentRepository commentRepository;
+
+    /**
+     * Video repository.
+     */
+    @Inject
+    private VideoRepository videoRepository;
 
     /**
      * Liveness management service.
@@ -226,6 +226,30 @@ public class VoteMgmtService {
             updateTagArticleScore(article);
 
             articleRepository.update(dataId, article);
+        }else if(Vote.DATA_TYPE_C_VIDEO == dataType){
+            final JSONObject video = videoRepository.get(dataId);
+            if (null == video){
+                LOGGER.log(Level.ERROR, "Not found Video [id={0}] to vote up", dataId);
+
+                return;
+            }
+            if (-1 == oldType){
+                video.put(Video.VIDEO_GOOD_COUNT,video.optInt(Video.VIDEO_GOOD_COUNT) + 1);
+            }else{
+                video.put(Video.VIDEO_BAD_COUNT,video.optInt(Video.VIDEO_BAD_COUNT)-1);
+                video.put(Video.VIDEO_GOOD_COUNT,video.optInt(Video.VIDEO_GOOD_COUNT) + 1);
+            }
+
+            final int ups = video.optInt(Video.VIDEO_GOOD_COUNT);
+            final int downs = video.optInt(Video.VIDEO_BAD_COUNT);
+
+            final long t = video.optLong(Keys.OBJECT_ID) /1000;
+            final double redditScore = redditVideoScore(ups, downs, t);
+            video.put(Video.REDDIT_SCORE,redditScore);
+
+            updateTagVideoScore(video);
+
+            videoRepository.update(dataId,video);
         } else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
             final JSONObject comment = commentRepository.get(dataId);
             if (null == comment) {
@@ -259,6 +283,28 @@ public class VoteMgmtService {
         vote.put(Vote.DATA_TYPE, dataType);
 
         voteRepository.add(vote);
+    }
+
+    private void updateTagVideoScore(final JSONObject video) throws RepositoryException {
+        final List<JSONObject> tagVideoRels = tagArticleRepository.getByVideoId(video.optString(Keys.OBJECT_ID));
+        for (final JSONObject tagVideoRel : tagVideoRels) {
+            tagVideoRel.put(Video.REDDIT_SCORE, video.optDouble(Video.REDDIT_SCORE, 0D));
+
+            tagArticleRepository.update(tagVideoRel.optString(Keys.OBJECT_ID), tagVideoRel);
+        }
+    }
+
+    private double redditVideoScore(final int ups, final int downs, final long t) {
+        final int x = ups - downs;
+        final double z = Math.max(Math.abs(x),1);
+        int y = 0;
+        if (x > 0){
+            y = 1;
+        }else if (x < 0){
+            y = -1;
+        }
+
+        return Math.log10(z) + y * (t-1353745196) /45000;
     }
 
     /**

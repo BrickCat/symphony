@@ -35,40 +35,38 @@
                 <a rel="author" href="${servePath}/member/<#--用户名-->"><div
                         class="avatar-mid tooltipped tooltipped-se" aria-label="admin<#--用户名-->" style="background-image:url('/*图片URL*/')"></div></a>
                     <div class="fn-flex-1 fn-ellipsis">
-                    <a rel="author" href="${servePath}/member/<#--发布人姓名-->" class="ft-gray"><strong class="ft-gray"><#--发布人NAME-->admin</strong></a>
+                    <a rel="author" href="${servePath}/member/${video.videoAuthorName}" class="ft-gray"><strong class="ft-gray">${video.videoAuthorName}</strong></a>
 
                         <br/>
 
-                        <span class="ft-gray">${symphonyLabel} 2<#--几号会员--> ${numVIPLabel}</span>
+                        <span class="ft-gray">${symphonyLabel} ${video.videoAuthor.userNo?c} ${numVIPLabel}</span>
 
                         <br/>
                         <span class="ft-gray">
                                 &nbsp;
                                 <a rel="nofollow" class="ft-gray" href="#comments">
-                                    <b class="article-level<#--<#if article.articleCommentCount lt 40>${(article.articleCommentCount/10)?int}<#else>评论级数-->3">5<#--评论数--></b> ${cmtLabel}</a>
+                                    <b class="article-level<#if video.videoCommentCount lt 40>${(video.videoCommentCount/10)?int}<#else>4</#if>">${video.videoCommentCount}</b> ${cmtLabel}</a>
                                 &nbsp;•&nbsp;
-                                <span class="article-level<#--<#if article.articleViewCount lt 400>${(article.articleViewCount/100)?int}<#else> 查看级数-->3">
-                                <#--<#if article.articleViewCount < 1000>
-                                ${article.articleViewCount}
-                                <#else>
-                                ${article.articleViewCntDisplayFormat}
-                                </#if>-->
-                                <#--大于1000后格式化输出-->
-                                    10
+                                <span class="article-level<#if video.videoViewCount lt 400>${(video.videoViewCount/100)?int}<#else>4</#if>">
+                                <#if video.videoViewCount < 1000>
+                                ${video.videoViewCount}
+                                 <#else>
+                                ${video.videoViewCntDisplayFormat}
+                                </#if>
                                 </span>
-                        ${viewLabel}
+                                ${viewLabel}
                                 &nbsp;•&nbsp;
-                        <#--${article.timeAgo}多久前--> 1小时前
+                                ${video.timeAgo}
                             </span>
                     </div>
                     <#-- 点赞踩编辑 -->
                     <div class="article-actions action-btns">
-                        <span class="tooltipped tooltipped-n<#--<#if isLoggedIn && 0 == article.articleVote> ft-red</#if>--> 是否点赞" aria-label="${upLabel}"
-                        <#if permissions["commonGoodArticle"].permissionGrant>
-                              onclick="Article.voteUp('<#--${article.oId}-->', 'article', this)"
+                        <span class="tooltipped tooltipped-n<#if isLoggedIn && 0 == video.videoVote> ft-red</#if>" aria-label="${upLabel}"
+                        <#if permissions["commonGoodVideo"].permissionGrant>
+                              onclick="Video.voteUp('${video.oId}', 'video', this)"
                         <#else>
-                              onclick="Article.permissionTip(Label.noPermissionLabel)"
-                        </#if>><span class="icon-thumbs-up"></span> <#--点赞数-->1</span> &nbsp;
+                              onclick="Video.permissionTip(Label.noPermissionLabel)"
+                        </#if>><span class="icon-thumbs-up"></span>${video.videoGoodCount}</span> &nbsp;
 
                         <span  class="tooltipped tooltipped-n<#--<#if isLoggedIn && 1 == article.articleVote> ft-red</#if>-->" aria-label="${downLabel}"
                         <#if permissions["commonBadArticle"].permissionGrant>
@@ -133,7 +131,7 @@
                     ${video.videoTitle}
                 </h1>
                 <div  class="aplayer" style="margin-top: 15px;">
-                    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="840" height="384" poster="<#if video.videoImgPath??>${servePath}${video.videoImgPath}</#if>" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>
+                    <video id="my-video" class="video-js vjs-default-skin" controls preload="meta" width="840" height="384" poster="" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>
                         <source src="${servePath}${video.videoUrl}" type="video/mp4">
                     </video>
                     <script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
@@ -164,7 +162,7 @@
                 <h3 style="margin-top: 15px">${videoDesIcon}&nbsp;&nbsp;${videoDescLabel}</h3>
 
                 <div class="content-reset article-content" style="margin-top: -5px;">
-                    ${video.videoRemarks}hgdhghdhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                    ${video.videoRemarks}
                 </div>
             </div>
         </div>
@@ -187,7 +185,7 @@
                             <#list video.videoComments as comment>
                             <#assign notificationCmtIds = notificationCmtIds + comment.oId>
                             <#if comment_has_next><#assign notificationCmtIds = notificationCmtIds + ","></#if>
-                            <#include 'common/comment.ftl' />
+                           <#-- <#include 'common/comment.ftl' />-->
                         </#list>
                         </ul>
                         <div id="bottomComment"></div>

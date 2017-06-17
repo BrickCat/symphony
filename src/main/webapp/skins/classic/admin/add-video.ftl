@@ -31,6 +31,11 @@
                     <option value="0" >${videoStatusTrue}</option>
                     <option value="1" >${videoStatusFalse}</option>
                 </select>
+                <label>${videoImage}</label>
+                <select id="videoImage" name="videoImage">
+                    <option value="0" >${videoImageTrue}</option>
+                    <option value="1" >${videoImageFalse}</option>
+                </select>
                 <label class="btn red">
                     ${videoURl}<input type="file" name="file">
                 </label>

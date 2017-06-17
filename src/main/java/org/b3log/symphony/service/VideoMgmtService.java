@@ -181,6 +181,8 @@ public class VideoMgmtService {
                 if(forceDelete(file)){
                    videoRepository.remove(videoId);
                 }
+            }else{
+                videoRepository.remove(videoId);
             }
 
         }catch(RepositoryException e){
@@ -201,4 +203,27 @@ public class VideoMgmtService {
         }
 
 
+    public void inVideoViewCount(final String videoId) throws ServiceException {
+        Symphonys.EXECUTOR_SERVICE.submit(new Runnable() {
+            @Override
+            public void run() {
+                final Transaction transaction = videoRepository.beginTransaction();
+                try {
+                    final JSONObject video = videoRepository.get(videoId);
+                    if (null == video){
+                        return;
+                    }
+                    final int viewCnt = video.optInt(Video.VIDEO_VIEW_COUNT);
+                    video.put(Video.VIDEO_VIEW_COUNT,viewCnt+1);
+                    videoRepository.update(videoId,video);
+                    transaction.commit();
+                }catch (final RepositoryException e){
+                    if (transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    LOGGER.log(Level.ERROR, "Incs an videos view count failed", e);
+                }
+            }
+        });
     }
+}

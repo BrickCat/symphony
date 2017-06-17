@@ -95,6 +95,11 @@ public class VoteProcessor {
      */
     @Inject
     private NotificationMgmtService notificationMgmtService;
+    /**
+     * Video query service.
+     */
+    @Inject
+    private VideoQueryService videoQueryService;
 
     /**
      * Votes up a comment.
@@ -262,6 +267,64 @@ public class VoteProcessor {
                 notification.put(Notification.NOTIFICATION_DATA_ID, dataId + "-" + userId);
 
                 notificationMgmtService.addArticleVoteUpNotification(notification);
+            }
+
+            VOTES.add(userId + dataId);
+        }
+
+        context.renderTrueResult().renderJSONValue(Vote.TYPE, vote);
+    }
+
+    /**
+     * Votes up an article.
+     * <p>
+     * The request json object:
+     * <pre>
+     * {
+     *   "dataId": ""
+     * }
+     * </pre>
+     * </p>
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/vote/up/video", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {LoginCheck.class, PermissionCheck.class})
+    public void voteUpVideo(final HTTPRequestContext context, final HttpServletRequest request,
+                              final HttpServletResponse response) throws Exception {
+        context.renderJSON();
+
+        final JSONObject requestJSONObject = Requests.parseRequestJSONObject(request, context.getResponse());
+        final String dataId = requestJSONObject.optString(Common.DATA_ID);
+
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        final String userId = currentUser.optString(Keys.OBJECT_ID);
+
+        if (!Role.ROLE_ID_C_ADMIN.equals(currentUser.optString(User.USER_ROLE))
+                && voteQueryService.isOwn(userId, dataId, Vote.DATA_TYPE_C_VIDEO)) {
+            context.renderFalseResult().renderMsg(langPropsService.get("cantVoteSelfLabel"));
+
+            return;
+        }
+
+        final int vote = voteQueryService.isVoted(userId, dataId);
+        if (Vote.TYPE_C_UP == vote) {
+            voteMgmtService.voteCancel(userId, dataId, Vote.DATA_TYPE_C_VIDEO);
+        } else {
+            voteMgmtService.voteUp(userId, dataId, Vote.DATA_TYPE_C_VIDEO);
+
+            final JSONObject video = videoQueryService.getVideo(dataId);
+            final String videoAuthorId = video.optString(Video.VIDEO_AUTHORID);
+
+            if (!VOTES.contains(userId + dataId) && !userId.equals(videoAuthorId)) {
+                final JSONObject notification = new JSONObject();
+                notification.put(Notification.NOTIFICATION_USER_ID, videoAuthorId);
+                notification.put(Notification.NOTIFICATION_DATA_ID, dataId + "-" + userId);
+
+                notificationMgmtService.addVideoVoteUpNotification(notification);
             }
 
             VOTES.add(userId + dataId);

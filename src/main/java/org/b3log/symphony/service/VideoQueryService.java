@@ -1,5 +1,6 @@
 package org.b3log.symphony.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Level;
@@ -9,14 +10,19 @@ import org.b3log.latke.repository.*;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.latke.util.CollectionUtils;
+import org.b3log.latke.util.Locales;
 import org.b3log.latke.util.Paginator;
-import org.b3log.symphony.model.Tag;
-import org.b3log.symphony.model.Video;
+import org.b3log.latke.util.Stopwatchs;
+import org.b3log.symphony.model.*;
+import org.b3log.symphony.processor.advice.validate.UserRegisterValidation;
+import org.b3log.symphony.repository.CommentRepository;
 import org.b3log.symphony.repository.UserRepository;
 import org.b3log.symphony.repository.VideoRepository;
+import org.b3log.symphony.util.Times;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +46,12 @@ public class VideoQueryService {
      */
     @Inject
     private VideoRepository videoRepository;
+
+    /**
+     * Comment repository.
+     */
+    @Inject
+    private CommentRepository commentRepository;
 
 
     public JSONObject getVideo(final String videoId) throws ServiceException {
@@ -116,4 +128,67 @@ public class VideoQueryService {
         ret.put(Video.VIDEOS,videos);
         return ret;
     }
+
+    public JSONObject getVideoById(final int avatarViewMode, final String videoId) throws ServiceException {
+        Stopwatchs.start("Get video by id");
+        try {
+            final JSONObject ret = videoRepository.get(videoId);
+
+            if(null == ret){
+               return null;
+            }
+            organizeVideo(avatarViewMode,ret);
+            return ret;
+        } catch (RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets an video [videoId=" + videoId + "] failed", e);
+            throw new ServiceException(e);
+        }finally {
+            Stopwatchs.end();
+        }
+    }
+
+    private void organizeVideo(final int avatarViewMode,final JSONObject video) {
+        toVideoDate(video);
+
+        final String videoId = video.optString(Keys.OBJECT_ID);
+
+        final int viewCnt = video.optInt(Video.VIDEO_VIEW_COUNT);
+        final double views = (double)viewCnt/1000;
+        if(views>=1){
+            final DecimalFormat df = new DecimalFormat("#.#");
+            video.put(Video.VIDEO_T_VIEW_CNT_DISPLAY_FORMAT,df.format(views)+"K");
+        }
+
+        String videoLatestCmterName = video.optString(Video.VIDEO_LATEST_CMTER_NAME);
+        if(StringUtils.isNotBlank(videoLatestCmterName)
+                && UserRegisterValidation.invalidUserName(videoLatestCmterName)){
+            videoLatestCmterName = UserExt.ANONYMOUS_USER_NAME;
+            video.put(Video.VIDEO_LATEST_CMTER_NAME,videoLatestCmterName);
+        }
+        final Query query = new Query()
+                .setPageCount(1).setCurrentPageNum(1).setPageSize(1)
+                .setFilter(new PropertyFilter(Comment.COMMENT_ON_ARTICLE_ID, FilterOperator.EQUAL, videoId)).
+                        addSort(Keys.OBJECT_ID, SortDirection.DESCENDING);
+
+        try {
+            final JSONArray cmts = commentRepository.get(query).optJSONArray(Keys.RESULTS);
+            if (cmts.length()>0){
+                final  JSONObject latestCmt = cmts.optJSONObject(0);
+                latestCmt.put(Comment.COMMENT_CLIENT_COMMENT_ID,latestCmt.optString(Comment.COMMENT_CLIENT_COMMENT_ID));
+                video.put(Video.VIDEO_T_LATEST_CMT,latestCmt);
+            }
+        } catch (RepositoryException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void toVideoDate(final JSONObject video) {
+        video.put(Common.TIME_AGO, Times.getTimeAgo(video.optLong(Video.VIDEO_CREATE_TIME), Locales.getLocale()));
+        video.put(Common.CMT_TIME_AGO,Times.getTimeAgo(video.optLong(Video.VIDEO_LATEST_CMT_TIME),Locales.getLocale()));
+        video.put(Video.VIDEO_CREATE_TIME,new Date(video.optLong(Video.VIDEO_CREATE_TIME)));
+        video.put(Video.VIDEO_UPDATE_TIME,video.optLong(Video.VIDEO_UPDATE_TIME));
+        video.put(Video.VIDEO_LATEST_CMT_TIME,video.optLong(Video.VIDEO_LATEST_CMT_TIME));
+    }
 }
+

@@ -1687,6 +1687,9 @@
                     "name":"videoSize",
                     "type":"int",
                     "length":11
+                },{
+                    "name": "redditScore",
+                    "type": "double"
                 }
 
             ]

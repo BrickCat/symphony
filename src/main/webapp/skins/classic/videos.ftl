@@ -133,7 +133,7 @@
                             }
                             html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
                                     + '<img src="'+imageUrl+'" class="thumb">'
-                                    + '<h1><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'+result.videos[i].videoTitle+'</a></h1>'
+                                    + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
                                     + '<p>'+result.videos[i].videoRemarks+'</p>'
                                     + '</a></article>';
                         }
@@ -149,7 +149,6 @@
 
                 // 当滚动到最底部以上100像素时， 加载新内容
                     if($(document).height() - $(this).scrollTop() - $(this).height()<100) {
-                        alert(p);
                         $.ajax({
                             type: "POST",
                             url: Label.servePath + '/video/front/videos?p=' + p,
@@ -159,11 +158,17 @@
                             success: function (result, textStatus) {
                                 var html = '';
                                 for (var i = 0; i < result.videos.length; i++) {
-                                    html += '<article class="white-panel">'
-                                            + '<img src="${staticServePath}/js/lib/waterfall/img/1.jpg" class="thumb">'
-                                            + '<h1><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'+result.videos[i].videoTitle+'</a></h1>'
+                                    var imageUrl = '';
+                                    if(result.videos[i].videoImgPath == ''){
+                                        imageUrl = '${staticServePath}/images/video/sport.png';
+                                    }else{
+                                        imageUrl = '${servePath}'+result.videos[i].videoImgPath;
+                                    }
+                                    html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
+                                            + '<img src="'+imageUrl+'" class="thumb">'
+                                            + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
                                             + '<p>'+result.videos[i].videoRemarks+'</p>'
-                                            + '</article>';
+                                            + '</a></article>';
                                 }
                                 $("#gallery-wrapper").append(html);
                                 p++;
@@ -175,6 +180,9 @@
                     }
                 }
             }
+            $(".white-panel").onclick=function(){
+               alert(1);
+            };
         </script>
     </body>
 </html>

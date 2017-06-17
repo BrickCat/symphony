@@ -180,7 +180,7 @@ public class VideoProcessor {
 
         final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
 
-        final JSONObject video = videoQueryService.getVideo(videoId);
+        final JSONObject video = videoQueryService.getVideoById(avatarViewMode,videoId);
 
         if(null == video){
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -239,6 +239,10 @@ public class VideoProcessor {
 
         final int cmtViewMode = Integer.valueOf(cmtViewModeStr);
         dataModel.put(UserExt.USER_COMMENT_VIEW_MODE, cmtViewMode);
+
+        if(!(Boolean)request.getAttribute((Keys.HttpRequest.IS_SEARCH_ENGINE_BOT))){
+            videoMgmtService.inVideoViewCount(videoId);
+        }
 
         String pageNumStr = request.getParameter("p");
         if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
@@ -316,6 +320,7 @@ public class VideoProcessor {
 
         response.sendRedirect(Latkes.getServePath() + "/admin/videos");
     }
+
     @RequestProcessing(value = "/video/update/{videoId}",method = HTTPRequestMethod.POST)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
@@ -384,6 +389,8 @@ public class VideoProcessor {
             dataModel.put(Keys.MSG,"( -___- )b上传失败了~呜呜呜~");
         }else if ("format".equals(type)){
             dataModel.put(Keys.MSG,"..(≥◇≤)..格式出错了哟~");
+        }else if ("MaxSize".equals(type)){
+            dataModel.put(Keys.MSG,"哎呀~视频太大了我承受不住了~~w_w~~");
         }else{
             dataModel.put(Keys.MSG,"< ( _ _ ) >哎呀~存储空间不够了，快去积分兑换吧~");
         }

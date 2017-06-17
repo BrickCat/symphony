@@ -73,7 +73,7 @@
                                 ${article.articleViewCount}
                                 <#else>
                                 ${article.articleViewCntDisplayFormat}
-                                    </#if>
+                                </#if>
                                 </span>
                                 ${viewLabel}
                                 &nbsp;•&nbsp;

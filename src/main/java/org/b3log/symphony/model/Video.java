@@ -140,7 +140,19 @@ public final class Video {
      * Key of video comments.
      */
     public static final String VIDEO_T_COMMENTS = "videoComments";
+    /**
+     * Key of video view count display format.
+     */
+    public static final String VIDEO_T_VIEW_CNT_DISPLAY_FORMAT = "videoViewCntDisplayFormat";
+    /**
+     * Key of video latest comment.
+     */
+    public static final String VIDEO_T_LATEST_CMT = "videoLatestCmt";
 
+    /**
+     * Key of reddit score.
+     */
+    public static final String REDDIT_SCORE = "redditScore";
 
     /**
      * video constructor

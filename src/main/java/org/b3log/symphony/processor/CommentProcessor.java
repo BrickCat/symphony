@@ -453,31 +453,33 @@ public class CommentProcessor {
 
                 return;
             }
+            if (!requestJSONObject.has("type")){
+                final String currentUserName = currentUser.optString(User.USER_NAME);
+                final JSONObject article = articleQueryService.getArticle(articleId);
+                final String articleContent = article.optString(Article.ARTICLE_CONTENT);
+                final String articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
+                final JSONObject articleAuthor = userQueryService.getUser(articleAuthorId);
+                final String articleAuthorName = articleAuthor.optString(User.USER_NAME);
+                final Set<String> userNames = userQueryService.getUserNames(articleContent);
+                if (Article.ARTICLE_TYPE_C_DISCUSSION == article.optInt(Article.ARTICLE_TYPE)
+                        && !articleAuthorName.equals(currentUserName)) {
+                    boolean invited = false;
+                    for (final String userName : userNames) {
+                        if (userName.equals(currentUserName)) {
+                            invited = true;
 
-            final String currentUserName = currentUser.optString(User.USER_NAME);
-            final JSONObject article = articleQueryService.getArticle(articleId);
-            final String articleContent = article.optString(Article.ARTICLE_CONTENT);
-            final String articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
-            final JSONObject articleAuthor = userQueryService.getUser(articleAuthorId);
-            final String articleAuthorName = articleAuthor.optString(User.USER_NAME);
+                            break;
+                        }
+                    }
 
-            final Set<String> userNames = userQueryService.getUserNames(articleContent);
-            if (Article.ARTICLE_TYPE_C_DISCUSSION == article.optInt(Article.ARTICLE_TYPE)
-                    && !articleAuthorName.equals(currentUserName)) {
-                boolean invited = false;
-                for (final String userName : userNames) {
-                    if (userName.equals(currentUserName)) {
-                        invited = true;
+                    if (!invited) {
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN);
 
-                        break;
+                        return;
                     }
                 }
-
-                if (!invited) {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
-
-                    return;
-                }
+            }else{
+                comment.put("type","video");
             }
 
             comment.put(Comment.COMMENT_AUTHOR_ID, currentUser.optString(Keys.OBJECT_ID));
