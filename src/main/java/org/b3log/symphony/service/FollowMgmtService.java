@@ -148,7 +148,17 @@ public class FollowMgmtService {
             throw new ServiceException(msg);
         }
     }
+    @Transactional
+    public void watchVideo(final String followerId, final String followingArticleId) throws ServiceException {
+        try {
+            follow(followerId, followingArticleId, Follow.FOLLOWING_TYPE_C_VIDEO_WATCH);
+        } catch (final RepositoryException e) {
+            final String msg = "User[id=" + followerId + "] watches an video[id=" + followingArticleId + "] failed";
+            LOGGER.log(Level.ERROR, msg, e);
 
+            throw new ServiceException(msg);
+        }
+    }
     /**
      * The specified follower unfollows the specified following tag.
      *
@@ -225,6 +235,24 @@ public class FollowMgmtService {
             throw new ServiceException(msg);
         }
     }
+    /**
+     * The specified follower unwatches the specified following article.
+     *
+     * @param followerId the specified follower id
+     * @param followingArticleId the specified following article id
+     * @throws ServiceException service exception
+     */
+    @Transactional
+    public void unwatchVideo(final String followerId, final String followingArticleId) throws ServiceException {
+        try {
+            unfollow(followerId, followingArticleId, Follow.FOLLOWING_TYPE_C_VIDEO_WATCH);
+        } catch (final RepositoryException e) {
+            final String msg = "User[id=" + followerId + "] unwatches an article[id=" + followingArticleId + "] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+    }
 
     /**
      * The specified follower follows the specified following entity with the specified following type.
@@ -285,6 +313,17 @@ public class FollowMgmtService {
             article.put(Article.ARTICLE_WATCH_CNT, article.optInt(Article.ARTICLE_WATCH_CNT) + 1);
 
             articleRepository.update(followingId, article);
+        }else if (Follow.FOLLOWING_TYPE_C_VIDEO_WATCH == followingType) {
+            final JSONObject video = videoRepository.get(followingId);
+            if (null == video) {
+                LOGGER.log(Level.ERROR, "Not found video [id={0}] to watch", followingId);
+
+                return;
+            }
+
+            video.put(Video.VIDEO_WATCH_COUNT, video.optInt(Video.VIDEO_WATCH_COUNT) + 1);
+
+            videoRepository.update(followingId, video);
         }
 
         final JSONObject follow = new JSONObject();
@@ -364,6 +403,20 @@ public class FollowMgmtService {
             }
 
             articleRepository.update(followingId, article);
+        }else if (Follow.FOLLOWING_TYPE_C_VIDEO_WATCH == followingType) {
+            final JSONObject video = videoRepository.get(followingId);
+            if (null == video) {
+                LOGGER.log(Level.ERROR, "Not found video [id={0}] to unwatch", followingId);
+
+                return;
+            }
+
+            video.put(Video.VIDEO_WATCH_COUNT, video.optInt(Video.VIDEO_WATCH_COUNT) - 1);
+            if (video.optInt(Video.VIDEO_WATCH_COUNT) < 0) {
+                video.put(Video.VIDEO_WATCH_COUNT, 0);
+            }
+
+            videoRepository.update(followingId, video);
         }
     }
     @Transactional

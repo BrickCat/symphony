@@ -160,6 +160,11 @@ public final class Permission {
     public static final String PERMISSION_ID_C_COMMON_WATCH_ARTICLE = "commonWatchArticle";
 
     /**
+     * Id - common - watch article.
+     */
+    public static final String PERMISSION_ID_C_COMMON_WATCH_VIDEO = "commonWatchVideo";
+
+    /**
      * Id - common - view article history.
      */
     public static final String PERMISSION_ID_C_COMMON_VIEW_ARTICLE_HISTORY = "commonViewArticleHistory";

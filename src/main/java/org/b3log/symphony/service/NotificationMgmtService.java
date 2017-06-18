@@ -206,6 +206,28 @@ public class NotificationMgmtService {
     }
 
     /**
+     * Add a 'article new watcher' type notification with the specified request json object.
+     *
+     * @param requestJSONObject the specified request json object, for example,
+     *                          "userId": "",
+     *                          "dataId": "" // article id-follower user id
+     * @throws ServiceException service exception
+     */
+    @Transactional
+    public void addVideoNewWatcherNotification(final JSONObject requestJSONObject) throws ServiceException {
+        try {
+            requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_C_VDIDEO_NEW_WATCHER);
+
+            addNotification(requestJSONObject);
+        } catch (final RepositoryException e) {
+            final String msg = "Adds notification [type=article_new_watcher] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+    }
+
+    /**
      * Add a 'article new follower' type notification with the specified request json object.
      *
      * @param requestJSONObject the specified request json object, for example,

@@ -261,7 +261,7 @@ public class FileUploadServlet extends HttpServlet {
                         String suffix = StringUtils.substringAfterLast(fileName, ".");
                         fileName = uuid+"."+suffix;
                         map.put("videoUrl","/upload/" + fileName);
-                        if(!"mp4".equals(suffix)){
+                        if(!"mp4".equals(suffix)||"war".equals(suffix)||"sql".equals(suffix)){
                             resp.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+"format");
                             return;
                         }

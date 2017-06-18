@@ -114,6 +114,8 @@ public class VideoMgmtService {
         video.put(Video.VIDEO_WATCH_COUNT,0);
         //关注
         video.put(Video.VIDEO_COLLECT_CNT,0);
+        //排分
+        video.put(Video.REDDIT_SCORE,0);
         try {
             if(!"".equals(id)){
                 final JSONObject oldVideo = videoRepository.get(id);

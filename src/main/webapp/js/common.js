@@ -965,7 +965,7 @@ var Util = {
                             $(it).html('<span class="icon-star"></span> ' + (index + 1)).
                                 attr("onclick", "Util.unfollow(this, '" + id + "', '" + type + "', " + (index + 1) + ")")
                                 .attr("aria-label", Label.uncollectLabel).addClass('ft-red');
-                        } else if ('article-watch' === type) {
+                        } else if ('article-watch' === type || 'video-watch' === type) {
                             $(it).html('<span class="icon-view"></span> ' + (index + 1)).
                                 attr("onclick", "Util.unfollow(this, '" + id + "', '" + type + "', " + (index + 1) + ")")
                                 .attr("aria-label", Label.unfollowLabel).addClass('ft-red');
@@ -1009,7 +1009,7 @@ var Util = {
                             $(it).removeClass('ft-red').html('<span class="icon-star"></span> ' + (index - 1))
                                 .attr("onclick", "Util.follow(this, '" + id + "', '" + type + "'," + (index - 1) + ")")
                                 .attr("aria-label", Label.collectLabel);
-                        } else if ('article-watch' === type) {
+                        } else if ('article-watch' === type||'video-watch' === type) {
                             $(it).removeClass('ft-red').html('<span class="icon-view"></span> ' + (index - 1))
                                 .attr("onclick", "Util.follow(this, '" + id + "', '" + type + "'," + (index - 1) + ")")
                                 .attr("aria-label", Label.followLabel);

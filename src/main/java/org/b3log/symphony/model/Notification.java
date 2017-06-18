@@ -220,6 +220,11 @@ public final class Notification {
      * Data type - article vote down.
      */
     public static final int DATA_TYPE_C_VIDEO_NEW_FOLLOWER = 32;
+
+    /**
+     * Data type - video new watcher.
+     */
+    public static final int DATA_TYPE_C_VDIDEO_NEW_WATCHER = 33;
     //// Transient ////
     /**
      * Key of unread notification count.

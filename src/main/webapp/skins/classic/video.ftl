@@ -89,27 +89,25 @@
                               onclick="Video.permissionTip(Label.noPermissionLabel)"
                             </#if>><span class="icon-star"></span>${video.videoCollectCount}</span>
                     </#if> &nbsp;
-
-
-
-
-                   <#-- <#if isLoggedIn && isWatching>-->
-                    <#--取消关注-->
+                    <#if isLoggedIn && isWatching>
                         <span class="tooltipped tooltipped-n ft-red" aria-label="${unfollowLabel}"
-                            <#if permissions["commonWatchArticle"].permissionGrant>
-                              onclick="Util.unfollow(this, '${video.oId}', 'article-watch', <#--${article.articleWatchCnt}-->)"
+                            <#if permissions["commonWatchVideo"].permissionGrant>
+                              onclick="Util.unfollow(this, '${video.oId}', 'video-watch',${video.videoWatchCount})"
                             <#else>
-                              onclick="Article.permissionTip(Label.noPermissionLabel)"
-                            </#if>><span class="icon-view"></span> <#--${article.articleWatchCnt}-->0</span>
-                    <#--<#else>-->
-                    <#--关注-->
-                        <#--<span class="tooltipped tooltipped-n" aria-label="${followLabel}"
-                            <#if permissions["commonWatchArticle"].permissionGrant>
-                              onclick="Util.follow(this, '&lt;#&ndash;${article.oId}&ndash;&gt;', 'article-watch', &lt;#&ndash;${article.articleWatchCnt}&ndash;&gt;)"
+                              onclick="Video.permissionTip(Label.noPermissionLabel)"
+                            </#if>><span class="icon-view"></span>${video.videoWatchCount}</span>
+                    <#else>
+                        <span class="tooltipped tooltipped-n" aria-label="${followLabel}"
+                            <#if permissions["commonWatchVideo"].permissionGrant>
+                              onclick="Util.follow(this, '${video.oId}', 'video-watch', ${video.videoWatchCount})"
                             <#else>
-                              onclick="Article.permissionTip(Label.noPermissionLabel)"
-                            </#if>><span class="icon-view"></span> &lt;#&ndash;${article.articleWatchCnt}&ndash;&gt;1</span>-->
-                    <#--</#if>--> &nbsp;
+                              onclick="Video.permissionTip(Label.noPermissionLabel)"
+                            </#if>><span class="icon-view"></span>${video.videoWatchCount}</span>
+                    </#if> &nbsp;
+
+
+
+
                     <#--置顶-->
                     <#if <#--article.isMyArticle && -->permissions["commonStickArticle"].permissionGrant>
                         <a class="tooltipped tooltipped-n" aria-label="${stickLabel}"

@@ -224,7 +224,7 @@ public class VideoProcessor {
             final boolean isFollowing = followQueryService.isFollowing(currentUserId, videoId, Follow.FOLLOWING_TYPE_C_VIDEO);
             dataModel.put(Common.IS_FOLLOWING, isFollowing);
 
-            final boolean isWatching = followQueryService.isFollowing(currentUserId, videoId, Follow.FOLLOWING_TYPE_C_ARTICLE_WATCH);
+            final boolean isWatching = followQueryService.isFollowing(currentUserId, videoId, Follow.FOLLOWING_TYPE_C_VIDEO_WATCH);
             dataModel.put(Common.IS_WATCHING, isWatching);
 
             final int videoeVote = voteQueryService.isVoted(currentUserId, videoId);
