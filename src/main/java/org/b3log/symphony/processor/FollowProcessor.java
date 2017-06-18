@@ -30,11 +30,13 @@ import org.b3log.latke.util.Requests;
 import org.b3log.symphony.model.Article;
 import org.b3log.symphony.model.Follow;
 import org.b3log.symphony.model.Notification;
+import org.b3log.symphony.model.Video;
 import org.b3log.symphony.processor.advice.LoginCheck;
 import org.b3log.symphony.processor.advice.PermissionCheck;
 import org.b3log.symphony.service.ArticleQueryService;
 import org.b3log.symphony.service.FollowMgmtService;
 import org.b3log.symphony.service.NotificationMgmtService;
+import org.b3log.symphony.service.VideoQueryService;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -87,7 +89,11 @@ public class FollowProcessor {
      */
     @Inject
     private ArticleQueryService articleQueryService;
-
+    /**
+     * Article query service.
+     */
+    @Inject
+    private VideoQueryService videoQueryService;
     /**
      * Follows a user.
      * <p>
@@ -278,6 +284,54 @@ public class FollowProcessor {
     }
 
     /**
+     * Follows an video.
+     * <p>
+     * The request json object:
+     * <pre>
+     * {
+     *   "followingId": ""
+     * }
+     * </pre>
+     * </p>
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/follow/video", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {LoginCheck.class, PermissionCheck.class})
+    public void followVideo(final HTTPRequestContext context, final HttpServletRequest request,
+                              final HttpServletResponse response) throws Exception {
+        context.renderJSON();
+
+        final JSONObject requestJSONObject = Requests.parseRequestJSONObject(request, context.getResponse());
+        final String followingVideoId = requestJSONObject.optString(Follow.FOLLOWING_ID);
+
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        final String followerUserId = currentUser.optString(Keys.OBJECT_ID);
+
+        followMgmtService.followVdieo(followerUserId, followingVideoId);
+
+        final JSONObject video = videoQueryService.getVideo(followingVideoId);
+        final String videoAuthorId = video.optString(Video.VIDEO_AUTHORID);
+
+        if (!FOLLOWS.contains(videoAuthorId + followingVideoId + "-" + followerUserId) &&
+                !videoAuthorId.equals(followerUserId)) {
+            final JSONObject notification = new JSONObject();
+            notification.put(Notification.NOTIFICATION_USER_ID, videoAuthorId);
+            notification.put(Notification.NOTIFICATION_DATA_ID, followingVideoId + "-" + followerUserId);
+
+            notificationMgmtService.addVideoNewFollowerNotification(notification);
+        }
+
+        FOLLOWS.add(videoAuthorId + followingVideoId + "-" + followerUserId);
+
+        context.renderTrueResult();
+    }
+
+
+    /**
      * Unfollows an article.
      * <p>
      * The request json object:
@@ -309,7 +363,38 @@ public class FollowProcessor {
 
         context.renderTrueResult();
     }
+    /**
+     * Unfollows an video.
+     * <p>
+     * The request json object:
+     * <pre>
+     * {
+     *   "followingId": ""
+     * }
+     * </pre>
+     * </p>
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/follow/video", method = HTTPRequestMethod.DELETE)
+    @Before(adviceClass = LoginCheck.class)
+    public void unfollowVideo(final HTTPRequestContext context, final HttpServletRequest request,
+                                final HttpServletResponse response) throws Exception {
+        context.renderJSON();
 
+        final JSONObject requestJSONObject = Requests.parseRequestJSONObject(request, context.getResponse());
+        final String followingVideoId = requestJSONObject.optString(Follow.FOLLOWING_ID);
+
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        final String followerUserId = currentUser.optString(Keys.OBJECT_ID);
+
+        followMgmtService.unfollowVideo(followerUserId, followingVideoId);
+
+        context.renderTrueResult();
+    }
     /**
      * Watches an article.
      * <p>

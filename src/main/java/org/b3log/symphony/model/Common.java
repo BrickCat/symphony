@@ -442,6 +442,11 @@ public final class Common {
     public static final String IS_MY_ARTICLE = "isMyArticle";
 
     /**
+     * Key of is my article.
+     */
+    public static final String IS_MY_VIDEO = "isMyVideo";
+
+    /**
      * Key of logout URL.
      */
     public static final String LOGOUT_URL = "logoutURL";

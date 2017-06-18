@@ -202,6 +202,7 @@ public final class Notification {
      */
     public static final int DATA_TYPE_C_ARTICLE_VOTE_DOWN = 28;
 
+
     /**
      * Data type - article vote down.
      */
@@ -210,6 +211,15 @@ public final class Notification {
      * Data type - article vote up.
      */
     public static final int DATA_TYPE_C_VIDEO_VOTE_UP = 30;
+
+    /**
+     * Data type - article vote down.
+     */
+    public static final int DATA_TYPE_C_VIDEO_VOTE_DOWN = 31;
+    /**
+     * Data type - article vote down.
+     */
+    public static final int DATA_TYPE_C_VIDEO_NEW_FOLLOWER = 32;
     //// Transient ////
     /**
      * Key of unread notification count.

@@ -136,12 +136,23 @@ public final class Permission {
     /**
      * Id - common - bad article.
      */
+    public static final String PERMISSION_ID_C_COMMON_BAD_VIDEO = "commonBadVideo";
+
+    /**
+     * Id - common - bad article.
+     */
     public static final String PERMISSION_ID_C_COMMON_BAD_ARTICLE = "commonBadArticle";
 
     /**
      * Id - common - follow article.
      */
     public static final String PERMISSION_ID_C_COMMON_FOLLOW_ARTICLE = "commonFollowArticle";
+
+    /**
+     * Id - common - follow article.
+     */
+    public static final String PERMISSION_ID_C_COMMON_FOLLOW_VIDEO = "commonFollowVideo";
+
 
     /**
      * Id - common - watch article.

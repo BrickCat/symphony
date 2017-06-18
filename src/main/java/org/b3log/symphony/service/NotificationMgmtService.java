@@ -82,6 +82,28 @@ public class NotificationMgmtService {
     }
 
     /**
+     * Add a 'article vote down' type notification with the specified request json object.
+     *
+     * @param requestJSONObject the specified request json object, for example,
+     *                          "userId": "",
+     *                          "dataId": "" // article id-vote user id
+     * @throws ServiceException service exception
+     */
+    @Transactional
+    public void addVideoVoteDownNotification(final JSONObject requestJSONObject) throws ServiceException {
+        try {
+            requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_C_VIDEO_VOTE_DOWN);
+
+            addNotification(requestJSONObject);
+        } catch (final RepositoryException e) {
+            final String msg = "Adds notification [type=video_vote_down] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+    }
+
+    /**
      * Add a 'article vote up' type notification with the specified request json object.
      *
      * @param requestJSONObject the specified request json object, for example,
@@ -199,6 +221,28 @@ public class NotificationMgmtService {
             addNotification(requestJSONObject);
         } catch (final RepositoryException e) {
             final String msg = "Adds notification [type=article_new_follower] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+    }
+
+    /**
+     * Add a 'article new follower' type notification with the specified request json object.
+     *
+     * @param requestJSONObject the specified request json object, for example,
+     *                          "userId": "",
+     *                          "dataId": "" // article id-follower user id
+     * @throws ServiceException service exception
+     */
+    @Transactional
+    public void addVideoNewFollowerNotification(final JSONObject requestJSONObject) throws ServiceException {
+        try {
+            requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_C_VIDEO_NEW_FOLLOWER);
+
+            addNotification(requestJSONObject);
+        } catch (final RepositoryException e) {
+            final String msg = "Adds notification [type=video_new_follower] failed";
             LOGGER.log(Level.ERROR, msg, e);
 
             throw new ServiceException(msg);

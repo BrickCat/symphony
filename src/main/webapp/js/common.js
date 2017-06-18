@@ -958,9 +958,10 @@ var Util = {
             data: JSON.stringify(requestJSONObject),
             success: function (result, textStatus) {
                 if (result.sc) {
+
                     $(it).removeClass("disabled");
                     if (typeof (index) !== 'undefined') {
-                        if ('article' === type || 'tag' === type) {
+                        if ('article' === type || 'tag' === type || 'video' === type) {
                             $(it).html('<span class="icon-star"></span> ' + (index + 1)).
                                 attr("onclick", "Util.unfollow(this, '" + id + "', '" + type + "', " + (index + 1) + ")")
                                 .attr("aria-label", Label.uncollectLabel).addClass('ft-red');
@@ -1004,7 +1005,7 @@ var Util = {
             success: function (result, textStatus) {
                 if (result.sc) {
                     if (typeof (index) !== 'undefined') {
-                        if ('article' === type || 'tag' === type) {
+                        if ('article' === type || 'tag' === type || 'video' === type) {
                             $(it).removeClass('ft-red').html('<span class="icon-star"></span> ' + (index - 1))
                                 .attr("onclick", "Util.follow(this, '" + id + "', '" + type + "'," + (index - 1) + ")")
                                 .attr("aria-label", Label.collectLabel);

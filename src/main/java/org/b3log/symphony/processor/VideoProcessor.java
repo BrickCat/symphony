@@ -206,7 +206,7 @@ public class VideoProcessor {
         }
         dataModel.put(Video.VIDEO,video);
 
-        video.put(Common.IS_MY_ARTICLE, false);
+        video.put(Common.IS_MY_VIDEO, false);
 
         video.put(Video.VIDEO_T_AUTHOR, author);
 
@@ -219,9 +219,9 @@ public class VideoProcessor {
         if (isLoggedIn) {
             currentUser = (JSONObject) dataModel.get(Common.CURRENT_USER);
             currentUserId = currentUser.optString(Keys.OBJECT_ID);
-            video.put(Common.IS_MY_ARTICLE, currentUserId.equals(video.optString(Video.VIDEO_AUTHORID)));
+            video.put(Common.IS_MY_VIDEO, currentUserId.equals(video.optString(Video.VIDEO_AUTHORID)));
 
-            final boolean isFollowing = followQueryService.isFollowing(currentUserId, videoId, Follow.FOLLOWING_TYPE_C_ARTICLE);
+            final boolean isFollowing = followQueryService.isFollowing(currentUserId, videoId, Follow.FOLLOWING_TYPE_C_VIDEO);
             dataModel.put(Common.IS_FOLLOWING, isFollowing);
 
             final boolean isWatching = followQueryService.isFollowing(currentUserId, videoId, Follow.FOLLOWING_TYPE_C_ARTICLE_WATCH);

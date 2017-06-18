@@ -118,6 +118,30 @@ public class VoteMgmtService {
                 updateTagArticleScore(article);
 
                 articleRepository.update(dataId, article);
+            } else if (Vote.DATA_TYPE_C_VIDEO == dataType){
+                final JSONObject video = videoRepository.get(dataId);
+                if (null == video){
+                    LOGGER.log(Level.ERROR, "Not found video [id={0}] to vote cancel", dataId);
+
+                    return;
+                }
+                if (Vote.TYPE_C_UP == oldType) {
+                    video.put(Video.VIDEO_GOOD_COUNT, video.optInt(Video.VIDEO_GOOD_COUNT) - 1);
+                } else if (Vote.TYPE_C_DOWN == oldType) {
+                    video.put(Video.VIDEO_BAD_COUNT, video.optInt(Video.VIDEO_BAD_COUNT) - 1);
+                }
+
+                final int ups = video.optInt(Video.VIDEO_GOOD_COUNT);
+                final int downs = video.optInt(Video.VIDEO_BAD_COUNT);
+                final long t = video.optLong(Keys.OBJECT_ID) / 1000;
+
+                final double redditScore = redditVideoScore(ups, downs, t);
+                video.put(Article.REDDIT_SCORE, redditScore);
+
+                //updateTagVideoScore(video);
+
+                videoRepository.update(dataId, video);
+
             } else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
                 final JSONObject comment = commentRepository.get(dataId);
                 if (null == comment) {
@@ -247,7 +271,7 @@ public class VoteMgmtService {
             final double redditScore = redditVideoScore(ups, downs, t);
             video.put(Video.REDDIT_SCORE,redditScore);
 
-            updateTagVideoScore(video);
+            //updateTagVideoScore(video);
 
             videoRepository.update(dataId,video);
         } else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
@@ -343,10 +367,34 @@ public class VoteMgmtService {
             updateTagArticleScore(article);
 
             articleRepository.update(dataId, article);
+        } else if (Vote.DATA_TYPE_C_VIDEO == dataType){
+            final JSONObject video = videoRepository.get(dataId);
+            if (null == video){
+                LOGGER.log(Level.ERROR, "Not found video [id={0}] to vote down", dataId);
+
+                return;
+            }
+            if (-1 == oldType) {
+                video.put(Video.VIDEO_BAD_COUNT, video.optInt(Video.VIDEO_BAD_COUNT) + 1);
+            } else if (Vote.TYPE_C_UP == oldType) {
+                video.put(Video.VIDEO_GOOD_COUNT, video.optInt(Video.VIDEO_GOOD_COUNT) - 1);
+                video.put(Video.VIDEO_BAD_COUNT, video.optInt(Video.VIDEO_BAD_COUNT) + 1);
+            }
+
+            final int ups = video.optInt(Video.VIDEO_GOOD_COUNT);
+            final int downs = video.optInt(Video.VIDEO_BAD_COUNT);
+            final long t = video.optLong(Keys.OBJECT_ID) / 1000;
+
+            final double redditScore = redditVideoScore(ups, downs, t);
+            video.put(Video.REDDIT_SCORE, redditScore);
+
+            //updateTagVideoScore(video);
+
+            videoRepository.update(dataId, video);
         } else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
             final JSONObject comment = commentRepository.get(dataId);
             if (null == comment) {
-                LOGGER.log(Level.ERROR, "Not found comment [id={0}] to vote up", dataId);
+                LOGGER.log(Level.ERROR, "Not found comment [id={0}] to vote down", dataId);
 
                 return;
             }

@@ -1690,6 +1690,9 @@
                 },{
                     "name": "redditScore",
                     "type": "double"
+                },{
+                    "name":"videoCollectCount",
+                    "type":"int"
                 }
 
             ]

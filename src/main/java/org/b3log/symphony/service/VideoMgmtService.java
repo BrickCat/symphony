@@ -112,6 +112,8 @@ public class VideoMgmtService {
         video.put(Video.VIDEO_BAD_COUNT,0);
         //视频观看次数
         video.put(Video.VIDEO_WATCH_COUNT,0);
+        //关注
+        video.put(Video.VIDEO_COLLECT_CNT,0);
         try {
             if(!"".equals(id)){
                 final JSONObject oldVideo = videoRepository.get(id);
