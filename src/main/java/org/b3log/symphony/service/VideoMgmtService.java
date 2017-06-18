@@ -4,22 +4,29 @@ import org.b3log.latke.Keys;
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
-import org.b3log.latke.repository.RepositoryException;
-import org.b3log.latke.repository.Transaction;
+import org.b3log.latke.repository.*;
 import org.b3log.latke.repository.annotation.Transactional;
+import org.b3log.latke.service.LangPropsService;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.latke.util.Ids;
+import org.b3log.symphony.model.Article;
+import org.b3log.symphony.model.Pointtransfer;
+import org.b3log.symphony.model.UserExt;
 import org.b3log.symphony.model.Video;
 import org.b3log.symphony.repository.OptionRepository;
 import org.b3log.symphony.repository.TagRepository;
+import org.b3log.symphony.repository.UserRepository;
 import org.b3log.symphony.repository.VideoRepository;
 import org.b3log.symphony.util.Symphonys;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by 860117030 on 2017/5/24.
@@ -55,6 +62,25 @@ public class VideoMgmtService {
      */
     @Inject
     private VideoRepository videoRepository;
+
+    /***
+     * User repository
+     */
+    @Inject
+    private UserRepository userRepository;
+
+
+    /***
+     * LangProps repository
+     */
+    @Inject
+    private LangPropsService langPropsService;
+
+    /**
+     * Pointtransfer management service.
+     */
+    @Inject
+    private PointtransferMgmtService pointtransferMgmtService;
     /**
      * Adds a video
      * @param requestJSONObject
@@ -116,6 +142,8 @@ public class VideoMgmtService {
         video.put(Video.VIDEO_COLLECT_CNT,0);
         //排分
         video.put(Video.REDDIT_SCORE,0);
+        //置顶
+        video.put(Video.VIDEO_STICK,0L);
         try {
             if(!"".equals(id)){
                 final JSONObject oldVideo = videoRepository.get(id);
@@ -229,5 +257,65 @@ public class VideoMgmtService {
                 }
             }
         });
+    }
+
+    /**
+     * Sticks an article specified by the given article id.
+     *
+     * @param videoId the given article id
+     * @throws ServiceException service exception
+     */
+    public synchronized void stick(final String videoId) throws ServiceException {
+        final Transaction transaction = videoRepository.beginTransaction();
+
+        try {
+            final JSONObject video = videoRepository.get(videoId);
+            if (null == video) {
+                return;
+            }
+
+            final String authorId = video.optString(Video.VIDEO_AUTHORID);
+            final JSONObject author = userRepository.get(authorId);
+            final int balance = author.optInt(UserExt.USER_POINT);
+
+            if (balance - Pointtransfer.TRANSFER_SUM_C_STICK_ARTICLE < 0) {
+                throw new ServiceException(langPropsService.get("insufficientBalanceLabel"));
+            }
+
+            final Query query = new Query().
+                    setFilter(new PropertyFilter(Video.VIDEO_STICK, FilterOperator.GREATER_THAN, 0L));
+            final JSONArray videos = videoRepository.get(query).optJSONArray(Keys.RESULTS);
+            if (videos.length() > 1) {
+                final Set<String> ids = new HashSet<>();
+                for (int i = 0; i < videos.length(); i++) {
+                    ids.add(videos.optJSONObject(i).optString(Keys.OBJECT_ID));
+                }
+
+                if (!ids.contains(videoId)) {
+                    throw new ServiceException(langPropsService.get("stickExistLabel"));
+                }
+            }
+
+            video.put(Video.VIDEO_STICK, System.currentTimeMillis());
+
+            videoRepository.update(videoId, video);
+
+            transaction.commit();
+
+            final boolean succ = null != pointtransferMgmtService.transfer(video.optString(Video.VIDEO_AUTHORID),
+                    Pointtransfer.ID_C_SYS, Pointtransfer.TRANSFER_TYPE_C_STICK_ARTICLE,
+                    Pointtransfer.TRANSFER_SUM_C_STICK_ARTICLE, videoId, System.currentTimeMillis());
+            if (!succ) {
+                throw new ServiceException(langPropsService.get("stickFailedLabel"));
+            }
+        } catch (final RepositoryException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+
+            LOGGER.log(Level.ERROR, "Sticks an video[id=" + videoId + "] failed", e);
+
+            throw new ServiceException(langPropsService.get("stickFailedLabel"));
+        }
     }
 }

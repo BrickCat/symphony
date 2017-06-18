@@ -24,6 +24,9 @@ public class TODO {
     //7.#前台视频列表，瀑布流
 
     //TODO 并发上传、下载！！！
+    //http://www.cnblogs.com/tinywan/p/6692098.html
+
+
     /**
      * 后台
      */

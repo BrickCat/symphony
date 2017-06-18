@@ -159,6 +159,11 @@ public final class Video {
      */
     public static final String VIDEO_COLLECT_CNT = "videoCollectCount";
 
+    /**
+     * Key of article collection count.
+     */
+    public static final String VIDEO_STICK = "videoStick";
+
 
     /**
      * video constructor

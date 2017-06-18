@@ -109,18 +109,18 @@
 
 
                     <#--置顶-->
-                    <#if <#--article.isMyArticle && -->permissions["commonStickArticle"].permissionGrant>
+                    <#if video.isMyVideo && permissions["commonStickVideo"].permissionGrant>
                         <a class="tooltipped tooltipped-n" aria-label="${stickLabel}"
-                           href="javascript:Article.stick('<#--${article.oId}-->')"><span class="icon-chevron-up"></span></a> &nbsp;
+                           href="javascript:Video.stick('${video.oId}')"><span class="icon-chevron-up"></span></a> &nbsp;
                     </#if>
                     <#--编辑-->
-                    <#if <#--article.isMyArticle && 3 != article.articleType &&--> permissions["commonUpdateArticle"].permissionGrant>
-                        <a href="${servePath}/update?id=<#--${article.oId}-->" aria-label="${editLabel}"
+                    <#if video.isMyVideo && permissions["adminUpdateVideo"].permissionGrant>
+                        <a href="${servePath}/video/${video.oId}" aria-label="${editLabel}"
                            class="tooltipped tooltipped-n"><span class="icon-edit"></span></a> &nbsp;
                     </#if>
                     <#--管理-->
-                    <#if permissions["articleUpdateArticleBasic"].permissionGrant>
-                        <a class="tooltipped tooltipped-n" href="${servePath}/admin/article/<#--${article.oId}-->" aria-label="${adminLabel}"><span class="icon-setting"></span></a> &nbsp;
+                    <#if permissions["adminUpdateVideo"].permissionGrant>
+                        <a class="tooltipped tooltipped-n" href="${servePath}/video/${video.oId}" aria-label="${adminLabel}"><span class="icon-setting"></span></a> &nbsp;
                     </#if>
                     </div>
                 </div>
@@ -153,6 +153,10 @@
                                 fileURL.window.close();
                                 fileURL.close();
                             });
+                        });
+                        player.src({
+                            src: "",
+                            type: 'application/x-mpegURL'
                         });
                     </script>
                 </div>
@@ -242,6 +246,7 @@
             Label.uploadLabel = "${uploadLabel}";
             Label.userCommentViewMode = ${userCommentViewMode};
             Label.stickConfirmLabel = "${stickConfirmLabel}";
+            Label.stickVideoConfirmLabel = "${stickVideoConfirmLabel}";
             Label.audioRecordingLabel = '${audioRecordingLabel}';
             Label.uploadingLabel = '${uploadingLabel}';
             Label.copiedLabel = '${copiedLabel}';

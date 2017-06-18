@@ -1693,6 +1693,10 @@
                 },{
                     "name":"videoCollectCount",
                     "type":"int"
+                },
+                {
+                    "name": "videoStick",
+                    "type": "long"
                 }
 
             ]

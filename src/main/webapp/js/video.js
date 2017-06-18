@@ -1406,12 +1406,12 @@ var Video = {
     /**
      * @description 置顶
      */
-    stick: function (articleId) {
-        var r = confirm(Label.stickConfirmLabel);
+    stick: function (videoId) {
+        var r = confirm(Label.stickVideoConfirmLabel);
 
         if (r) {
             $.ajax({
-                url: Label.servePath + "/article/stick?articleId=" + articleId,
+                url: Label.servePath + "/video/stick?videoId=" + videoId,
                 type: "POST",
                 cache: false,
                 success: function (result, textStatus) {

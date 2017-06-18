@@ -119,6 +119,11 @@ public final class Permission {
     public static final String PERMISSION_ID_C_COMMON_STICK_ARTICLE = "commonStickArticle";
 
     /**
+     * Id - common - stick video.
+     */
+    public static final String PERMISSION_ID_C_COMMON_STICK_VIDEO = "commonStickVideo";
+
+    /**
      * Id - common - thank article.
      */
     public static final String PERMISSION_ID_C_COMMON_THANK_ARTICLE = "commonThankArticle";

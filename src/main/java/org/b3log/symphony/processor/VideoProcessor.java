@@ -8,6 +8,7 @@ import org.b3log.latke.logging.Logger;
 import org.b3log.latke.model.Pagination;
 import org.b3log.latke.model.User;
 import org.b3log.latke.service.LangPropsService;
+import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.servlet.HTTPRequestContext;
 import org.b3log.latke.servlet.HTTPRequestMethod;
 import org.b3log.latke.servlet.annotation.After;
@@ -244,6 +245,11 @@ public class VideoProcessor {
             videoMgmtService.inVideoViewCount(videoId);
         }
 
+        String stickConfirmLabel = langPropsService.get("stickVideoConfirmLabel");
+        stickConfirmLabel = stickConfirmLabel.replace("{point}", Symphonys.get("pointStickArticle"));
+        dataModel.put("stickVideoConfirmLabel", stickConfirmLabel);
+        dataModel.put("pointThankArticle", Symphonys.get("pointThankArticle"));
+
         String pageNumStr = request.getParameter("p");
         if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
             pageNumStr = "1";
@@ -444,5 +450,58 @@ public class VideoProcessor {
         final List<JSONObject> videos = CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS));
 
         context.renderJSONValue(Video.VIDEOS, videos);
+    }
+
+    /**
+     * Sticks an article.
+     *
+     * @param request  the specified HTTP servlet request
+     * @param response the specified HTTP servlet response
+     * @param context  the specified HTTP request context
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/video/stick", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = StopwatchEndAdvice.class)
+    public void stickVidoe(final HttpServletRequest request, final HttpServletResponse response, final HTTPRequestContext context)
+            throws Exception {
+        final JSONObject currentUser = userQueryService.getCurrentUser(request);
+        if (null == currentUser) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+
+            return;
+        }
+
+        final String videoId = request.getParameter(Video.VIDEO_T_ID);
+        if (Strings.isEmptyOrNull(videoId)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+            return;
+        }
+
+        final JSONObject vidoe = videoQueryService.getVideo(videoId);
+        if (null == vidoe) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+
+            return;
+        }
+
+        if (!currentUser.optString(Keys.OBJECT_ID).equals(vidoe.optString(Video.VIDEO_AUTHORID))) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+
+            return;
+        }
+
+        context.renderJSON();
+
+        try {
+            videoMgmtService.stick(videoId);
+        } catch (final ServiceException e) {
+            context.renderMsg(e.getMessage());
+
+            return;
+        }
+
+        context.renderTrueResult().renderMsg(langPropsService.get("stickSuccLabel"));
     }
 }
