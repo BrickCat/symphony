@@ -24,8 +24,14 @@ public class TODO {
     //7.#前台视频列表，瀑布流
 
     //TODO 并发上传、下载！！！
+    //服务器搭建
     //http://www.cnblogs.com/tinywan/p/6692098.html
-
+    //切片
+    //http://www.oschina.net/question/554705_2199600?from=mail-notify
+    //编译
+    //http://www.92to.com/bangong/2017/05-22/22150279.html
+    //命令
+    //ffmpeg -i output.mp4 -c:v libx264 -c:a aac -strict -2 -f hls -hls_list_size 0 -hls_time 5 output1.m3u8
 
     /**
      * 后台
@@ -40,6 +46,7 @@ public class TODO {
     //TODO 视频详情页面展示（计数，是否可下载）
     //TODO 赞，评论
     //TODO 上传视频格式转换（中级）（fileuploadservlet）
+    //
 
     /**
      * Future
