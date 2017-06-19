@@ -33,6 +33,8 @@ public class TODO {
     //命令
     //ffmpeg -i output.mp4 -c:v libx264 -c:a aac -strict -2 -f hls -hls_list_size 0 -hls_time 5 output1.m3u8
 
+    //http://123.206.129.162:8080/z.m3u8
+
     /**
      * 后台
      */
