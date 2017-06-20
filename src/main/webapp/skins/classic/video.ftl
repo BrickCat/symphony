@@ -6,6 +6,8 @@
         <@head title="${video.videoTitle} - ${symphonyLabel}">
         <meta name="keywords" content="${video.videoTag}" />
         <meta name="description" content="${video.videoRemarks}"/>
+        <meta http-equiv="Access-Control-Allow-Origin" content="*">
+
         </@head>
 
         <link href="${staticServePath}/js/lib/video.js/css/video-js.css" rel="stylesheet">
@@ -128,14 +130,19 @@
                 <h1 class="article-title">
                     ${video.videoTitle}
                 </h1>
+                <script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
+                <script src="${staticServePath}/js/lib/video.js/js/videojs-vjsdownload.js"></script>
+                <script src="${staticServePath}/js/lib/video.js/js/videojs-media-sources.js"></script>
+                <script src="${staticServePath}/js/lib/video.js/js/videojs.hls.js"></script>
+
                 <div  class="aplayer" style="margin-top: 15px;">
                     <video id="my-video" class="video-js vjs-default-skin" controls preload="meta" width="840" height="384" poster="" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>
-                        <source src="${servePath}${video.videoUrl}" type="video/mp4">
+                        <source src="<#--${servePath}${video.videoUrl}-->http://172.29.140.85:9099/3.m3u8"
+                                type="application/x-mpegURL">
                     </video>
-                    <script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
-                    <script src="${staticServePath}/js/lib/video.js/js/videojs-vjsdownload.js"></script>
-                    <script type="text/javascript">
 
+                    <script type="text/javascript">
+                        videojs.options.flash.swf = '${staticServePath}/js/lib/video.js/js/video-js.swf';
                         var player = videojs(document.querySelector('.video-js'), {
                             "playbackRates": [1, 1.5, 2],
                             "autoplay": true,
@@ -153,10 +160,6 @@
                                 fileURL.window.close();
                                 fileURL.close();
                             });
-                        });
-                        player.src({
-                            src: "",
-                            type: 'application/x-mpegURL'
                         });
                     </script>
                 </div>
@@ -233,7 +236,7 @@
             Label.commentErrorLabel = "${commentErrorLabel}";
             Label.symphonyLabel = "${symphonyLabel}";
             Label.thankSentLabel = "${thankSentLabel}";
-            Label.articleOId = "${video.oId}";
+            Label.videoOId = "${video.oId}";
             Label.articleTitle = "${video.videoTitle}";
             Label.recordDeniedLabel = "${recordDeniedLabel}";
             Label.recordDeviceNotFoundLabel = "${recordDeviceNotFoundLabel}";

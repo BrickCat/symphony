@@ -1561,8 +1561,7 @@ var Video = {
         });
     }
 };
-
-Article.init();
+Video.init();
 
 $(document).ready(function () {
     Comment.init();
@@ -1582,7 +1581,7 @@ $(document).ready(function () {
 
     // make nogification read
     if (Label.isLoggedIn) {
-        Article.makeNotificationRead(Label.articleOId, Label.notificationCmtIds);
+        Video.makeNotificationRead(Label.videoOId, Label.notificationCmtIds);
 
         setTimeout(function () {
             Util.setUnreadNotificationCount();
