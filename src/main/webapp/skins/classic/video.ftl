@@ -137,7 +137,7 @@
 
                 <div  class="aplayer" style="margin-top: 15px;">
                     <video id="my-video" class="video-js vjs-default-skin" controls preload="meta" width="840" height="384" poster="" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>
-                        <source src="<#--${servePath}${video.videoUrl}-->http://172.29.140.85:9099/3.m3u8"
+                        <source src="<#--${servePath}${video.videoUrl}-->http://123.206.129.162:8080/3.m3u8"
                                 type="application/x-mpegURL">
                     </video>
 
