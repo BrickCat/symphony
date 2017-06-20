@@ -1127,8 +1127,8 @@ video::-webkit-media-text-track-display {
 .vjs-seeking .vjs-loading-spinner:after,
 .vjs-waiting .vjs-loading-spinner:after {
   border-top-color: white;
-  -webkit-animation-delay: 0.44s;
-  animation-delay: 0.44s; }
+  -webkit-animation-delay: 0.33s;
+  animation-delay: 0.33s; }
 
 @keyframes vjs-spinner-spin {
   100% {
