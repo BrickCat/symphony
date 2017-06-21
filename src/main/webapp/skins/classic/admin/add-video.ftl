@@ -7,28 +7,29 @@
             <h2>${videoURl}</h2>
         </div>
         <div class="module-panel form fn-clear">
-            <div id="uploader" class="wu-example">
+            <div id="uploader" class="wu-example" style="width: 100%">
                 <!--用来存放文件信息-->
-                <div id="thelist" class="uploader-list"></div>
-                <div class="btns">
-                    <div id="picker">选择文件</div>
-                    <button id="ctlBtn" class="btn btn-default">开始上传</button>
+                <div id="thelist" class="uploader-list">
+
                 </div>
+                <table style="margin-top: 10px;">
+                    <tr>
+                        <td style="width: 70%"><div id="picker" class="btn red" style="width: 82px;">选择文件</div></td>
+                        <td style="width: 30%"><button id="ctlBtn" class="green fn-left">开始上传</button></td>
+                    </tr>
+                </table>
             </div>
         </div>
         <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
         <script src="${staticServePath}/js/lib/webuploader/webuploader.min.js"></script>
         <script type="text/javascript">
-            function uploads() {
-                alert(1);
-            }
             var uploader = WebUploader.create({
 
                 //swf路径
                 swf:'${staticServePath}/js/lib/webuploader/Uplaoder.swf',
 
                 //文件服务器路径
-                server:'${servePath}/upload?type=1',
+                server:'${servePath}/uploadVideo',
 
                 pick:'#picker',
 
@@ -45,7 +46,18 @@
             });
 
             uploader.on( 'fileQueued', function( file ) {
-                alert(1);
+                $("#thelist").append(
+                        '<table>'
+                            +'<tr>'
+                                +'<td style="width: 70%" id="' + file.id + '" class="item">'
+                                    +'<h4 class="info">' + file.name + '</h4>'
+                                +'</td>'
+                                +'<td class="fn-left" style="width: 30%;">'
+                                    +'<p class="state">等待上传...</p>'
+                                + '</td>'
+                            +'</tr>'
+                        +'</table>');
+
             });
 
             uploader.on( 'uploadProgress', function( file, percentage ) {
@@ -76,6 +88,10 @@
 
             uploader.on( 'uploadComplete', function( file ) {
                 $( '#'+file.id ).find('.progress').fadeOut();
+            });
+
+            uploader.on("uploadAccept", function( file, data){
+
             });
 
             $('#ctlBtn').on('click',function () {
