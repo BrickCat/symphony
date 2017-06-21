@@ -49,10 +49,10 @@
                 $("#thelist").append(
                         '<table>'
                             +'<tr>'
-                                +'<td style="width: 70%" id="' + file.id + '" class="item">'
+                                +'<td style="width: 70%" class="item">'
                                     +'<h4 class="info">' + file.name + '</h4>'
                                 +'</td>'
-                                +'<td class="fn-left" style="width: 30%;">'
+                                +'<td id="' + file.id + '" class="fn-left" style="width: 30%;">'
                                     +'<p class="state">等待上传...</p>'
                                 + '</td>'
                             +'</tr>'
@@ -78,8 +78,11 @@
             });
 
 
-            uploader.on( 'uploadSuccess', function( file ) {
+            uploader.on( 'uploadSuccess', function(file) {
                 $( '#'+file.id ).find('p.state').text('已上传');
+                $.post("${servePath}/uploadsuccess", { "guid": uploader.options.formData.guid,chunks:Math.ceil(file.size/(10*1024*1024)),fileName:file.name},
+                        function(data){
+                        }, "json");
             });
 
             uploader.on( 'uploadError', function( file ) {
@@ -95,6 +98,7 @@
             });
 
             $('#ctlBtn').on('click',function () {
+                uploader.options.formData.guid = Math.random();
                 uploader.upload();
             })
         </script>

@@ -67,4 +67,21 @@ public class TODO {
     //TODO 前台页面的样式展示，不能雷同黑客派
     //TODO 网站的定位 程序员与健身（两个大的领域向下细分）
 
+
+    /**
+     * Nginx
+     *location / {
+
+     types{
+     application/vnd.apple.mpegurl m3u8;
+     video/MP2T ts;
+     }
+     if ($request_filename ~* ^.*?\.(mp4)$){
+     add_header Content-Disposition: 'attachment;';
+     }
+     root html;
+     }
+     *
+     *
+     */
 }

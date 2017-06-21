@@ -1,5 +1,7 @@
 package org.b3log.symphony.processor;
 
+import org.b3log.symphony.util.Symphonys;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,8 +36,6 @@ public class UploadSuccessServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String path = request.getSession().getServletContext().getRealPath("/upload");
-
 		String guid = request.getParameter("guid");
 		int chunks = Integer.parseInt(request.getParameter("chunks"));
 		String fileName = request.getParameter("fileName");
@@ -44,25 +44,24 @@ public class UploadSuccessServlet extends HttpServlet {
 		/**
 		 * 进行文件合并
 		 */
-		File file = new File(path+"/"+guid);
+		File file = new File(Symphonys.get("nginx.upload.temp.dir")+"/"+guid);
 		/**
 		 * 判断分片数量是否正确
 		 */
 		if(file.list().length != chunks){
 			return;
 		}
-		new File("C://upload"+"/"+guid).mkdirs();
 		/**
 		 * 进行文件合并
 		 */
-		File newFile = new File("C://upload"+"/"+guid+"/"+fileName);
+		File newFile = new File(Symphonys.get("nginx.video.dir")+fileName);
 		FileOutputStream outputStream = new FileOutputStream(newFile, true);//文件追加写入
 		
 		byte[] byt = new byte[10*1024*1024];
 		int len;
 		FileInputStream temp = null;//分片文件
 		for(int i = 0 ; i<chunks ; i++){
-			temp = new FileInputStream(new File(path+"/"+guid+"/"+i));
+			temp = new FileInputStream(new File(Symphonys.get("nginx.upload.temp.dir")+"/"+guid+"/"+i));
 			while((len = temp.read(byt))!=-1){
 				System.out.println(len);
 				outputStream.write(byt, 0, len);

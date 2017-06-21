@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.b3log.latke.Latkes;
+import org.b3log.symphony.util.Symphonys;
 import org.json.JSONObject;
 
 /**
@@ -55,14 +56,11 @@ public class UploadVideoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String path = request.getSession().getServletContext().getRealPath("/upload");
-		System.out.println(path);
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		// 2、创建一个文件上传解析器
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		// 解决上传文件名的中文乱码
 		upload.setHeaderEncoding("UTF-8");
-		request.getContentType();
 		// 3、判断提交上来的数据是否是上传表单的数据
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			return;
@@ -76,18 +74,18 @@ public class UploadVideoServlet extends HttpServlet {
 		}
 
 		HashMap<String, String> map = new HashMap<String, String>();
-		if(true){
-			final JSONObject data = new JSONObject();
-			data.put("msg", "111");
-
-			response.setContentType("application/json");
-
-			final PrintWriter writer = response.getWriter();
-			writer.append(data.toString());
-			writer.flush();
-			writer.close();
-			return;
-		}
+//		if(true){
+//			final JSONObject data = new JSONObject();
+//			data.put("msg", "111");
+//
+//			response.setContentType("application/json");
+//
+//			final PrintWriter writer = response.getWriter();
+//			writer.append(data.toString());
+//			writer.flush();
+//			writer.close();
+//			return;
+//		}
 
 
 		System.out.println("-------------------------------------------------------------");
@@ -107,7 +105,7 @@ public class UploadVideoServlet extends HttpServlet {
 				 * 文件上传
 				 */
 				
-				File fileParent = new File(path + "/" + map.get("guid"));//以guid创建临时文件夹
+				File fileParent = new File(Symphonys.get("nginx.upload.temp.dir") + map.get("guid"));//以guid创建临时文件夹
 				System.out.println(fileParent.getPath());
 				if (!fileParent.exists()) {
 					fileParent.mkdir();
@@ -130,15 +128,6 @@ public class UploadVideoServlet extends HttpServlet {
 				} else {
 					file = new File(fileParent, "0");
 				}
-				
-				/*int len;
-				byte[] byt = new byte[4096];
-				
-				FileOutputStream outputStream = new FileOutputStream(file);
-				while((len = item.getInputStream().read(byt))!=-1){
-					outputStream.write(byt, 0, len);
-				}
-				outputStream.close();*/
 				
 				//copy
 				FileUtils.copyInputStreamToFile(item.getInputStream(), file);
