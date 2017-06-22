@@ -14,14 +14,15 @@
                 </div>
                 <table style="margin-top: 10px;">
                     <tr>
-                        <td style="width: 70%"><div id="picker" class="btn red" style="width: 82px;">选择文件</div></td>
+                        <td style="width: 35%"><div id="picker" class="btn red" style="width: 82px;">选择文件</div></td>
+                        <td style="width: 35%;color: red;">文件不能超过200M,不能小于5M</td>
                         <td style="width: 30%"><button id="ctlBtn" class="green fn-left">开始上传</button></td>
                     </tr>
                 </table>
             </div>
         </div>
         <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-        <script src="${staticServePath}/js/lib/webuploader/webuploader.min.js"></script>
+        <script src="${staticServePath}/js/lib/webuploader/webuploader.nolog.min.js"></script>
         <script type="text/javascript">
             var uploader = WebUploader.create({
 
@@ -39,8 +40,9 @@
                 chunked: true,
 
                 //每片大小
-                chunkSize:10*1024*1024,
+                chunkSize:5*1024*1024,
 
+                fileSizeLimit:400*1024*1024,
                 //是否压缩
                 resize:false
             });
@@ -78,11 +80,21 @@
             });
 
 
-            uploader.on( 'uploadSuccess', function(file) {
-                $( '#'+file.id ).find('p.state').text('已上传');
-                $.post("${servePath}/uploadsuccess", { "guid": uploader.options.formData.guid,chunks:Math.ceil(file.size/(10*1024*1024)),fileName:file.name},
-                        function(data){
-                        }, "json");
+            uploader.on( 'uploadSuccess', function(file,result) {
+                if(result.checkmsg == null || result.checkmsg == "" || result.checkmsg == undefined) {
+                    $('#' + file.id).find('p.state').text('已上传');
+                    $.post("${servePath}/uploadsuccess", {
+                                "guid": uploader.options.formData.guid,
+                                "size":file.size,
+                                chunks: Math.ceil(file.size / (5* 1024 * 1024)),
+                                fileName: file.name
+                            },
+                            function (data) {
+                                alert(data.ret);
+                            }, "json");
+                }else{
+                    window.location.href = Label.servePath +"/video/front/check?type="+result.checkmsg;
+                }
             });
 
             uploader.on( 'uploadError', function( file ) {
@@ -93,14 +105,10 @@
                 $( '#'+file.id ).find('.progress').fadeOut();
             });
 
-            uploader.on("uploadAccept", function( file, data){
-
-            });
-
             $('#ctlBtn').on('click',function () {
                 uploader.options.formData.guid = Math.random();
                 uploader.upload();
-            })
+            });
         </script>
     </div>
     <div class="module">
@@ -145,7 +153,7 @@
                 </label>
 
                 <br/><br/><br/>
-                <button type="submit" class="green fn-right">${submitLabel}</button>
+                <button id="submit"  type="submit" class="green fn-right">${submitLabel}</button>
             </form>
         </div>
     </div>

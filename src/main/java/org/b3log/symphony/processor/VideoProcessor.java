@@ -397,7 +397,9 @@ public class VideoProcessor {
             dataModel.put(Keys.MSG,"..(≥◇≤)..格式出错了哟~");
         }else if ("MaxSize".equals(type)){
             dataModel.put(Keys.MSG,"哎呀~视频太大了我承受不住了~~w_w~~");
-        }else{
+        }else if("MinSize".equals(type)){
+            dataModel.put(Keys.MSG,"哎呀~视频太小了  w_w");
+        }else {
             dataModel.put(Keys.MSG,"< ( _ _ ) >哎呀~存储空间不够了，快去积分兑换吧~");
         }
         dataModelService.fillHeaderAndFooter(request, response, dataModel);

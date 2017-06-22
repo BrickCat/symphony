@@ -5,10 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -21,7 +19,17 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
+import org.b3log.latke.ioc.LatkeBeanManager;
+import org.b3log.latke.ioc.Lifecycle;
+import org.b3log.latke.model.User;
+import org.b3log.latke.service.ServiceException;
+import org.b3log.latke.util.CollectionUtils;
+import org.b3log.symphony.model.Video;
+import org.b3log.symphony.model.VideoSize;
+import org.b3log.symphony.service.*;
 import org.b3log.symphony.util.Symphonys;
 import org.json.JSONObject;
 
@@ -31,7 +39,35 @@ import org.json.JSONObject;
 @WebServlet(urlPatterns = {"/uploadVideo"}, loadOnStartup = 2)
 public class UploadVideoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	/**
+	 * beanManager
+	 */
+	final LatkeBeanManager beanManager = Lifecycle.getBeanManager();
 
+	/**
+	 * data model service
+	 */
+	final DataModelService dataModelService = beanManager.getReference(DataModelService.class);
+
+	/**
+	 * video model service
+	 */
+	final VideoMgmtService videoMgmtService = beanManager.getReference(VideoMgmtService.class);
+
+	/**
+	 * videosize query service
+	 */
+	final VideoSizeQueryService videoSizeQueryService = beanManager.getReference(VideoSizeQueryService.class);
+
+	/**
+	 * videosize Mgmt service
+	 */
+	final VideoSizeMgmtService videoSizeMgmtService = beanManager.getReference(VideoSizeMgmtService.class);
+
+	/**
+	 * Video model service
+	 */
+	final VideoQueryService videoQueryService = beanManager.getReference(VideoQueryService.class);
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -74,19 +110,8 @@ public class UploadVideoServlet extends HttpServlet {
 		}
 
 		HashMap<String, String> map = new HashMap<String, String>();
-//		if(true){
-//			final JSONObject data = new JSONObject();
-//			data.put("msg", "111");
-//
-//			response.setContentType("application/json");
-//
-//			final PrintWriter writer = response.getWriter();
-//			writer.append(data.toString());
-//			writer.flush();
-//			writer.close();
-//			return;
-//		}
 
+		final JSONObject data = new JSONObject();
 
 		System.out.println("-------------------------------------------------------------");
 		for (FileItem item : list) {
@@ -104,33 +129,114 @@ public class UploadVideoServlet extends HttpServlet {
 				/**
 				 * 文件上传
 				 */
-				
+				//格式化小数，不足的补0
+				DecimalFormat df = new DecimalFormat("0.00");
+				//获取当前用户
+				final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+				final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
+				//check size
+				// 获得文件大小
+				Long size = item.getSize();
+				if(1*1024*1024 > size){
+					data.put("checkmsg","MinSize");
+					final PrintWriter writer = response.getWriter();
+					writer.append(data.toString());
+					writer.flush();
+					writer.close();
+					break;
+				}
+				String filename = item.getName();
+				if (filename == null || filename.trim().equals("")) {
+					continue;
+				}
+				//check fommat
+				String suffix = StringUtils.substringAfterLast(filename, ".");
+				if(!"mp4".equals(suffix)||"war".equals(suffix)||"sql".equals(suffix)){
+					data.put("checkmsg","format");
+					final PrintWriter writer = response.getWriter();
+					writer.append(data.toString());
+					writer.flush();
+					writer.close();
+					break;
+				}
 				File fileParent = new File(Symphonys.get("nginx.upload.temp.dir") + map.get("guid"));//以guid创建临时文件夹
 				System.out.println(fileParent.getPath());
 				if (!fileParent.exists()) {
 					fileParent.mkdir();
 				}
-				
-				
-				String filename = item.getName();
-				if (filename == null || filename.trim().equals("")) {
-					continue;
+				//查询个人用户的空间大小
+				final JSONObject videoSize = new JSONObject();
+				videoSize.put(VideoSize.USER_ID, currentUserId);
+				final Map<String, Class<?>> videoSizeFields = new HashMap<>();
+				videoSizeFields.put(VideoSize.USER_ID,String.class);
+				videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
+				JSONObject result = null;
+				try {
+					result = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
+				} catch (ServiceException e) {
+					e.printStackTrace();
 				}
+				final List<JSONObject> lists = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(VideoSize.VIDEO_SIZE));
+				if(list.size() == 0){
+					videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
+					try {
+						videoSizeMgmtService.addVideoSize("",videoSize);
+					} catch (ServiceException e) {
+						e.printStackTrace();
+					}
+				}else{
+					JSONObject currresult = null;
+					try {
+						currresult = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
+					} catch (ServiceException e) {
+						e.printStackTrace();
+					}
+					final List<JSONObject> currrlist = CollectionUtils.<JSONObject>jsonArrayToList(currresult.optJSONArray(VideoSize.VIDEO_SIZE));
+					final JSONObject currVideoSize = lists.get(0);
+					//获取此用户的所有视频大小
+					final JSONObject requestJSONObject = new JSONObject();
+					requestJSONObject.put(Video.VIDEO_AUTHORID, currentUserId);
+					final Map<String, Class<?>> videoFields = new HashMap<>();
+					videoFields.put(Video.VIDEO_SIZE,Integer.class);
+					JSONObject videoResult = null;
+					try {
+						videoResult = videoQueryService.getUserVideoSize(requestJSONObject,videoFields);
+					} catch (ServiceException e) {
+						e.printStackTrace();
+					}
+					final List<JSONObject> videos = CollectionUtils.jsonArrayToList(videoResult.optJSONArray(Video.VIDEOS));
+					int allSize = 0;
+					for (JSONObject v : videos) {
+						allSize+=v.optInt(Video.VIDEO_SIZE);
+					}
+					String bigSize = df.format(allSize + (float)size/1048576);
+					if(Double.parseDouble(bigSize) > currVideoSize.optDouble(VideoSize.USER_MAX_VIDEO_SIZE)){
+						if(size>currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)){
+							data.put("checkmsg",(currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)-allSize));
+							final PrintWriter writer = response.getWriter();
+							writer.append(data.toString());
+							writer.flush();
+							writer.close();
+							break;
+						}
+					}
+				}
+				
+
 				// 注意：不同的浏览器提交的文件名是不一样的，有些浏览器提交上来的文件名是带有路径的，如：
 				// c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt
 				// 处理获取到的上传文件的文件名的路径部分，只保留文件名部分
 				filename = filename.substring(filename.lastIndexOf("\\") + 1);
+					//创建文件
+					File file;
+					if (map.get("chunks") != null) {
+						file = new File(fileParent, map.get("chunk"));
+					} else {
+						file = new File(fileParent, "0");
+					}
+					//copy
+					FileUtils.copyInputStreamToFile(item.getInputStream(), file);
 
-				//创建文件
-				File file;
-				if (map.get("chunks") != null) {
-					file = new File(fileParent, map.get("chunk"));
-				} else {
-					file = new File(fileParent, "0");
-				}
-				
-				//copy
-				FileUtils.copyInputStreamToFile(item.getInputStream(), file);
 			}
 		}
 	}

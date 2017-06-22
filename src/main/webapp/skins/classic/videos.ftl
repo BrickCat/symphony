@@ -131,11 +131,13 @@
                             }else{
                                 imageUrl = '${servePath}'+result.videos[i].videoImgPath;
                             }
-                            html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
-                                    + '<img src="'+imageUrl+'" class="thumb">'
-                                    + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
-                                    + '<p>'+result.videos[i].videoRemarks+'</p>'
-                                    + '</a></article>';
+                            if(result.videos[i].videoStatus == 0){
+                                html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
+                                        + '<img src="'+imageUrl+'" class="thumb">'
+                                        + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
+                                        + '<p>'+result.videos[i].videoRemarks+'</p>'
+                                        + '</a></article>';
+                            }
                         }
                         $("#gallery-wrapper").html(html);
                     }
@@ -164,11 +166,13 @@
                                     }else{
                                         imageUrl = '${servePath}'+result.videos[i].videoImgPath;
                                     }
-                                    html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
-                                            + '<img src="'+imageUrl+'" class="thumb">'
-                                            + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
-                                            + '<p>'+result.videos[i].videoRemarks+'</p>'
-                                            + '</a></article>';
+                                    if(result.videos[i].videoStatus == 0) {
+                                        html += '<article class="white-panel"><a href="${servePath}/video/front/' + result.videos[i].oId + '/show-video">'
+                                                + '<img src="' + imageUrl + '" class="thumb">'
+                                                + '<h1><a href="#">' + result.videos[i].videoTitle + '</a></h1>'
+                                                + '<p>' + result.videos[i].videoRemarks + '</p>'
+                                                + '</a></article>';
+                                    }
                                 }
                                 $("#gallery-wrapper").append(html);
                                 p++;
