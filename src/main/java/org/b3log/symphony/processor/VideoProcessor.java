@@ -163,6 +163,23 @@ public class VideoProcessor {
     }
 
     /**
+     * Shows article with the specified article id.
+     *
+     * @param context   the specified context
+     * @param request   the specified request
+     * @param response  the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/video/front/add-video")
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
+    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+
+        final String ret = request.getParameter(Video.VIDEO_T_ID);
+        final String videoTitle = request.getParameter(Video.VIDEO_TITLE);
+    }
+
+    /**
      * Shows video with the specified article id.
      *
      * @param context   the specified context
@@ -309,7 +326,7 @@ public class VideoProcessor {
     }
 
     /**
-     * Removes an article.
+     * Removes an video.
      *
      * @param context  the specified context
      * @param request  the specified request

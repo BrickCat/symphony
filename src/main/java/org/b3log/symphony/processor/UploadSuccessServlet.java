@@ -149,6 +149,7 @@ public class UploadSuccessServlet extends HttpServlet {
 		final JSONObject videoSize = new JSONObject();
 		videoSize.put(VideoSize.USER_ID, currentUserId);
 		final Map<String, Class<?>> videoSizeFields = new HashMap<>();
+		videoSizeFields.put(Keys.OBJECT_ID,String.class);
 		videoSizeFields.put(VideoSize.USER_ID,String.class);
 		videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
 		JSONObject currresult =null;
@@ -157,7 +158,7 @@ public class UploadSuccessServlet extends HttpServlet {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-		final List<JSONObject> currrlist = CollectionUtils.<JSONObject>jsonArrayToList(currresult.optJSONArray(VideoSize.VIDEO_SIZE));
+		final List<JSONObject> currrlist = CollectionUtils.<JSONObject>jsonArrayToList(currresult.optJSONArray(Keys.RESULTS));
 		final JSONObject currVideoSize = currrlist.get(0);
 		int afterSize = Integer.parseInt(String.valueOf(currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE) - Integer.parseInt(String.valueOf(size/1048576))));
 		videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,afterSize);

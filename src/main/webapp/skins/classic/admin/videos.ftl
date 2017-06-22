@@ -13,37 +13,39 @@
         <#if videos ??>
             <ul>
                 <#list videos as item>
-                    <li>
-                        <div class="fn-flex">
-                            <#if 1 != 1>
-                                <div class="avatar" style="background-image:url('${staticServePath}/images/tags/${item.tagIconPath}')"></div>
-                            </#if>
-                           <div class="fn-flex-1">
-                               <h2>
-                                   <#-- 标题 -->
-                                   <a href="${servePath}/video/front/${item.oId}/show-video">${item.videoTitle}</a> •
-                                   <#-- 修改 -->
-                                   <a href="${servePath}/video/${item.oId}" class="fn-right tooltipped tooltipped-w ft-a-title" aria-label="${editLabel}"><span class="icon-edit"></span></a> &nbsp;
-                                   <#if item.videoStatus == 0>
-                                       <span class="ft-smaller ft-gray">${videoStatusTrue}</span>
-                                   <#else >
-                                       <span class="ft-smaller ft-red">${videoStatusFalse}</span>
-                                   </#if>
-                               </h2>
-                               ${item.videoRemarks}
-                               <div class="fn-clear">
-                                    <span class="fn-right ft-gray">
-                                        <span class="tooltipped tooltipped-n" aria-label="${videoCountLabel}"><span class="icon-video"></span></span>
-                                    0&nbsp;
-                                        <span class="tooltipped tooltipped-n" aria-label="${commentCountLabel}"><span class="icon-cmts"></span></span>
-                                    0 &nbsp;
-                                        <span class="tooltipped tooltipped-n" aria-label="${createTimeLabel}"><span class="icon-date"></span></span>
-                                    ${item.videoCreateTime?string('yyyy-MM-dd HH:mm')}
-                                    </span>
+                    <#if item.videoStatus != 1 >
+                        <li>
+                            <div class="fn-flex">
+                                <#if 1 != 1>
+                                    <div class="avatar" style="background-image:url('${staticServePath}/images/tags/${item.tagIconPath}')"></div>
+                                </#if>
+                               <div class="fn-flex-1">
+                                   <h2>
+                                       <#-- 标题 -->
+                                       <a href="${servePath}/video/front/${item.oId}/show-video">${item.videoTitle}</a> •
+                                       <#-- 修改 -->
+                                       <a href="${servePath}/video/${item.oId}" class="fn-right tooltipped tooltipped-w ft-a-title" aria-label="${editLabel}"><span class="icon-edit"></span></a> &nbsp;
+                                       <#if item.videoStatus == 0>
+                                           <span class="ft-smaller ft-gray">${videoStatusTrue}</span>
+                                       <#else >
+                                           <span class="ft-smaller ft-red">${videoStatusFalse}</span>
+                                       </#if>
+                                   </h2>
+                                   ${item.videoRemarks}
+                                   <div class="fn-clear">
+                                        <span class="fn-right ft-gray">
+                                            <span class="tooltipped tooltipped-n" aria-label="${videoCountLabel}"><span class="icon-video"></span></span>
+                                        0&nbsp;
+                                            <span class="tooltipped tooltipped-n" aria-label="${commentCountLabel}"><span class="icon-cmts"></span></span>
+                                        0 &nbsp;
+                                            <span class="tooltipped tooltipped-n" aria-label="${createTimeLabel}"><span class="icon-date"></span></span>
+                                        ${item.videoCreateTime?string('yyyy-MM-dd HH:mm')}
+                                        </span>
+                                   </div>
                                </div>
-                           </div>
-                        </div>
-                    </li>
+                            </div>
+                        </li>
+                    </#if>
                 </#list>
             </ul>
         </#if>

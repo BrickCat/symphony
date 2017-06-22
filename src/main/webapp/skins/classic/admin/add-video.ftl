@@ -90,7 +90,12 @@
                                 fileName: file.name
                             },
                             function (data) {
-                                alert(data.ret);
+                                if( data.ret != null ||  data.ret != "" || data.ret != undefined) {
+                                    $('#oId').val(data.ret);
+                                    $("#submit").removeAttr("disabled");
+                                    $("#submit").removeClass("red fn-right")
+                                    $("#submit").attr("class", "green fn-right");
+                                }
                             }, "json");
                 }else{
                     window.location.href = Label.servePath +"/video/front/check?type="+result.checkmsg;
@@ -111,12 +116,16 @@
             });
         </script>
     </div>
+    <#if permissions["adminAddVideo"].permissionGrant>
     <div class="module">
         <div class="module-header">
             <h2>${videoAddLabel}</h2>
         </div>
         <div class="module-panel form fn-clear">
-            <form class="fn-right form" action="${servePath}/upload?type=1" method="POST" enctype="multipart/form-data">
+            <form class="fn-right form" action="${servePath}/video/front/add-video" method="POST">
+                <label for="videooId">${videoId}</label>
+                <input id="oId" type="text" name="oId" value="" readonly="readonly"/>
+
                 <label for="videoTitle">${videoTitle}</label>
                 <input name="videoTitle" type="text"/>
 
@@ -153,9 +162,10 @@
                 </label>
 
                 <br/><br/><br/>
-                <button id="submit"  type="submit" class="green fn-right">${submitLabel}</button>
+                <button id="submit" disabled="disabled" type="submit" class="red fn-right">${submitLabel}</button>
             </form>
         </div>
     </div>
+    </#if>
 </div>
 </@admin>
