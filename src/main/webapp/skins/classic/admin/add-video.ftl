@@ -122,7 +122,7 @@
             <h2>${videoAddLabel}</h2>
         </div>
         <div class="module-panel form fn-clear">
-            <form class="fn-right form" action="${servePath}/video/front/add-video" method="POST">
+            <form class="fn-right form" action="${servePath}/video/front/addvideo" method="POST">
                 <label for="videooId">${videoId}</label>
                 <input id="oId" type="text" name="oId" value="" readonly="readonly"/>
 
@@ -149,20 +149,15 @@
                     <option value="0" >${videoStatusTrue}</option>
                     <option value="1" >${videoStatusFalse}</option>
                 </select>
+
                 <label>${videoImage}</label>
                 <select id="videoImage" name="videoImage">
                     <option value="0" >${videoImageTrue}</option>
                     <option value="1" >${videoImageFalse}</option>
                 </select>
-                <label class="btn red">
-                    ${videoURl}<input type="file" name="file">
-                </label>
-                <label >
-                    <p class="ft-red" style="margin-top: 5px; margin-left: 10px">目前只支持MP4格式的视频</p>
-                </label>
 
                 <br/><br/><br/>
-                <button id="submit" disabled="disabled" type="submit" class="red fn-right">${submitLabel}</button>
+                <button id="submit"  type="submit" class="red fn-right">${submitLabel}</button>
             </form>
         </div>
     </div>

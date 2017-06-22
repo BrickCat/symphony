@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -163,20 +164,18 @@ public class VideoProcessor {
     }
 
     /**
-     * Shows article with the specified article id.
+     * Shows video with the specified article id.
      *
      * @param context   the specified context
      * @param request   the specified request
      * @param response  the specified response
      * @throws Exception exception
      */
-    @RequestProcessing(value = "/video/front/add-video")
-    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
-    @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
-    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-
+    @RequestProcessing(value = "/video/front/addvideo",method = HTTPRequestMethod.POST)
+    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         final String ret = request.getParameter(Video.VIDEO_T_ID);
         final String videoTitle = request.getParameter(Video.VIDEO_TITLE);
+        response.sendRedirect(Latkes.getServePath() + "/video/"+ret);
     }
 
     /**
