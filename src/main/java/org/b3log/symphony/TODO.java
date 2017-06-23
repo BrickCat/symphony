@@ -70,7 +70,7 @@ public class TODO {
     //TODO 网站的定位 程序员与健身（两个大的领域向下细分）
     //https://my.oschina.net/byk/blog/735454
 
-    //video删除重做
+    //video删除、修改重做
 
     //webuploader 失败 文件回滚
 
