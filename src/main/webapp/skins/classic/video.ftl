@@ -137,7 +137,7 @@
 
                 <div  class="aplayer" style="margin-top: 15px;">
                     <video id="my-video" class="video-js vjs-default-skin" controls preload="meta" width="840" height="384" poster="" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>
-                        <source src="<#--${servePath}${video.videoUrl}-->http://123.206.129.162:8080/m3u8/3.m3u8"
+                        <source src="${nginxHost}:${nginxProt}/m3u8/${video.videoUrl}"
                                 type="application/x-mpegURL">
                     </video>
 
@@ -155,7 +155,7 @@
                             }
                         } , function() {
                             this.on('downloadvideo', function(){
-                                var fileURL=window.open ('${servePath}${video.videoUrl}',"height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
+                                var fileURL=window.open ('${nginxHost}:${nginxProt}/video/${video.videoDwonPath}',"height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
                                 fileURL.document.execCommand("SaveAs");
                                 fileURL.window.close();
                                 fileURL.close();
