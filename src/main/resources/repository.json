@@ -1697,6 +1697,11 @@
                 {
                     "name": "videoStick",
                     "type": "long"
+                },
+                {
+                    "name": "videoDownPath",
+                    "type": "String",
+                    "length":255
                 }
 
             ]

@@ -55,11 +55,8 @@ public class VideoSizeQueryService {
             throw new ServiceException(e);
         }
 
-        final JSONArray data = result.optJSONArray(Keys.RESULTS);
-        final List<JSONObject> videosize = CollectionUtils.<JSONObject>jsonArrayToList(data);
-        ret.put(VideoSize.VIDEO_SIZE,videosize);
 
-        return ret;
+        return result;
     }
 
 }

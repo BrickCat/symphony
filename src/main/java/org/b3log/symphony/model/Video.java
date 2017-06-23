@@ -22,6 +22,11 @@ public final class Video {
      * Video Id
      */
     public static final String VIDEO_T_ID = "videoId";
+
+    /**
+     * Video Id
+     */
+    public static final String VIDEO_DOWN_PATH = "videoDownPath";
     /**
      * Video tags
      */

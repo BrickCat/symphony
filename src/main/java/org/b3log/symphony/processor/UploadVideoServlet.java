@@ -90,154 +90,154 @@ public class UploadVideoServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
+		// 创建文件上传核心类
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		// 2、创建一个文件上传解析器
-		ServletFileUpload upload = new ServletFileUpload(factory);
+		ServletFileUpload sfu = new ServletFileUpload(factory);
 		// 解决上传文件名的中文乱码
-		upload.setHeaderEncoding("UTF-8");
+		//设置编码
+		sfu.setHeaderEncoding("UTF-8");
 		// 3、判断提交上来的数据是否是上传表单的数据
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			return;
 		}
-		// 4、使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List<FileItem>集合，每一个FileItem对应一个Form表单的输入项
-		List<FileItem> list = null;
 		try {
-			list = upload.parseRequest(request);
-		} catch (FileUploadException e) {
-			e.printStackTrace();
-		}
+			List<FileItem> list = sfu.parseRequest(request);
 
-		HashMap<String, String> map = new HashMap<String, String>();
+			HashMap<String, String> map = new HashMap<String, String>();
 
-		final JSONObject data = new JSONObject();
+			final JSONObject data = new JSONObject();
 
-		System.out.println("-------------------------------------------------------------");
-		for (FileItem item : list) {
-			if (item.isFormField()) {
-				/**
-				 * 表单数据
-				 */
-				String name = item.getFieldName();
-				// 解决普通输入项的数据的中文乱码问题
-				String value = item.getString("UTF-8");
-				// value = new String(value.getBytes("iso8859-1"),"UTF-8");
-				System.out.println(name + "=" + value);
-				map.put(name, value);// 放入map集合
-			} else {
-				/**
-				 * 文件上传
-				 */
-				//格式化小数，不足的补0
-				DecimalFormat df = new DecimalFormat("0.00");
-				//获取当前用户
-				final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
-				final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
-				//check size
-				// 获得文件大小
-				Long size = item.getSize();
-				if(1*1024*1024 > size){
-					data.put("checkmsg","MinSize");
-					final PrintWriter writer = response.getWriter();
-					writer.append(data.toString());
-					writer.flush();
-					writer.close();
-					break;
-				}
-				String filename = item.getName();
-				if (filename == null || filename.trim().equals("")) {
-					continue;
-				}
-				//check fommat
-				String suffix = StringUtils.substringAfterLast(filename, ".");
-				if(!"mp4".equals(suffix)||"war".equals(suffix)||"sql".equals(suffix)){
-					data.put("checkmsg","format");
-					final PrintWriter writer = response.getWriter();
-					writer.append(data.toString());
-					writer.flush();
-					writer.close();
-					break;
-				}
-				File fileParent = new File(Symphonys.get("nginx.upload.temp.dir") + map.get("guid"));//以guid创建临时文件夹
-				System.out.println(fileParent.getPath());
-				if (!fileParent.exists()) {
-					fileParent.mkdir();
-				}
-				//查询个人用户的空间大小
-				final JSONObject videoSize = new JSONObject();
-				videoSize.put(VideoSize.USER_ID, currentUserId);
-				final Map<String, Class<?>> videoSizeFields = new HashMap<>();
-				videoSizeFields.put(VideoSize.USER_ID,String.class);
-				videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
-				JSONObject result = null;
-				try {
-					result = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
-				} catch (ServiceException e) {
-					e.printStackTrace();
-				}
-				final List<JSONObject> lists = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(VideoSize.VIDEO_SIZE));
-				if(list.size() == 0){
-					videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
+			System.out.println("-------------------------------------------------------------");
+			for (FileItem item : list) {
+				if (item.isFormField()) {
+					/**
+					 * 表单数据
+					 */
+					String name = item.getFieldName();
+					// 解决普通输入项的数据的中文乱码问题
+					String value = item.getString("UTF-8");
+					// value = new String(value.getBytes("iso8859-1"),"UTF-8");
+					System.out.println(name + "=" + value);
+					map.put(name, value);// 放入map集合
+				} else {
+					/**
+					 * 文件上传
+					 */
+					//格式化小数，不足的补0
+					DecimalFormat df = new DecimalFormat("0.00");
+					//获取当前用户
+					final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+					final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
+					//check size
+					// 获得文件大小
+					Long size = item.getSize();
+					if(1*1024*1024 > size){
+						data.put("checkmsg","MinSize");
+						final PrintWriter writer = response.getWriter();
+						writer.append(data.toString());
+						writer.flush();
+						writer.close();
+						break;
+					}
+					String filename = item.getName();
+					if (filename == null || filename.trim().equals("")) {
+						continue;
+					}
+					//check fommat
+					String suffix = StringUtils.substringAfterLast(filename, ".");
+					if(!"mp4".equals(suffix)||"war".equals(suffix)||"sql".equals(suffix)){
+						data.put("checkmsg","format");
+						final PrintWriter writer = response.getWriter();
+						writer.append(data.toString());
+						writer.flush();
+						writer.close();
+						break;
+					}
+					File fileParent = new File(Symphonys.get("nginx.upload.temp.dir") + map.get("guid"));//以guid创建临时文件夹
+					System.out.println(fileParent.getPath());
+					if (!fileParent.exists()) {
+						fileParent.mkdir();
+					}
+					//查询个人用户的空间大小
+					final JSONObject videoSize = new JSONObject();
+					videoSize.put(VideoSize.USER_ID, currentUserId);
+					final Map<String, Class<?>> videoSizeFields = new HashMap<>();
+					videoSizeFields.put(Keys.OBJECT_ID,String.class);
+					videoSizeFields.put(VideoSize.USER_ID,String.class);
+					videoSizeFields.put(VideoSize.USER_MAX_VIDEO_SIZE,Integer.class);
+					JSONObject result = null;
 					try {
-						videoSizeMgmtService.addVideoSize("",videoSize);
+						result = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
 					} catch (ServiceException e) {
 						e.printStackTrace();
 					}
-				}else{
-					JSONObject currresult = null;
-					try {
-						currresult = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
-					} catch (ServiceException e) {
-						e.printStackTrace();
-					}
-					final List<JSONObject> currrlist = CollectionUtils.<JSONObject>jsonArrayToList(currresult.optJSONArray(VideoSize.VIDEO_SIZE));
-					final JSONObject currVideoSize = lists.get(0);
-					//获取此用户的所有视频大小
-					final JSONObject requestJSONObject = new JSONObject();
-					requestJSONObject.put(Video.VIDEO_AUTHORID, currentUserId);
-					final Map<String, Class<?>> videoFields = new HashMap<>();
-					videoFields.put(Video.VIDEO_SIZE,Integer.class);
-					JSONObject videoResult = null;
-					try {
-						videoResult = videoQueryService.getUserVideoSize(requestJSONObject,videoFields);
-					} catch (ServiceException e) {
-						e.printStackTrace();
-					}
-					final List<JSONObject> videos = CollectionUtils.jsonArrayToList(videoResult.optJSONArray(Video.VIDEOS));
-					int allSize = 0;
-					for (JSONObject v : videos) {
-						allSize+=v.optInt(Video.VIDEO_SIZE);
-					}
-					String bigSize = df.format(allSize + (float)size/1048576);
-					if(Double.parseDouble(bigSize) > currVideoSize.optDouble(VideoSize.USER_MAX_VIDEO_SIZE)){
-						if(size>currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)){
-							data.put("checkmsg",(currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)-allSize));
-							final PrintWriter writer = response.getWriter();
-							writer.append(data.toString());
-							writer.flush();
-							writer.close();
-							break;
+					final List<JSONObject> lists = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(Keys.RESULTS));
+					if(list.size() == 0){
+						videoSize.put(VideoSize.USER_MAX_VIDEO_SIZE,500);
+						try {
+							videoSizeMgmtService.addVideoSize("",videoSize);
+						} catch (ServiceException e) {
+							e.printStackTrace();
+						}
+					}else{
+						JSONObject currresult = null;
+						try {
+							currresult = videoSizeQueryService.getVideoSize(videoSize,videoSizeFields);
+						} catch (ServiceException e) {
+							e.printStackTrace();
+						}
+						final List<JSONObject> currrlist = CollectionUtils.<JSONObject>jsonArrayToList(currresult.optJSONArray(Keys.RESULTS));
+						final JSONObject currVideoSize = currrlist.get(0);
+						//获取此用户的所有视频大小
+						final JSONObject requestJSONObject = new JSONObject();
+						requestJSONObject.put(Video.VIDEO_AUTHORID, currentUserId);
+						final Map<String, Class<?>> videoFields = new HashMap<>();
+						videoFields.put(Video.VIDEO_SIZE,Integer.class);
+						JSONObject videoResult = null;
+						try {
+							videoResult = videoQueryService.getUserVideoSize(requestJSONObject,videoFields);
+						} catch (ServiceException e) {
+							e.printStackTrace();
+						}
+						final List<JSONObject> videos = CollectionUtils.jsonArrayToList(videoResult.optJSONArray(Video.VIDEOS));
+						int allSize = 0;
+						for (JSONObject v : videos) {
+							allSize+=v.optInt(Video.VIDEO_SIZE);
+						}
+						String bigSize = df.format(allSize + (float)size/1048576);
+						if(Double.parseDouble(bigSize) > currVideoSize.optDouble(VideoSize.USER_MAX_VIDEO_SIZE)){
+							if(size>currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)){
+								data.put("checkmsg",(currVideoSize.optInt(VideoSize.USER_MAX_VIDEO_SIZE)-allSize));
+								final PrintWriter writer = response.getWriter();
+								writer.append(data.toString());
+								writer.flush();
+								writer.close();
+								break;
+							}
 						}
 					}
+
+
+					// 注意：不同的浏览器提交的文件名是不一样的，有些浏览器提交上来的文件名是带有路径的，如：
+					// c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt
+					// 处理获取到的上传文件的文件名的路径部分，只保留文件名部分
+					filename = filename.substring(filename.lastIndexOf("\\") + 1);
+						//创建文件
+						File file;
+						if (map.get("chunks") != null) {
+							file = new File(fileParent, map.get("chunk"));
+						} else {
+							file = new File(fileParent, "0");
+						}
+						//copy
+						FileUtils.copyInputStreamToFile(item.getInputStream(), file);
+
 				}
-				
-
-				// 注意：不同的浏览器提交的文件名是不一样的，有些浏览器提交上来的文件名是带有路径的，如：
-				// c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt
-				// 处理获取到的上传文件的文件名的路径部分，只保留文件名部分
-				filename = filename.substring(filename.lastIndexOf("\\") + 1);
-					//创建文件
-					File file;
-					if (map.get("chunks") != null) {
-						file = new File(fileParent, map.get("chunk"));
-					} else {
-						file = new File(fileParent, "0");
-					}
-					//copy
-					FileUtils.copyInputStreamToFile(item.getInputStream(), file);
-
 			}
+		} catch (FileUploadException e) {
+			e.printStackTrace();
 		}
 	}
 }

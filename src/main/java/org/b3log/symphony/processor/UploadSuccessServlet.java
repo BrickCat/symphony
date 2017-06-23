@@ -106,10 +106,12 @@ public class UploadSuccessServlet extends HttpServlet {
 		if(!saveDir.exists()){
 			saveDir.mkdir();
 		}
-
+		JSONObject video = new JSONObject();
 		File newFile = new File(path+"/"+fileName);
 		FileOutputStream outputStream = new FileOutputStream(newFile, true);//文件追加写入
-		
+		//下载地址
+		video.put(Video.VIDEO_DOWN_PATH,uuid+"/"+fileName);
+
 		byte[] byt = new byte[5*1024*1024];
 		int len;
 		FileInputStream temp = null;//分片文件
@@ -122,8 +124,6 @@ public class UploadSuccessServlet extends HttpServlet {
 		/**
 		 * 当所有追加写入都写完  才可以关闭流
 		 */
-
-		JSONObject video = new JSONObject();
 
 		//格式化小数，不足的补0
 		DecimalFormat df = new DecimalFormat("0.00");

@@ -144,6 +144,7 @@ public class VideoMgmtService {
         video.put(Video.REDDIT_SCORE,0);
         //置顶
         video.put(Video.VIDEO_STICK,0L);
+        video.put(Video.VIDEO_DOWN_PATH,requestJSONObject.optString(Video.VIDEO_DOWN_PATH));
         try {
             if(!"".equals(id)){
                 final JSONObject oldVideo = videoRepository.get(id);

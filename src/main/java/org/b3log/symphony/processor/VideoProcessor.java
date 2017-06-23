@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.b3log.latke.Keys;
 import org.b3log.latke.Latkes;
 import org.b3log.latke.ioc.inject.Inject;
+import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.model.Pagination;
 import org.b3log.latke.model.User;
@@ -172,9 +173,46 @@ public class VideoProcessor {
      * @throws Exception exception
      */
     @RequestProcessing(value = "/video/front/addvideo",method = HTTPRequestMethod.POST)
-    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+    public void addVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServiceException {
         final String ret = request.getParameter(Video.VIDEO_T_ID);
         final String videoTitle = request.getParameter(Video.VIDEO_TITLE);
+        final String videoTag = request.getParameter(Video.VIDEO_TAG);
+        final String videoRemarks = request.getParameter(Video.VIDEO_REMARKS);
+        final int videoType = Integer.parseInt(request.getParameter(Video.VIDEO_TYPE));
+        final int videoStatus = Integer.parseInt(request.getParameter(Video.VIDEO_STATUS));
+        final int videoPoint = Integer.parseInt(request.getParameter(Video.VIDEO_POINT));
+        if(StringUtils.isBlank(videoTitle)){
+            response.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_TITLE);
+            return;
+        }
+        if (StringUtils.isBlank(videoTag)){
+            response.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_TAG);
+            return;
+        }
+        if (StringUtils.isBlank(videoRemarks)){
+            response.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_REMARKS);
+            return;
+        }
+        if(videoType == 1 && videoPoint==0){
+            response.sendRedirect(Latkes.getServePath() + "/video/front/check?type="+Video.VIDEO_POINT);
+            return;
+        }
+
+        final JSONObject video = videoQueryService.getVideo(ret);
+        if(null == video){
+            LOGGER.log(Level.ERROR, "add vidoe failed");
+            return;
+        }
+
+        video.put(Video.VIDEO_TITLE,videoTitle);
+        video.put(Video.VIDEO_TAG,videoTag);
+        video.put(Video.VIDEO_REMARKS,videoRemarks);
+        video.put(Video.VIDEO_TYPE,videoType);
+        video.put(Video.VIDEO_POINT,videoPoint);
+        video.put(Video.VIDEO_STATUS,videoStatus);
+
+        videoMgmtService.updateVideo(ret,video);
+
         response.sendRedirect(Latkes.getServePath() + "/video/"+ret);
     }
 
@@ -463,6 +501,8 @@ public class VideoProcessor {
         videoFields.put(Video.VIDEO_REMARKS,String.class);
         //创建日期
         videoFields.put(Video.VIDEO_CREATE_TIME,String.class);
+        //下载地址
+        videoFields.put(Video.VIDEO_DOWN_PATH,String.class);
 
         final JSONObject result = videoQueryService.getVideos(requestJSONObject,videoFields);
         final List<JSONObject> videos = CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS));

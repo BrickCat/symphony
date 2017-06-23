@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50628
 File Encoding         : 65001
 
-Date: 2017-06-20 12:13:27
+Date: 2017-06-23 13:14:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -336,6 +336,10 @@ INSERT INTO `brickcat_notification` VALUES ('1497617301363', '1495610341604', '1
 INSERT INTO `brickcat_notification` VALUES ('1497617309817', '1495610341604', '1497617309756', '29', '1');
 INSERT INTO `brickcat_notification` VALUES ('1497680464435', '', '1497680377398', '3', '0');
 INSERT INTO `brickcat_notification` VALUES ('1497680709426', '', '1497680657261', '3', '0');
+INSERT INTO `brickcat_notification` VALUES ('1498123115389', '1495610341604', '1498123115334', '29', '1');
+INSERT INTO `brickcat_notification` VALUES ('1498123188725', '1495610341604', '1498123188673', '29', '1');
+INSERT INTO `brickcat_notification` VALUES ('1498123394622', '1495610341604', '1498123394565', '29', '1');
+INSERT INTO `brickcat_notification` VALUES ('1498123518917', '1495610341604', '1498123518865', '29', '1');
 
 -- ----------------------------
 -- Table structure for `brickcat_option`
@@ -492,6 +496,10 @@ INSERT INTO `brickcat_pointtransfer` VALUES ('1497617301301', 'sys', '1495610341
 INSERT INTO `brickcat_pointtransfer` VALUES ('1497617309756', '1495610341604', 'sys', '2800', '4997390', '0', '1497617309750', '33', '5000');
 INSERT INTO `brickcat_pointtransfer` VALUES ('1497680797806', '1495610341604', 'sys', '2', '4997383', '0', '1497680797801', '3', '1497680797673');
 INSERT INTO `brickcat_pointtransfer` VALUES ('1497786504837', '1495610341604', 'sys', '100', '4997283', '0', '1497786504814', '19', '1497708701804');
+INSERT INTO `brickcat_pointtransfer` VALUES ('1498123115334', '1495610341604', 'sys', '100', '4997183', '0', '1498123115321', '33', '100');
+INSERT INTO `brickcat_pointtransfer` VALUES ('1498123188673', '1495610341604', 'sys', '2800', '4994383', '0', '1498123188669', '33', '5000');
+INSERT INTO `brickcat_pointtransfer` VALUES ('1498123394565', '1495610341604', 'sys', '100', '4994283', '0', '1498123394554', '33', '100');
+INSERT INTO `brickcat_pointtransfer` VALUES ('1498123518865', '1495610341604', 'sys', '2800', '4991483', '0', '1498123518851', '33', '5000');
 
 -- ----------------------------
 -- Table structure for `brickcat_referral`
@@ -801,8 +809,8 @@ CREATE TABLE `brickcat_tag` (
 -- Records of brickcat_tag
 -- ----------------------------
 INSERT INTO `brickcat_tag` VALUES ('1495610342228', '1', '2', '0', '0', 'Announcement', 'announcement', '', '', '', '0', '0', '0', 'Announcement', 'Announcement', '', '0.401875487760331');
-INSERT INTO `brickcat_tag` VALUES ('1495610342368', '1', '2', '0', '0', 'Sym', 'Sym', '[Sym](https://github.com/b3log/symphony) 是一个用 [Java] 实现的现代化社区（论坛/社交网络/博客）平台，“下一代的社区系统，为未来而构建”。', 'sym.png', '', '0', '0', '0', 'Sym', 'Sym', '', '0.6981572510746654');
-INSERT INTO `brickcat_tag` VALUES ('1495610344006', '0', '0', '0', '0', 'B3log', 'B3log', '[B3log](http://b3log.org) 是一个开源组织，名字来源于“Bulletin Board Blog”缩写，目标是将独立博客与论坛结合，形成一种新的网络社区体验，详细请看 [B3log 构思](https://hacpai.com/b3log)。目前 B3log 已经开源了多款产品： [Solo] 、 [Sym] 、 [Wide] 。', 'b3log.png', '', '0', '0', '0', 'B3log', 'B3log', '', '0.44372447437184126');
+INSERT INTO `brickcat_tag` VALUES ('1495610342368', '1', '2', '0', '0', 'Sym', 'Sym', '[Sym](https://github.com/b3log/symphony) 是一个用 [Java] 实现的现代化社区（论坛/社交网络/博客）平台，“下一代的社区系统，为未来而构建”。', 'sym.png', '', '0', '0', '0', 'Sym', 'Sym', '', '0.999439807319996');
+INSERT INTO `brickcat_tag` VALUES ('1495610344006', '0', '0', '0', '0', 'B3log', 'B3log', '[B3log](http://b3log.org) 是一个开源组织，名字来源于“Bulletin Board Blog”缩写，目标是将独立博客与论坛结合，形成一种新的网络社区体验，详细请看 [B3log 构思](https://hacpai.com/b3log)。目前 B3log 已经开源了多款产品： [Solo] 、 [Sym] 、 [Wide] 。', 'b3log.png', '', '0', '0', '0', 'B3log', 'B3log', '', '0.39283440976244566');
 
 -- ----------------------------
 -- Table structure for `brickcat_tag_article`
@@ -938,7 +946,7 @@ CREATE TABLE `brickcat_user` (
 -- ----------------------------
 -- Records of brickcat_user
 -- ----------------------------
-INSERT INTO `brickcat_user` VALUES ('1495610341604', '1', 'sym@b3log.org', 'admin', '42857cfddb33f3fddb27fff9773683f3', '', '', '', '', '', '2', 'http://localhost:9090/upload/b9e29c04b8fb4265ba63bfbd9f2112b3_timg.jpeg', '1', '', '', '', '', 'adminRole', '1', '4', '3', '0', '4997283', '3229', '0', '0', '1495610344193', '1497680797672', '1497931792319', '0:0:0:0:0:0:0:1', '0', '1497452282901', '20170614', '20170614', '20170614', '20170614', '0', '0', 'classic', 'mobile', '', '', '', '1496672480785', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341588', '1', 'zh_CN', 'Asia/Shanghai', '0');
+INSERT INTO `brickcat_user` VALUES ('1495610341604', '1', 'sym@b3log.org', 'admin', '42857cfddb33f3fddb27fff9773683f3', '', '', '', '', '', '2', 'http://localhost:9090/upload/b9e29c04b8fb4265ba63bfbd9f2112b3_timg.jpeg', '1', '', '', '', '', 'adminRole', '1', '4', '3', '0', '4991483', '9029', '0', '0', '1495610344193', '1497680797672', '1498194788839', '0:0:0:0:0:0:0:1', '0', '1497452282901', '20170614', '20170614', '20170614', '20170614', '0', '0', 'classic', 'mobile', '', '', '', '1496672480785', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341588', '1', 'zh_CN', 'Asia/Shanghai', '0');
 INSERT INTO `brickcat_user` VALUES ('1495610341994', '2', 'default_commenter@b3log.org', 'Default Commenter', '9e30b1a9f57d2a0fc9c76fcc1e984b11', '', '', '', '', '', '2', 'http://localhost:9090/upload/0263e50c93364b059365ef95461f3848.jpg', '0', '', '', '', '', 'defaultCommenterRole', '0', '0', '0', '0', '500', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341994', '1', 'en_US', 'Asia/Shanghai', '0');
 INSERT INTO `brickcat_user` VALUES ('1497277766038', '3', '549595297@qq.com', 'viseosize', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/87a43004bbf74cbcad20972c03da2e66.jpg', '0', '', '', '', '', 'defaultRole', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1497277766036', '1', 'zh_CN', 'Asia/Shanghai', '1');
 INSERT INTO `brickcat_user` VALUES ('1497278160243', '3', '54959597@qq.com', 'viseosize1', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/59e6b136e37841bdb10e34a99b83e624.jpg', '0', '', '', '', '', 'defaultRole', '0', '0', '0', '0', '400', '100', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1497278160241', '1', 'zh_CN', 'Asia/Shanghai', '1');
@@ -1031,20 +1039,33 @@ CREATE TABLE `brickcat_video` (
   `redditScore` double DEFAULT NULL,
   `videoCollectCount` int(11) DEFAULT NULL,
   `videoStick` bigint(20) DEFAULT NULL,
+  `videoDownPath` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`oId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of brickcat_video
 -- ----------------------------
-INSERT INTO `brickcat_video` VALUES ('1497671086925', '告诉对方', '0', '测试', '1495610341604', '2', '29', '/upload/bc48a58de96942caa8eef17ea362f597.mp4', '', '0', '1497671086925', '1497671086925', '1497680657242', 'admin', '0', '0', '0', '0', '0', '0', 'afdsf', '', '130', '0', '0', '0');
-INSERT INTO `brickcat_video` VALUES ('1497707565034', 'Spring Boot之Hello World', '0', 'Spring Boot', '1495610341604', '0', '6', '/upload/629fbeb72ae44cb990d97e0d7341ff76.mp4', '', '0', '1497707565024', '1497707565024', '0', '0', '0', '0', '0', '0', '0', '0', 'Spring Boot之Hello World', '', '76', '0', '0', '0');
-INSERT INTO `brickcat_video` VALUES ('1497708440033', '并发上传', '0', '测试', '1495610341604', '0', '0', '/upload/453d03e34a3a40849d59dfed6b51cb04.mp4', '', '0', '1497708440029', '1497708440029', '0', '0', '0', '0', '0', '0', '0', '0', '高并发测试', '', '76', '0', '0', '0');
-INSERT INTO `brickcat_video` VALUES ('1497708475663', '  测试', '0', '测试', '1495610341604', '0', '2', '/upload/51d3d9e4f4bc4cd69ac71d547055d071.mp4', '', '0', '1497708475663', '1497708475663', '0', '0', '0', '0', '0', '0', '0', '0', '测试', '', '76', '0', '0', '0');
-INSERT INTO `brickcat_video` VALUES ('1497708540684', '  测试', '0', '测试', '1495610341604', '0', '4', '/upload/a041b8a940e74e3784ad7362f5cfa1ad.mp4', '', '0', '1497708540684', '1497708540684', '0', '0', '0', '0', '0', '0', '0', '0', 'bbbb6', '', '76', '0', '0', '0');
-INSERT INTO `brickcat_video` VALUES ('1497708695721', '  测试', '0', '测试', '1495610341604', '0', '6', '/upload/60175952fd9d42b5b9e6c224de4f28ae.mp4', '', '0', '1497708695721', '1497708695721', '0', '0', '0', '0', '0', '0', '0', '0', '嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或嘿嘿嘿嘿嘿或好哈哈哈', '', '119', '0', '0', '0');
-INSERT INTO `brickcat_video` VALUES ('1497708701804', 'springboot', '0', '测试', '1495610341604', '0', '58', '/upload/a82e051da49d41ce941573179d62f5a9.mp4', '', '0', '1497708701804', '1497708701804', '0', '0', '0', '2', '2', '1', '0', '0', '电风扇撒大声地法师打发斯蒂芬斯蒂芬是的发送到发的说法撒打发斯蒂芬水电费撒打发斯蒂芬', '', '130', '0', '0', '1497786504794');
-INSERT INTO `brickcat_video` VALUES ('1497713896931', 'aaaaaaaaaaaaaaa', '0', 'a', '1495610341604', '0', '0', '/upload/4e61aae6763b43ecbf1d79bc5b0ebca9.mp4', '', '0', '1497713896929', '1497713896929', '0', '0', '0', '0', '0', '0', '0', '0', 'aaaaaaaaaaa', '/upload/4e61aae6763b43ecbf1d79bc5b0ebca9.png', '76', '0', '0', '0');
+INSERT INTO `brickcat_video` VALUES ('1497671086925', '告诉对方', '0', '测试', '1495610341604', '2', '29', '/upload/bc48a58de96942caa8eef17ea362f597.mp4', '', '0', '1497671086925', '1497671086925', '1497680657242', 'admin', '0', '0', '0', '0', '0', '0', 'afdsf', '', '130', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1497707565034', 'Spring Boot之Hello World', '0', 'Spring Boot', '1495610341604', '0', '6', '/upload/629fbeb72ae44cb990d97e0d7341ff76.mp4', '', '0', '1497707565024', '1497707565024', '0', '0', '0', '0', '0', '0', '0', '0', 'Spring Boot之Hello World', '', '76', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1497708440033', '并发上传', '0', '测试', '1495610341604', '0', '0', '/upload/453d03e34a3a40849d59dfed6b51cb04.mp4', '', '0', '1497708440029', '1497708440029', '0', '0', '0', '0', '0', '0', '0', '0', '高并发测试', '', '76', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1497708475663', '  测试', '0', '测试', '1495610341604', '0', '2', '/upload/51d3d9e4f4bc4cd69ac71d547055d071.mp4', '', '0', '1497708475663', '1497708475663', '0', '0', '0', '0', '0', '0', '0', '0', '测试', '', '76', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1497708540684', '  测试', '0', '测试', '1495610341604', '0', '4', '/upload/a041b8a940e74e3784ad7362f5cfa1ad.mp4', '', '0', '1497708540684', '1497708540684', '0', '0', '0', '0', '0', '0', '0', '0', 'bbbb6', '', '76', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1497708695721', '  测试', '0', '测试', '1495610341604', '0', '12', '/upload/60175952fd9d42b5b9e6c224de4f28ae.mp4', '', '0', '1497708695721', '1497708695721', '0', '0', '0', '0', '0', '0', '0', '0', '嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或嘿嘿嘿嘿嘿或好哈哈哈', '', '119', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1497708701804', 'springboot', '0', '测试', '1495610341604', '0', '64', '/upload/a82e051da49d41ce941573179d62f5a9.mp4', '', '0', '1497708701804', '1497708701804', '0', '0', '0', '2', '2', '1', '0', '0', '电风扇撒大声地法师打发斯蒂芬斯蒂芬是的发送到发的说法撒打发斯蒂芬水电费撒打发斯蒂芬', '', '130', '0', '0', '1497786504794', null);
+INSERT INTO `brickcat_video` VALUES ('1497713896931', 'aaaaaaaaaaaaaaa', '0', 'a', '1495610341604', '0', '0', '/upload/4e61aae6763b43ecbf1d79bc5b0ebca9.mp4', '', '0', '1497713896929', '1497713896929', '0', '0', '0', '0', '0', '0', '0', '0', 'aaaaaaaaaaa', '/upload/4e61aae6763b43ecbf1d79bc5b0ebca9.png', '76', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498118224758', '', '0', '', '1495610341604', '0', '0', '01d644d5901a4bdab7866411b6feb317/01d644d5901a4bdab7866411b6feb317.m3u8', '', '0', '1498118224758', '1498118224758', '0', '0', '0', '0', '0', '0', '0', '0', '', '01d644d5901a4bdab7866411b6feb317.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498118735901', '', '0', '', '1495610341604', '0', '0', 'd563bddbb197488aa140b7d8d52e0b9a/d563bddbb197488aa140b7d8d52e0b9a.m3u8', '', '0', '1498118735900', '1498118735900', '0', '0', '0', '0', '0', '0', '0', '0', '', 'd563bddbb197488aa140b7d8d52e0b9a.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498119189753', '', '0', '', '1495610341604', '0', '0', 'b376549e54af407e86e20df262a74033/b376549e54af407e86e20df262a74033.m3u8', '', '0', '1498119189752', '1498119189752', '0', '0', '0', '0', '0', '0', '0', '0', '', 'b376549e54af407e86e20df262a74033.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498120233252', '', '0', '', '1495610341604', '0', '0', '58ff29e9aaf14ae7ba126a89840b81d0/58ff29e9aaf14ae7ba126a89840b81d0.m3u8', '', '0', '1498120233252', '1498120233252', '0', '0', '0', '0', '0', '0', '0', '0', '', '58ff29e9aaf14ae7ba126a89840b81d0.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498121306597', '', '0', '', '1495610341604', '0', '0', '7144acb538a948d484b2c73beaa0c3ab/7144acb538a948d484b2c73beaa0c3ab.m3u8', '', '0', '1498121306597', '1498121306597', '0', '0', '0', '0', '0', '0', '0', '1', '', '7144acb538a948d484b2c73beaa0c3ab.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498121453835', '', '0', '', '1495610341604', '0', '0', '63edaa8ee68d4c7f92441baf3a7ad9df/63edaa8ee68d4c7f92441baf3a7ad9df.m3u8', '', '0', '1498121453835', '1498121453835', '0', '0', '0', '0', '0', '0', '0', '1', '', '63edaa8ee68d4c7f92441baf3a7ad9df.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498121648619', '', '0', '', '1495610341604', '0', '0', 'fcaebffe12354e4ca0f1a03c05de99af/fcaebffe12354e4ca0f1a03c05de99af.m3u8', '', '0', '1498121648618', '1498121648618', '0', '0', '0', '0', '0', '0', '0', '1', '', 'fcaebffe12354e4ca0f1a03c05de99af.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498122704234', '', '0', '', '1495610341604', '0', '0', 'aaca1026793e49ed8d954f5453d92932/aaca1026793e49ed8d954f5453d92932.m3u8', '', '0', '1498122704234', '1498122704234', '0', '0', '0', '0', '0', '0', '0', '1', '', 'aaca1026793e49ed8d954f5453d92932.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498123615355', '', '0', '', '1495610341604', '0', '0', 'acbac9a4ce2444eaae7d9e3d5e5e511d/acbac9a4ce2444eaae7d9e3d5e5e511d.m3u8', '', '0', '1498123615355', '1498123615355', '0', '0', '0', '0', '0', '0', '0', '1', '', 'acbac9a4ce2444eaae7d9e3d5e5e511d.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498124089943', '', '0', '', '1495610341604', '0', '0', '3a69175d3d9b45a99e35842282295dcd/3a69175d3d9b45a99e35842282295dcd.m3u8', '', '0', '1498124089943', '1498124089943', '0', '0', '0', '0', '0', '0', '0', '1', '', '3a69175d3d9b45a99e35842282295dcd.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498186066320', '', '0', '', '1495610341604', '0', '0', 'dddb71a0501a482d8f6a06e262c109fa/dddb71a0501a482d8f6a06e262c109fa.m3u8', '', '0', '1498186066276', '1498186066276', '0', '0', '0', '0', '0', '0', '0', '1', '', 'dddb71a0501a482d8f6a06e262c109fa.png', '311', '0', '0', '0', null);
+INSERT INTO `brickcat_video` VALUES ('1498192712125', '', '0', '', '1495610341604', '0', '0', 'da9db3bcb2cc4abdaa650c3de574c975/da9db3bcb2cc4abdaa650c3de574c975.m3u8', '', '0', '1498192712066', '1498192712066', '0', '0', '0', '0', '0', '0', '0', '1', '', 'da9db3bcb2cc4abdaa650c3de574c975.png', '311', '0', '0', '0', null);
 
 -- ----------------------------
 -- Table structure for `brickcat_videosize`
@@ -1060,10 +1081,7 @@ CREATE TABLE `brickcat_videosize` (
 -- ----------------------------
 -- Records of brickcat_videosize
 -- ----------------------------
-INSERT INTO `brickcat_videosize` VALUES ('1497277766516', '1497277766038', '500');
-INSERT INTO `brickcat_videosize` VALUES ('1497278160651', '1497278160243', '100');
-INSERT INTO `brickcat_videosize` VALUES ('1497362139350', '1497278160243', '500');
-INSERT INTO `brickcat_videosize` VALUES ('1497362709010', '1495610341604', '5700');
+INSERT INTO `brickcat_videosize` VALUES ('1498123513347', '1495610341604', '4878');
 
 -- ----------------------------
 -- Table structure for `brickcat_vote`

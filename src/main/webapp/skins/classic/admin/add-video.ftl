@@ -34,7 +34,7 @@
 
                 pick:'#picker',
 
-                threads:2,
+                threads:1,
 
                 // 开起分片上传。
                 chunked: true,
@@ -82,7 +82,6 @@
 
             uploader.on( 'uploadSuccess', function(file,result) {
                 if(result.checkmsg == null || result.checkmsg == "" || result.checkmsg == undefined) {
-                    $('#' + file.id).find('p.state').text('已上传');
                     $.post("${servePath}/uploadsuccess", {
                                 "guid": uploader.options.formData.guid,
                                 "size":file.size,
@@ -91,6 +90,7 @@
                             },
                             function (data) {
                                 if( data.ret != null ||  data.ret != "" || data.ret != undefined) {
+                                    $('#' + file.id).find('p.state').text('已上传');
                                     $('#oId').val(data.ret);
                                     $("#submit").removeAttr("disabled");
                                     $("#submit").removeClass("red fn-right")
@@ -106,10 +106,6 @@
                 $( '#'+file.id ).find('p.state').text('上传出错');
             });
 
-            uploader.on( 'uploadComplete', function( file ) {
-                $( '#'+file.id ).find('.progress').fadeOut();
-            });
-
             $('#ctlBtn').on('click',function () {
                 uploader.options.formData.guid = Math.random();
                 uploader.upload();
@@ -123,7 +119,7 @@
         </div>
         <div class="module-panel form fn-clear">
             <form class="fn-right form" action="${servePath}/video/front/addvideo" method="POST">
-                <label for="videooId">${videoId}</label>
+                <label for="videoId">${videoId}</label>
                 <input id="oId" type="text" name="oId" value="" readonly="readonly"/>
 
                 <label for="videoTitle">${videoTitle}</label>
@@ -148,12 +144,6 @@
                 <select id="videoStatus" name="videoStatus">
                     <option value="0" >${videoStatusTrue}</option>
                     <option value="1" >${videoStatusFalse}</option>
-                </select>
-
-                <label>${videoImage}</label>
-                <select id="videoImage" name="videoImage">
-                    <option value="0" >${videoImageTrue}</option>
-                    <option value="1" >${videoImageFalse}</option>
                 </select>
 
                 <br/><br/><br/>
