@@ -213,7 +213,7 @@ public class VideoProcessor {
 
         videoMgmtService.updateVideo(ret,video);
 
-        response.sendRedirect(Latkes.getServePath() + "/video/"+ret);
+        response.sendRedirect(Latkes.getServePath() + "/admin/videos");
     }
 
     /**

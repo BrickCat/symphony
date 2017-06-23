@@ -120,7 +120,7 @@
         <div class="module-panel form fn-clear">
             <form class="fn-right form" action="${servePath}/video/front/addvideo" method="POST">
                 <label for="videoId">${videoId}</label>
-                <input id="oId" type="text" name="oId" value="" readonly="readonly"/>
+                <input id="oId" type="text" name="videoId" value="" readonly="readonly"/>
 
                 <label for="videoTitle">${videoTitle}</label>
                 <input name="videoTitle" type="text"/>
