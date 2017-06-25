@@ -17,6 +17,10 @@
            <svg height="16" viewBox="0 -1 17 14" width="16">${bookIcon}</svg> ${bookShareLabel}</a>-->
         <a href="${servePath}/video/front/videos">
            <svg height="16" viewBox="0 -1 17 14" width="16">${videoIcon}</svg> ${videoLabel}</a>
+        <a href="${servePath}/trends">
+            <svg height="16" viewBox="0 -1 17 14" width="16">${trendsIcon}</svg> ${trendsLabel}</a>
+        <a href="${servePath}/mall">
+            <svg height="16" viewBox="0 -1 17 14" width="16">${mallIcon}</svg> ${mallLabel}</a>
         <#list domains as domain>
             <a pjax-title="${domain.domainTitle} - ${domainLabel} - ${symphonyLabel}" href="${servePath}/domain/${domain.domainURI}"<#if selected?? && selected == domain.domainURI> class="current"</#if>>${domain.domainIconPath} ${domain.domainTitle}</a>
         </#list>

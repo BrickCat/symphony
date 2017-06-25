@@ -155,7 +155,7 @@
                             }
                         } , function() {
                             this.on('downloadvideo', function(){
-                                var fileURL=window.open ('${nginxHost}:${nginxProt}/video/${video.videoDwonPath}',"height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
+                                var fileURL=window.open ('${nginxHost}:${nginxProt}/video/${video.videoDownPath}',"height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
                                 fileURL.document.execCommand("SaveAs");
                                 fileURL.window.close();
                                 fileURL.close();

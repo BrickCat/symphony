@@ -129,7 +129,7 @@
                             if(result.videos[i].videoImgPath == ''){
                                 imageUrl = '${staticServePath}/images/video/sport.png';
                             }else{
-                                imageUrl = '${servePath}'+result.videos[i].videoImgPath;
+                                imageUrl = '${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath;
                             }
                             if(result.videos[i].videoStatus == 0){
                                 html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
