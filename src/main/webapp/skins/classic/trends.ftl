@@ -2,14 +2,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <@head title="${videoLabel} - ${symphonyLabel}">
+        <@head title="${trendsLabel} - ${symphonyLabel}">
         <meta name="description" content="${symphonyLabel} ${trendVideosLabel},${symphonyLabel} ${coldVideosLabel}"/>
         </@head>
-        <link rel="canonical" href="${servePath}/videos">
-        <link type="text/css" href="${staticServePath}/js/lib/trends/slideshow.css" rel="stylesheet" />
-            <style type="text/css">
-                .mySlideWrap{ height: 300px; width: 500px; margin-left: auto; margin-right: auto; margin-top: 100px; }
-            </style>
+        <link rel="canonical" href="${servePath}/trends">
+            <link href="${staticServePath}/js/lib/trends/baguetteBox/css/bootstrap.css" rel="stylesheet">
+            <link rel="stylesheet" href="${staticServePath}/js/lib/trends/baguetteBox/css/baguetteBox.min.css">
+            <link rel="stylesheet" href="${staticServePath}/js/lib/trends/baguetteBox/css/gallery-grid.css">
     </head>
     <body>
         <#include "header.ftl">
@@ -19,21 +18,200 @@
                     <div class="module">
                         <div class="module-header">
                             <h2>
-                                ${trendVideosLabel}
+                                ${trendsHotLabel}
                             </h2>
                         </div>
                         <div class="module-panel list">
-                            <div  class="mySlideWrap"><div id='mysite-slideshow'></div></div>
+                            <div class="container gallery-container" style="width: 80%;margin-left: 10%;margin-top: 3%;">
+                                <div class="article-info fn-flex" style="margin-left: 2%;margin-top: 2%">
+                                    <a rel="author" href="${servePath}/trends/">
+                                        <div class="avatar-mid tooltipped tooltipped-se" aria-label="秦仪真" style="background-image:url('${staticServePath}/js/lib/trends/baguetteBox/images/park.jpg')">
+
+                                        </div>
+                                    </a>
+                                    <div class="fn-flex-1 fn-ellipsis" style="margin-top: -2%;">
+                                        <a rel="author" href="${servePath}/trends/" class="ft-gray"><strong class="ft-gray">秦仪真</strong></a>
+
+                                        <br/>
+
+                                        <span class="ft-gray">${symphonyLabel} 1 ${numVIPLabel}</span>
+
+                                        <br/>
+                                        <span class="ft-gray">
+                                            <a rel="nofollow" class="ft-gray" href="#comments">
+                                                <b class="article-level<#if 10 lt 40>${(10/10)?int}<#else>4</#if>">10</b> ${cmtLabel}</a>
+                                            &nbsp;•&nbsp;
+                                            <span class="article-level<#if 10 lt 400>${(10/100)?int}<#else>4</#if>">
+                                            <#if 10 < 1000>
+                                            10
+                                             <#else>
+                                            10
+                                            </#if>
+                                            </span>
+                                                    ${viewLabel}
+                                            &nbsp;•&nbsp;
+                                                    2天前
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="content-reset article-content" style="margin-left: 13%;margin-right: 3%;margin-bottom: 0%;margin-top: 2%;">
+                                    哈哈哈嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或
+                                    嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或对对对
+                                    嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈
+                                </div>
+                                <div class="tz-gallery" style="margin-left: 10%;">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/park.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/park.jpg" alt="Park">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/bridge.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/bridge.jpg" alt="Bridge">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/tunnel.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/tunnel.jpg" alt="Tunnel">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/coast.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/coast.jpg" alt="Coast">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/rails.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/rails.jpg" alt="Rails">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/traffic.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/traffic.jpg" alt="Traffic">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/rocks.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/rocks.jpg" alt="Rocks">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="${staticServePath}/js/lib/trends/baguetteBox/lightbox" href="images/benches.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/benches.jpg" alt="Benches">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/sky.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/sky.jpg" alt="Sky">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="container gallery-container" style="width: 80%;margin-left: 10%;margin-top: 3%;">
+                                <div class="article-info fn-flex" style="margin-left: 2%;margin-top: 2%">
+                                    <a rel="author" href="${servePath}/trends/">
+                                        <div class="avatar-mid tooltipped tooltipped-se" aria-label="秦仪真" style="background-image:url('${staticServePath}/js/lib/trends/baguetteBox/images/park.jpg')">
+
+                                        </div>
+                                    </a>
+                                    <div class="fn-flex-1 fn-ellipsis" style="margin-top: -2%;">
+                                        <a rel="author" href="${servePath}/trends/" class="ft-gray"><strong class="ft-gray">秦仪真</strong></a>
+
+                                        <br/>
+
+                                        <span class="ft-gray">${symphonyLabel} 1 ${numVIPLabel}</span>
+
+                                        <br/>
+                                        <span class="ft-gray">
+                                            <a rel="nofollow" class="ft-gray" href="#comments">
+                                                <b class="article-level<#if 10 lt 40>${(10/10)?int}<#else>4</#if>">10</b> ${cmtLabel}</a>
+                                            &nbsp;•&nbsp;
+                                            <span class="article-level<#if 10 lt 400>${(10/100)?int}<#else>4</#if>">
+                                            <#if 10 < 1000>
+                                                10
+                                            <#else>
+                                                10
+                                            </#if>
+                                            </span>
+                                        ${viewLabel}
+                                            &nbsp;•&nbsp;
+                                                    2天前
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="content-reset article-content" style="margin-left: 13%;margin-right: 3%;margin-bottom: 0%;margin-top: 2%;">
+                                    哈哈哈嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或
+                                    嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或对对对
+                                    嘿嘿嘿嘿嘿或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈
+                                </div>
+                                <div class="tz-gallery" style="margin-left: 10%;">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/park.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/park.jpg" alt="Park">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/bridge.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/bridge.jpg" alt="Bridge">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/tunnel.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/tunnel.jpg" alt="Tunnel">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/coast.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/coast.jpg" alt="Coast">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/rails.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/rails.jpg" alt="Rails">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/traffic.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/traffic.jpg" alt="Traffic">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/rocks.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/rocks.jpg" alt="Rocks">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="${staticServePath}/js/lib/trends/baguetteBox/lightbox" href="images/benches.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/benches.jpg" alt="Benches">
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <a class="lightbox" href="${staticServePath}/js/lib/trends/baguetteBox/images/sky.jpg">
+                                                <img src="${staticServePath}/js/lib/trends/baguetteBox/images/sky.jpg" alt="Sky">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
 
                         </div>
                     </div>
                 </div>
                 <div class="side">
-                    <#include 'common/person-info.ftl'/>
+                <#include 'common/person-info.ftl'/>
                     <div class="module">
                         <div class="module-header">
                             <h2>
-                                ${coldVideosLabel}
+                            ${trendsColdLabel}
                             </h2>
                         </div>
                         <div class="module-panel list">
@@ -44,37 +222,9 @@
             </div>
         </div>
         <#include "footer.ftl">
-        <script src="${staticServePath}/js/lib/trends/jquery.min.js" type="text/javascript"></script>
-        <script src="${staticServePath}/js/lib/trends/slideshow-jq.js" type="text/javascript"></script>
+        <script type="text/javascript" src="${staticServePath}/js/lib/trends/baguetteBox/js/baguetteBox.min.js"></script>
         <script type="text/javascript">
-            (function($){
-                function init(){
-                    wSlideshow.render({
-                        elementID:"mysite",//Dom 渲染的容器
-                        nav:"double_thumbnails",//看你是否需要有导航功能如果参数配置参数:[none,double_thumbnails] 则会显示图片导航条
-                        navLocation:"left", //自定标题的位置参数:[top,bottomm,left,right]
-                        captionLocation:"bottom",//自定标题的位置参数:[top,bottom]
-                        transition:"fade",//自定效果参数:[top,bottom]slide fade]
-                        autoplay:"1",//自定义auto play 的次数
-                        speed:"5",
-                        aspectRatio:"auto",
-                        showControls:"true",
-                        randomStart:"false",
-                        images:[
-                            {"url":"${staticServePath}/js/lib/trends/images/5568730.jpg","width":"332","height":"250","caption":"Foreign staff, Chinese Imperial Maritime Customs, Tientsin, 1877 or 1878 Photographed by William Francis Stevenson Collected by Peter Hodge"},
-                            {"url":"${staticServePath}/js/lib/trends/images/1676626.jpg","width":"332","height":"250","caption":"The Bund, Shanghai, 1890s Photographed by William Francis Stevenson Collected by Peter Hodge"},
-                            {"url":"${staticServePath}/js/lib/trends/images/6765636.jpg","width":"332","height":"250","caption":"Chinese farmers collected by http://www.jq22.com"},
-                            {"url":"${staticServePath}/js/lib/trends/images/4735676.jpg","width":"332","height":"250","caption":"Chinese coolie collected by http://www.jq22.com"},
-                            {"url":"${staticServePath}/js/lib/trends/images/474001.jpg","width":"332","height":"250","caption":"The Bund, Shanghai, 1890s Photographed by William Francis Stevenson Collected by Peter Hodge"},
-                            {"url":"${staticServePath}/js/lib/trends/images/5145203.jpg","width":"332","height":"250","caption":"Chinese empress in Qing Dynasty collected by http://www.jq22.com"},
-                            {"url":"${staticServePath}/js/lib/trends/images/1363237.jpg","width":"332","height":"250","caption":"Nanking Road, Shanghai, looking towards the Bund, 1890s Photographed by William Francis Stevenson Collected by Peter Hodge"},
-                            {"url":"${staticServePath}/js/lib/trends/images/652076.jpg","width":"332","height":"250","caption":"Chinese emperor in Qing Dynasty collected by http://www.jq22.com"},
-                            {"url":"${staticServePath}/js/lib/trends/images/7168681.jpg","width":"332","height":"250","caption":"Chinese women raising cocoons collected by http://www.jq22.com"}
-                        ]//定义图片url caption widh height
-                    })
-                }
-                $ ? $(init) : document.observe('dom:loaded', init)
-            })(window._W && _W.$)
+            baguetteBox.run('.tz-gallery');
         </script>
     </body>
 </html>

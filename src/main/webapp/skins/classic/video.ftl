@@ -34,8 +34,8 @@
         <div class="article-body">
             <div class="wrapper">
                 <div class="article-info fn-flex">
-                <a rel="author" href="${servePath}/member/<#--用户名-->"><div
-                        class="avatar-mid tooltipped tooltipped-se" aria-label="admin<#--用户名-->" style="background-image:url('/*图片URL*/')"></div></a>
+                <a rel="author" href="${servePath}/member/${video.videoAuthorName}"><div
+                        class="avatar-mid tooltipped tooltipped-se" aria-label="${video.videoAuthorName}" style="background-image:url('/*图片URL*/')"></div></a>
                     <div class="fn-flex-1 fn-ellipsis">
                     <a rel="author" href="${servePath}/member/${video.videoAuthorName}" class="ft-gray"><strong class="ft-gray">${video.videoAuthorName}</strong></a>
 
@@ -45,7 +45,6 @@
 
                         <br/>
                         <span class="ft-gray">
-                                &nbsp;
                                 <a rel="nofollow" class="ft-gray" href="#comments">
                                     <b class="article-level<#if video.videoCommentCount lt 40>${(video.videoCommentCount/10)?int}<#else>4</#if>">${video.videoCommentCount}</b> ${cmtLabel}</a>
                                 &nbsp;•&nbsp;
@@ -59,7 +58,7 @@
                                 ${viewLabel}
                                 &nbsp;•&nbsp;
                                 ${video.timeAgo}
-                            </span>
+                        </span>
                     </div>
                     <div class="article-actions action-btns">
                         <span class="tooltipped tooltipped-n<#if isLoggedIn && 0 == video.videoVote> ft-red</#if>" aria-label="${upLabel}"

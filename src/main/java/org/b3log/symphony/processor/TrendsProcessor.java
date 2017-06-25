@@ -111,7 +111,7 @@ public class TrendsProcessor {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
-        renderer.setTemplateName("/indexs.ftl");
+        renderer.setTemplateName("/trends.ftl");
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 }
