@@ -750,7 +750,6 @@ var Comment = {
 
                 if (0 === result.sc) {
                     // edit cmt
-                    alert(commentId);
                     if (commentId) {
                         alert(result.commentContent);
                         $('#' + commentId + ' > .fn-flex > .fn-flex-1 > .content-reset').html(result.commentContent);
