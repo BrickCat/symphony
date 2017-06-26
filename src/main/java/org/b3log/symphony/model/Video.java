@@ -43,6 +43,8 @@ public final class Video {
      * Video Comment Count
      */
     public static final String VIDEO_COMMENT_COUNT = "videoCommentCount";
+
+
     /**
      * Video view count
      */
@@ -145,6 +147,12 @@ public final class Video {
      * Key of video comments.
      */
     public static final String VIDEO_T_COMMENTS = "videoComments";
+
+    /**
+     * Key of article nice comments.
+     */
+    public static final String VIDEO_T_NICE_COMMENTS = "videoNiceComments";
+
     /**
      * Key of video view count display format.
      */

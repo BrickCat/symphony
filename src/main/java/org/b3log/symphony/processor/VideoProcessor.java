@@ -63,7 +63,7 @@ public class VideoProcessor {
     /**
      * Pagination page size.
      */
-    private static final int PAGE_SIZE = 20;
+    private static final int PAGE_SIZE = 30;
 
     /**
      * Data model service.
@@ -327,6 +327,9 @@ public class VideoProcessor {
         dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
         dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
         dataModel.put(Common.VIDEO_COMMENTS_PAGE_SIZE, pageSize);
+
+        //nice comments
+        // TODO
 
         // Load comments
         final List<JSONObject> videoComments =

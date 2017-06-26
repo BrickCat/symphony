@@ -22,7 +22,7 @@
                             </h2>
                         </div>
                         <div class="module-panel list">
-                            <div class="container gallery-container" style="width: 80%;margin-left: 10%;margin-top: 3%;">
+                            <div class="container gallery-container" style="width: 80%;margin-left: 10%;margin-top: 3%;border:1px solid #D1CFCF;">
                                 <div class="article-info fn-flex" style="margin-left: 2%;margin-top: 2%">
                                     <a rel="author" href="${servePath}/trends/">
                                         <div class="avatar-mid tooltipped tooltipped-se" aria-label="秦仪真" style="background-image:url('${staticServePath}/js/lib/trends/baguetteBox/images/park.jpg')">
@@ -112,7 +112,7 @@
 
 
 
-                            <div class="container gallery-container" style="width: 80%;margin-left: 10%;margin-top: 3%;">
+                            <div class="container gallery-container" style="width: 80%;margin-left: 10%;margin-top: 3%;border:1px solid #D1CFCF;">
                                 <div class="article-info fn-flex" style="margin-left: 2%;margin-top: 2%">
                                     <a rel="author" href="${servePath}/trends/">
                                         <div class="avatar-mid tooltipped tooltipped-se" aria-label="秦仪真" style="background-image:url('${staticServePath}/js/lib/trends/baguetteBox/images/park.jpg')">

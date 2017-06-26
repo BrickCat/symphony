@@ -315,11 +315,13 @@ public class PointtransferQueryService {
 
                         final String articleId = comment.optString(Comment.COMMENT_ON_ARTICLE_ID);
                         final JSONObject commentArticle = articleRepository.get(articleId);
+                        if(null != commentArticle){
+                            final String commentArticleLink = "<a href=\""
+                                    + commentArticle.optString(Article.ARTICLE_PERMALINK) + "\">"
+                                    + commentArticle.optString(Article.ARTICLE_TITLE) + "</a>";
+                            desTemplate = desTemplate.replace("{article}", commentArticleLink);
+                        }
 
-                        final String commentArticleLink = "<a href=\""
-                                + commentArticle.optString(Article.ARTICLE_PERMALINK) + "\">"
-                                + commentArticle.optString(Article.ARTICLE_TITLE) + "</a>";
-                        desTemplate = desTemplate.replace("{article}", commentArticleLink);
 
                         if ("3In".equals(typeStr)) {
                             final JSONObject commenter = userRepository.get(fromId);

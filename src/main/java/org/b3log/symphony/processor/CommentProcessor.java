@@ -129,6 +129,12 @@ public class CommentProcessor {
     private ArticleQueryService articleQueryService;
 
     /**
+     * Article query service.
+     */
+    @Inject
+    private VideoQueryService videoQueryService;
+
+    /**
      * Language service.
      */
     @Inject
@@ -422,7 +428,6 @@ public class CommentProcessor {
         context.renderJSON().renderJSONValue(Keys.STATUS_CODE, StatusCodes.ERR);
 
         final JSONObject requestJSONObject = (JSONObject) request.getAttribute(Keys.REQUEST);
-
         final String articleId = requestJSONObject.optString(Article.ARTICLE_T_ID);
         final String commentContent = requestJSONObject.optString(Comment.COMMENT_CONTENT);
         final String commentOriginalCommentId = requestJSONObject.optString(Comment.COMMENT_ORIGINAL_COMMENT_ID);

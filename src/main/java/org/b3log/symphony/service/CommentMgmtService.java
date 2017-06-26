@@ -531,7 +531,12 @@ public class CommentMgmtService {
                     && Article.ARTICLE_ANONYMOUS_C_PUBLIC == articleAnonymous
                     && !TuringQueryService.ROBOT_NAME.equals(commenterName)) {
                 // Point
-                final String articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
+                String articleAuthorId = "";
+                if(requestJSONObject.has("type")){
+                    articleAuthorId = article.optString(Video.VIDEO_AUTHORID);
+                }else{
+                    articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
+                }
                 if (articleAuthorId.equals(commentAuthorId)) {
                     pointtransferMgmtService.transfer(commentAuthorId, Pointtransfer.ID_C_SYS,
                             Pointtransfer.TRANSFER_TYPE_C_ADD_COMMENT, Pointtransfer.TRANSFER_SUM_C_ADD_SELF_ARTICLE_COMMENT,
