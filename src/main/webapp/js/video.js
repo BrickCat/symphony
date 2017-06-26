@@ -71,7 +71,6 @@ var Comment = {
         }
 
         $(window).scrollTop($obj[0].offsetTop - 48);
-
         if ($obj.attr('id') === 'comments') {
             return false;
         }
@@ -751,7 +750,9 @@ var Comment = {
 
                 if (0 === result.sc) {
                     // edit cmt
+                    alert(commentId);
                     if (commentId) {
+                        alert(result.commentContent);
                         $('#' + commentId + ' > .fn-flex > .fn-flex-1 > .content-reset').html(result.commentContent);
                         $('#' + commentId + ' .icon-history').parent().show();
                     }
@@ -777,7 +778,6 @@ var Comment = {
 
                         window.localStorage[Label.articleOId] = JSON.stringify(emptyContent);
                     }
-
                     // 定为到回贴位置
                     if (Label.userCommentViewMode === 1) {
                         // 实时模式

@@ -194,7 +194,7 @@
                         </ul>
                         <div id="bottomComment"></div>
                     </div>
-                    <@pagination url="${servePath}<#---->" query="m=${userCommentViewMode}#comments" pjaxTitle="${video.videoTitle} - ${symphonyLabel}" />
+                    <@pagination url="${servePath}" query="m=${userCommentViewMode}#comments" pjaxTitle="${video.videoTitle} - ${symphonyLabel}" />
                 </div>
                 <#if pjax><!---- pjax {#comments} end ----></#if>
             </div>
@@ -228,7 +228,7 @@
             </div>
         </div>
         </#if>
-        <script src="${staticServePath}/js/lib/compress/article-libs.min.js?${staticResourceVersion}"></script>
+        <script src="${staticServePath}/js/lib/compress/video-libs.min.js?${staticResourceVersion}"></script>
         <script src="${staticServePath}/js/channel${miniPostfix}.js?${staticResourceVersion}"></script>
         <script src="${staticServePath}/js/video.js?${staticResourceVersion}"></script>
         <script>

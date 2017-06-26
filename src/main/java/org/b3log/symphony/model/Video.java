@@ -149,6 +149,11 @@ public final class Video {
     public static final String VIDEO_T_COMMENTS = "videoComments";
 
     /**
+     * Key of article permalink.
+     */
+    public static final String VIDEO_PERMALINK = "videoPermalink";
+
+    /**
      * Key of video author thumbnail URL.
      */
     public static final String VIDEO_T_AUTHOR_THUMBNAIL_URL = "videoAuthorThumbnailURL";
