@@ -35,7 +35,7 @@
             <div class="wrapper">
                 <div class="article-info fn-flex">
                 <a rel="author" href="${servePath}/member/${video.videoAuthorName}"><div
-                        class="avatar-mid tooltipped tooltipped-se" aria-label="${video.videoAuthorName}" style="background-image:url('/*图片URL*/')"></div></a>
+                        class="avatar-mid tooltipped tooltipped-se" aria-label="${video.videoAuthorName}" style="background-image:url('${video.videoAuthorThumbnailURL}')"></div></a>
                     <div class="fn-flex-1 fn-ellipsis">
                     <a rel="author" href="${servePath}/member/${video.videoAuthorName}" class="ft-gray"><strong class="ft-gray">${video.videoAuthorName}</strong></a>
 
@@ -173,63 +173,6 @@
 
         <div class="main <#if video.videoComments?size == 0> fn-none</#if>">
             <div class="wrapper" id="articleCommentsPanel">
-            <#if article.articleNiceComments?size != 0>
-                <div class="module nice">
-                    <div class="module-header">
-                        <span class="icon-thumbs-up ft-blue"></span>
-                    ${niceCommentsLabel}
-                    </div>
-                    <div class="module-panel list comments">
-                        <ul>
-                            <#list article.articleNiceComments as comment>
-                                <li>
-                                    <div class="fn-flex">
-                                        <#if !comment.fromClient>
-                                            <#if comment.commentAnonymous == 0>
-                                            <a rel="nofollow" href="${servePath}/member/${comment.commentAuthorName}"></#if>
-                                            <div class="avatar tooltipped tooltipped-se"
-                                                 aria-label="${comment.commentAuthorName}" style="background-image:url('${comment.commentAuthorThumbnailURL}')"></div>
-                                            <#if comment.commentAnonymous == 0></a></#if>
-                                        <#else>
-                                            <div class="avatar tooltipped tooltipped-se"
-                                                 aria-label="${comment.commentAuthorName}" style="background-image:url('${comment.commentAuthorThumbnailURL}')"></div>
-                                        </#if>
-                                        <div class="fn-flex-1">
-                                            <div class="fn-clear comment-info ft-smaller">
-                                            <span class="fn-left">
-                                                <#if !comment.fromClient>
-                                                    <#if comment.commentAnonymous == 0><a rel="nofollow" href="${servePath}/member/${comment.commentAuthorName}" class="ft-gray"></#if><span class="ft-gray">${comment.commentAuthorName}</span><#if comment.commentAnonymous == 0></a></#if>
-                                                <#else><span class="ft-gray">${comment.commentAuthorName}</span>
-                                                <span class="ft-fade"> • </span>
-                                                <a rel="nofollow" class="ft-green" href="https://hacpai.com/article/1457158841475">API</a>
-                                                </#if>
-                                                <span class="ft-fade">• ${comment.timeAgo}</span>
-
-                                                <#if comment.rewardedCnt gt 0>
-                                                    <#assign hasRewarded = isLoggedIn && comment.commentAuthorId != currentUser.oId && comment.rewarded>
-                                                    <span aria-label="<#if hasRewarded>${thankedLabel}<#else>${thankLabel} ${comment.rewardedCnt}</#if>"
-                                                          class="tooltipped tooltipped-n rewarded-cnt <#if hasRewarded>ft-red<#else>ft-fade</#if>">
-                                                    <span class="icon-heart"></span> ${comment.rewardedCnt}
-                                                </span>
-                                                </#if>
-                                                <#if 0 == comment.commenter.userUAStatus><span class="cmt-via ft-fade" data-ua="${comment.commentUA}"></span></#if>
-                                            </span>
-                                                <a class="ft-a-title fn-right tooltipped tooltipped-nw" aria-label="${goCommentLabel}"
-                                                   href="javascript:Comment.goComment('${servePath}/article/${article.oId}?p=${comment.paginationCurrentPageNum}&m=${userCommentViewMode}#${comment.oId}')"><span class="icon-down"></span></a>
-                                            </div>
-                                            <div class="content-reset comment">
-                                            ${comment.commentContent}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </#list>
-                        </ul>
-                    </div>
-                </div>
-            </#if>
-
-
             <#if pjax><!---- pjax {#comments} start ----></#if>
                 <div class="module comments" id="comments">
                     <div class="comments-header module-header">
@@ -246,7 +189,7 @@
                             <#list video.videoComments as comment>
                             <#assign notificationCmtIds = notificationCmtIds + comment.oId>
                             <#if comment_has_next><#assign notificationCmtIds = notificationCmtIds + ","></#if>
-                           <#include 'common/comment.ftl' />
+                           <#include 'common/videocom.ftl' />
                         </#list>
                         </ul>
                         <div id="bottomComment"></div>

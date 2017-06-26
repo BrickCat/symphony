@@ -76,6 +76,11 @@ public class VideoProcessor {
      */
     @Inject
     private VideoMgmtService videoMgmtService;
+    /**
+     * Avatar query service.
+     */
+    @Inject
+    private AvatarQueryService avatarQueryService;
 
     /**
      *Video queryservice
@@ -267,7 +272,7 @@ public class VideoProcessor {
 
         String cmtViewModeStr = request.getParameter("m");
 
-        JSONObject currentUser;
+        JSONObject currentUser = null;
         String currentUserId = null;
         final boolean isLoggedIn = (Boolean) dataModel.get(Common.IS_LOGGED_IN);
 
@@ -328,14 +333,14 @@ public class VideoProcessor {
         dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
         dataModel.put(Common.VIDEO_COMMENTS_PAGE_SIZE, pageSize);
 
-        //nice comments
-        // TODO
-
+        final String commenterId = video.optString(Video.VIDEO_AUTHORID);
+        final JSONObject videoer = userQueryService.getUser(commenterId);
         // Load comments
         final List<JSONObject> videoComments =
                 commentQueryService.getArticleComments(avatarViewMode, videoId, pageNum, pageSize, cmtViewMode);
         video.put(Video.VIDEO_T_COMMENTS, (Object) videoComments);
-
+        video.put(Video.VIDEO_T_AUTHOR_THUMBNAIL_URL, avatarQueryService.getAvatarURLByUser(
+                UserExt.USER_AVATAR_VIEW_MODE_C_ORIGINAL, videoer, "48"));
         // Fill comment thank
         Stopwatchs.start("Fills comment thank");
         try{
