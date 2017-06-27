@@ -68,13 +68,15 @@ public class TODO {
     //TODO 增加其他用户上传视频的功能
     //TODO 前台页面的样式展示，不能雷同黑客派
     //TODO 网站的定位 程序员与健身（两个大的领域向下细分）
-    //https://my.oschina.net/byk/blog/735454
 
-    //video删除、修改重做
+    // TODO webuploader 失败 文件回滚
+    // TODO 前台添加视频
 
-    //webuploader 失败 文件回滚
+    // TODO trends
 
-    //video 查询
+    // TODO trends 表
+    // TODO trends 添加（多图上传）、删除、修改
+    // TODO 前台展示 赞、踩、转发、评论
     /**
      * Nginx
      *location / {
