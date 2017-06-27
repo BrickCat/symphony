@@ -4,7 +4,7 @@
 <div class="list content admin">
     <div class="module list">
         <form method="GET" action="${servePath}/admin/videos" class="form">
-            <input name="videoTitileOrVideoTag" type="text" placeholder="${videoURl}/${videoTag}"/>
+            <input name="videoTitle" type="text" placeholder="${videoTitle}"/>
             <button type="submit" class="green">${searchLabel}</button> &nbsp;
             <#if permissions["adminAddVideo"].permissionGrant>
                 <button type="button" class="btn red" onclick="window.location = '${servePath}/admin/add-video'">${videoAddLabel}</button>
@@ -13,7 +13,6 @@
         <#if videos ??>
             <ul>
                 <#list videos as item>
-                    <#if item.videoStatus != 1 >
                         <li>
                             <div class="fn-flex">
                                 <#if 1 != 1>
@@ -45,7 +44,6 @@
                                </div>
                             </div>
                         </li>
-                    </#if>
                 </#list>
             </ul>
         </#if>

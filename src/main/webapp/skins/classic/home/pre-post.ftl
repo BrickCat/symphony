@@ -42,6 +42,20 @@
                     </a>
                     <div class="ft-gray">${addCityArticleTipLabel} <i>${broadcastPoint}</i> ${pointLabel}</div>
                 </div>
+                <div>
+                    <a href="${servePath}/post?type=3">
+                        <div class="icon-video"></div>
+                    ${addVideoLabel}
+                    </a>
+                    <div class="ft-gray">${addVideoTipLabel}</div>
+                </div>
+                <div>
+                    <a href="${servePath}/post?type=4">
+                        <div class="icon-video"></div>
+                    ${trendsLabel}
+                    </a>
+                    <div class="ft-gray">${addTrendsTipLabel}</div>
+                </div>
             </div>
         </div>
         <#include "../footer.ftl">

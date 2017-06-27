@@ -1144,7 +1144,7 @@ public class AdminProcessor {
         requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
         requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
         requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
-        final String videoTitle = request.getParameter(Common.VIDEO_TITLE_TAG);
+        final String videoTitle = request.getParameter(Video.VIDEO_TITLE);
         if (!Strings.isEmptyOrNull(videoTitle)) {
             //标题
             requestJSONObject.put(Video.VIDEO_TITLE, videoTitle);

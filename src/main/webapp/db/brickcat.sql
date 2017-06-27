@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50628
 File Encoding         : 65001
 
-Date: 2017-06-27 14:52:43
+Date: 2017-06-27 18:11:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -61,7 +61,7 @@ CREATE TABLE `brickcat_article` (
 -- ----------------------------
 -- Records of brickcat_article
 -- ----------------------------
-INSERT INTO `brickcat_article` VALUES ('1495610344271', 'Welcome to Sym community :hearts:', 'Sym,Announcement,测试', '1495610341604', '6', '24', 'Hello, everyone!', '', '0', '/article/1495610344271', '1495610344193', '1495610344193', '0', '', '0.6833466473277602', '1', '0', '1495610344271', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '0', '');
+INSERT INTO `brickcat_article` VALUES ('1495610344271', 'Welcome to Sym community :hearts:', 'Sym,Announcement,测试', '1495610341604', '6', '25', 'Hello, everyone!', '', '0', '/article/1495610344271', '1495610344193', '1495610344193', '0', '', '0.4582691208742483', '1', '0', '1495610344271', '', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '', '0', '0', '0', '0', '');
 
 -- ----------------------------
 -- Table structure for `brickcat_book`
@@ -171,7 +171,8 @@ INSERT INTO `brickcat_comment` VALUES ('1498482125424', null, ' :hushed: ', '149
 INSERT INTO `brickcat_comment` VALUES ('1498482177601', null, ' :smile: ', '1498482177690', '1495610341604', '1495610344271', '/article/1495610344271#1498482177601', '', '0', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36', '0', '0', '0', '0', '0', '');
 INSERT INTO `brickcat_comment` VALUES ('1498540023538', null, ' :weary: ', '1498540023588', '1495610341604', '1498458216708', '/article/1498458216708#1498540023538', '', '0', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36', '0', '0', '1', '0', '1', '');
 INSERT INTO `brickcat_comment` VALUES ('1498541328185', null, ' :expressionless: ', '1498541328236', '1498540198708', '1498458216708', '/article/1498458216708#1498541328185', '', '0', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36', '0', '0', '0', '0', '0', '');
-INSERT INTO `brickcat_comment` VALUES ('1498541336935', null, ' :heart: ', '1498541337003', '1498540198708', '1498458216708', '/article/1498458216708#1498541336935', '1498540023538', '0', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36', '0', '0', '0', '0', '0', '');
+INSERT INTO `brickcat_comment` VALUES ('1498541336935', null, ' :heart: ', '1498541337003', '1498540198708', '1498458216708', '/article/1498458216708#1498541336935', '1498540023538', '0', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36', '0', '0', '0', '0', '1', '');
+INSERT INTO `brickcat_comment` VALUES ('1498556849193', null, ' :broken_heart: ', '1498556849260', '1495610341604', '1498458216708', '/article/1498458216708#1498556849193', '1498541336935', '0', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36', '0', '0', '0', '0', '0', '');
 
 -- ----------------------------
 -- Table structure for `brickcat_domain`
@@ -320,7 +321,7 @@ INSERT INTO `brickcat_liveness` VALUES ('1497451456107', '1495610341604', '20170
 INSERT INTO `brickcat_liveness` VALUES ('1497680464363', '1495610341604', '20170617', '0', '0', '3', '0', '0', '0', '0', '2');
 INSERT INTO `brickcat_liveness` VALUES ('1497718374674', '1495610341604', '20170618', '0', '0', '0', '0', '0', '20', '0', '1');
 INSERT INTO `brickcat_liveness` VALUES ('1498463420640', '1495610341604', '20170626', '0', '0', '26', '0', '0', '1', '0', '13');
-INSERT INTO `brickcat_liveness` VALUES ('1498525570844', '1495610341604', '20170627', '0', '0', '6', '0', '0', '4', '0', '5');
+INSERT INTO `brickcat_liveness` VALUES ('1498525570844', '1495610341604', '20170627', '0', '0', '7', '0', '0', '5', '0', '6');
 INSERT INTO `brickcat_liveness` VALUES ('1498541328356', '1498540198708', '20170627', '0', '0', '2', '0', '0', '0', '0', '0');
 
 -- ----------------------------
@@ -357,6 +358,8 @@ INSERT INTO `brickcat_notification` VALUES ('1498123518917', '1495610341604', '1
 INSERT INTO `brickcat_notification` VALUES ('1498540023731', '', '1498540023538', '3', '0');
 INSERT INTO `brickcat_notification` VALUES ('1498540199300', '1498540198708', '', '16', '0');
 INSERT INTO `brickcat_notification` VALUES ('1498541328455', '', '1498541328185', '3', '0');
+INSERT INTO `brickcat_notification` VALUES ('1498556849446', '', '1498556849193', '3', '0');
+INSERT INTO `brickcat_notification` VALUES ('1498556849502', '1498540198708', '1498556849193', '13', '0');
 
 -- ----------------------------
 -- Table structure for `brickcat_option`
@@ -378,7 +381,7 @@ INSERT INTO `brickcat_option` VALUES ('miscAllowAnonymousView', '0', 'misc');
 INSERT INTO `brickcat_option` VALUES ('miscAllowRegister', '0', 'misc');
 INSERT INTO `brickcat_option` VALUES ('miscLanguage', '0', 'misc');
 INSERT INTO `brickcat_option` VALUES ('statisticArticleCount', '1', 'statistic');
-INSERT INTO `brickcat_option` VALUES ('statisticCmtCount', '15', 'statistic');
+INSERT INTO `brickcat_option` VALUES ('statisticCmtCount', '16', 'statistic');
 INSERT INTO `brickcat_option` VALUES ('statisticDomainCount', '0', 'statistic');
 INSERT INTO `brickcat_option` VALUES ('statisticLinkCount', '0', 'statistic');
 INSERT INTO `brickcat_option` VALUES ('statisticMaxOnlineVisitorCount', '4', 'statistic');
@@ -469,11 +472,14 @@ INSERT INTO `brickcat_permission` VALUES ('rwRemoveReservedWord', '6');
 INSERT INTO `brickcat_permission` VALUES ('rwUpdateReservedWordBasic', '6');
 INSERT INTO `brickcat_permission` VALUES ('tagUpdateTagBasic', '5');
 INSERT INTO `brickcat_permission` VALUES ('userAddPoint', '1');
+INSERT INTO `brickcat_permission` VALUES ('userAddTrends', '12');
 INSERT INTO `brickcat_permission` VALUES ('userAddUser', '1');
 INSERT INTO `brickcat_permission` VALUES ('userDeductPoint', '1');
+INSERT INTO `brickcat_permission` VALUES ('userDeleteTrends', '12');
 INSERT INTO `brickcat_permission` VALUES ('userExchangePoint', '1');
 INSERT INTO `brickcat_permission` VALUES ('userExchangeSize', '11');
 INSERT INTO `brickcat_permission` VALUES ('userInitSize', '11');
+INSERT INTO `brickcat_permission` VALUES ('userUpdateTrends', '12');
 INSERT INTO `brickcat_permission` VALUES ('userUpdateUserAdvanced', '1');
 INSERT INTO `brickcat_permission` VALUES ('userUpdateUserBasic', '1');
 INSERT INTO `brickcat_permission` VALUES ('userWatchVideo', '11');
@@ -551,6 +557,7 @@ INSERT INTO `brickcat_pointtransfer` VALUES ('1498540023656', '1495610341604', '
 INSERT INTO `brickcat_pointtransfer` VALUES ('1498540199244', 'sys', '1498540198708', '500', '0', '500', '1498540199236', '0', '1498540198708');
 INSERT INTO `brickcat_pointtransfer` VALUES ('1498541328302', '1498540198708', '1495610341604', '5', '495', '4991421', '1498541328296', '3', '1498541328185');
 INSERT INTO `brickcat_pointtransfer` VALUES ('1498541337080', '1498540198708', '1495610341604', '5', '490', '4991426', '1498541337069', '3', '1498541336935');
+INSERT INTO `brickcat_pointtransfer` VALUES ('1498556849338', '1495610341604', 'sys', '2', '4991424', '0', '1498556849335', '3', '1498556849193');
 
 -- ----------------------------
 -- Table structure for `brickcat_referral`
@@ -601,6 +608,7 @@ INSERT INTO `brickcat_revision` VALUES ('1498482177721', '1', '1498482177601', '
 INSERT INTO `brickcat_revision` VALUES ('1498540023599', '1', '1498540023538', '{\"commentContent\":\" :weary: \"}', '1495610341604');
 INSERT INTO `brickcat_revision` VALUES ('1498541328244', '1', '1498541328185', '{\"commentContent\":\" :expressionless: \"}', '1498540198708');
 INSERT INTO `brickcat_revision` VALUES ('1498541337017', '1', '1498541336935', '{\"commentContent\":\" :heart: \"}', '1498540198708');
+INSERT INTO `brickcat_revision` VALUES ('1498556849283', '1', '1498556849193', '{\"commentContent\":\" :broken_heart: \"}', '1495610341604');
 
 -- ----------------------------
 -- Table structure for `brickcat_reward`
@@ -868,9 +876,9 @@ CREATE TABLE `brickcat_tag` (
 -- Records of brickcat_tag
 -- ----------------------------
 INSERT INTO `brickcat_tag` VALUES ('1495610342228', '1', '15', '0', '0', 'Announcement', 'announcement', '', '', '', '0', '0', '0', 'Announcement', 'Announcement', '', '0.28562016788486544');
-INSERT INTO `brickcat_tag` VALUES ('1495610342368', '1', '15', '1', '0', 'Sym', 'Sym', '[Sym](https://github.com/b3log/symphony) 是一个用 [Java] 实现的现代化社区（论坛/社交网络/博客）平台，“下一代的社区系统，为未来而构建”。', 'sym.png', '', '0', '0', '0', 'Sym', 'Sym', '', '0.5669426063745995');
-INSERT INTO `brickcat_tag` VALUES ('1495610344006', '0', '0', '1', '0', 'B3log', 'B3log', '[B3log](http://b3log.org) 是一个开源组织，名字来源于“Bulletin Board Blog”缩写，目标是将独立博客与论坛结合，形成一种新的网络社区体验，详细请看 [B3log 构思](https://hacpai.com/b3log)。目前 B3log 已经开源了多款产品： [Solo] 、 [Sym] 、 [Wide] 。', 'b3log.png', '', '0', '0', '0', 'B3log', 'B3log', '', '0.8515354034734752');
-INSERT INTO `brickcat_tag` VALUES ('1498545630866', '1', '6', '0', '0', '测试', '%E6%B5%8B%E8%AF%95', '', '', '', '0', '0', '0', '测试', '测试', '', '0.698600071526647');
+INSERT INTO `brickcat_tag` VALUES ('1495610342368', '1', '15', '1', '0', 'Sym', 'Sym', '[Sym](https://github.com/b3log/symphony) 是一个用 [Java] 实现的现代化社区（论坛/社交网络/博客）平台，“下一代的社区系统，为未来而构建”。', 'sym.png', '', '0', '0', '0', 'Sym', 'Sym', '', '0.6189878819847929');
+INSERT INTO `brickcat_tag` VALUES ('1495610344006', '0', '0', '1', '0', 'B3log', 'B3log', '[B3log](http://b3log.org) 是一个开源组织，名字来源于“Bulletin Board Blog”缩写，目标是将独立博客与论坛结合，形成一种新的网络社区体验，详细请看 [B3log 构思](https://hacpai.com/b3log)。目前 B3log 已经开源了多款产品： [Solo] 、 [Sym] 、 [Wide] 。', 'b3log.png', '', '0', '0', '0', 'B3log', 'B3log', '', '0.012380481933332077');
+INSERT INTO `brickcat_tag` VALUES ('1498545630866', '1', '7', '0', '0', '测试', '%E6%B5%8B%E8%AF%95', '', '', '', '0', '0', '0', '测试', '测试', '', '0.5469872332199878');
 
 -- ----------------------------
 -- Table structure for `brickcat_tag_article`
@@ -1007,7 +1015,7 @@ CREATE TABLE `brickcat_user` (
 -- ----------------------------
 -- Records of brickcat_user
 -- ----------------------------
-INSERT INTO `brickcat_user` VALUES ('1495610341604', '1', 'sym@b3log.org', 'admin', '42857cfddb33f3fddb27fff9773683f3', '', '', '', '', '', '2', 'http://localhost:9090/upload/f1a4408ca14743438ba058a21d69a4c5_06a1751875c26f6409149f9380a7899c_b.jpg', '0', '', '', '', '', 'adminRole', '1', '9', '4', '0', '4991426', '9096', '0', '0', '1495610344193', '1498540023537', '1498545853745', '0:0:0:0:0:0:0:1', '0', '1497452282901', '20170614', '20170614', '20170614', '20170614', '0', '0', 'classic', 'mobile', '', '', '', '1498471722585', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341588', '1', 'zh_CN', 'Asia/Shanghai', '0');
+INSERT INTO `brickcat_user` VALUES ('1495610341604', '1', 'sym@b3log.org', 'admin', '42857cfddb33f3fddb27fff9773683f3', '', '', '', '', '', '2', 'http://localhost:9090/upload/f1a4408ca14743438ba058a21d69a4c5_06a1751875c26f6409149f9380a7899c_b.jpg', '1', '', '', '', '', 'adminRole', '1', '10', '4', '0', '4991424', '9098', '0', '0', '1495610344193', '1498556849180', '1498558271421', '0:0:0:0:0:0:0:1', '0', '1497452282901', '20170614', '20170614', '20170614', '20170614', '0', '0', 'classic', 'mobile', '', '', '', '1498471722585', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341588', '1', 'zh_CN', 'Asia/Shanghai', '0');
 INSERT INTO `brickcat_user` VALUES ('1495610341994', '2', 'default_commenter@b3log.org', 'Default Commenter', '9e30b1a9f57d2a0fc9c76fcc1e984b11', '', '', '', '', '', '2', 'http://localhost:9090/upload/0263e50c93364b059365ef95461f3848.jpg', '0', '', '', '', '', 'defaultCommenterRole', '0', '0', '0', '0', '500', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1495610341994', '1', 'en_US', 'Asia/Shanghai', '0');
 INSERT INTO `brickcat_user` VALUES ('1497277766038', '3', '549595297@qq.com', 'viseosize', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/87a43004bbf74cbcad20972c03da2e66.jpg', '0', '', '', '', '', 'defaultRole', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1497277766036', '1', 'zh_CN', 'Asia/Shanghai', '1');
 INSERT INTO `brickcat_user` VALUES ('1497278160243', '3', '54959597@qq.com', 'viseosize1', '21232f297a57a5a743894a0e4a801fc3', '', '', '', '', '', '2', 'http://localhost:9090/upload/59e6b136e37841bdb10e34a99b83e624.jpg', '0', '', '', '', '', 'defaultRole', '0', '0', '0', '0', '400', '100', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', 'classic', 'mobile', '', '', '', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '15', '0', '0', '1497278160241', '1', 'zh_CN', 'Asia/Shanghai', '1');
@@ -1110,7 +1118,8 @@ CREATE TABLE `brickcat_video` (
 -- ----------------------------
 -- Records of brickcat_video
 -- ----------------------------
-INSERT INTO `brickcat_video` VALUES ('1498458216708', '这个是一条测试的视频', '0', '测试', '1495610341604', '3', '98', '823658abfe104d10b507bea60ede02bd/823658abfe104d10b507bea60ede02bd.m3u8', '', '0', '1498458216565', '1498458216565', '0', '', '0', '0', '0', '1', '0', '0', '更更更更更过过过过过过方法反反复复付付', '823658abfe104d10b507bea60ede02bd.png', '311', '0', '0', '0', '823658abfe104d10b507bea60ede02bd/3.mp4');
+INSERT INTO `brickcat_video` VALUES ('1498458216708', '这个是一条测试的视频', '0', '测试', '1495610341604', '4', '100', '823658abfe104d10b507bea60ede02bd/823658abfe104d10b507bea60ede02bd.m3u8', '', '0', '1498458216565', '1498458216565', '1498556849180', 'admin', '0', '1', '0', '1', '0', '0', '更更更更更过过过过过过方法反反复复付付', '823658abfe104d10b507bea60ede02bd.png', '311', '3215', '0', '0', '823658abfe104d10b507bea60ede02bd/3.mp4');
+INSERT INTO `brickcat_video` VALUES ('1498550761733', '这个是一条测试的视频', '0', '测试', '1495610341604', '0', '0', '586d740ed3d845db91ade433e8966936/586d740ed3d845db91ade433e8966936.m3u8', '', '0', '1498550761723', '1498550761723', '0', '0', '0', '0', '0', '0', '0', '0', '感受到梵蒂冈讽德诵功', '586d740ed3d845db91ade433e8966936.png', '311', '0', '0', '0', '586d740ed3d845db91ade433e8966936/3.mp4');
 
 -- ----------------------------
 -- Table structure for `brickcat_videosize`
@@ -1126,7 +1135,7 @@ CREATE TABLE `brickcat_videosize` (
 -- ----------------------------
 -- Records of brickcat_videosize
 -- ----------------------------
-INSERT INTO `brickcat_videosize` VALUES ('1498123513347', '1495610341604', '4567');
+INSERT INTO `brickcat_videosize` VALUES ('1498123513347', '1495610341604', '3945');
 INSERT INTO `brickcat_videosize` VALUES ('1498540199140', '1498540198708', '500');
 
 -- ----------------------------
@@ -1147,3 +1156,4 @@ CREATE TABLE `brickcat_vote` (
 -- ----------------------------
 INSERT INTO `brickcat_vote` VALUES ('1497772343695', '1495610341604', '0', '4', '1497708701804');
 INSERT INTO `brickcat_vote` VALUES ('1498545476218', '1495610341604', '1', '1', '1498540023538');
+INSERT INTO `brickcat_vote` VALUES ('1498556862514', '1495610341604', '0', '4', '1498458216708');

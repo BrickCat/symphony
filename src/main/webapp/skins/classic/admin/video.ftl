@@ -62,7 +62,7 @@
                     <label>${videoStatus}</label>
                     <select id="videoStatus" name="videoStatus">
                         <option value="0" <#if 0== video.videoStatus>selected</#if>>${videoStatusTrue}</option>
-                        <option value="1" <#if 0== video.videoStatus>selected</#if>>${videoStatusFalse}</option>
+                        <option value="1" <#if 1== video.videoStatus>selected</#if>>${videoStatusFalse}</option>
                     </select>
 
                     <br/><br/>

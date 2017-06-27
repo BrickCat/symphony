@@ -465,6 +465,22 @@ public final class Permission {
      * Id - user - exchange - size
      */
     public static final String PERMISSION_ID_C_MENU_USER_INIT_SIZE="userInitSize";
+
+    /**
+     * Id - user - add - trends
+     */
+    public static final String PERMISSION_ID_C_ADD_TRENDS="userAddTrends";
+
+    /**
+     * Id - user - add - trends
+     */
+    public static final String PERMISSION_ID_C_UPDATE_TRENDS="userUpdateTrends";
+
+    /**
+     * Id - user - add - trends
+     */
+    public static final String PERMISSION_ID_C_DELETE_TRENDS="userDeleteTrends";
+
     // Category constants
     /**
      * Category - common function.
@@ -526,6 +542,11 @@ public final class Permission {
      */
     public static final int PERMISSION_CATEGORY_C_VIDEO = 11;
 
+
+    /**
+     * Category - menu.
+     */
+    public static final int PERMISSION_CATEGORY_C_TREND = 12;
 
     /**
      * Private constructor.
