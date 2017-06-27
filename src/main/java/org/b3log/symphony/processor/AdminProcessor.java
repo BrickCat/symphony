@@ -1115,6 +1115,44 @@ public class AdminProcessor {
 
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
+    /**
+     * Shows Trends.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/admin/trends",method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void showTrends(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        renderer.setTemplateName("admin/trends.ftl");
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+    /**
+     * Shows Trends.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/admin/trends",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void trends(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        renderer.setTemplateName("admin/trends.ftl");
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
 
     /**
      * Shows Videos.

@@ -447,6 +447,8 @@ public final class Permission {
 
     public static final String PERMISSION_ID_C_MENU_ADMIN_VIDEO = "menuAdminVideo";
 
+    public static final String PERMISSION_ID_C_MENU_ADMIN_TRENDS = "menuAdminTrends";
+
     /**
      * Id - user - watch - video
      */

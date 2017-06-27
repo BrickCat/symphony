@@ -56,6 +56,9 @@
         <#if type == "video">
             <@head title="${videoAdminLabel} - ${symphonyLabel}"></@head>
         </#if>
+        <#if type == "trends">
+            <@head title="${trendsAdminLabel} - ${symphonyLabel}"></@head>
+        </#if>
         <#if type == "addVideo">
             <@head title="${videoAddLabel} - ${symphonyLabel}"></@head>
         </#if>
@@ -81,6 +84,9 @@
                                 </#if>
                                 <#if permissions["menuAdminVideo"].permissionGrant>
                                     <a href="${servePath}/admin/videos"<#if type == "video" || type == "addVideo"> class="current"</#if>>${videoAdminLabel}</a>
+                                </#if>
+                                <#if permissions["menuAdminTrends"].permissionGrant>
+                                    <a href="${servePath}/admin/trends"<#if type == "trends" || type == "addTrends"> class="current"</#if>>${trendsAdminLabel}</a>
                                 </#if>
                                 <#if permissions["menuAdminComments"].permissionGrant>
                                 <a href="${servePath}/admin/comments"<#if type == "comments"> class="current"</#if>>${commentAdminLabel}</a>
