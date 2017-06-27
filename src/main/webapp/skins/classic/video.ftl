@@ -229,7 +229,7 @@
         </div>
         </#if>
         <script src="${staticServePath}/js/lib/compress/video-libs.min.js?${staticResourceVersion}"></script>
-        <script src="${staticServePath}/js/channel${miniPostfix}.js?${staticResourceVersion}"></script>
+        <script src="${staticServePath}/js/video-channel.js?${staticResourceVersion}"></script>
         <script src="${staticServePath}/js/video.js?${staticResourceVersion}"></script>
         <script>
             Label.commentErrorLabel = "${commentErrorLabel}";
@@ -280,6 +280,7 @@
             Label.commonAtUser = '${permissions["commonAtUser"].permissionGrant?c}';
             Label.noPermissionLabel = '${noPermissionLabel}';
             Label.rewardLabel = '${rewardLabel}';
+            Label.videoChannel = "${wsScheme}://${serverHost}:${serverPort}${contextPath}/article-channel?articleId=${video.oId}&articleType=0";
             <#if isLoggedIn>
             Label.currentUserName = '${currentUser.userName}';
             Label.notificationCmtIds = '${notificationCmtIds}';

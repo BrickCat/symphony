@@ -38,7 +38,7 @@ var Comment = {
             return false;
         }
         $.ajax({
-            url: Label.servePath + '/comment/' + id + '/remove',
+            url: Label.servePath + '/comment/' + id + '/remove?type=video',
             type: "POST",
             cache: false,
             success: function (result, textStatus) {
@@ -751,7 +751,6 @@ var Comment = {
                 if (0 === result.sc) {
                     // edit cmt
                     if (commentId) {
-                        alert(result.commentContent);
                         $('#' + commentId + ' > .fn-flex > .fn-flex-1 > .content-reset').html(result.commentContent);
                         $('#' + commentId + ' .icon-history').parent().show();
                     }
@@ -832,47 +831,6 @@ var Comment = {
 };
 
 var Video = {
-    initAudio: function () {
-        $('.content-audio').each(function () {
-            var $it = $(this);
-            new APlayer({
-                element: this,
-                narrow: false,
-                autoplay: false,
-                mutex: true,
-                theme: '#4285f4',
-                preload: 'none',
-                mode: 'circulation',
-                music: {
-                    title: $it.data('title'),
-                    author: '<a href="https://hacpai.com/article/1464416402922" target="_blank">音乐分享</a>',
-                    url: $it.data('url'),
-                    pic: Label.staticServePath + '/images/music.png'
-                }
-            });
-        });
-
-        var $articleAudio = $('#articleAudio');
-        if ($articleAudio.length === 0) {
-            return false;
-        }
-
-        new APlayer({
-            element: document.getElementById('articleAudio'),
-            narrow: false,
-            autoplay: false,
-            mutex: true,
-            theme: '#4285f4',
-            mode: 'order',
-            preload: 'none',
-            music: {
-                title: '语音预览',
-                author: '<a href="https://hacpai.com/member/v" target="_blank">小薇</a>',
-                url: $articleAudio.data('url'),
-                pic: Label.staticServePath + '/images/blank.png'
-            }
-        });
-    },
     /**
      * @description 没有权限的提示
      * @param {String} tip 提示内容
@@ -1577,7 +1535,8 @@ $(document).ready(function () {
         "fileMaxSize": 1048576
     });
 
-
+    // Init [Article] channel
+    VideoChannel.init(Label.videoChannel);
     // make nogification read
     if (Label.isLoggedIn) {
         Video.makeNotificationRead(Label.videoOId, Label.notificationCmtIds);

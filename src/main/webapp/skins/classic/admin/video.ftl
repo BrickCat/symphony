@@ -1,5 +1,5 @@
 <#include "macro-admin.ftl">
-<@admin "articles">
+<@admin "video">
 <#if video ??>
     <div class="content">
         <div class="module">
@@ -9,8 +9,28 @@
             <div class="module-panel form fn-clear">
                 <label>Id</label>
                 <input type="text" value="${video.oId}" readonly="readonly">
-                <label>${videoURl}</label>
-                <input type="text" value="${video.videoUrl}" readonly="readonly">
+
+                <label>${authorIdLabel}</label>
+                <input type="text" value="${video.videoAuthorId}" readonly="readonly" />
+
+                <label>${videoComentLabel}</label>
+                <input type="text" value="${video.videoCommentCount?c}" readonly="readonly" />
+
+                <label>${viewCountLabel}</label>
+                <input type="text" value="${video.videoViewCount?c}" readonly="readonly" />
+
+                <label>${permalinkLabel}</label>
+                <input type="text" value="${servePath}/video/front/${video.oId}/show-video" readonly="readonly"/>
+
+                <label>${createTimeLabel}</label>
+                <input type="text" value="${video.videoCreateTime?c}" />
+
+                <label>${updateTimeLabel}</label>
+                <input type="text" value="${video.videoUpdateTime?c}" />
+
+                <label>${stickLabel}</label>
+                <input type="text" value="${video.videoStick?c}" readonly="readonly" />
+
             </div>
         </div>
 

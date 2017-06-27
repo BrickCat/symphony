@@ -165,7 +165,7 @@ public class CommentMgmtService {
      * @param commentId the given commentId id
      * @throws ServiceException service exception
      */
-    public void removeComment(final String commentId) throws ServiceException {
+    public void removeComment(final String commentId,final String type) throws ServiceException {
         JSONObject comment = null;
 
         try {
@@ -195,7 +195,7 @@ public class CommentMgmtService {
         }
 
         // Perform removal
-        removeCommentByAdmin(commentId);
+        removeCommentByAdmin(commentId,type);
     }
 
     /**
@@ -205,9 +205,9 @@ public class CommentMgmtService {
      * @param commentId the given comment id
      */
     @Transactional
-    public void removeCommentByAdmin(final String commentId) {
+    public void removeCommentByAdmin(final String commentId,final String type) {
         try {
-            commentRepository.removeComment(commentId);
+            commentRepository.removeComment(commentId,type);
         } catch (final Exception e) {
             LOGGER.log(Level.ERROR, "Removes a comment error [id=" + commentId + "]", e);
         }

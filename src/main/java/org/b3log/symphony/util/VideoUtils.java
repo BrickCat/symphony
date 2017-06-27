@@ -59,7 +59,7 @@ public class VideoUtils {
         final ServletContext servletContext = AbstractServletListener.getServletContext();
         final String ffmpegPath = servletContext.getRealPath("ffmpeg");
         List<String> commands = new java.util.ArrayList<String>();
-        commands.add("C:\\work\\ideaProject\\symphony\\src\\main\\webapp\\ffmpeg"+"\\bin\\ffmpeg.exe");//这里设置ffmpeg.exe存放的路径
+        commands.add("C:\\work\\ffmpeg\\bin\\ffmpeg.exe");//这里设置ffmpeg.exe存放的路径
         commands.add("-i");
         commands.add(videoPath);
         commands.add("-c:v");

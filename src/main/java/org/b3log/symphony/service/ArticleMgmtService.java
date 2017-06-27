@@ -343,7 +343,7 @@ public class ArticleMgmtService {
                 final JSONObject comment = comments.optJSONObject(i);
                 final String commentId = comment.optString(Keys.OBJECT_ID);
 
-                commentRepository.removeComment(commentId);
+                commentRepository.removeComment(commentId,"");
             }
 
             final String authorId = article.optString(Article.ARTICLE_AUTHOR_ID);

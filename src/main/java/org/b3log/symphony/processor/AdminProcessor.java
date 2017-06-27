@@ -1044,7 +1044,7 @@ public class AdminProcessor {
     public void removeComment(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response)
             throws Exception {
         final String commentId = request.getParameter(Comment.COMMENT_T_ID);
-        commentMgmtService.removeCommentByAdmin(commentId);
+        commentMgmtService.removeCommentByAdmin(commentId,"");
 
         response.sendRedirect(Latkes.getServePath() + "/admin/comments");
     }

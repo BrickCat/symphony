@@ -170,7 +170,7 @@ public class CommentProcessor {
 
             return;
         }
-
+        final String type = request.getParameter("type");
         final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
         final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
         final JSONObject comment = commentQueryService.getComment(id);
@@ -189,7 +189,7 @@ public class CommentProcessor {
 
         context.renderJSON();
         try {
-            commentMgmtService.removeComment(id);
+            commentMgmtService.removeComment(id,type);
 
             context.renderJSONValue(Keys.STATUS_CODE, StatusCodes.SUCC);
             context.renderJSONValue(Comment.COMMENT_T_ID, id);

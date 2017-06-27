@@ -50,6 +50,12 @@ public class CommentRepository extends AbstractRepository {
     private ArticleRepository articleRepository;
 
     /**
+     * Video repository.
+     */
+    @Inject
+    private VideoRepository vidoeRepository;
+
+    /**
      * User repository.
      */
     @Inject
@@ -87,19 +93,29 @@ public class CommentRepository extends AbstractRepository {
      * @param commentId the given comment id
      * @throws RepositoryException repository exception
      */
-    public void removeComment(final String commentId) throws RepositoryException {
+    public void removeComment(final String commentId,final String type) throws RepositoryException {
         final JSONObject comment = get(commentId);
         if (null == comment) {
             return;
         }
 
         final String articleId = comment.optString(Comment.COMMENT_ON_ARTICLE_ID);
-        final JSONObject article = articleRepository.get(articleId);
-        article.put(Article.ARTICLE_COMMENT_CNT, article.optInt(Article.ARTICLE_COMMENT_CNT) - 1);
-        // Just clear latest time and commenter name, do not get the real latest comment to update
-        article.put(Article.ARTICLE_LATEST_CMT_TIME, 0);
-        article.put(Article.ARTICLE_LATEST_CMTER_NAME, "");
-        articleRepository.update(articleId, article);
+        if (StringUtils.isBlank(type)){
+            final JSONObject article = articleRepository.get(articleId);
+            article.put(Article.ARTICLE_COMMENT_CNT, article.optInt(Article.ARTICLE_COMMENT_CNT) - 1);
+            // Just clear latest time and commenter name, do not get the real latest comment to update
+            article.put(Article.ARTICLE_LATEST_CMT_TIME, 0);
+            article.put(Article.ARTICLE_LATEST_CMTER_NAME, "");
+            articleRepository.update(articleId, article);
+        }else{
+           final JSONObject video = vidoeRepository.get(articleId);
+           video.put(Video.VIDEO_COMMENT_COUNT,video.optInt(Video.VIDEO_COMMENT_COUNT) - 1);
+           video.put(Video.VIDEO_LATEST_CMT_TIME,0);
+           video.put(Video.VIDEO_LATEST_CMTER_NAME,"");
+           vidoeRepository.update(articleId,video);
+        }
+
+
 
         final String commentAuthorId = comment.optString(Comment.COMMENT_AUTHOR_ID);
         final JSONObject commenter = userRepository.get(commentAuthorId);
