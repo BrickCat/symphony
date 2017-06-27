@@ -208,10 +208,12 @@ public class VideoMgmtService {
             if (null == video) {
                 return;
             }
-            
-            File file = new File(System.getProperty( "user.dir" )+video.optString(Video.VIDEO_URL));
-            if(file.exists()){
-                if(forceDelete(file)){
+            File downfile = new File(Symphonys.get("nginx.video.dir")+video.optString(Video.VIDEO_DOWN_PATH));
+            String temp = video.optString(Video.VIDEO_URL).substring(0,video.optString(Video.VIDEO_URL).lastIndexOf("/"));
+            File m3u8file = new File(Symphonys.get("nginx.ffmpeg.dir")+"/"+temp);
+            File imagefile = new File(Symphonys.get("nginx.video.image.dir")+video.optString(Video.VIDEO_IMAGE_PATH));
+            if(downfile.exists()&&m3u8file.exists()&&imagefile.exists()){
+                if(forceDelete(imagefile)&&forceDelete(downfile)&&deleteDir(m3u8file)){
                    videoRepository.remove(videoId);
                 }
             }else{
@@ -234,7 +236,19 @@ public class VideoMgmtService {
             }
             return result;
         }
-
+    public boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i=0; i<children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
+    }
 
     public void inVideoViewCount(final String videoId) throws ServiceException {
         Symphonys.EXECUTOR_SERVICE.submit(new Runnable() {
