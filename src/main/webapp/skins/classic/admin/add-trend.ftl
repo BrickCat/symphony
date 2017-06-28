@@ -2,7 +2,7 @@
 <@admin "addVideo">
 <div class="content" xmlns="http://www.w3.org/1999/html">
     <link href="${staticServePath}/js/lib/webuploader/webuploader.css" type="text/css">
-    <link href="${staticServePath}/js/lib/webuploader/image-upload/style.css" type="text/css">
+   <#-- <link href="${staticServePath}/js/lib/webuploader/image-upload/style.css" type="text/css">-->
 
         <style>
             #wrapper {
@@ -36,7 +36,7 @@
                 min-height: 238px;
                 padding-top: 158px;
                 text-align: center;
-                background: url(./image.png) center 93px no-repeat;
+                background: url('${staticServePath}/js/lib/webuploader/image-upload/image.png') center 93px no-repeat;
                 color: #cccccc;
                 font-size: 18px;
                 position: relative;
@@ -101,7 +101,7 @@
             #uploader .filelist li {
                 width: 110px;
                 height: 110px;
-                background: url(./bg.png) no-repeat;
+                background: url('${staticServePath}/js/lib/webuploader/image-upload/bg.png') no-repeat;
                 text-align: center;
                 margin: 0 8px 20px 0;
                 position: relative;
@@ -143,7 +143,7 @@
                 overflow: hidden;
                 width: 0;
                 height: 100%;
-                background: #1483d8 url(./progress.png) repeat-x;
+                background: #1483d8 url('${staticServePath}/js/lib/webuploader/image-upload/progress.png') repeat-x;
 
                 -webit-transition: width 200ms linear;
                 -moz-transition: width 200ms linear;
@@ -205,7 +205,7 @@
                 height: 40px;
                 width: 100%;
                 z-index: 200;
-                background: url(./success.png) no-repeat right bottom;
+                background: url('${staticServePath}/js/lib/webuploader/image-upload/success.png') no-repeat right bottom;
             }
 
             #uploader .filelist div.file-panel {
@@ -227,7 +227,7 @@
                 float: right;
                 text-indent: -9999px;
                 overflow: hidden;
-                background: url(./icons.png) no-repeat;
+                background: url('${staticServePath}/js/lib/webuploader/image-upload/icons.png') no-repeat;
                 margin: 5px 1px 1px;
                 cursor: pointer;
             }
@@ -352,7 +352,7 @@
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
                             <div id="filePicker"></div>
-                            <p>或将照片拖到这里，单次最多可选300张</p>
+                            <p>或将照片拖到这里，单次最多可选9张</p>
                         </div>
                     </div>
                     <div class="statusBar" style="display:none;">
@@ -366,6 +366,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
         <script src="${staticServePath}/js/lib/webuploader/webuploader.nolog.min.js"></script>
         <script src="${staticServePath}/js/lib/webuploader/image-upload/upload.js"></script>
