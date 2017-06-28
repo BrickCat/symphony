@@ -27,139 +27,139 @@ package org.b3log.symphony.model;
 public final class Trend {
 
     /**
-     * Article.
+     * trend.
      */
-    public static final String ARTICLE = "article";
+    public static final String TREND = "trend";
 
     /**
-     * Articles.
+     * trends.
      */
-    public static final String ARTICLES = "articles";
+    public static final String TRENDS = "trends";
 
     /**
-     * Key of article title.
+     * Key of trend title.
      */
-    public static final String ARTICLE_TITLE = "articleTitle";
+    public static final String TREND_TITLE = "trendTitle";
 
     /**
-     * Key of article content.
+     * Key of trend content.
      */
-    public static final String ARTICLE_CONTENT = "articleContent";
+    public static final String TREND_CONTENT = "trendContent";
 
     /**
-     * Key of article reward content.
+     * Key of trend reward content.
      */
-    public static final String ARTICLE_REWARD_CONTENT = "articleRewardContent";
+    public static final String TREND_REWARD_CONTENT = "trendRewardContent";
 
     /**
-     * Key of article reward point.
+     * Key of trend reward point.
      */
-    public static final String ARTICLE_REWARD_POINT = "articleRewardPoint";
+    public static final String TREND_REWARD_POINT = "trendRewardPoint";
 
     /**
-     * Key of article tags.
+     * Key of trend tags.
      */
-    public static final String ARTICLE_TAGS = "articleTags";
+    public static final String TREND_TAGS = "trendTags";
 
     /**
-     * Key of article author id.
+     * Key of trend author id.
      */
-    public static final String ARTICLE_AUTHOR_ID = "articleAuthorId";
+    public static final String TREND_AUTHOR_ID = "trendAuthorId";
 
     /**
-     * Key of article comment count.
+     * Key of trend comment count.
      */
-    public static final String ARTICLE_COMMENT_CNT = "articleCommentCount";
+    public static final String TREND_COMMENT_CNT = "trendCommentCount";
 
     /**
      * Key of article view count.
      */
-    public static final String ARTICLE_VIEW_CNT = "articleViewCount";
+    public static final String TREND_VIEW_CNT = "trendViewCount";
 
     /**
-     * Key of article permalink.
+     * Key of trend permalink.
      */
-    public static final String ARTICLE_PERMALINK = "articlePermalink";
+    public static final String TREND_PERMALINK = "trendPermalink";
 
     /**
-     * Key of article create time.
+     * Key of trend create time.
      */
-    public static final String ARTICLE_CREATE_TIME = "articleCreateTime";
+    public static final String TREND_CREATE_TIME = "trendCreateTime";
 
     /**
-     * Key of article update time.
+     * Key of trend update time.
      */
-    public static final String ARTICLE_UPDATE_TIME = "articleUpdateTime";
+    public static final String TREND_UPDATE_TIME = "trendUpdateTime";
 
     /**
-     * Key of article latest comment time.
+     * Key of trend latest comment time.
      */
-    public static final String ARTICLE_LATEST_CMT_TIME = "articleLatestCmtTime";
+    public static final String TREND_LATEST_CMT_TIME = "trendLatestCmtTime";
 
     /**
-     * Key of article latest commenter name.
+     * Key of trend latest commenter name.
      */
-    public static final String ARTICLE_LATEST_CMTER_NAME = "articleLatestCmterName";
+    public static final String TREND_LATEST_CMTER_NAME = "trendLatestCmterName";
 
     /**
-     * Key of article random double value.
+     * Key of trend random double value.
      */
-    public static final String ARTICLE_RANDOM_DOUBLE = "articleRandomDouble";
+    public static final String TREND_RANDOM_DOUBLE = "trendRandomDouble";
 
     /**
-     * Key of article commentable.
+     * Key of trend commentable.
      */
-    public static final String ARTICLE_COMMENTABLE = "articleCommentable";
+    public static final String TREND_COMMENTABLE = "trendCommentable";
 
     /**
-     * Key of article sync to client.
+     * Key of trend sync to client.
      */
-    public static final String ARTICLE_SYNC_TO_CLIENT = "syncWithSymphonyClient";
+    public static final String TREND_SYNC_TO_CLIENT = "syncWithSymphonyClient";
 
     /**
-     * Key of client article id.
+     * Key of client trend id.
      */
-    public static final String ARTICLE_CLIENT_ARTICLE_ID = "clientArticleId";
+    public static final String TREND_CLIENT_TREND_ID = "clientTrendId";
 
     /**
-     * Key of client article permalink.
+     * Key of client trend permalink.
      */
-    public static final String ARTICLE_CLIENT_ARTICLE_PERMALINK = "clientArticlePermalink";
+    public static final String TREND_CLIENT_TREND_PERMALINK = "clientTrendPermalink";
 
     /**
-     * Key of article editor type.
+     * Key of trend editor type.
      */
-    public static final String ARTICLE_EDITOR_TYPE = "articleEditorType";
+    public static final String TREND_EDITOR_TYPE = "trendEditorType";
 
     /**
-     * Key of article status.
+     * Key of trend status.
      */
-    public static final String ARTICLE_STATUS = "articleStatus";
+    public static final String TREND_STATUS = "trendStatus";
 
     /**
-     * Key of article type.
+     * Key of trend type.
      */
-    public static final String ARTICLE_TYPE = "articleType";
+    public static final String TREND_TYPE = "trendType";
 
     /**
-     * Key of article good count.
+     * Key of trend good count.
      */
-    public static final String ARTICLE_GOOD_CNT = "articleGoodCnt";
+    public static final String TREND_GOOD_CNT = "trendGoodCnt";
 
     /**
-     * Key of article bad count.
+     * Key of trend bad count.
      */
-    public static final String ARTICLE_BAD_CNT = "articleBadCnt";
+    public static final String TREND_BAD_CNT = "trendBadCnt";
 
     /**
-     * Key of article collection count.
+     * Key of trend collection count.
      */
-    public static final String ARTICLE_COLLECT_CNT = "articleCollectCnt";
+    public static final String TREND_COLLECT_CNT = "trendCollectCnt";
 
     /**
-     * Key of article watch count.
+     * Key of trend watch count.
      */
-    public static final String ARTICLE_WATCH_CNT = "articleWatchCnt";
+    public static final String TREND_WATCH_CNT = "trendWatchCnt";
 
     /**
      * Key of reddit score.
@@ -167,270 +167,270 @@ public final class Trend {
     public static final String REDDIT_SCORE = "redditScore";
 
     /**
-     * Key of article city.
+     * Key of trend city.
      */
-    public static final String ARTICLE_CITY = "articleCity";
+    public static final String TREND_CITY = "trendCity";
 
     /**
-     * Key of article IP.
+     * Key of trend IP.
      */
-    public static final String ARTICLE_IP = "articleIP";
+    public static final String TREND_IP = "trendIP";
 
     /**
-     * Key of article UA.
+     * Key of trend UA.
      */
-    public static final String ARTICLE_UA = "articleUA";
+    public static final String TREND_UA = "trendUA";
 
     /**
-     * Key of article stick.
+     * Key of trend stick.
      */
-    public static final String ARTICLE_STICK = "articleStick";
+    public static final String TREND_STICK = "trendStick";
 
     /**
-     * Key of article anonymous.
+     * Key of trend anonymous.
      */
-    public static final String ARTICLE_ANONYMOUS = "articleAnonymous";
+    public static final String TREND_ANONYMOUS = "trendAnonymous";
 
     /**
-     * Key of article perfect.
+     * Key of trend perfect.
      */
-    public static final String ARTICLE_PERFECT = "articlePerfect";
+    public static final String TREND_PERFECT = "trendPerfect";
 
     /**
-     * Key of article anonymous view.
+     * Key of trend anonymous view.
      */
-    public static final String ARTICLE_ANONYMOUS_VIEW = "articleAnonymousView";
+    public static final String TREND_ANONYMOUS_VIEW = "trendAnonymousView";
 
     /**
-     * Key of article audio URL.
+     * Key of trend audio URL.
      */
-    public static final String ARTICLE_AUDIO_URL = "articleAudioURL";
+    public static final String TREND_AUDIO_URL = "trendAudioURL";
 
     //// Transient ////
     /**
-     * Key of article revision count.
+     * Key of trend revision count.
      */
-    public static final String ARTICLE_REVISION_COUNT = "articleRevisionCount";
+    public static final String TREND_REVISION_COUNT = "trendRevisionCount";
 
     /**
-     * Key of article latest comment.
+     * Key of trend latest comment.
      */
-    public static final String ARTICLE_T_LATEST_CMT = "articleLatestCmt";
+    public static final String TREND_T_LATEST_CMT = "trendLatestCmt";
 
     /**
-     * Key of previous article.
+     * Key of previous trend.
      */
-    public static final String ARTICLE_T_PREVIOUS = "articlePrevious";
+    public static final String TREND_T_PREVIOUS = "trendPrevious";
 
     /**
-     * Key of next article.
+     * Key of next trend.
      */
-    public static final String ARTICLE_T_NEXT = "articleNext";
+    public static final String TREND_T_NEXT = "trendNext";
 
     /**
-     * Key of article tag objects.
+     * Key of trend tag objects.
      */
-    public static final String ARTICLE_T_TAG_OBJS = "articleTagObjs";
+    public static final String TREND_T_TAG_OBJS = "trendTagObjs";
 
     /**
-     * Key of article vote.
+     * Key of trend vote.
      */
-    public static final String ARTICLE_T_VOTE = "articleVote";
+    public static final String TREND_T_VOTE = "trendVote";
 
     /**
-     * Key of article stick flag.
+     * Key of trend stick flag.
      */
-    public static final String ARTICLE_T_IS_STICK = "articleIsStick";
+    public static final String TREND_T_IS_STICK = "trendIsStick";
 
     /**
-     * Key of article stick remains.
+     * Key of trend stick remains.
      */
-    public static final String ARTICLE_T_STICK_REMAINS = "articleStickRemains";
+    public static final String TREND_T_STICK_REMAINS = "trendStickRemains";
 
     /**
-     * Key of article preview content.
+     * Key of trend preview content.
      */
-    public static final String ARTICLE_T_PREVIEW_CONTENT = "articlePreviewContent";
+    public static final String TREND_T_PREVIEW_CONTENT = "trendPreviewContent";
 
     /**
-     * Key of article thumbnail URL.
+     * Key of trend thumbnail URL.
      */
-    public static final String ARTICLE_T_THUMBNAIL_URL = "articleThumbnailURL";
+    public static final String TREND_T_THUMBNAIL_URL = "trendThumbnailURL";
 
     /**
-     * Key of article view count display format.
+     * Key of trend view count display format.
      */
-    public static final String ARTICLE_T_VIEW_CNT_DISPLAY_FORMAT = "articleViewCntDisplayFormat";
+    public static final String TREND_T_VIEW_CNT_DISPLAY_FORMAT = "trendViewCntDisplayFormat";
 
     /**
-     * Key of article id.
+     * Key of trend id.
      */
-    public static final String ARTICLE_T_ID = "articleId";
+    public static final String TREND_T_ID = "trendId";
 
     /**
-     * Key of article ids.
+     * Key of trend ids.
      */
-    public static final String ARTICLE_T_IDS = "articleIds";
+    public static final String TREND_T_IDS = "trendIds";
 
     /**
-     * Key of article author.
+     * Key of trend author.
      */
-    public static final String ARTICLE_T_AUTHOR = "articleAuthor";
+    public static final String TREND_T_AUTHOR = "trendAuthor";
 
     /**
-     * Key of article author thumbnail URL.
+     * Key of trend author thumbnail URL.
      */
-    public static final String ARTICLE_T_AUTHOR_THUMBNAIL_URL = "articleAuthorThumbnailURL";
+    public static final String TREND_T_AUTHOR_THUMBNAIL_URL = "trendAuthorThumbnailURL";
 
     /**
-     * Key of article author name.
+     * Key of trend author name.
      */
-    public static final String ARTICLE_T_AUTHOR_NAME = "articleAuthorName";
+    public static final String TREND_T_AUTHOR_NAME = "trendAuthorName";
 
     /**
-     * Key of article author URL.
+     * Key of trend author URL.
      */
-    public static final String ARTICLE_T_AUTHOR_URL = "articleAuthorURL";
+    public static final String TREND_T_AUTHOR_URL = "trendAuthorURL";
 
     /**
-     * Key of article author intro.
+     * Key of trend author intro.
      */
-    public static final String ARTICLE_T_AUTHOR_INTRO = "articleAuthorIntro";
+    public static final String TREND_T_AUTHOR_INTRO = "trendAuthorIntro";
 
     /**
-     * Key of article comments.
+     * Key of trend comments.
      */
-    public static final String ARTICLE_T_COMMENTS = "articleComments";
+    public static final String TREND_T_COMMENTS = "trendComments";
 
     /**
-     * Key of article nice comments.
+     * Key of trend nice comments.
      */
-    public static final String ARTICLE_T_NICE_COMMENTS = "articleNiceComments";
+    public static final String TREND_T_NICE_COMMENTS = "trendNiceComments";
 
     /**
-     * Key of article participants.
+     * Key of TREND participants.
      */
-    public static final String ARTICLE_T_PARTICIPANTS = "articleParticipants";
+    public static final String TREND_T_PARTICIPANTS = "trendParticipants";
 
     /**
-     * Key of article participant name.
+     * Key of trend participant name.
      */
-    public static final String ARTICLE_T_PARTICIPANT_NAME = "articleParticipantName";
+    public static final String TREND_T_PARTICIPANT_NAME = "trendParticipantName";
 
     /**
-     * Key of article participant thumbnail URL.
+     * Key of trend participant thumbnail URL.
      */
-    public static final String ARTICLE_T_PARTICIPANT_THUMBNAIL_URL = "articleParticipantThumbnailURL";
+    public static final String TREND_T_PARTICIPANT_THUMBNAIL_URL = "trendParticipantThumbnailURL";
 
     /**
-     * Key of article participant thumbnail update time.
+     * Key of trend participant thumbnail update time.
      */
-    public static final String ARTICLE_T_PARTICIPANT_THUMBNAIL_UPDATE_TIME = "articleParticipantThumbnailUpdateTime";
+    public static final String TREND_T_PARTICIPANT_THUMBNAIL_UPDATE_TIME = "trendParticipantThumbnailUpdateTime";
 
     /**
-     * Key of article participant URL.
+     * Key of trend participant URL.
      */
-    public static final String ARTICLE_T_PARTICIPANT_URL = "articleParticipantURL";
+    public static final String TREND_T_PARTICIPANT_URL = "trendParticipantURL";
 
     /**
      * Key of is broadcast.
      */
-    public static final String ARTICLE_T_IS_BROADCAST = "articleIsBroadcast";
+    public static final String TREND_T_IS_BROADCAST = "trendIsBroadcast";
 
     /**
-     * Key of article title with Emoj.
+     * Key of trend title with Emoj.
      */
-    public static final String ARTICLE_T_TITLE_EMOJI = "articleTitleEmoj";
+    public static final String TREND_T_TITLE_EMOJI = "trendTitleEmoj";
 
     /**
-     * Key of article title with Emoji unicode.
+     * Key of trend title with Emoji unicode.
      */
-    public static final String ARTICLE_T_TITLE_EMOJI_UNICODE = "articleTitleEmojUnicode";
+    public static final String TREND_T_TITLE_EMOJI_UNICODE = "trendTitleEmojUnicode";
 
     /**
-     * Key of article heat.
+     * Key of trend heat.
      */
-    public static final String ARTICLE_T_HEAT = "articleHeat";
+    public static final String TREND_T_HEAT = "trendHeat";
 
     /**
-     * Key of article ToC.
+     * Key of trend ToC.
      */
-    public static final String ARTICLE_T_TOC = "articleToC";
+    public static final String TREND_T_TOC = "trendToC";
 
     // Anonymous constants
     /**
-     * Article anonymous - public.
+     * trend anonymous - public.
      */
-    public static final int ARTICLE_ANONYMOUS_C_PUBLIC = 0;
+    public static final int TREND_ANONYMOUS_C_PUBLIC = 0;
 
     /**
-     * Article anonymous - anonymous.
+     * trend anonymous - anonymous.
      */
-    public static final int ARTICLE_ANONYMOUS_C_ANONYMOUS = 1;
+    public static final int TREND_ANONYMOUS_C_ANONYMOUS = 1;
 
     // Perfect constants
     /**
-     * Article perfect - not perfect.
+     * trend perfect - not perfect.
      */
-    public static final int ARTICLE_PERFECT_C_NOT_PERFECT = 0;
+    public static final int TREND_PERFECT_C_NOT_PERFECT = 0;
 
     /**
-     * Article perfect - perfect.
+     * trend perfect - perfect.
      */
-    public static final int ARTICLE_PERFECT_C_PERFECT = 1;
+    public static final int TREND_PERFECT_C_PERFECT = 1;
 
     // Anonymous view constants
     /**
-     * Article anonymous view - use global.
+     * trend anonymous view - use global.
      */
-    public static final int ARTICLE_ANONYMOUS_VIEW_C_USE_GLOBAL = 0;
+    public static final int TREND_ANONYMOUS_VIEW_C_USE_GLOBAL = 0;
 
     /**
-     * Article anonymous view - not allow.
+     * trend anonymous view - not allow.
      */
-    public static final int ARTICLE_ANONYMOUS_VIEW_C_NOT_ALLOW = 1;
+    public static final int TREND_ANONYMOUS_VIEW_C_NOT_ALLOW = 1;
 
     /**
-     * Article anonymous view - allow.
+     * trend anonymous view - allow.
      */
-    public static final int ARTICLE_ANONYMOUS_VIEW_C_ALLOW = 2;
+    public static final int TREND_ANONYMOUS_VIEW_C_ALLOW = 2;
 
     // Status constants
     /**
-     * Article status - valid.
+     * trend status - valid.
      */
-    public static final int ARTICLE_STATUS_C_VALID = 0;
+    public static final int TREND_STATUS_C_VALID = 0;
 
     /**
-     * Article status - invalid.
+     * trend status - invalid.
      */
-    public static final int ARTICLE_STATUS_C_INVALID = 1;
+    public static final int TREND_STATUS_C_INVALID = 1;
 
     // Type constants
     /**
-     * Article type - normal.
+     * trend type - normal.
      */
-    public static final int ARTICLE_TYPE_C_NORMAL = 0;
+    public static final int TREND_TYPE_C_NORMAL = 0;
 
     /**
-     * Article type - discussion.
+     * trend type - discussion.
      */
-    public static final int ARTICLE_TYPE_C_DISCUSSION = 1;
+    public static final int TREND_TYPE_C_DISCUSSION = 1;
 
     /**
-     * Article type - city broadcast.
+     * trend type - city broadcast.
      */
-    public static final int ARTICLE_TYPE_C_CITY_BROADCAST = 2;
+    public static final int TREND_TYPE_C_CITY_BROADCAST = 2;
 
     /**
-     * Article type - <a href="https://hacpai.com/article/1441942422856">thought</a>.
+     * trend type - <a href="https://hacpai.com/trend/1441942422856">thought</a>.
      */
-    public static final int ARTICLE_TYPE_C_THOUGHT = 3;
+    public static final int TREND_TYPE_C_THOUGHT = 3;
 
     /**
-     * Article type - <a href="https://hacpai.com/article/1483240295087">book</a>.
+     * trend type - <a href="https://hacpai.com/trend/1483240295087">book</a>.
      */
-    public static final int ARTICLE_TYPE_C_BOOK = 4;
+    public static final int TREND_TYPE_C_BOOK = 4;
 
     /**
      * Private constructor.
@@ -439,12 +439,12 @@ public final class Trend {
     }
 
     /**
-     * Checks the specified article type is whether invalid.
+     * Checks the specified trend type is whether invalid.
      *
-     * @param articleType the specified article type
+     * @param trendType the specified trend type
      * @return {@code true} if it is invalid, otherwise returns {@code false}
      */
-    public static boolean isInvalidArticleType(final int articleType) {
-        return articleType < 0 || articleType > Trend.ARTICLE_TYPE_C_BOOK;
+    public static boolean isInvalidTrendType(final int trendType) {
+        return trendType < 0 || trendType > Trend.TREND_TYPE_C_BOOK;
     }
 }

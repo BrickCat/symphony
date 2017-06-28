@@ -1723,6 +1723,175 @@
                     "length":11
                 }
             ]
+        },{
+            "name": "trends",
+            "keys": [
+                {
+                    "name": "oId",
+                    "type": "String",
+                    "length": 19
+                },
+                {
+                    "name": "trendTitle",
+                    "type": "String",
+                    "length": 255
+                },
+                {
+                    "name": "trendTags",
+                    "type": "String",
+                    "length": 255
+                },
+                {
+                    "name": "trendAuthorId",
+                    "type": "String",
+                    "length": 19
+                },
+                {
+                    "name": "trendCommentCount",
+                    "type": "int"
+                },
+                {
+                    "name": "trendViewCount",
+                    "type": "int"
+                },
+                {
+                    "name": "trendContent",
+                    "type": "String",
+                    "length": 102400
+                },
+                {
+                    "name": "trendRewardContent",
+                    "type": "String",
+                    "length": 102400
+                },
+                {
+                    "name": "trendRewardPoint",
+                    "type": "int"
+                },
+                {
+                    "name": "trendPermalink",
+                    "type": "String",
+                    "length": 255
+                },
+                {
+                    "name": "trendCreateTime",
+                    "type": "long"
+                },
+                {
+                    "name": "trendUpdateTime",
+                    "type": "long"
+                },
+                {
+                    "name": "trendLatestCmtTime",
+                    "type": "long"
+                },
+                {
+                    "name": "trendLatestCmterName",
+                    "type": "String",
+                    "length": 20
+                },
+                {
+                    "name": "trendRandomDouble",
+                    "type": "double"
+                },
+                {
+                    "name": "trendCommentable",
+                    "type": "boolean"
+                },
+                {
+                    "name": "syncWithSymphonyClient",
+                    "type": "boolean"
+                },
+                {
+                    "name": "clientTrendId",
+                    "type": "String",
+                    "length": 32,
+                    "nullable": true
+                },
+                {
+                    "name": "clientTrendPermalink",
+                    "type": "String",
+                    "length": 255,
+                    "nullable": true
+                },
+                {
+                    "name": "trendEditorType",
+                    "type": "int",
+                    "description": "0: CodeMirror-Markdown"
+                },
+                {
+                    "name": "trendStatus",
+                    "type": "int",
+                    "description": "0: valid, 1: invalid, 2: city broadcast, 3: thought"
+                },
+                {
+                    "name": "trendType",
+                    "type": "int",
+                    "description": "0: normal trend, 1: discussion"
+                },
+                {
+                    "name": "trendGoodCnt",
+                    "description": "Favour count",
+                    "type": "int"
+                },
+                {
+                    "name": "trendBadCnt",
+                    "description": "Oppose count",
+                    "type": "int"
+                },
+                {
+                    "name": "trendCollectCnt",
+                    "type": "int"
+                },
+                {
+                    "name": "trendWatchCnt",
+                    "type": "int"
+                },
+                {
+                    "name": "redditScore",
+                    "type": "double"
+                },
+                {
+                    "name": "trendCity",
+                    "type": "String",
+                    "length": 32
+                },
+                {
+                    "name": "trendIP",
+                    "type": "String",
+                    "length": 128
+                },
+                {
+                    "name": "trendUA",
+                    "type": "String",
+                    "length": 255,
+                    "description": "User-Agent"
+                },
+                {
+                    "name": "trendStick",
+                    "type": "long"
+                },
+                {
+                    "name": "trendAnonymous",
+                    "type": "int",
+                    "description": "0: public, 1: anonymous"
+                },
+                {
+                    "name": "trendPerfect",
+                    "type": "int",
+                    "description": "0: not perfect, 1: perfect"
+                },
+                {
+                    "name": "trendAnonymousView",
+                    "type": "int",
+                    "description": "0: allow anonymous view, 1: not allow"
+                },
+                {
+                    "name": "trendAudioURL",
+                    "type": "String",
+                    "length": 256
+                }
+            ]
         }
     ]
 }
