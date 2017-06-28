@@ -1154,6 +1154,18 @@ public class AdminProcessor {
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
+    @RequestProcessing(value = "/admin/add-trend",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void addTrends(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        final Map<String, Object> dataModel = renderer.getDataModel();
+
+        context.setRenderer(renderer);
+        renderer.setTemplateName("admin/add-trend.ftl");
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
     /**
      * Shows Videos.
      *
