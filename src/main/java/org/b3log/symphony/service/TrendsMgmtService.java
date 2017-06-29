@@ -89,76 +89,76 @@ public class TrendsMgmtService {
      * @return videoId
      * @throws ServiceException
      */
-    public  synchronized String addTrend(final String id,final JSONObject requestJSONObject, final HttpServletRequest request) throws ServiceException{
+    public  synchronized String addTrend(final String id,final JSONObject requestJSONObject) throws ServiceException{
         final Transaction transaction = trendsRepository.beginTransaction();
         String ret = null;
         //创建Trend对象
-        JSONObject trend = new JSONObject();
+        JSONObject trends = new JSONObject();
         //创建时间
         final long currentTimeMillis = System.currentTimeMillis();
         //ID
-        trend.put(Keys.OBJECT_ID,requestJSONObject.optString(Trend.TREND_T_ID));
+        trends.put(Keys.OBJECT_ID,requestJSONObject.optString(Trend.TREND_T_ID));
         //图片路径
-        trend.put(Trend.TREND_IMAGE_URL,requestJSONObject.optString(Trend.TREND_IMAGE_URL));
+        trends.put(Trend.TREND_IMAGE_URL,requestJSONObject.optString(Trend.TREND_IMAGE_URL));
         //作者
-        trend.put(Trend.TREND_AUTHOR_ID,requestJSONObject.optString(Trend.TREND_AUTHOR_ID));
+        trends.put(Trend.TREND_AUTHOR_ID,requestJSONObject.optString(Trend.TREND_AUTHOR_ID));
         //标题
-        trend.put(Trend.TREND_TITLE,"");
+        trends.put(Trend.TREND_TITLE,"");
         //标签
-        trend.put(Trend.TREND_TAGS,"");
+        trends.put(Trend.TREND_TAGS,"");
         //评论
-        trend.put(Trend.TREND_COMMENT_CNT,0);
+        trends.put(Trend.TREND_COMMENT_CNT,0);
         //查看
-        trend.put(Trend.TREND_VIEW_CNT,0);
+        trends.put(Trend.TREND_VIEW_CNT,0);
         //内容
-        trend.put(Trend.TREND_CONTENT,"");
+        trends.put(Trend.TREND_CONTENT,"");
         //打赏内容
-        trend.put(Trend.TREND_REWARD_CONTENT,"");
+        trends.put(Trend.TREND_REWARD_CONTENT,"");
         //打赏积分
-        trend.put(Trend.TREND_REWARD_POINT,0);
+        trends.put(Trend.TREND_REWARD_POINT,0);
         //绝对地址
-        trend.put(Trend.TREND_PERMALINK,"");
+        trends.put(Trend.TREND_PERMALINK,"");
         //创建时间
-        trend.put(Trend.TREND_CREATE_TIME,currentTimeMillis);
+        trends.put(Trend.TREND_CREATE_TIME,currentTimeMillis);
         //更新时间
-        trend.put(Trend.TREND_UPDATE_TIME,currentTimeMillis);
+        trends.put(Trend.TREND_UPDATE_TIME,currentTimeMillis);
         //最后评论时间
-        trend.put(Trend.TREND_LATEST_CMT_TIME,0L);
+        trends.put(Trend.TREND_LATEST_CMT_TIME,0L);
         //最后评论人
-        trend.put(Trend.TREND_LATEST_CMTER_NAME,"");
+        trends.put(Trend.TREND_LATEST_CMTER_NAME,"");
         //是否可以评论
-        trend.put(Trend.TREND_COMMENTABLE,0);
+        trends.put(Trend.TREND_COMMENTABLE,0);
         //类别
-        trend.put(Trend.TREND_TYPE,0);
+        trends.put(Trend.TREND_TYPE,0);
         //状态
-        trend.put(Trend.TREND_STATUS,0);
+        trends.put(Trend.TREND_STATUS,0);
         //赞
-        trend.put(Trend.TREND_GOOD_CNT,0);
+        trends.put(Trend.TREND_GOOD_CNT,0);
         //踩
-        trend.put(Trend.TREND_BAD_CNT,0);
+        trends.put(Trend.TREND_BAD_CNT,0);
         // 收藏
-        trend.put(Trend.TREND_COLLECT_CNT,0);
+        trends.put(Trend.TREND_COLLECT_CNT,0);
         //关注
-        trend.put(Trend.TREND_WATCH_CNT,0);
+        trends.put(Trend.TREND_WATCH_CNT,0);
         //置顶
-        trend.put(Trend.REDDIT_SCORE,0.00);
+        trends.put(Trend.REDDIT_SCORE,0.00);
         //位置
-        trend.put(Trend.TREND_CITY,"");
+        trends.put(Trend.TREND_CITY,"");
         //IP
-        trend.put(Trend.TREND_IP,"'");
+        trends.put(Trend.TREND_IP,"'");
         //UA
-        trend.put(Trend.TREND_UA,"");
+        trends.put(Trend.TREND_UA,"");
         //优选
-        trend.put(Trend.TREND_PERFECT,0);
+        trends.put(Trend.TREND_PERFECT,0);
         try {
             if(!"".equals(id)){
-                final JSONObject oldVideo = trendsRepository.get(id);
-                if(null == oldVideo){
+                final JSONObject oldTrends = trendsRepository.get(id);
+                if(null == oldTrends){
                     throw new ServiceException("Update a trend failed");
                 }
-                trendsRepository.update(id,trend);
+                trendsRepository.update(id,trends);
             }else{
-                trendsRepository.add(trend);
+                trendsRepository.add(trends);
             }
             transaction.commit();
             return ret;

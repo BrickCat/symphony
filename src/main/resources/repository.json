@@ -1734,7 +1734,7 @@
                 {
                     "name": "trendTitle",
                     "type": "String",
-                    "length": 255
+                    "length": 102400
                 },
                 {
                     "name": "trendTags",
@@ -1842,11 +1842,6 @@
                     "type": "String",
                     "length": 255,
                     "description": "User-Agent"
-                },
-                {
-                    "name": "trendAnonymous",
-                    "type": "int",
-                    "description": "0: public, 1: anonymous"
                 },
                 {
                     "name": "trendPerfect",

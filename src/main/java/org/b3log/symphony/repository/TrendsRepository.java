@@ -12,7 +12,7 @@ import org.b3log.symphony.model.Video;
 @Repository
 public class TrendsRepository extends AbstractRepository {
     public TrendsRepository() {
-        super(Trend.TREND);
+        super("trends");
     }
 
 

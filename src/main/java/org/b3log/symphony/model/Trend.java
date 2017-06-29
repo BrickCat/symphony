@@ -159,11 +159,6 @@ public final class Trend {
     public static final String TREND_UA = "trendUA";
 
     /**
-     * Key of trend anonymous.
-     */
-    public static final String TREND_ANONYMOUS = "trendAnonymous";
-
-    /**
      * Key of trend perfect.
      */
     public static final String TREND_PERFECT = "trendPerfect";
@@ -173,12 +168,6 @@ public final class Trend {
      * Key of trend audio URL.
      */
     public static final String TREND_IMAGE_URL = "trendImageURL";
-
-    //// Transient ////
-    /**
-     * Key of trend revision count.
-     */
-    public static final String TREND_REVISION_COUNT = "trendRevisionCount";
 
     /**
      * Key of trend latest comment.

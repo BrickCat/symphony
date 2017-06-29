@@ -12,6 +12,7 @@ import org.b3log.latke.ioc.Lifecycle;
 import org.b3log.latke.model.User;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.util.CollectionUtils;
+import org.b3log.symphony.model.Trend;
 import org.b3log.symphony.model.Video;
 import org.b3log.symphony.model.VideoSize;
 import org.b3log.symphony.service.*;
@@ -48,6 +49,10 @@ public class UploadTrendServlet extends HttpServlet {
 	 * Video model service
 	 */
 	final TrendsMgmtService trendsMgmtService = beanManager.getReference(TrendsMgmtService.class);
+	/**
+	 * Video model service
+	 */
+	final TrendsQueryService trendsQueryService = beanManager.getReference(TrendsQueryService.class);
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -115,22 +120,41 @@ public class UploadTrendServlet extends HttpServlet {
 					if (filename == null || filename.trim().equals("")) {
 						continue;
 					}
-
+					//Id 由前台生成
+					final String ret = map.get("uid");
 					//创建Trend图片上传路径
-					File fileParent = new File(Symphonys.get("nginx.trend.image.dir")+map.get("uid")+"/");
+					File fileParent = new File(Symphonys.get("nginx.trend.image.dir")+ret+"/");
 					System.out.println(fileParent.getPath());
 					if (!fileParent.exists()) {
 						fileParent.mkdir();
 					}
-
 					//UUID
 					final String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 					//后缀名
 					String suffix = StringUtils.substringAfterLast(filename, ".");
 					filename = uuid+"."+suffix;
+
+					//根据ID判断数据库中是否有该条数据
+					try {
+						JSONObject trend = trendsQueryService.getTrend(ret);
+						if(null == trend){
+							trend = new JSONObject();
+							trend.put(Trend.TREND_T_ID,ret);
+							trend.put(Trend.TREND_AUTHOR_ID,currentUserId);
+							trend.put(Trend.TREND_IMAGE_URL,ret+"/"+filename+",");
+							trendsMgmtService.addTrend("",trend);
+						}else{
+							String imagePath = trend.optString(Trend.TREND_IMAGE_URL);
+							imagePath = imagePath + ret + "/" + filename + ",";
+							trend.put(Trend.TREND_IMAGE_URL,imagePath);
+							trendsMgmtService.updateTrend(ret,trend);
+						}
+					} catch (ServiceException e) {
+						e.printStackTrace();
+					}
+
 					//创建文件
 					File file= new File(fileParent,filename);
-					data.put("image" + i++,filename);
 					//copy
 					FileUtils.copyInputStreamToFile(item.getInputStream(), file);
 
@@ -140,6 +164,5 @@ public class UploadTrendServlet extends HttpServlet {
 		} catch (FileUploadException e) {
 			e.printStackTrace();
 		}
-		System.out.print(data.toString());
 	}
 }
