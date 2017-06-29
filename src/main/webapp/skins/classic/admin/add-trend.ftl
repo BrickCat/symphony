@@ -350,8 +350,6 @@
 
         <div id="wrapper">
             <div id="container">
-                <!--头部，相册选择和格式选择-->
-
                 <div id="uploader">
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
@@ -378,6 +376,7 @@
             (function($) {
                 // 当domReady的时候开始初始化
                 $(function() {
+                    var timestamp=new Date().getTime();
                     var $wrap = $('#uploader'),
 
                             // 图片容器
@@ -521,21 +520,21 @@
                             label: '点击选择图片'
                         },
                         formData: {
-                            uid: 123
+                            uid: timestamp
                         },
+                        threads: 1,
                         dnd: '#dndArea',
                         paste: '#uploader',
                         swf: '${staticServePath}/js/lib/webuploader/Uploader.swf',
                         chunked: false,
                         chunkSize: 512 * 1024,
-                        server: '${servePath}/uploadVideo',
-                        // runtimeOrder: 'flash',
+                        server: '${servePath}/uploadTrend',
 
-//                         accept: {
-//                             title: 'Images',
-//                             extensions: 'gif,jpg,jpeg,bmp,png',
-//                             mimeTypes: 'image/*'
-//                         },
+                        accept: {
+                             title: 'Images',
+                            extensions: 'gif,jpg,jpeg,bmp,png',
+                             mimeTypes: 'image/*'
+                         },
 
                         // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
                         disableGlobalDnd: true,
@@ -778,8 +777,8 @@
                         } else if (state === 'confirm') {
                             stats = uploader.getStats();
                             if (stats.uploadFailNum) {
-                                text = '已成功上传' + stats.successNum + '张照片至XX相册，' +
-                                        stats.uploadFailNum + '张照片上传失败，<a class="retry" href="#">重新上传</a>失败图片或<a class="ignore" href="#">忽略</a>'
+                                text = '已成功上传' + stats.successNum + '张照片，' +
+                                        stats.uploadFailNum + '张照片上传失败，<a class="retry" href="#">重新上传</a>失败图片'
                             }
 
                         } else {
@@ -848,7 +847,6 @@
                             case 'finish':
                                 stats = uploader.getStats();
                                 if (stats.successNum) {
-                                    alert('上传成功');
                                 } else {
                                     // 没有成功的图片，重设
                                     state = 'done';
@@ -915,7 +913,7 @@
                     });
 
                     uploader.onError = function(code) {
-                        alert('Eroor: ' + code);
+                        //alert('Eroor: ' + code);
                     };
 
                     $upload.on('click', function() {
@@ -937,7 +935,7 @@
                     });
 
                     $info.on('click', '.ignore', function() {
-                        alert('todo');
+                        //alert('todo');
                     });
 
                     $upload.addClass('state-' + state);

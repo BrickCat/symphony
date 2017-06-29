@@ -135,13 +135,13 @@ public class UploadSuccessServlet extends HttpServlet {
 		if(VideoUtils.getVideoImage(newFile.getPath(),imagePath)){
 			video.put(Video.VIDEO_IMAGE_PATH,uuid+".png");
 		}
-		String m3u8Path = Symphonys.get("nginx.ffmpeg.dir")+uuid;
+		String m3u8Path = Symphonys.get("nginx.ffmpeg.m3u8.dir")+uuid;
 		File saveM3u8Dir = new File(m3u8Path);
 		// 如果目录不存在，就创建目录
 		if(!saveM3u8Dir.exists()){
 			saveM3u8Dir.mkdir();
 		}
-		m3u8Path =  Symphonys.get("nginx.ffmpeg.dir")+uuid+"/"+uuid+".m3u8";
+		m3u8Path =  Symphonys.get("nginx.ffmpeg.m3u8.dir")+uuid+"/"+uuid+".m3u8";
 		if(VideoUtils.getVideoM3u8(newFile.getPath(),m3u8Path)){
 			video.put(Video.VIDEO_URL,uuid+"/"+uuid+".m3u8");
 		}

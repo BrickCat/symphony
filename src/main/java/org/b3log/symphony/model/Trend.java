@@ -101,35 +101,12 @@ public final class Trend {
      */
     public static final String TREND_LATEST_CMTER_NAME = "trendLatestCmterName";
 
-    /**
-     * Key of trend random double value.
-     */
-    public static final String TREND_RANDOM_DOUBLE = "trendRandomDouble";
+
 
     /**
      * Key of trend commentable.
      */
     public static final String TREND_COMMENTABLE = "trendCommentable";
-
-    /**
-     * Key of trend sync to client.
-     */
-    public static final String TREND_SYNC_TO_CLIENT = "syncWithSymphonyClient";
-
-    /**
-     * Key of client trend id.
-     */
-    public static final String TREND_CLIENT_TREND_ID = "clientTrendId";
-
-    /**
-     * Key of client trend permalink.
-     */
-    public static final String TREND_CLIENT_TREND_PERMALINK = "clientTrendPermalink";
-
-    /**
-     * Key of trend editor type.
-     */
-    public static final String TREND_EDITOR_TYPE = "trendEditorType";
 
     /**
      * Key of trend status.
@@ -182,11 +159,6 @@ public final class Trend {
     public static final String TREND_UA = "trendUA";
 
     /**
-     * Key of trend stick.
-     */
-    public static final String TREND_STICK = "trendStick";
-
-    /**
      * Key of trend anonymous.
      */
     public static final String TREND_ANONYMOUS = "trendAnonymous";
@@ -196,15 +168,11 @@ public final class Trend {
      */
     public static final String TREND_PERFECT = "trendPerfect";
 
-    /**
-     * Key of trend anonymous view.
-     */
-    public static final String TREND_ANONYMOUS_VIEW = "trendAnonymousView";
 
     /**
      * Key of trend audio URL.
      */
-    public static final String TREND_AUDIO_URL = "trendAudioURL";
+    public static final String TREND_IMAGE_URL = "trendImageURL";
 
     //// Transient ////
     /**

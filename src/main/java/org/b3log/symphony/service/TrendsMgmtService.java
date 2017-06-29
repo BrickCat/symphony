@@ -10,21 +10,17 @@ import org.b3log.latke.service.LangPropsService;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.latke.util.Ids;
-import org.b3log.symphony.model.Article;
 import org.b3log.symphony.model.Pointtransfer;
+import org.b3log.symphony.model.Trend;
 import org.b3log.symphony.model.UserExt;
 import org.b3log.symphony.model.Video;
-import org.b3log.symphony.repository.OptionRepository;
-import org.b3log.symphony.repository.TagRepository;
-import org.b3log.symphony.repository.UserRepository;
-import org.b3log.symphony.repository.VideoRepository;
+import org.b3log.symphony.repository.*;
 import org.b3log.symphony.util.Symphonys;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,12 +28,12 @@ import java.util.Set;
  * Created by 860117030 on 2017/5/24.
  */
 @Service
-public class VideoMgmtService {
+public class TrendsMgmtService {
 
     /**
      * Logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(VideoMgmtService.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TrendsMgmtService.class.getName());
 
 
     /**
@@ -76,6 +72,12 @@ public class VideoMgmtService {
     @Inject
     private LangPropsService langPropsService;
 
+    /***
+     * LangProps repository
+     */
+    @Inject
+    private TrendsRepository trendsRepository;
+
     /**
      * Pointtransfer management service.
      */
@@ -87,78 +89,76 @@ public class VideoMgmtService {
      * @return videoId
      * @throws ServiceException
      */
-    public  synchronized String addVideo(String id,final JSONObject requestJSONObject, final HttpServletRequest request) throws ServiceException{
-        final Transaction transaction = videoRepository.beginTransaction();
+    public  synchronized String addTrend(final String id,final JSONObject requestJSONObject, final HttpServletRequest request) throws ServiceException{
+        final Transaction transaction = trendsRepository.beginTransaction();
         String ret = null;
-        //创建Video对象
-        JSONObject video = new JSONObject();
-        //视频标题
-        video.put(Video.VIDEO_TITLE,requestJSONObject.optString(Video.VIDEO_TITLE));
-        //视频发布人
-        video.put(Video.VIDEO_AUTHORID,requestJSONObject.optString(Video.VIDEO_AUTHORID));
-        //视频标签
-        video.put(Video.VIDEO_TAG,requestJSONObject.optString(Video.VIDEO_TAG));
-        //视频描述
-        video.put(Video.VIDEO_REMARKS,requestJSONObject.optString(Video.VIDEO_REMARKS));
-        //打赏积分
-        video.put(Video.VIDEO_POINT,requestJSONObject.optString(Video.VIDEO_POINT));
-        //TODO 和标签表关联
-        //视频连接
-        video.put(Video.VIDEO_URL,requestJSONObject.optString(Video.VIDEO_URL));
-        //视频类型
-        video.put(Video.VIDEO_TYPE,requestJSONObject.optString(Video.VIDEO_TYPE));
-        //视频状态
-        video.put(Video.VIDEO_STATUS,requestJSONObject.optString(Video.VIDEO_STATUS));
-        //视频评论数
-        video.put(Video.VIDEO_COMMENT_COUNT,0);
-        //浏览数
-        video.put(Video.VIDEO_VIEW_COUNT,0);
-        //打赏内容
-        video.put(Video.VIDEO_REWARD_CONTETN,requestJSONObject.optString(Video.VIDEO_REWARD_CONTETN));
-        //打赏积分
-        video.put(Video.VIDEO_REWARD_POINT,0);
-        //视频缩略图地址
-        video.put(Video.VIDEO_IMAGE_PATH,requestJSONObject.optString(Video.VIDEO_IMAGE_PATH));
-        //视频大小
-        video.put(Video.VIDEO_SIZE,requestJSONObject.optString(Video.VIDEO_SIZE));
+        //创建Trend对象
+        JSONObject trend = new JSONObject();
         //创建时间
         final long currentTimeMillis = System.currentTimeMillis();
-        video.put(Video.VIDEO_CREATE_TIME, currentTimeMillis);
+        //ID
+        trend.put(Keys.OBJECT_ID,requestJSONObject.optString(Trend.TREND_T_ID));
+        //图片路径
+        trend.put(Trend.TREND_IMAGE_URL,requestJSONObject.optString(Trend.TREND_IMAGE_URL));
+        //作者
+        trend.put(Trend.TREND_AUTHOR_ID,requestJSONObject.optString(Trend.TREND_AUTHOR_ID));
+        //标题
+        trend.put(Trend.TREND_TITLE,"");
+        //标签
+        trend.put(Trend.TREND_TAGS,"");
+        //评论
+        trend.put(Trend.TREND_COMMENT_CNT,0);
+        //查看
+        trend.put(Trend.TREND_VIEW_CNT,0);
+        //内容
+        trend.put(Trend.TREND_CONTENT,"");
+        //打赏内容
+        trend.put(Trend.TREND_REWARD_CONTENT,"");
+        //打赏积分
+        trend.put(Trend.TREND_REWARD_POINT,0);
+        //绝对地址
+        trend.put(Trend.TREND_PERMALINK,"");
+        //创建时间
+        trend.put(Trend.TREND_CREATE_TIME,currentTimeMillis);
         //更新时间
-        video.put(Video.VIDEO_UPDATE_TIME, currentTimeMillis);
-        //最后观看时间
-        video.put(Video.VIDEO_LATEST_CMT_TIME,0L);
-        //最后观看人
-        video.put(Video.VIDEO_LATEST_CMTER_NAME,0L);
-        //下载次数
-        video.put(Video.VIDEO_DOWNLOAD_COUNT,0);
-        //赞👍
-        video.put(Video.VIDEO_GOOD_COUNT,0);
+        trend.put(Trend.TREND_UPDATE_TIME,currentTimeMillis);
+        //最后评论时间
+        trend.put(Trend.TREND_LATEST_CMT_TIME,0L);
+        //最后评论人
+        trend.put(Trend.TREND_LATEST_CMTER_NAME,"");
+        //是否可以评论
+        trend.put(Trend.TREND_COMMENTABLE,0);
+        //类别
+        trend.put(Trend.TREND_TYPE,0);
+        //状态
+        trend.put(Trend.TREND_STATUS,0);
+        //赞
+        trend.put(Trend.TREND_GOOD_CNT,0);
         //踩
-        video.put(Video.VIDEO_BAD_COUNT,0);
-        //视频观看次数
-        video.put(Video.VIDEO_WATCH_COUNT,0);
+        trend.put(Trend.TREND_BAD_CNT,0);
+        // 收藏
+        trend.put(Trend.TREND_COLLECT_CNT,0);
         //关注
-        video.put(Video.VIDEO_COLLECT_CNT,0);
-        //排分
-        video.put(Video.REDDIT_SCORE,0);
+        trend.put(Trend.TREND_WATCH_CNT,0);
         //置顶
-        video.put(Video.VIDEO_STICK,0L);
-        //下载地址
-        video.put(Video.VIDEO_DOWN_PATH,requestJSONObject.optString(Video.VIDEO_DOWN_PATH));
+        trend.put(Trend.REDDIT_SCORE,0.00);
+        //位置
+        trend.put(Trend.TREND_CITY,"");
+        //IP
+        trend.put(Trend.TREND_IP,"'");
+        //UA
+        trend.put(Trend.TREND_UA,"");
+        //优选
+        trend.put(Trend.TREND_PERFECT,0);
         try {
             if(!"".equals(id)){
-                final JSONObject oldVideo = videoRepository.get(id);
+                final JSONObject oldVideo = trendsRepository.get(id);
                 if(null == oldVideo){
-                    throw new ServiceException("更新video失败");
+                    throw new ServiceException("Update a trend failed");
                 }
-                videoRepository.update(id,video);
+                trendsRepository.update(id,trend);
             }else{
-                //生成ID
-                 ret = Ids.genTimeMillisId();
-                //视频ID
-                video.put(Keys.OBJECT_ID, ret);
-                videoRepository.add(video);
+                trendsRepository.add(trend);
             }
             transaction.commit();
             return ret;
@@ -166,33 +166,33 @@ public class VideoMgmtService {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            LOGGER.log(Level.ERROR, "Adds a video failed", e);
+            LOGGER.log(Level.ERROR, "Adds a trend failed", e);
             throw new ServiceException(e);
         }
 
     }
 
     /**
-     * Updates the specified tag by the given video id.
+     * Updates the specified tag by the given trend id.
      * <p>
      * <b>Note</b>: This method just for admin console.
      * </p>
      *
-     * @param videoId the given video id
-     * @param video   the specified video
+     * @param trendId the given trend id
+     * @param trend   the specified trend
      * @throws ServiceException service exception
      */
-    public void updateVideo(final String videoId, final JSONObject video) throws ServiceException {
-        final Transaction transaction = videoRepository.beginTransaction();
+    public void updateTrend(final String trendId, final JSONObject trend) throws ServiceException {
+        final Transaction transaction = trendsRepository.beginTransaction();
         try{
-            videoRepository.update(videoId,video);
+            trendsRepository.update(trendId,trend);
             transaction.commit();
 
         }catch (final RepositoryException e){
             if (transaction.isActive()){
                 transaction.rollback();
             }
-            LOGGER.log(Level.ERROR, "Updates a video[id=" + videoId + "] failed", e);
+            LOGGER.log(Level.ERROR, "Updates a trend[id=" + trendId + "] failed", e);
             throw new ServiceException(e);
         }
 
@@ -200,30 +200,20 @@ public class VideoMgmtService {
 
     /**
      * delete a video
-     * @param videoId
+     * @param trendId
      */
     @Transactional
-    public void deleteVideo(final String videoId) {
+    public void deleteTrend(final String trendId) {
         try {
-            final JSONObject video = videoRepository.get(videoId);
+            final JSONObject video = trendsRepository.get(trendId);
             if (null == video) {
                 return;
             }
-            File downfile = new File(Symphonys.get("nginx.video.dir")+video.optString(Video.VIDEO_DOWN_PATH));
-            String temp = video.optString(Video.VIDEO_URL).substring(0,video.optString(Video.VIDEO_URL).lastIndexOf("/"));
-            File m3u8file = new File(Symphonys.get("nginx.ffmpeg.m3u8.dir")+"/"+temp);
-            File imagefile = new File(Symphonys.get("nginx.video.image.dir")+video.optString(Video.VIDEO_IMAGE_PATH));
-            if(downfile.exists()&&m3u8file.exists()&&imagefile.exists()){
-                if(forceDelete(imagefile)&&forceDelete(downfile)&&deleteDir(m3u8file)){
-                   videoRepository.remove(videoId);
-                }
-            }else{
-                videoRepository.remove(videoId);
-            }
 
+            trendsRepository.remove(trendId);
         }catch(RepositoryException e){
                 e.printStackTrace();
-                LOGGER.log(Level.ERROR, "Delete a video[id=" + videoId + "] failed", e);
+                LOGGER.log(Level.ERROR, "Delete a video[id=" + trendId + "] failed", e);
             }
         }
 
