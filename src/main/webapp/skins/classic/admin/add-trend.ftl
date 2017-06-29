@@ -3,11 +3,12 @@
 <div class="content" xmlns="http://www.w3.org/1999/html">
     <link href="${staticServePath}/js/lib/webuploader/webuploader.css" type="text/css">
    <#-- <link href="${staticServePath}/js/lib/webuploader/image-upload/style.css" type="text/css">-->
+    <#if permissions["userAddTrends"].permissionGrant>
     <div class="module">
         <div class="module-header">
             <h2>${addTrendImageLabel}</h2>
         </div>
-    </div>
+
         <style>
             #wrapper {
                 width: 980px;
@@ -377,6 +378,7 @@
                 // 当domReady的时候开始初始化
                 $(function() {
                     var timestamp=new Date().getTime();
+                    $('#trendId').val(timestamp);
                     var $wrap = $('#uploader'),
 
                             // 图片容器
@@ -944,17 +946,21 @@
 
             })(jQuery);
         </script>
-    <#if permissions["userAddTrends"].permissionGrant>
-    <div class="module">
+    </div>
+
+    <div class="module" style="width: 100%;">
         <div class="module-header">
             <h2>${trendsAddLabel}</h2>
         </div>
         <div class="module-panel form fn-clear">
-            <form class="fn-right form" action="${servePath}/video/front/addvideo" method="POST">
+            <form class="fn-right form" action="${servePath}/trends/add-trends" method="POST" style="width: 100%;">
+                <input id="trendId" name="trendId" type="text" value="" readonly="readonly" hidden="hidden"/>
 
+                <label for="trendContent">${trendContentLabel}</label>
+                <textarea name="trendContent" rows="5"></textarea>
 
                 <br/><br/><br/>
-                <button id="submit"  type="submit" class="red fn-right">${submitLabel}</button>
+                <button id="submit"  type="submit" class="green fn-right">${submitLabel}</button>
             </form>
         </div>
     </div>

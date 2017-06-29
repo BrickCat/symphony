@@ -103,6 +103,18 @@ public class TrendsProcessor {
      */
     @Inject
     private LangPropsService langPropsService;
+    /**
+     * Trend service.
+     */
+    @Inject
+    private TrendsQueryService trendsQueryService;
+
+    /**
+     * Trend mgmt service.
+     */
+    @Inject
+    private TrendsMgmtService trendsMgmtService;
+
 
     @RequestProcessing(value = "/trends", method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
@@ -113,5 +125,26 @@ public class TrendsProcessor {
         final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("/trends.ftl");
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
+
+    @RequestProcessing(value = "/trends/add-trends",method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void  addTrend (final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServiceException {
+        String content = request.getParameter(Trend.TREND_CONTENT);
+        String trendId = request.getParameter(Trend.TREND_T_ID);
+        try {
+            final JSONObject trend = trendsQueryService.getTrend(trendId);
+            if(null == trend){
+                LOGGER.log(Level.ERROR, "add trend failed");
+                return;
+            }
+            trend.put(Trend.TREND_CONTENT,content);
+            trendsMgmtService.updateTrend(trendId,trend);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        response.sendRedirect(Latkes.getServePath() + "/admin/trends");
     }
 }
