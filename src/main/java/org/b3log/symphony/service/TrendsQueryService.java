@@ -110,7 +110,7 @@ public class TrendsQueryService {
         for (int i = 0;i<data.length();i++){
             final JSONObject trend = data.optJSONObject(i);
             trend.put(Trend.TREND_CREATE_TIME,new Date(trend.optLong(Keys.OBJECT_ID)));
-            trend.put(Trend.TREND_CONTENT, TrendUtils.abbr(trend.optString(Trend.TREND_CONTENT),40));
+            trend.put(Trend.TREND_CONTENT, trend.optString(Trend.TREND_CONTENT));
             final String senderId = trend.optString(Trend.TREND_AUTHOR_ID);
             final JSONObject sernder = userQueryService.getUser(senderId);
             trend.put(Trend.TREND_T_AUTHOR,sernder);

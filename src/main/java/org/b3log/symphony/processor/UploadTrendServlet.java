@@ -145,7 +145,7 @@ public class UploadTrendServlet extends HttpServlet {
 							trendsMgmtService.addTrend("",trend);
 						}else{
 							String imagePath = trend.optString(Trend.TREND_IMAGE_URL);
-							imagePath = "," + imagePath + ret + "/" + filename;
+							imagePath =  imagePath + "," + ret + "/" + filename;
 							trend.put(Trend.TREND_IMAGE_URL,imagePath);
 							trendsMgmtService.updateTrend(ret,trend);
 						}
