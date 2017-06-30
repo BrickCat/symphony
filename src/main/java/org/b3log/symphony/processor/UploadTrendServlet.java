@@ -141,11 +141,11 @@ public class UploadTrendServlet extends HttpServlet {
 							trend = new JSONObject();
 							trend.put(Trend.TREND_T_ID,ret);
 							trend.put(Trend.TREND_AUTHOR_ID,currentUserId);
-							trend.put(Trend.TREND_IMAGE_URL,ret+"/"+filename+",");
+							trend.put(Trend.TREND_IMAGE_URL,ret+"/"+filename);
 							trendsMgmtService.addTrend("",trend);
 						}else{
 							String imagePath = trend.optString(Trend.TREND_IMAGE_URL);
-							imagePath = imagePath + ret + "/" + filename + ",";
+							imagePath = "," + imagePath + ret + "/" + filename;
 							trend.put(Trend.TREND_IMAGE_URL,imagePath);
 							trendsMgmtService.updateTrend(ret,trend);
 						}

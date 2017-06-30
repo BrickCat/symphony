@@ -419,7 +419,7 @@ public class VideoProcessor {
 
         dataModel.put(Video.VIDEO,newVideo);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
-        response.sendRedirect(Latkes.getServePath() + "/admin/videos");
+        response.sendRedirect(Latkes.getServePath() + "/video/"+videoId);
     }
 
     /**

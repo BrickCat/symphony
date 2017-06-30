@@ -31,6 +31,7 @@ import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
 import org.b3log.symphony.service.*;
 import org.b3log.symphony.util.Symphonys;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -124,9 +125,65 @@ public class TrendsProcessor {
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("/trends.ftl");
+
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = PAGE_SIZE;
+        final int windowSize = WINDOW_SIZE;
+        final JSONObject requestJSONObject = new JSONObject();
+        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
+        requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
+        final String trendId = request.getParameter(Trend.TREND_T_ID);
+        if (!Strings.isEmptyOrNull(trendId)) {
+            //标题
+            requestJSONObject.put(Trend.TREND_T_ID, trendId);
+        }
+        final Map<String, Class<?>> trendFields = new HashMap<>();
+        trendFields.put(Keys.OBJECT_ID, String.class);
+        trendFields.put(Trend.TREND_AUTHOR_ID,String.class);
+        trendFields.put(Trend.TREND_TITLE,String.class);
+        trendFields.put(Trend.TREND_CONTENT,String.class);
+        trendFields.put(Trend.TREND_CREATE_TIME,String.class);
+        trendFields.put(Trend.TREND_STATUS,String.class);
+        trendFields.put(Trend.TREND_GOOD_CNT,Integer.class);
+        trendFields.put(Trend.TREND_VIEW_CNT,Integer.class);
+        trendFields.put(Trend.TREND_COMMENT_CNT,Integer.class);
+        trendFields.put(Trend.TREND_IMAGE_URL,String.class);
+        trendFields.put(Trend.TREND_CREATE_TIME,Long.class);
+        trendFields.put(Trend.TREND_UPDATE_TIME,Long.class);
+        trendFields.put(Trend.TREND_LATEST_CMT_TIME,Long.class);
+
+        final JSONObject result = trendsQueryService.getTrends(requestJSONObject,trendFields);
+        final List<JSONObject> trends = CollectionUtils.jsonArrayToList(result.optJSONArray(Trend.TRENDS));
+        dataModel.put(Trend.TRENDS, trends);
+
+        final JSONObject pagination = result.optJSONObject(Pagination.PAGINATION);
+        final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
+        final JSONArray pageNums = pagination.optJSONArray(Pagination.PAGINATION_PAGE_NUMS);
+        dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.opt(0));
+        dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.opt(pageNums.length() - 1));
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, CollectionUtils.jsonArrayToList(pageNums));
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
-
+    @RequestProcessing(value = "/trends/{trendId}",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void showTrend(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+                          final String trendId) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("admin/trend.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();;
+        final JSONObject trend = trendsQueryService.getTrend(trendId);
+        dataModel.put(Trend.TREND,trend);
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
 
     @RequestProcessing(value = "/trends/add-trends",method = HTTPRequestMethod.POST)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
@@ -134,6 +191,7 @@ public class TrendsProcessor {
     public void  addTrend (final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServiceException {
         String content = request.getParameter(Trend.TREND_CONTENT);
         String trendId = request.getParameter(Trend.TREND_T_ID);
+        String trendTitle = request.getParameter(Trend.TREND_TITLE);
         try {
             final JSONObject trend = trendsQueryService.getTrend(trendId);
             if(null == trend){
@@ -141,10 +199,50 @@ public class TrendsProcessor {
                 return;
             }
             trend.put(Trend.TREND_CONTENT,content);
+            trend.put(Trend.TREND_TITLE,trendTitle);
             trendsMgmtService.updateTrend(trendId,trend);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
+        response.sendRedirect(Latkes.getServePath() + "/admin/trends");
+    }
+
+    @RequestProcessing(value = "/trends/{trendId}/update-trend",method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void updateTrend(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+                            final String trendId) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("admin/trend.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+
+        JSONObject oldTrend = trendsQueryService.getTrend(trendId);
+        if (null == oldTrend){
+            LOGGER.error("not find trend id = "+trendId+",update error");
+            return;
+        }
+        final Enumeration<String> parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()){
+            final String name = parameterNames.nextElement();
+            final String value = request.getParameter(name);
+            oldTrend.put(name,value);
+        }
+        trendsMgmtService.updateTrend(trendId,oldTrend);
+
+        JSONObject newTrend = trendsQueryService.getTrend(trendId);
+
+        dataModel.put(Trend.TREND,newTrend);
+        dataModelService.fillHeaderAndFooter(request,response,dataModel);
+        response.sendRedirect(Latkes.getServePath() + "/trends/"+trendId);
+    }
+    @RequestProcessing(value = "/trends/remove-trend", method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void removeTrend(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final String trendId = request.getParameter(Trend.TREND_T_ID);
+        trendsMgmtService.deleteTrend(trendId);
+
         response.sendRedirect(Latkes.getServePath() + "/admin/trends");
     }
 }

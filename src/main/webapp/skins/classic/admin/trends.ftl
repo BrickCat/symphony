@@ -4,15 +4,15 @@
 <div class="list content admin">
     <div class="module list">
         <form method="GET" action="${servePath}/admin/trends" class="form">
-            <input name="videoTitle" type="text" placeholder="${videoTitle}"/>
+            <input name="trendId" type="text" placeholder="${trendIdLabel}"/>
             <button type="submit" class="green">${searchLabel}</button> &nbsp;
             <#if permissions["userAddTrends"].permissionGrant>
                 <button type="button" class="btn red" onclick="window.location = '${servePath}/admin/add-trend'">${trendsAddLabel}</button>
             </#if>
         </form>
-        <#--<#if videos ??>
+        <#if trends ??>
             <ul>
-                <#list videos as item>
+                <#list trends as item>
                         <li>
                             <div class="fn-flex">
                                 <#if 1 != 1>
@@ -20,25 +20,20 @@
                                 </#if>
                                <div class="fn-flex-1">
                                    <h2>
-                                       &lt;#&ndash; 标题 &ndash;&gt;
-                                       <a href="${servePath}/video/front/${item.oId}/show-video">${item.videoTitle}</a> •
-                                       &lt;#&ndash; 修改 &ndash;&gt;
-                                       <a href="${servePath}/video/${item.oId}" class="fn-right tooltipped tooltipped-w ft-a-title" aria-label="${editLabel}"><span class="icon-edit"></span></a> &nbsp;
-                                       <#if item.videoStatus == 0>
-                                           <span class="ft-smaller ft-gray">${videoStatusTrue}</span>
-                                       <#else >
-                                           <span class="ft-smaller ft-red">${videoStatusFalse}</span>
-                                       </#if>
+
+                                       <a href="${servePath}/trends">${item.trendTitle}</a>
+
+                                       <a href="${servePath}/trends/${item.oId}" class="fn-right tooltipped tooltipped-w ft-a-title" aria-label="${editLabel}"><span class="icon-edit"></span></a> &nbsp;
                                    </h2>
-                                   ${item.videoRemarks}
+                                    ${item.trendContent}
                                    <div class="fn-clear">
                                         <span class="fn-right ft-gray">
-                                            <span class="tooltipped tooltipped-n" aria-label="${videoCountLabel}"><span class="icon-video"></span></span>
-                                        0&nbsp;
-                                            <span class="tooltipped tooltipped-n" aria-label="${commentCountLabel}"><span class="icon-cmts"></span></span>
-                                        0 &nbsp;
+                                            <span class="tooltipped tooltipped-n" aria-label="${trendCommentLabel}"><span class="icon-cmts"></span></span>
+                                        ${item.trendCommentCount}&nbsp;
+                                            <span class="tooltipped tooltipped-n" aria-label="${trendGoodLabel}"><span class="icon-goods"></span></span>
+                                        ${item.trendGoodCnt}&nbsp;
                                             <span class="tooltipped tooltipped-n" aria-label="${createTimeLabel}"><span class="icon-date"></span></span>
-                                        ${item.videoCreateTime?string('yyyy-MM-dd HH:mm')}
+                                        ${item.trendCreateTime?string('yyyy-MM-dd HH:mm')}
                                         </span>
                                    </div>
                                </div>
@@ -46,7 +41,7 @@
                         </li>
                 </#list>
             </ul>
-        </#if>-->
+        </#if>
     </div>
     <@pagination url="${servePath}/admin/trends"/>
 </div>

@@ -267,6 +267,12 @@ public class AdminProcessor {
     private VideoQueryService videoQueryService;
 
     /**
+     * trend model service
+     */
+    @Inject
+    private TrendsQueryService trendsQueryService;
+
+    /**
      * Removes unused tags.
      *
      * @param context the specified context
@@ -1150,7 +1156,43 @@ public class AdminProcessor {
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("admin/trends.ftl");
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = PAGE_SIZE;
+        final int windowSize = WINDOW_SIZE;
+        final JSONObject requestJSONObject = new JSONObject();
+        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
+        requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
+        final String trendId = request.getParameter(Trend.TREND_T_ID);
+        if (!Strings.isEmptyOrNull(trendId)) {
+            //标题
+            requestJSONObject.put(Trend.TREND_T_ID, trendId);
+        }
+        final Map<String, Class<?>> trendFields = new HashMap<>();
+        trendFields.put(Keys.OBJECT_ID, String.class);
+        trendFields.put(Trend.TREND_TITLE,String.class);
+        trendFields.put(Trend.TREND_CONTENT,String.class);
+        trendFields.put(Trend.TREND_CREATE_TIME,String.class);
+        trendFields.put(Trend.TREND_STATUS,String.class);
+        trendFields.put(Trend.TREND_GOOD_CNT,Integer.class);
+        trendFields.put(Trend.TREND_COMMENT_CNT,Integer.class);
 
+        final JSONObject result = trendsQueryService.getTrends(requestJSONObject,trendFields);
+        final List<JSONObject> trends = CollectionUtils.jsonArrayToList(result.optJSONArray(Trend.TRENDS));
+        dataModel.put(Trend.TRENDS, trends);
+
+        final JSONObject pagination = result.optJSONObject(Pagination.PAGINATION);
+        final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
+        final JSONArray pageNums = pagination.optJSONArray(Pagination.PAGINATION_PAGE_NUMS);
+        dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.opt(0));
+        dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.opt(pageNums.length() - 1));
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, CollectionUtils.jsonArrayToList(pageNums));
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
@@ -1213,7 +1255,11 @@ public class AdminProcessor {
         videoFields.put(Video.VIDEO_CREATE_TIME,String.class);
         //下载地址
         videoFields.put(Video.VIDEO_DOWN_PATH,String.class);
-        // TODO 修改需添加的查询字段
+        //评论数
+        videoFields.put(Video.VIDEO_COMMENT_COUNT,Integer.class);
+        //观看数
+        videoFields.put(Video.VIDEO_WATCH_COUNT,Integer.class);
+
         final JSONObject result = videoQueryService.getVideos(requestJSONObject,videoFields);
         final List<JSONObject> videos = CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS));
         dataModel.put(Video.VIDEOS, CollectionUtils.jsonArrayToList(result.optJSONArray(Video.VIDEOS)));

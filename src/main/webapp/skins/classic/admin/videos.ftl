@@ -34,9 +34,9 @@
                                    <div class="fn-clear">
                                         <span class="fn-right ft-gray">
                                             <span class="tooltipped tooltipped-n" aria-label="${videoCountLabel}"><span class="icon-video"></span></span>
-                                        0&nbsp;
+                                        ${item.videoWatchCount} &nbsp;
                                             <span class="tooltipped tooltipped-n" aria-label="${commentCountLabel}"><span class="icon-cmts"></span></span>
-                                        0 &nbsp;
+                                        ${item.videoCommentCount} &nbsp;
                                             <span class="tooltipped tooltipped-n" aria-label="${createTimeLabel}"><span class="icon-date"></span></span>
                                         ${item.videoCreateTime?string('yyyy-MM-dd HH:mm')}
                                         </span>

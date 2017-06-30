@@ -956,6 +956,9 @@
             <form class="fn-right form" action="${servePath}/trends/add-trends" method="POST" style="width: 100%;">
                 <input id="trendId" name="trendId" type="text" value="" readonly="readonly" hidden="hidden"/>
 
+                <label for="trendContent">${trendTitleLabel}</label>
+                <input type="text" name="trendTitle"/>
+
                 <label for="trendContent">${trendContentLabel}</label>
                 <textarea name="trendContent" rows="5"></textarea>
 
