@@ -2,6 +2,11 @@ package org.b3log.symphony.util;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,5 +55,27 @@ public class TrendUtils {
         Matcher m = p.matcher(html);
         String s = m.replaceAll("");
         return s;
+    }
+
+    /***
+     * 功能 :调整图片大小 开发：wuyechun 2011-7-22
+     * @param srcImgPath 原图片路径
+     * @param distImgPath  转换大小后图片路径
+     * @param width   转换后图片宽度
+     * @param height  转换后图片高度
+     */
+    public static void resizeImage(String srcImgPath, String distImgPath,
+                                   int width, int height) throws IOException {
+
+        File srcFile = new File(srcImgPath);
+        Image srcImg = ImageIO.read(srcFile);
+        BufferedImage buffImg = null;
+        buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        buffImg.getGraphics().drawImage(
+                srcImg.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0,
+                0, null);
+
+        ImageIO.write(buffImg, "JPEG", new File(distImgPath));
+
     }
 }
