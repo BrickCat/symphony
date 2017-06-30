@@ -157,7 +157,7 @@ public class TrendsQueryService {
 
     }
     private void toTrendDate(final JSONObject trend) {
-        trend.put(Common.TIME_AGO, Times.getTimeAgo(trend.optLong(Trend.TREND_CREATE_TIME), Locales.getLocale()));
+        trend.put(Common.TIME_AGO, Times.getTimeAgo(trend.optLong(Keys.OBJECT_ID), Locales.getLocale()));
         trend.put(Common.CMT_TIME_AGO,Times.getTimeAgo(trend.optLong(Trend.TREND_LATEST_CMT_TIME),Locales.getLocale()));
         trend.put(Trend.TREND_CREATE_TIME,new Date(trend.optLong(Trend.TREND_CREATE_TIME)));
         trend.put(Trend.TREND_UPDATE_TIME,trend.optLong(Trend.TREND_UPDATE_TIME));
