@@ -205,28 +205,24 @@ public class TrendsMgmtService {
     @Transactional
     public void deleteTrend(final String trendId) {
         try {
-            final JSONObject video = trendsRepository.get(trendId);
-            if (null == video) {
+            final JSONObject trend = trendsRepository.get(trendId);
+            if (null == trend) {
                 return;
             }
-
-            trendsRepository.remove(trendId);
+            File file = new File(Symphonys.get("nginx.trend.image.dir")+trendId);
+            if(file.exists()){
+                if(deleteDir(file)){
+                    trendsRepository.remove(trendId);
+                }
+            }else{
+                trendsRepository.remove(trendId);
+            }
         }catch(RepositoryException e){
                 e.printStackTrace();
                 LOGGER.log(Level.ERROR, "Delete a video[id=" + trendId + "] failed", e);
             }
         }
 
-
-    public boolean forceDelete(File file) {
-            boolean result = file.delete();
-            int tryCount = 0;
-            while (!result && tryCount++ < 10) {
-                System.gc();    //回收资源
-                result = file.delete();
-            }
-            return result;
-        }
     public boolean deleteDir(File dir) {
         if (dir.isDirectory()) {
             String[] children = dir.list();
