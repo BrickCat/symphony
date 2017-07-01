@@ -1,5 +1,7 @@
 package org.b3log.symphony.util;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.imageio.ImageIO;
@@ -57,25 +59,24 @@ public class TrendUtils {
         return s;
     }
 
-    /***
-     * 功能 :调整图片大小 开发：wuyechun 2011-7-22
-     * @param srcImgPath 原图片路径
-     * @param distImgPath  转换大小后图片路径
-     * @param width   转换后图片宽度
-     * @param height  转换后图片高度
+    /**
+     * @param standardImgPath 原图片path
+     * @param thumName 缩略图path
      */
-    public static void resizeImage(String srcImgPath, String distImgPath,
-                                   int width, int height) throws IOException {
-
-        File srcFile = new File(srcImgPath);
-        Image srcImg = ImageIO.read(srcFile);
-        BufferedImage buffImg = null;
-        buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        buffImg.getGraphics().drawImage(
-                srcImg.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0,
-                0, null);
-
-        ImageIO.write(buffImg, "JPEG", new File(distImgPath));
-
+    private static String storeThumbnail(String standardImgPath, String thumName) {
+        File file = new File(standardImgPath);
+        if(file!=null&&file.isFile()){
+            try {
+                File outFIle = new File(thumName);
+                //scale(比例)
+                //watermark(位置，水印图，透明度)
+                Thumbnails.of(file).scale(0.25f).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File("images/watermark.png")), 0.5f)
+                        .outputQuality(0.8f) .toFile(outFIle);
+                return outFIle.getName();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

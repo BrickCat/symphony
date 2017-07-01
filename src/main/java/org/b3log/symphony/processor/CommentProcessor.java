@@ -276,6 +276,7 @@ public class CommentProcessor {
     public void updateComment(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
                               final String id) throws IOException {
         context.renderJSON().renderJSONValue(Keys.STATUS_CODE, StatusCodes.ERR);
+        final String type = request.getParameter("type");
 
         try {
             final JSONObject comment = commentQueryService.getComment(id);
@@ -308,7 +309,7 @@ public class CommentProcessor {
                 comment.put(Comment.COMMENT_UA, ua);
             }
 
-            commentMgmtService.updateComment(comment.optString(Keys.OBJECT_ID), comment);
+            commentMgmtService.updateComment(comment.optString(Keys.OBJECT_ID), comment,type);
 
             commentContent = comment.optString(Comment.COMMENT_CONTENT);
             commentContent = shortLinkQueryService.linkArticle(commentContent);

@@ -2103,7 +2103,7 @@ public class AdminProcessor {
             }
         }
 
-        commentMgmtService.updateComment(commentId, comment);
+        commentMgmtService.updateComment(commentId, comment,"");
 
         comment = commentQueryService.getComment(commentId);
         dataModel.put(Comment.COMMENT, comment);

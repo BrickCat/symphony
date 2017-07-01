@@ -25,13 +25,13 @@
                             <#list trends as trend>
                                 <div class="container gallery-container" style="width: 80%;margin-left: 10%;margin-top: 3%;border:1px solid #D1CFCF;">
                                     <div class="article-info fn-flex" style="margin-left: 2%;margin-top: 2%">
-                                        <a rel="author" href="${servePath}/trends/">
+                                        <a rel="author" href="${servePath}/member/${trend.trendAuthor.userName}">
                                             <div class="avatar-mid tooltipped tooltipped-se" aria-label="${trend.trendAuthor.userName}" style="background-image:url('${trend.trendParticipantThumbnailURL}')">
 
                                             </div>
                                         </a>
                                         <div class="fn-flex-1 fn-ellipsis" style="margin-top: -2%;">
-                                            <a rel="author" href="${servePath}/trends/" class="ft-gray"><strong class="ft-gray">${trend.trendAuthor.userName}</strong></a>
+                                            <a rel="author" href="${servePath}/member/${trend.trendAuthor.userName}" class="ft-gray"><strong class="ft-gray">${trend.trendAuthor.userName}</strong></a>
 
                                             <br/>
 

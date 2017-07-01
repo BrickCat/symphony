@@ -732,7 +732,7 @@ var Comment = {
             type = 'POST',
             commentId = $('#replyUseName').data('commentId');
         if (commentId) {
-            url = Label.servePath + "/comment/" + commentId;
+            url = Label.servePath + "/comment/" + commentId+"?type=video";
             type = 'PUT';
         }
         $.ajax({

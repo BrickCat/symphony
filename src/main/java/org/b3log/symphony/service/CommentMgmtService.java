@@ -581,7 +581,7 @@ public class CommentMgmtService {
      * @param comment   the specified comment
      * @throws ServiceException service exception
      */
-    public void updateComment(final String commentId, final JSONObject comment) throws ServiceException {
+    public void updateComment(final String commentId, final JSONObject comment,final String type) throws ServiceException {
         final Transaction transaction = commentRepository.beginTransaction();
 
         try {
@@ -615,29 +615,38 @@ public class CommentMgmtService {
             }
 
             transaction.commit();
+            JSONObject article = null;
+            if(StringUtils.isNotBlank(type)){
+                article= videoRepository.get(comment.optString(Comment.COMMENT_ON_ARTICLE_ID));
+            }else{
+                article= articleRepository.get(comment.optString(Comment.COMMENT_ON_ARTICLE_ID));
+                final int articleAnonymous = article.optInt(Article.ARTICLE_ANONYMOUS);
+                final int commentAnonymous = comment.optInt(Comment.COMMENT_ANONYMOUS);
 
-            final JSONObject article = articleRepository.get(comment.optString(Comment.COMMENT_ON_ARTICLE_ID));
-            final int articleAnonymous = article.optInt(Article.ARTICLE_ANONYMOUS);
-            final int commentAnonymous = comment.optInt(Comment.COMMENT_ANONYMOUS);
-
-            if (Comment.COMMENT_ANONYMOUS_C_PUBLIC == commentAnonymous
-                    && Article.ARTICLE_ANONYMOUS_C_PUBLIC == articleAnonymous) {
-                // Point
-                final long now = System.currentTimeMillis();
-                final long createTime = comment.optLong(Keys.OBJECT_ID);
-                if (now - createTime > 1000 * 60 * 5) {
-                    pointtransferMgmtService.transfer(commentAuthorId, Pointtransfer.ID_C_SYS,
-                            Pointtransfer.TRANSFER_TYPE_C_UPDATE_COMMENT,
-                            Pointtransfer.TRANSFER_SUM_C_UPDATE_COMMENT, commentId, now);
+                if (Comment.COMMENT_ANONYMOUS_C_PUBLIC == commentAnonymous
+                        && Article.ARTICLE_ANONYMOUS_C_PUBLIC == articleAnonymous) {
+                    // Point
+                    final long now = System.currentTimeMillis();
+                    final long createTime = comment.optLong(Keys.OBJECT_ID);
+                    if (now - createTime > 1000 * 60 * 5) {
+                        pointtransferMgmtService.transfer(commentAuthorId, Pointtransfer.ID_C_SYS,
+                                Pointtransfer.TRANSFER_TYPE_C_UPDATE_COMMENT,
+                                Pointtransfer.TRANSFER_SUM_C_UPDATE_COMMENT, commentId, now);
+                    }
                 }
             }
+
 
             final boolean fromClient = comment.has(Comment.COMMENT_CLIENT_COMMENT_ID);
 
             // Event
             final JSONObject eventData = new JSONObject();
             eventData.put(Common.FROM_CLIENT, fromClient);
-            eventData.put(Article.ARTICLE, article);
+            if(StringUtils.isNotBlank(type)){
+                eventData.put(Video.VIDEO, article);
+            }else{
+                eventData.put(Article.ARTICLE, article);
+            }
             eventData.put(Comment.COMMENT, comment);
             try {
                 eventManager.fireEventAsynchronously(new Event<>(EventTypes.UPDATE_COMMENT, eventData));

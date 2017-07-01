@@ -17,6 +17,7 @@ import org.b3log.symphony.model.Video;
 import org.b3log.symphony.model.VideoSize;
 import org.b3log.symphony.service.*;
 import org.b3log.symphony.util.Symphonys;
+import org.b3log.symphony.util.TrendUtils;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -157,6 +158,8 @@ public class UploadTrendServlet extends HttpServlet {
 					File file= new File(fileParent,filename);
 					//copy
 					FileUtils.copyInputStreamToFile(item.getInputStream(), file);
+
+					TrendUtils.resizeImage(fileParent+filename,fileParent+filename,600,900);
 
 				}
 			}
