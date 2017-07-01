@@ -42,6 +42,9 @@ public class TODO {
     //webupload
     //http://blog.csdn.net/qq_34698126/article/details/54429721
     //http://www.docin.com/p-1720796060.html
+
+    //缩略图
+    //http://blog.csdn.net/yhhazr/article/details/7866491
     /**
      * 后台
      */
