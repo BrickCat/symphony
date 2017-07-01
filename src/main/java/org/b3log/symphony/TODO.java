@@ -45,6 +45,9 @@ public class TODO {
 
     //缩略图
     //http://blog.csdn.net/yhhazr/article/details/7866491
+
+    //视频水印
+    //http://blog.csdn.net/tanghui2qinghong/article/details/11593379
     /**
      * 后台
      */
