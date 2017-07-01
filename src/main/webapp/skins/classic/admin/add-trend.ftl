@@ -676,6 +676,9 @@
                                 $prgress.css('display', 'block');
                             } else if (cur === 'complete') {
                                 $li.append('<span class="success"></span>');
+                                $("#submit").removeAttr("disabled");
+                                $("#submit").removeClass("red fn-right")
+                                $("#submit").attr("class", "green fn-right");
                             }
 
                             $li.removeClass('state-' + prev).addClass('state-' + cur);
@@ -963,7 +966,7 @@
                 <textarea name="trendContent" rows="5"></textarea>
 
                 <br/><br/><br/>
-                <button id="submit"  type="submit" class="green fn-right">${submitLabel}</button>
+                <button id="submit"  type="submit" disabled="disabled" class="red fn-right">${submitLabel}</button>
             </form>
         </div>
     </div>

@@ -146,7 +146,7 @@
                 </select>
 
                 <br/><br/><br/>
-                <button id="submit"  type="submit" class="red fn-right">${submitLabel}</button>
+                <button id="submit"  type="submit" disabled="disabled" class="red fn-right">${submitLabel}</button>
             </form>
         </div>
     </div>

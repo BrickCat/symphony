@@ -159,7 +159,6 @@ public class UploadTrendServlet extends HttpServlet {
 					//copy
 					FileUtils.copyInputStreamToFile(item.getInputStream(), file);
 
-					TrendUtils.resizeImage(fileParent+filename,fileParent+filename,600,900);
 
 				}
 			}
