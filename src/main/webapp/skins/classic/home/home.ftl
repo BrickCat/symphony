@@ -7,7 +7,6 @@
     <#if currentUser?? && currentUser.userName == user.userName>
     <a pjax-title="${anonymousArticleLabel} - ${user.userName} - ${symphonyLabel}"<#if type == "articlesAnonymous"> class="current"</#if> href="${servePath}/member/${user.userName}/articles/anonymous">${anonymousArticleLabel}<#if type == "articlesAnonymous"> &nbsp;<span class="count">${paginationRecordCount?c}</span></#if></a>
     <a pjax-title="${anonymousCommentLabel} - ${user.userName} - ${symphonyLabel}"<#if type == "commentsAnonymous"> class="current"</#if> href="${servePath}/member/${user.userName}/comments/anonymous">${anonymousCommentLabel}</a>
-    <a pjax-title="${currentMindLabel} - ${user.userName} - ${symphonyLabel}"<#if type == "currentMind"> class="current"</#if> href="${servePath}/member/${user.userName}/mind/current">${currentMindLabel}</a>
     </#if>
 </div>
 <#if 0 == user.userArticleStatus || (isLoggedIn && ("adminRole" == currentUser.userRole || currentUser.userName == user.userName))>

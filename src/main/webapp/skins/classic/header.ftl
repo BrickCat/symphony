@@ -52,6 +52,9 @@
                         <a href="${servePath}/settings">${settingsLabel}</a>
                     </li>
                     <li>
+                        <a href="${servePath}/member/mind">${mindLabel}</a>
+                    </li>
+                    <li>
                         <a href="${servePath}/settings/help">${helpLabel}</a>
                     </li>
                     <li>
