@@ -1,28 +1,8 @@
 (function() {
     var oldData;
-    var html = '';
-    html += '<a class="diy export" data-type="json">导出json</a>',
-        html += '<a class="diy export" data-type="md">导出md</a>',
-        html += '<a class="diy export" data-type="km">导出km</a>',
-        html += '<button class="diy input">',
-        html += '导入<input type="file" id="fileInput">',
-        html += '</button>';
 
-    $('.editor-title').append(html);
 
-    $('.diy').css({
-        // 'height': '30px',
-        // 'line-height': '30px',
-        'margin-top': '0px',
-        'float': 'right',
-        'background-color': '#fff',
-        'min-width': '60px',
-        'text-decoration': 'none',
-        color: '#999',
-        'padding': '0 10px',
-        border: 'none',
-        'border-right': '1px solid #ccc',
-    });
+
     $('.input').css({
         'overflow': 'hidden',
         'position': 'relative',

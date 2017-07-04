@@ -783,11 +783,13 @@ public class UserProcessor {
     }
 
     @RequestProcessing(value = "/member/mind",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
     public void getMind(final HTTPRequestContext context, final HttpServletRequest request,
                         final HttpServletResponse response) throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
-        renderer.setTemplateName("/home/kity-mind.ftl");
+        renderer.setTemplateName("kity-mind.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }

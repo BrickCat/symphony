@@ -53,6 +53,9 @@ public class TODO {
     //https://github.com/hizzgdev/jsmind
     //kitymind
     //http://www.jianshu.com/p/9b53499d9031
+
+    //数据库优化
+    //http://database.51cto.com/art/201407/445934.htm
     /**
      * 后台
      */
