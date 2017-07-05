@@ -78,6 +78,11 @@
                         <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
                     </a>
                 </li>
+                <li class="mm-menu__item">
+                    <a class="mm-menu__link export" href="#javascript:getmind('1499254275899')" data-type="km">
+                        <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </body>

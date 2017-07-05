@@ -153,6 +153,21 @@ public class MindProcessor {
         context.renderJSONValue(Mind.MIND_CONTENT+"1",mind.optString(Mind.MIND_CONTENT));
     }
 
+    @RequestProcessing(value = "/mind/get-mind",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    public void getMind(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        context.renderJSON();
 
+        final String mindId = request.getParameter(Mind.MIND_T_ID);
+
+        JSONObject mind = mindQueryService.getMind(mindId);
+
+        if(null == mind){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        context.renderJSONValue(Mind.MIND,mind);
+    }
 
 }
