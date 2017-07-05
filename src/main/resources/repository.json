@@ -1854,6 +1854,33 @@
                     "length": 256
                 }
             ]
+        },{
+            "name":"mind",
+            "keys":[
+                {
+                    "name":"oId",
+                    "type":"String",
+                    "length": 19
+                },{
+                    "name":"mindAuthorId",
+                    "type":"String",
+                    "length":19
+                },{
+                    "name":"mindContent",
+                    "type": "String",
+                    "length": 102400
+                },{
+                    "name":"mindCreateTime",
+                    "type":"long"
+                },{
+                    "name":"mindUpdateTime",
+                    "type":"long"
+                },{
+                    "name":"mindType",
+                    "type":"int",
+                    "length":11
+                }
+            ]
         }
     ]
 }

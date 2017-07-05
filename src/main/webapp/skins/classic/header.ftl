@@ -51,9 +51,11 @@
                     <li>
                         <a href="${servePath}/settings">${settingsLabel}</a>
                     </li>
+                    <#if permissions["menuAdminMind"].permissionGrant>
                     <li>
                         <a href="${servePath}/member/mind">${mindLabel}</a>
                     </li>
+                    </#if>
                     <li>
                         <a href="${servePath}/settings/help">${helpLabel}</a>
                     </li>

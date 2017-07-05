@@ -447,8 +447,11 @@ public final class Permission {
 
     public static final String PERMISSION_ID_C_MENU_ADMIN_VIDEO = "menuAdminVideo";
 
+
     public static final String PERMISSION_ID_C_MENU_ADMIN_TRENDS = "menuAdminTrends";
 
+
+    public static final String PERMISSION_ID_C_MENU_ADMIN_MIND = "menuAdminMind";
     /**
      * Id - user - watch - video
      */
@@ -482,6 +485,22 @@ public final class Permission {
      * Id - user - add - trends
      */
     public static final String PERMISSION_ID_C_DELETE_TRENDS="userDeleteTrends";
+
+
+    /**
+     * Id - user - add - trends
+     */
+    public static final String PERMISSION_ID_C_DELETE_MIND="userDeleteMind";
+
+    /**
+     * Id - user - add - trends
+     */
+    public static final String PERMISSION_ID_C_UPDATE_MIND="userUpdateMind";
+
+    /**
+     * Id - user - add - trends
+     */
+    public static final String PERMISSION_ID_C_CREATE_MIND="userCreateMind";
 
     // Category constants
     /**

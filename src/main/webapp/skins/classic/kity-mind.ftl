@@ -47,7 +47,9 @@
                     <#include "header.ftl">
                 </h1>
                 <kityminder-editor on-init="initEditor(editor, minder)" data-theme="fresh-green"></kityminder-editor>
-                <div style="width: auto;height: 35px;background-color: #ffffff"></div>
+                <div style="width: auto;height: 35px;background-color: #ffffff">
+                    <input id="mindId" value="" hidden="hidden"/>
+                </div>
             </div>
         </div>
         <button id="mm-menu-toggle" class="mm-menu-toggle"></button>
@@ -157,7 +159,6 @@
     </#if>
     <script>
         var menu = new Menu;
-        menu._toggleMenuOn();
         angular.module('kityminderDemo', ['kityminderEditor'])
                 .controller('MainController', function($scope) {
                     $scope.initEditor = function(editor, minder) {
@@ -168,7 +169,6 @@
 
         (function() {
             var oldData;
-
             $('.input').css({
                 'overflow': 'hidden',
                 'position': 'relative',
@@ -208,7 +208,6 @@
                 }
 
                 editor.minder.exportData(exportType).then(function(content) {
-                    alert(content);
                     switch (exportType) {
                         case 'json':
                             console.log($.parseJSON(content));
@@ -227,7 +226,7 @@
             }).on('mouseout', '.export', function(event) {
                 // 鼠标移开是设置禁止点击状态，下次鼠标移入时需重新计算需要生成的文件
                 event.preventDefault();
-                $(this).css('cursor', 'not-allowed');
+               /* $(this).css('cursor', 'not-allowed');*/
             }).on('click', '.export', function(event) {
                 // 禁止点击状态下取消跳转
                 var $this = $(this);
@@ -267,7 +266,39 @@
                     reader.readAsText(file);
                 });
             }
-
+            $(window).keydown(function (event) {
+                if(!(event.which == 83 && event.ctrlKey))return true;
+                alert(JSON.stringify(editor.minder.exportJson()));
+                //addOrUpdate(editor.minder.exportJson());
+                event.preventDefault();
+                return false;
+            });
         })();
+        function addOrUpdate(mindJson) {
+            var mindId = $('#mindId').val();
+            var url = "${servePath}" + "/mind/add-mind";
+            if(mindId){
+                url =  Label.servePath + "/mind/update-mind?mindId="+mindId;
+            }
+
+            alert(url);
+            $.ajax({
+                url: url,
+                type: "POST",
+                cache: false,
+                data: JSON.stringify(mindJson),
+                success: function (result, textStatus) {
+                    if (0 === result.sc) {
+
+                    }
+                },
+                error: function (result) {
+
+                },
+                complete: function () {
+
+                }
+            });
+        }
     </script>
 </html>
