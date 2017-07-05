@@ -1,8 +1,6 @@
 (function() {
     var oldData;
 
-
-
     $('.input').css({
         'overflow': 'hidden',
         'position': 'relative',
@@ -42,6 +40,8 @@
         }
 
         editor.minder.exportData(exportType).then(function(content) {
+
+            menu._toggleMenuOff();
             alert(content);
             switch (exportType) {
                 case 'json':
@@ -78,7 +78,6 @@
             var file = fileInput.files[0],
                 // textType = /(md|km)/,
                 fileType = file.name.substr(file.name.lastIndexOf('.') + 1);
-            console.log(file);
             switch (fileType) {
                 case 'md':
                     fileType = 'markdown';
@@ -96,7 +95,6 @@
             reader.onload = function(e) {
                 var content = reader.result;
                 editor.minder.importData(fileType, content).then(function(data) {
-                    console.log(data)
                     $(fileInput).val('');
                 });
             }
