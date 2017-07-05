@@ -101,6 +101,17 @@ public class UserProcessor {
     private static final Logger LOGGER = Logger.getLogger(UserProcessor.class);
 
     /**
+     * pagination window size
+     */
+    private static final int WINDOW_SIZE = 15;
+
+
+    /**
+     * Pagination page size.
+     */
+    private static final int PAGE_SIZE = 30;
+
+    /**
      * User management service.
      */
     @Inject
@@ -213,6 +224,12 @@ public class UserProcessor {
      */
     @Inject
     private RoleQueryService roleQueryService;
+
+    /**
+     * Role query service.
+     */
+    @Inject
+    private MindQueryService mindQueryService;
 
     /**
      * Updates user i18n.
@@ -792,6 +809,39 @@ public class UserProcessor {
         renderer.setTemplateName("kity-mind.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
+    @RequestProcessing(value = "/member/mind",method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
+    public void getMinds(final HTTPRequestContext context, final HttpServletRequest request,
+                        final HttpServletResponse response) throws Exception {
+        context.renderJSON().renderTrueResult();
+
+        String pageNumStr = request.getParameter("p");
+        if (StringUtils.isBlank(pageNumStr)) {
+            pageNumStr = "1";
+        }
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = PAGE_SIZE;
+        final int windowSize = WINDOW_SIZE;
+        final JSONObject requestJSONObject = new JSONObject();
+        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
+        requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
+        //获取当前用户
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
+        requestJSONObject.put(Mind.MIND_AUTHOR_ID,currentUserId);
+
+        final Map<String, Class<?>> mindFields = new HashMap<>();
+
+        mindFields.put(Keys.OBJECT_ID,String.class);
+        mindFields.put(Mind.MIND_NAME,String.class);
+
+        final JSONObject result = mindQueryService.getMinds(requestJSONObject,mindFields);
+
+        context.renderJSONValue(Mind.MINDS,result.optJSONArray(Mind.MINDS));
     }
 
     /**

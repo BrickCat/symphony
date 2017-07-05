@@ -1879,6 +1879,10 @@
                     "name":"mindType",
                     "type":"int",
                     "length":11
+                },{
+                    "name":"mindName",
+                    "type":"String",
+                    "length":255
                 }
             ]
         }

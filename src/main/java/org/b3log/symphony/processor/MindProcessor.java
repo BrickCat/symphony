@@ -122,8 +122,9 @@ public class MindProcessor {
         final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
 
         mind.put(Mind.MIND_AUTHOR_ID,currentUserId);
-        mind.put(Mind.MIND_CONTENT,request.getParameter(Mind.MIND_CONTENT));
+        mind.put(Mind.MIND_CONTENT,request.getParameter("data"));
         mind.put(Mind.MIND_TYPE,request.getParameter(Mind.MIND_TYPE));
+        mind.put(Mind.MIND_NAME,request.getParameter("name"));
 
         String ret = mindMgmtService.addMind(mind);
 
@@ -142,8 +143,8 @@ public class MindProcessor {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-
-        mind.put(Mind.MIND_CONTENT,request.getParameter(Mind.MIND_CONTENT));
+        mind.put(Mind.MIND_NAME,request.getParameter("name"));
+        mind.put(Mind.MIND_CONTENT,request.getParameter("data"));
         mind.put(Mind.MIND_UPDATE_TIME, Ids.genTimeMillisId());
 
         String ret = mindMgmtService.updateMind(mindId,mind);
@@ -154,7 +155,6 @@ public class MindProcessor {
     }
 
     @RequestProcessing(value = "/mind/get-mind",method = HTTPRequestMethod.GET)
-    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     public void getMind(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         context.renderJSON();
 
@@ -167,7 +167,7 @@ public class MindProcessor {
             return;
         }
 
-        context.renderJSONValue(Mind.MIND,mind);
+        context.renderJSONValue(Mind.MINDS,mind);
     }
 
 }

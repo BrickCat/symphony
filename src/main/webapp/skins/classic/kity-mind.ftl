@@ -78,11 +78,9 @@
                         <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
                     </a>
                 </li>
-                <li class="mm-menu__item">
-                    <a class="mm-menu__link export" href="#javascript:getmind('1499254275899')" data-type="km">
-                        <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
-                    </a>
-                </li>
+                <div class="mm-menu__header" style="height: 45px;" id="mindList">
+                    <h2 class="mm-menu__title">${listMindLabel}</h2>
+                </div>
             </ul>
         </nav>
     </body>
@@ -242,6 +240,7 @@
 
             // 导入
             window.onload = function() {
+                getMinds();
                 var fileInput = document.getElementById('fileInput');
 
                 fileInput.addEventListener('change', function(e) {
@@ -289,12 +288,12 @@
                 url: url,
                 type: "POST",
                 cache: false,
-                data: {"mindContent":JSON.stringify(mindJson)},
+                data: {"data":JSON.stringify(mindJson),"name":$('#node_text1').text()},
                 success: function (result, textStatus) {
                     if (result.mindId != null || result.mindId != undefined || result.mindId != '') {
                         $('#mindId').val(result.mindId);
                         alert(result.mindId);
-                        alert(result.mindContent1);
+
                     }
                 },
                 error: function (result) {
@@ -305,6 +304,60 @@
                 }
             });
             event.preventDefault();
+        }
+        function getMind(mindId) {
+            var url = "${servePath}" + "/mind/get-mind?mindId="+mindId;
+            $.ajax({
+                url: url,
+                type: "GET",
+                cache: false,
+                data: "",
+                success: function (result, textStatus) {
+                    if (result.minds != null || result.minds != undefined || result.minds != '') {
+                        alert(JSON.stringify(result.minds.mindContent));
+                        editor.minder.importData("json", result.minds.mindContent).then(function (data) {
+                            menu._toggleMenuOff();
+                            $('#mindId').val(result.minds.oId);
+                        });
+                    }
+                },
+                error: function (result) {
+
+                },
+                complete: function () {
+
+                }
+            });
+        }
+        function getMinds() {
+            var url = "${servePath}" + "/member/mind";
+            $.ajax({
+                url: url,
+                type: "POST",
+                cache: false,
+                data: "",
+                success: function (result, textStatus) {
+                    alert(result.minds);
+                    if (result.minds != null || result.minds != undefined || result.minds != '') {
+                        var mindHtml = '';
+                        for (var i = 0; i < result.minds.length;i++) {
+                            mindHtml += '<li class="mm-menu__item">'
+                                            +'<a class="mm-menu__link export" href="javascript:getMind("'+result.minds[i].oId+'")" data-type="km">'
+                                                +'<span class="mm-menu__link-text">&nbsp;&nbsp;${mindListIcon}&nbsp;&nbsp;'+result.minds[i].mindName+'</span>'
+                                            +'</a>'
+                                        +'</li>';
+                        }
+                        alert(mindHtml);
+                        $('#mindList').after(mindHtml);
+                    }
+                },
+                error: function (result) {
+
+                },
+                complete: function () {
+
+                }
+            });
         }
     </script>
 </html>

@@ -20,20 +20,23 @@ package org.b3log.symphony.service;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.b3log.latke.Keys;
 import org.b3log.latke.logging.Level;
 import org.b3log.latke.logging.Logger;
+import org.b3log.latke.model.Pagination;
+import org.b3log.latke.repository.*;
+import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.symphony.model.Common;
+import org.b3log.symphony.model.Mind;
+import org.b3log.symphony.model.Video;
 import org.b3log.symphony.util.Markdowns;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Manual query service.
@@ -177,4 +180,6 @@ public class ManQueryService {
 
         return CMD_MANS.subList(start, end);
     }
+
+
 }

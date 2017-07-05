@@ -493,7 +493,7 @@ public class VideoProcessor {
         final String videoTitle = request.getParameter(Common.VIDEO_TITLE_TAG);
         if (!Strings.isEmptyOrNull(videoTitle)) {
             //标题
-            requestJSONObject.put(Tag.TAG_TITLE, videoTitle);
+            requestJSONObject.put(Video.VIDEO_TITLE, videoTitle);
         }
         final Map<String, Class<?>> videoFields = new HashMap<>();
         //TODO 视频缩略图

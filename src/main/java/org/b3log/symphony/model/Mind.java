@@ -67,4 +67,6 @@ public final class Mind {
      */
     public static final String MIND_TYPE = "mindType";
 
+    public static final String MIND_NAME = "mindName";
+
 }

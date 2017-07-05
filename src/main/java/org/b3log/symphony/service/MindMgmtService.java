@@ -54,7 +54,8 @@ public class MindMgmtService {
         mind.put(Mind.MIND_UPDATE_TIME,Ids.genTimeMillisId());
         //类型
         mind.put(Mind.MIND_TYPE,requestJSONObject.optInt(Mind.MIND_TYPE));
-
+        //name
+        mind.put(Mind.MIND_NAME,requestJSONObject.optString(Mind.MIND_NAME));
         try {
             mindRepository.add(mind);
             transaction.commit();
