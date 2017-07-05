@@ -268,28 +268,28 @@
             }
             $(window).keydown(function (event) {
                 if(!(event.which == 83 && event.ctrlKey))return true;
-                alert(JSON.stringify(editor.minder.exportJson()));
-                //addOrUpdate(editor.minder.exportJson());
+                addOrUpdate(editor.minder.exportJson(),event);
                 event.preventDefault();
                 return false;
             });
         })();
-        function addOrUpdate(mindJson) {
+        function addOrUpdate(mindJson,event) {
             var mindId = $('#mindId').val();
             var url = "${servePath}" + "/mind/add-mind";
             if(mindId){
                 url =  Label.servePath + "/mind/update-mind?mindId="+mindId;
             }
 
-            alert(url);
             $.ajax({
                 url: url,
                 type: "POST",
                 cache: false,
-                data: JSON.stringify(mindJson),
+                data: {"mindContent":JSON.stringify(mindJson)},
                 success: function (result, textStatus) {
-                    if (0 === result.sc) {
-
+                    if (result.mindId != null || result.mindId != undefined || result.mindId != '') {
+                        $('#mindId').val(result.mindId);
+                        alert(result.mindId);
+                        alert(result.mindContent1);
                     }
                 },
                 error: function (result) {
@@ -299,6 +299,7 @@
 
                 }
             });
+            event.preventDefault();
         }
     </script>
 </html>

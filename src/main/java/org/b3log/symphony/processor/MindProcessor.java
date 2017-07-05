@@ -150,6 +150,7 @@ public class MindProcessor {
 
         context.renderJSONValue(Mind.MIND_T_ID,ret);
 
+        context.renderJSONValue(Mind.MIND_CONTENT+"1",mind.optString(Mind.MIND_CONTENT));
     }
 
 
