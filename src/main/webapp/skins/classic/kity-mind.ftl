@@ -57,42 +57,32 @@
             <div class="mm-menu__header">
                 <h2 class="mm-menu__title">${operationMindLabel}</h2>
             </div>
-            <ul class="mm-menu__items">
+            <ul class="mm-menu__items" id="mindLists">
                 <li class="mm-menu__item">
-                    <a class="mm-menu__link input" href="#">
-                        <span class="mm-menu__link-text">&nbsp;&nbsp;<span class="icon-upload"></span>&nbsp;&nbsp;${uoloadMind}<input type="file" id="fileInput"></span>
-                    </a>
+                    <label class="mm-menu__link input" >
+                        <span class="mm-menu__link-text">&nbsp;&nbsp;<span class="icon-upload"></span>&nbsp;&nbsp;${uoloadMind}<input type="file" id="fileInput"/></span>
+                    </label>
                 </li>
                 <li class="mm-menu__item">
-                    <a class="mm-menu__link export" href="#" data-type="json">
+                    <label class="mm-menu__link export" data-type="json">
                         <span class="mm-menu__link-text">&nbsp;&nbsp;${mindJsonExportIcon}&nbsp;&nbsp;${exportJsonMind}</span>
-                    </a>
+                    </label>
                 </li>
                 <li class="mm-menu__item">
-                    <a class="mm-menu__link export" href="#" data-type="md">
+                    <label class="mm-menu__link export" data-type="md">
                         <span class="mm-menu__link-text">&nbsp;&nbsp;${mindMdExportIcon}&nbsp;&nbsp;${exportMdMind}</span>
-                    </a>
+                    </label>
                 </li>
                 <li class="mm-menu__item">
-                    <a class="mm-menu__link export" href="#" data-type="km">
+                    <label class="mm-menu__link export" data-type="km">
                         <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
-                    </a>
+                    </label>
                 </li>
-                <div class="mm-menu__header" style="height: 45px;" id="mindLists">
+                <div class="mm-menu__header" style="height: 45px;">
                     <h2 class="mm-menu__title">${listMindLabel}</h2>
                 </div>
-                <#list minds as mind>
-                    <li class="mm-menu__item">
-                        <a class="mm-menu__link export" href="#" data-type="km">
-                            <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
-                        </a>
-                    </li>
-                </#list>
             </ul>
         </nav>
-        <div hidden="hidden">
-            <#include "footer.ftl">
-        </div>
     </body>
     <script src="${staticServePath}/js/lib/kitymind/bower_components/jquery-nav/js/production/materialMenu.min.js"></script>
     <!-- bower:js -->
@@ -235,6 +225,7 @@
                     var aLink = $this[0];
                     aLink.href = url;
                     aLink.download = $('#node_text1').text() + '.' + type;
+                    menu._toggleMenuOff();
                 });
             }).on('mouseout', '.export', function(event) {
                 // 鼠标移开是设置禁止点击状态，下次鼠标移入时需重新计算需要生成的文件
@@ -254,8 +245,8 @@
                 var fileInput = document.getElementById('fileInput');
 
                 fileInput.addEventListener('change', function(e) {
+                    alert(1);
                     var file = fileInput.files[0],
-                            // textType = /(md|km)/,
                             fileType = file.name.substr(file.name.lastIndexOf('.') + 1);
                     switch (fileType) {
                         case 'md':
@@ -266,7 +257,6 @@
                             fileType = 'json';
                             break;
                         default:
-                            console.log("File not supported!");
                             alert('只支持.km、.md、.json文件');
                             return;
                     }
@@ -278,6 +268,7 @@
                         });
                     }
                     reader.readAsText(file);
+                    menu._toggleMenuOff();
                 });
             }
             $(window).keydown(function (event) {
@@ -302,8 +293,6 @@
                 success: function (result, textStatus) {
                     if (result.mindId != null || result.mindId != undefined || result.mindId != '') {
                         $('#mindId').val(result.mindId);
-                        alert(result.mindId);
-
                     }
                 },
                 error: function (result) {
@@ -324,7 +313,6 @@
                 data: "",
                 success: function (result, textStatus) {
                     if (result.minds != null || result.minds != undefined || result.minds != '') {
-                        alert(JSON.stringify(result.minds.mindContent));
                         editor.minder.importData("json", result.minds.mindContent).then(function (data) {
                             menu._toggleMenuOff();
                             $('#mindId').val(result.minds.oId);
@@ -347,19 +335,16 @@
                 cache: false,
                 data: "",
                 success: function (result, textStatus) {
-                    alert(result.minds);
                     if (result.minds != null || result.minds != undefined || result.minds != '') {
                         var mindHtml = '';
                         for (var i = 0; i < result.minds.length;i++) {
-                            mindHtml += '<li class="mm-menu__item">'
-                                            +'<a class="mm-menu__link export" href="javascript:getMind("'+result.minds[i].oId+'")" data-type="km">'
-                                                +'<span class="mm-menu__link-text">&nbsp;&nbsp;&nbsp;&nbsp;'+result.minds[i].mindName+'</span>'
+                            mindHtml += '<li class="mm-menu__item item-'+(5+i)+' in-view">'
+                                            +'<a class="mm-menu__link" href=\'javascript:getMind("'+result.minds[i].oId+'")\' >'
+                                                +'<span class="mm-menu__link--touch-effect" style="width: 600px; height: 600px;"></span>'
+                                                +'<span class="mm-menu__link-text">&nbsp;&nbsp;${mindListIcon}&nbsp;&nbsp;'+result.minds[i].mindName+'</span>'
                                             +'</a>'
                                         +'</li>';
                         }
-                        alert(mindHtml);
-                       // $("#mindLists").after(mindHtml);
-                        alert(mindHtml);
                         $("#mindLists").append(mindHtml);
                     }
                 },
