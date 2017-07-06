@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基于Animate.css的炫酷jQuery消息通知框插件</title>
+    <link href='http://www.jq22.com/jquery/bootstrap-3.3.4.css' rel='stylesheet' type='text/css'>
+
+    <link rel='stylesheet' href='css/animate.min.css'>
+    <link rel="stylesheet" href="css/notification.css">
+    <!--[if IE]>
+		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+    <article class="jq22-container">
+        <header class="jq22-header">
+            <h1>基于Animate.css的炫酷jQuery消息通知框插件 <span>A Nice Corner Notification System with JavaScript and Animate.css</span></h1>
+        </header>
+        <div class="container">
+            <nav class="navbar">
+                <h1 class="text-center">Notification</h1>
+            </nav>
+            <div class="settings row">
+                <div class="col-md-12">
+                    <h2 class="panel-title text-center">Position</h2>
+                    <div class="positions">
+                        <div class="position top left selected" data-position="1"></div>
+                        <div class="position top right" data-position="2"></div>
+                        <div class="position bottom right" data-position="3"></div>
+                        <div class="position bottom left" data-position="4"></div>
+                    </div>
+                </div>
+
+                <!-- Light -->
+                <fieldset>
+                    <legend>Light</legend>
+                    <div class="notify btn" value="lightSpeedIn">lightSpeedIn</div>
+                </fieldset>
+
+
+            </div>
+        </div>
+    </article>
+
+    <script src="http://www.jq22.com/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="js/jquery-2.1.1.min.js"><\/script>')
+    </script>
+    <script src="js/notification.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

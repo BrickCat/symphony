@@ -12,7 +12,8 @@
             <link rel="stylesheet" href="${staticServePath}/js/lib/kitymind/bower_components/kityminder-core/dist/kityminder.core.css" />
             <link rel="stylesheet" href="${staticServePath}/js/lib/kitymind/bower_components/color-picker/dist/color-picker.min.css" />
             <!-- endbower -->
-
+            <link rel='stylesheet' href='${staticServePath}/js/lib/jQueryNotification/css/animate.min.css'>
+            <link rel="stylesheet" href="${staticServePath}/js/lib/jQueryNotification/css/notification.css">
             <link rel="stylesheet" href="${staticServePath}/js/lib/kitymind/kityminder.editor.min.css">
 
             <style>
@@ -106,6 +107,8 @@
     <script src="${staticServePath}/js/lib/kitymind/bower_components/kityminder-core/dist/kityminder.core.min.js"></script>
     <script src="${staticServePath}/js/lib/kitymind/bower_components/color-picker/dist/color-picker.min.js"></script>
     <!-- endbower -->
+    <script src="${staticServePath}/js/lib/jQueryNotification/js/notification.js"></script>
+    <script src="${staticServePath}/js/lib/jQueryNotification/js/index.js"></script>
     <script src="${staticServePath}/js/lib/compress/libs.min.js?${staticResourceVersion}"></script>
     <script src="${staticServePath}/js/common${miniPostfix}.js?${staticResourceVersion}"></script>
     <script src="${staticServePath}/js/lib/kitymind/kityminder.editor.min.js"></script>
