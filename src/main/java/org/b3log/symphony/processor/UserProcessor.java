@@ -808,6 +808,29 @@ public class UserProcessor {
         context.setRenderer(renderer);
         renderer.setTemplateName("kity-mind.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
+        String pageNumStr = request.getParameter("p");
+        if (StringUtils.isBlank(pageNumStr)) {
+            pageNumStr = "1";
+        }
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = PAGE_SIZE;
+        final int windowSize = WINDOW_SIZE;
+        final JSONObject requestJSONObject = new JSONObject();
+        requestJSONObject.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        requestJSONObject.put(Pagination.PAGINATION_PAGE_SIZE, pageSize);
+        requestJSONObject.put(Pagination.PAGINATION_WINDOW_SIZE, windowSize);
+        //获取当前用户
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        final String currentUserId = currentUser.optString(Keys.OBJECT_ID);
+        requestJSONObject.put(Mind.MIND_AUTHOR_ID,currentUserId);
+
+        final Map<String, Class<?>> mindFields = new HashMap<>();
+
+        mindFields.put(Keys.OBJECT_ID,String.class);
+        mindFields.put(Mind.MIND_NAME,String.class);
+
+        final JSONObject result = mindQueryService.getMinds(requestJSONObject,mindFields);
+        dataModel.put(Mind.MINDS,result.optJSONArray(Mind.MINDS));
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 

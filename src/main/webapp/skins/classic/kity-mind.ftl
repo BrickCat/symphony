@@ -78,11 +78,21 @@
                         <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
                     </a>
                 </li>
-                <div class="mm-menu__header" style="height: 45px;" id="mindList">
+                <div class="mm-menu__header" style="height: 45px;" id="mindLists">
                     <h2 class="mm-menu__title">${listMindLabel}</h2>
                 </div>
+                <#list minds as mind>
+                    <li class="mm-menu__item">
+                        <a class="mm-menu__link export" href="#" data-type="km">
+                            <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
+                        </a>
+                    </li>
+                </#list>
             </ul>
         </nav>
+        <div hidden="hidden">
+            <#include "footer.ftl">
+        </div>
     </body>
     <script src="${staticServePath}/js/lib/kitymind/bower_components/jquery-nav/js/production/materialMenu.min.js"></script>
     <!-- bower:js -->
@@ -343,12 +353,14 @@
                         for (var i = 0; i < result.minds.length;i++) {
                             mindHtml += '<li class="mm-menu__item">'
                                             +'<a class="mm-menu__link export" href="javascript:getMind("'+result.minds[i].oId+'")" data-type="km">'
-                                                +'<span class="mm-menu__link-text">&nbsp;&nbsp;${mindListIcon}&nbsp;&nbsp;'+result.minds[i].mindName+'</span>'
+                                                +'<span class="mm-menu__link-text">&nbsp;&nbsp;&nbsp;&nbsp;'+result.minds[i].mindName+'</span>'
                                             +'</a>'
                                         +'</li>';
                         }
                         alert(mindHtml);
-                        $('#mindList').after(mindHtml);
+                       // $("#mindLists").after(mindHtml);
+                        alert(mindHtml);
+                        $("#mindLists").append(mindHtml);
                     }
                 },
                 error: function (result) {
