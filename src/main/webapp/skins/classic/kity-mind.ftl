@@ -78,7 +78,7 @@
                         <span class="mm-menu__link-text">&nbsp;&nbsp;${mindKmEXportIcon}&nbsp;&nbsp;${exporpKmMind}</span>
                     </label>
                 </li>
-                <div class="mm-menu__header" style="height: 45px;">
+                <div class="mm-menu__header" style="height: 45px;" id="listHeader">
                     <h2 class="mm-menu__title">${listMindLabel}</h2>
                 </div>
             </ul>
@@ -187,7 +187,8 @@
             });
             //$('.export').css('cursor', 'not-allowed');
 
-            $(document).on('mouseover', '.export', function(event) {
+            $(document).on('click', '.export', function(event) {
+                alert(1);
                 // 链接在hover的时候生成对应数据到链接中
                 event.preventDefault();
                 var $this = $(this),
@@ -245,7 +246,6 @@
                 var fileInput = document.getElementById('fileInput');
 
                 fileInput.addEventListener('change', function(e) {
-                    alert(1);
                     var file = fileInput.files[0],
                             fileType = file.name.substr(file.name.lastIndexOf('.') + 1);
                     switch (fileType) {
@@ -346,13 +346,13 @@
                                         +'</li>';
                         }
                         $("#mindLists").append(mindHtml);
+                    }else{
+                        $("#listHeader").hide()
                     }
                 },
                 error: function (result) {
-
                 },
                 complete: function () {
-
                 }
             });
         }
