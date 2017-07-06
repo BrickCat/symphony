@@ -102,6 +102,8 @@ public class TrendsMgmtService {
         trends.put(Trend.TREND_IMAGE_URL,requestJSONObject.optString(Trend.TREND_IMAGE_URL));
         //作者
         trends.put(Trend.TREND_AUTHOR_ID,requestJSONObject.optString(Trend.TREND_AUTHOR_ID));
+        //缩略图路径
+        trends.put(Trend.TREND_T_THUMB_URL,requestJSONObject.optString(Trend.TREND_T_THUMB_URL));
         //标题
         trends.put(Trend.TREND_TITLE,"");
         //标签

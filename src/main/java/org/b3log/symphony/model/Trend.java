@@ -213,7 +213,10 @@ public final class Trend {
      * Key of trend thumbnail URL.
      */
     public static final String TREND_T_THUMBNAIL_URL = "trendThumbnailURL";
-
+    /**
+     * Key of trend thumbnail URL.
+     */
+    public static final String TREND_T_THUMB_URL = "trendThumbURL";
     /**
      * Key of trend view count display format.
      */

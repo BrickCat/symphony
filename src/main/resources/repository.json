@@ -1852,6 +1852,10 @@
                     "name": "trendImageURL",
                     "type": "String",
                     "length": 256
+                },{
+                    "name": "trendThumbURL",
+                    "type": "String",
+                    "length": 256
                 }
             ]
         },{

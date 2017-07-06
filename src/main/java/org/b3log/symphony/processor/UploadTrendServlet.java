@@ -134,6 +134,12 @@ public class UploadTrendServlet extends HttpServlet {
 					//后缀名
 					String suffix = StringUtils.substringAfterLast(filename, ".");
 					filename = uuid+"."+suffix;
+					//创建文件
+					File file= new File(fileParent,filename);
+					//copy
+					FileUtils.copyInputStreamToFile(item.getInputStream(), file);
+
+					//String thumbname = TrendUtils.storeThumbnail(fileParent+"/"+filename,filename,Symphonys.get("nginx.trend.thumb.dir")+ret+"/");
 
 					//根据ID判断数据库中是否有该条数据
 					try {
@@ -154,10 +160,7 @@ public class UploadTrendServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 
-					//创建文件
-					File file= new File(fileParent,filename);
-					//copy
-					FileUtils.copyInputStreamToFile(item.getInputStream(), file);
+
 
 
 				}

@@ -64,7 +64,7 @@
                                                 <#if imageUrl ??>
                                                     <div class="col-sm-6 col-md-4">
                                                         <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
-                                                            <img src="${nginxHost}:${nginxProt}/trend/${imageUrl}" alt="Park">
+                                                            <img src="${nginxHost}:${nginxProt}/trend/${imageUrl}" style="width: 150px;height: 94px;" alt="Park">
                                                         </a>
                                                     </div>
                                                 </#if>
