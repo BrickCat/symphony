@@ -87,6 +87,7 @@ public class MindMgmtService {
         final Transaction transaction = mindRepository.beginTransaction();
         try {
             mindRepository.remove(mindId);
+            transaction.commit();
         } catch (RepositoryException e) {
             e.printStackTrace();
         }

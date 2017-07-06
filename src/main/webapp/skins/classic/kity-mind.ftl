@@ -339,15 +339,36 @@
                         var mindHtml = '';
                         for (var i = 0; i < result.minds.length;i++) {
                             mindHtml += '<li class="mm-menu__item item-'+(5+i)+' in-view">'
-                                            +'<a class="mm-menu__link" href=\'javascript:getMind("'+result.minds[i].oId+'")\' >'
+                                            +'<a class="mm-menu__link" style="width:250px;float:left;" href=\'javascript:getMind("'+result.minds[i].oId+'")\' >'
                                                 +'<span class="mm-menu__link--touch-effect" style="width: 600px; height: 600px;"></span>'
                                                 +'<span class="mm-menu__link-text">&nbsp;&nbsp;${mindListIcon}&nbsp;&nbsp;'+result.minds[i].mindName+'</span>'
-                                            +'</a>'
+                                            +'</a><span class="icon-remove ft-red" style="float:right;margin-top:20px;margin-right:15px;" onclick=\'removeMind("'+result.minds[i].oId+'",this)\' aria-label="删除思维"></span>'
                                         +'</li>';
                         }
                         $("#mindLists").append(mindHtml);
                     }else{
                         $("#listHeader").hide()
+                    }
+                },
+                error: function (result) {
+                },
+                complete: function () {
+                }
+            });
+        }
+
+        function removeMind(mindId,mind) {
+            var url = "${servePath}" + "/mind/remove-mind?mindId="+mindId;
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                cache: false,
+                data: "",
+                success: function (result, textStatus) {
+                    alert(result.sc);
+                    if (result.sc != null || result.sc != undefined || result.sc != '') {
+                        $(mind).parent().hide();
+                        menu._toggleMenuOff();
                     }
                 },
                 error: function (result) {

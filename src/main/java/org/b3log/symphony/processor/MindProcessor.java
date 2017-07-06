@@ -170,4 +170,19 @@ public class MindProcessor {
         context.renderJSONValue(Mind.MINDS,mind);
     }
 
+    @RequestProcessing(value = "/mind/remove-mind",method = HTTPRequestMethod.DELETE)
+    public void removeMind(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        context.renderJSON();
+
+        final String mindId = request.getParameter(Mind.MIND_T_ID);
+
+        JSONObject mind = mindQueryService.getMind(mindId);
+
+        if(null == mind){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        mindMgmtService.deleteMind(mindId);
+        context.renderJSONValue("sc","0");
+    }
 }
