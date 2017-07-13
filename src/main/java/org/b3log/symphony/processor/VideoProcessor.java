@@ -37,10 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -76,6 +73,12 @@ public class VideoProcessor {
      */
     @Inject
     private VideoMgmtService videoMgmtService;
+    /**
+     * Article query service.
+     */
+    @Inject
+    private ArticleQueryService articleQueryService;
+
     /**
      * Avatar query service.
      */
@@ -165,8 +168,70 @@ public class VideoProcessor {
         context.setRenderer(renderer);
         final Map<String, Object> dataModel = renderer.getDataModel();
         renderer.setTemplateName("/videos.ftl");
+
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+
+        final int pageNum = Integer.valueOf(pageNumStr);
+        int pageSize = Symphonys.getInt("indexArticlesCnt");
+        final JSONObject user = userQueryService.getCurrentUser(request);
+        if (null != user) {
+            pageSize = user.optInt(UserExt.USER_LIST_PAGE_SIZE);
+
+            if (!UserExt.finshedGuide(user)) {
+                response.sendRedirect(Latkes.getServePath() + "/guide");
+
+                return;
+            }
+        }
         dataModel.put(Common.SELECTED, Common.VIDEOS);
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+
+        final JSONObject result = articleQueryService.getRecentArticles(avatarViewMode, 0, pageNum, pageSize);
+        final List<JSONObject> allArticles = (List<JSONObject>) result.get(Article.ARTICLES);
+
+        dataModel.put(Common.SELECTED, Common.RECENT);
+
+        final List<JSONObject> stickArticles = new ArrayList<>();
+
+        final Iterator<JSONObject> iterator = allArticles.iterator();
+        while (iterator.hasNext()) {
+            final JSONObject article = iterator.next();
+
+            final boolean stick = article.optInt(Article.ARTICLE_T_STICK_REMAINS) > 0;
+            article.put(Article.ARTICLE_T_IS_STICK, stick);
+
+            if (stick) {
+                stickArticles.add(article);
+                iterator.remove();
+            }
+        }
+
+        dataModel.put(Common.STICK_ARTICLES, stickArticles);
+        dataModel.put(Common.LATEST_ARTICLES, allArticles);
+
+        final JSONObject pagination = result.getJSONObject(Pagination.PAGINATION);
+        final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
+
+        final List<Integer> pageNums = (List<Integer>) pagination.get(Pagination.PAGINATION_PAGE_NUMS);
+        if (!pageNums.isEmpty()) {
+            dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.get(0));
+            dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.get(pageNums.size() - 1));
+        }
+
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
+
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+        dataModelService.fillRandomArticles(avatarViewMode, dataModel);
+        dataModelService.fillSideHotArticles(avatarViewMode, dataModel);
+        dataModelService.fillSideTags(dataModel);
+        dataModelService.fillLatestCmts(dataModel);
+
     }
 
     /**

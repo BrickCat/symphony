@@ -38,10 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -92,6 +89,13 @@ public class TrendsProcessor {
     /**
      * Reward query service.
      */
+
+    /**
+     * Article query service.
+     */
+    @Inject
+    private ArticleQueryService articleQueryService;
+
     @Inject
     private RewardQueryService rewardQueryService;
     /**
@@ -157,11 +161,11 @@ public class TrendsProcessor {
         trendFields.put(Trend.TREND_UPDATE_TIME,Long.class);
         trendFields.put(Trend.TREND_LATEST_CMT_TIME,Long.class);
 
-        final JSONObject result = trendsQueryService.getTrends(requestJSONObject,trendFields);
-        final List<JSONObject> trends = CollectionUtils.jsonArrayToList(result.optJSONArray(Trend.TRENDS));
+        final JSONObject results = trendsQueryService.getTrends(requestJSONObject,trendFields);
+        final List<JSONObject> trends = CollectionUtils.jsonArrayToList(results.optJSONArray(Trend.TRENDS));
         dataModel.put(Trend.TRENDS, trends);
 
-        final JSONObject pagination = result.optJSONObject(Pagination.PAGINATION);
+        final JSONObject pagination = results.optJSONObject(Pagination.PAGINATION);
         final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
         final JSONArray pageNums = pagination.optJSONArray(Pagination.PAGINATION_PAGE_NUMS);
         dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.opt(0));
@@ -170,7 +174,34 @@ public class TrendsProcessor {
         dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
         dataModel.put(Pagination.PAGINATION_PAGE_NUMS, CollectionUtils.jsonArrayToList(pageNums));
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+
+        final JSONObject result = articleQueryService.getRecentArticles(avatarViewMode, 0, pageNum, pageSize);
+        final List<JSONObject> allArticles = (List<JSONObject>) result.get(Article.ARTICLES);
+
+        final List<JSONObject> stickArticles = new ArrayList<>();
+
+        final Iterator<JSONObject> iterator = allArticles.iterator();
+        while (iterator.hasNext()) {
+            final JSONObject article = iterator.next();
+
+            final boolean stick = article.optInt(Article.ARTICLE_T_STICK_REMAINS) > 0;
+            article.put(Article.ARTICLE_T_IS_STICK, stick);
+
+            if (stick) {
+                stickArticles.add(article);
+                iterator.remove();
+            }
+        }
+        dataModel.put(Common.STICK_ARTICLES, stickArticles);
+        dataModel.put(Common.LATEST_ARTICLES, allArticles);
+        dataModelService.fillRandomArticles(avatarViewMode, dataModel);
+        dataModelService.fillSideHotArticles(avatarViewMode, dataModel);
+        dataModelService.fillSideTags(dataModel);
+        dataModelService.fillLatestCmts(dataModel);
     }
+
     @RequestProcessing(value = "/trends/{trendId}",method = HTTPRequestMethod.GET)
     @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
     @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})

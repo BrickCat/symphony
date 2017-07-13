@@ -77,17 +77,7 @@
                     </div>
                 </div>
                 <div class="side">
-                <#include 'common/person-info.ftl'/>
-                    <div class="module">
-                        <div class="module-header">
-                            <h2>
-                            ${trendsColdLabel}
-                            </h2>
-                        </div>
-                        <div class="module-panel list">
-
-                        </div>
-                    </div>
+                    <#include "trends_side.ftl">
                 </div>
             </div>
         </div>

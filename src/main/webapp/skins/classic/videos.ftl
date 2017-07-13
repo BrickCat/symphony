@@ -86,17 +86,7 @@
                     </div>
                 </div>
                 <div class="side">
-                    <#include 'common/person-info.ftl'/>
-                    <div class="module">
-                        <div class="module-header">
-                            <h2>
-                                ${coldVideosLabel}
-                            </h2>
-                        </div>
-                        <div class="module-panel list">
-
-                        </div>
-                    </div>
+                    <#include "video_side.ftl">
                 </div>
             </div>
         </div>
