@@ -9,6 +9,7 @@
     <link href="${staticServePath}/js/lib/trends/baguetteBox/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="${staticServePath}/js/lib/trends/baguetteBox/css/baguetteBox.min.css">
     <link rel="stylesheet" href="${staticServePath}/js/lib/trends/baguetteBox/css/gallery-grid.css">
+    <link rel="stylesheet" href="${staticServePath}/js/lib/gifsee.js/js/gifplayer.min.css">
 </head>
 <body>
 <#include "header.ftl">
@@ -67,7 +68,7 @@
                                                 <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
                                                 <#list imageUrl?split(".") as img2>
                                                     <#if img2 != "gif" && img2 != "png">
-                                                        <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" style="width: 190px;height: 134px;" alt="Park">
+                                                        <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 190px;height: 134px;" alt="Park">
                                                     </#if>
                                                 </#list>
                                                 </a>
@@ -95,8 +96,10 @@
 </div>
 <#include "footer.ftl">
 <script type="text/javascript" src="${staticServePath}/js/lib/trends/baguetteBox/js/baguetteBox.min.js"></script>
+<script type="text/javascript" src="${staticServePath}/js/lib/gifsee.js/js/jquery.gifplayer.js"></script>
 <script type="text/javascript">
     baguetteBox.run('.tz-gallery');
+    $('.gifs').gifplayer();
 </script>
 </body>
 </html>

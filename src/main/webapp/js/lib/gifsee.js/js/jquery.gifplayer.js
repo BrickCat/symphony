@@ -1,7 +1,7 @@
 /* 
  * Gifplayer v0.1.4
  * Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's
- * (c)2014 Rubén Torres - rubentdlh@gmail.com
+ * (c)2014 Rubï¿½n Torres - rubentdlh@gmail.com
  * Released under the MIT license
  */
 
@@ -46,16 +46,16 @@
  		addEvents: function(){
  			var gp=this;
  			gp.playElement.on( 'click', function(e){
- 				$(this).hide();
- 				gp.spinnerElement.show();
+ 				$(this).show();
+ 				gp.spinnerElement.hide();
  				gp.loadGif();
  				e.preventDefault();
    				e.stopPropagation();
  			});
  			gp.previewElement.on( 'click', function(e){
  				if(gp.playElement.is(':visible')){
-	 				gp.playElement.hide();
-	 				gp.spinnerElement.show();
+	 				gp.playElement.show();
+	 				gp.spinnerElement.hide();
 	 				gp.loadGif();
  				}
  				e.preventDefault();
@@ -77,7 +77,7 @@
  			this.gifElement=$("<img src='" + gifSrc + "' width='"+ gifWidth + "' height=' "+ gifHeight +" '/>");
  			var gp=this;
  			this.gifElement.load( function(){
- 				gp.gifLoaded=true;
+ 				gp.gifLoaded=false;
  				gp.resetEvents();
  				$(this).css('cursor','pointer');
  				$(this).css('position','absolute');
@@ -122,7 +122,7 @@
 
  		resetEvents: function(){
  			this.previewElement.off('click');
-			this.playElement.off('click');
+			this.playElement.on('click');
 			this.spinnerElement.off('click');
 			this.addEvents();
  		},
