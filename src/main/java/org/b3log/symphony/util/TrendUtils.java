@@ -7,9 +7,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,4 +80,16 @@ public class TrendUtils {
         }
         return null;
     }
+
+    public static void gifHandle(final String gifPath,final String gifImgPath){
+        try {
+            File f = new File(gifPath);
+            f.canRead();
+            BufferedImage src = ImageIO.read(f);
+            ImageIO.write(src, "png", new File(gifImgPath));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

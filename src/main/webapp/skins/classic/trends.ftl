@@ -69,6 +69,7 @@
                                                 <#list imageUrl?split(".") as img2>
                                                     <#if img2 != "gif" && img2 != "png">
                                                         <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 190px;height: 134px;" alt="Park">
+                                                        <ins class='play-gif'>GIF</ins>
                                                     </#if>
                                                 </#list>
                                                 </a>
@@ -96,10 +97,8 @@
 </div>
 <#include "footer.ftl">
 <script type="text/javascript" src="${staticServePath}/js/lib/trends/baguetteBox/js/baguetteBox.min.js"></script>
-<script type="text/javascript" src="${staticServePath}/js/lib/gifsee.js/js/jquery.gifplayer.js"></script>
 <script type="text/javascript">
     baguetteBox.run('.tz-gallery');
-    $('.gifs').gifplayer();
 </script>
 </body>
 </html>
