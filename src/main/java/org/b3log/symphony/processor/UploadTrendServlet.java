@@ -125,7 +125,6 @@ public class UploadTrendServlet extends HttpServlet {
 					final String ret = map.get("uid");
 					//创建Trend图片上传路径
 					File fileParent = new File(Symphonys.get("nginx.trend.image.dir")+ret+"/");
-					System.out.println(fileParent.getPath());
 					if (!fileParent.exists()) {
 						fileParent.mkdir();
 					}
@@ -134,11 +133,16 @@ public class UploadTrendServlet extends HttpServlet {
 					//后缀名
 					String suffix = StringUtils.substringAfterLast(filename, ".");
 					filename = uuid+"."+suffix;
+					if(suffix.equals("gif")){
+						String PngImage = uuid+"."+"png";
+						File Png = new File(fileParent,PngImage);
+						//copy
+						FileUtils.copyInputStreamToFile(item.getInputStream(), Png);
+					}
 					//创建文件
 					File file= new File(fileParent,filename);
 					//copy
 					FileUtils.copyInputStreamToFile(item.getInputStream(), file);
-
 					//String thumbname = TrendUtils.storeThumbnail(fileParent+"/"+filename,filename,Symphonys.get("nginx.trend.thumb.dir")+ret+"/");
 
 					//根据ID判断数据库中是否有该条数据
@@ -152,7 +156,7 @@ public class UploadTrendServlet extends HttpServlet {
 							trendsMgmtService.addTrend("",trend);
 						}else{
 							String imagePath = trend.optString(Trend.TREND_IMAGE_URL);
-							imagePath =  imagePath + "," + ret + "/" + filename;
+							imagePath =  imagePath + "," + ret + "/" + uuid;
 							trend.put(Trend.TREND_IMAGE_URL,imagePath);
 							trendsMgmtService.updateTrend(ret,trend);
 						}

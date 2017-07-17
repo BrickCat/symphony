@@ -450,7 +450,6 @@ public class VideoProcessor {
     public void removeVideo(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final String videoId = request.getParameter(Video.VIDEO_T_ID);
         videoMgmtService.deleteVideo(videoId);
-
         response.sendRedirect(Latkes.getServePath() + "/admin/videos");
     }
 
