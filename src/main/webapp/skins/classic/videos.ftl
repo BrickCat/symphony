@@ -3,7 +3,7 @@
 <html>
     <head>
         <@head title="${videoLabel} - ${symphonyLabel}">
-        <meta name="description" content="${symphonyLabel} ${trendVideosLabel},${symphonyLabel} ${coldVideosLabel}"/>
+        <meta name="description" content="${symphonyLabel} ${trendVideosLabel} ${symphonyLabel} ${coldVideosLabel}"/>
         </@head>
         <link rel="stylesheet" href="${staticServePath}/css/index.css?${staticResourceVersion}" />
         <link rel="canonical" href="${servePath}/videos">
@@ -175,7 +175,6 @@
                 }
             }
             $(".white-panel").onclick=function(){
-               alert(1);
             };
         </script>
     </body>

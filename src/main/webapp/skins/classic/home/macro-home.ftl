@@ -11,6 +11,14 @@
         <@head title="${cmtLabel} - ${user.userName} - ${symphonyLabel}">
         <meta name="description" content="${user.userName}${deLabel}${cmtLabel}"/>
         </@head>
+        <#elseif type == "trends">
+            <@head title="${trendsLabel} - ${user.userName} - ${symphonyLabel}">
+                <meta name="description" content="${user.userName}${deLabel}${trendsLabel}"/>
+            </@head>
+        <#elseif type == "videos">
+            <@head title="${videoLabel} - ${user.userName} - ${symphonyLabel}">
+                <meta name="description" content="${user.userName}${deLabel}${videoLabel}"/>
+            </@head>
         <#elseif type == "followingUsers">
         <@head title="${followingUsersLabel} - ${user.userName} - ${symphonyLabel}">
         <meta name="description" content="${user.userName}${deLabel}${followingUsersLabel}"/>
@@ -73,10 +81,19 @@
                                 <a pjax-title="${articleLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "home" || type == "comments" || type == "articlesAnonymous" || type == "commentsAnonymous">
                                     class="current"</#if>
                                     href="${servePath}/member/${user.userName}"><svg height="18" viewBox="0 1 16 16" width="16">${boolIcon}</svg> ${postLabel}</a>
+
+                                <a pjax-title="${addVideoLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "videos"> class="current"</#if>
+                                   href="${servePath}/video/front/videos"><svg height="17" width="17" viewBox="0 1 14 16">${videoIcon}</svg> ${addVideoLabel}</a>
+
+                                <a pjax-title="${postTrendsLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "trends"> class="current"</#if>
+                                    href="${servePath}/trends"><svg height="16" width="16" viewBox="0 1 14 16" width="14">${trendsIcon}</svg> ${trendsLabel}</a>
+
                                 <a pjax-title="${watchingArticlesLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "watchingArticles" || type == "followingUsers" || type == "followingTags" || type == "followingArticles" || type == "followers"> class="current"</#if>
-                                    href="${servePath}/member/${user.userName}/watching/articles"><svg height="18" viewBox="0 1 14 16" width="14">${starIcon}</svg> ${followLabel}</a>
+                                   href="${servePath}/member/${user.userName}/watching/articles"><svg height="18" viewBox="0 1 14 16" width="14">${starIcon}</svg> ${followLabel}</a>
+
                                 <a pjax-title="${pointLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "points"> class="current"</#if> href="${servePath}/member/${user.userName}/points">
                                     <svg height="18" viewBox="0 1 14 16" width="14">${giftIcon}</svg> ${pointLabel}</a>
+
                                 <a pjax-title="${linkForgeLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "linkForge"> class="current"</#if> href="${servePath}/member/${user.userName}/forge/link">
                                     <svg height="18" viewBox="0 1 16 16" width="16">${baguaIcon}</svg>  ${forgeLabel}</a>
                             </nav>

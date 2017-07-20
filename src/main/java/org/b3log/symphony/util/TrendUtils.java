@@ -1,11 +1,13 @@
 package org.b3log.symphony.util;
 
+
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.lang3.StringEscapeUtils;
 
+
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.regex.Matcher;
@@ -81,15 +83,30 @@ public class TrendUtils {
         return null;
     }
 
-    public static void gifHandle(final String gifPath,final String gifImgPath){
-        try {
-            File f = new File(gifPath);
-            f.canRead();
-            BufferedImage src = ImageIO.read(f);
-            ImageIO.write(src, "png", new File(gifImgPath));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void gifHandle(final String gifPath,final String gifImgPath) throws IOException {
+        File infile = new File(gifPath);
+        BufferedImage src = ImageIO.read(infile);
+        int wideth = src.getWidth(null);
+        int height = src.getHeight(null);
+
+        BufferedImage tag = new BufferedImage(wideth , height ,BufferedImage.TYPE_INT_RGB);
+        tag.getGraphics().drawImage(src, 0, 0, wideth , height , null);
+        FileOutputStream out = new FileOutputStream(gifImgPath);
+        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+        encoder.encode(tag);
+        out.close();
+//        try {
+//            JPGOptions options = new JPGOptions();
+//            options.setQuality(quality);
+//            ImageProducer image = Jimi.getImageProducer(gifPath);
+//            JimiWriter writer = Jimi.createJimiWriter(gifImgPath);
+//            writer.setSource(image);
+//            writer.setOptions(options);
+//            writer.putImage(dest);
+//        } catch (JimiException e) {
+//            e.printStackTrace();
+//        }
     }
+
 
 }

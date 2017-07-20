@@ -20,7 +20,7 @@
                 </div>
                 <div>
                     <a href="${servePath}/post?type=3">
-                        <div class="icon-video"></div>
+                        <div class="icon-code"></div>
                         ${thoughtLabel}
                     </a>
                     <div class="ft-gray">
@@ -51,7 +51,7 @@
                 </div>
                 <div>
                     <a href="${servePath}/post?type=4">
-                        <div class="icon-video"></div>
+                        <div class="icon-compass"></div>
                     ${trendsLabel}
                     </a>
                     <div class="ft-gray">${addTrendsTipLabel}</div>
