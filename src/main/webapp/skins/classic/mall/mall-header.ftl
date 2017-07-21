@@ -154,7 +154,7 @@
                                     </div>
                                 </ul>
                             </li>
-                            <li class=" menu__item"><a class="menu__link" href="codes.html">${apparatusLabel}</a></li>
+                            <li class=" menu__item"><a class="menu__link" href="${servePath}/mall/apparatus">${apparatusLabel}</a></li>
                             <li class=" menu__item"><a class="menu__link" href="contact.html">${ortherLabel}</a></li>
                         </ul>
                     </div>

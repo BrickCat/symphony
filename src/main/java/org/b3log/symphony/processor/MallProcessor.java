@@ -92,5 +92,42 @@ public class MallProcessor {
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 
+    @RequestProcessing(value = "/mall/checkout",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void mallCheckOut(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("mall/checkout.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
 
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
+    @RequestProcessing(value = "/mall/apparatus",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void mallApparatus(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("mall/apparatus.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+   }
+/**
+ * admin************************************************************************************************************************************************************************************************************************
+ */
+
+    @RequestProcessing(value = "/admin/mall",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void adminMall(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("mall/admin-index.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
 }

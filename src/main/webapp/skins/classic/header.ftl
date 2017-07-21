@@ -1,7 +1,10 @@
 <div class="nav">
-    <h1 style="line-height: 100%">
-        ${logoIcon}
-    </h1>
+    <h3 style="line-height: 100%;color: white;font-size: 16;margin-top: 15px;font-family: Courier">
+       <#-- ${logoIcon}-->
+           <a href="${servePath}" aria-label="搬砖猫" style="line-height: 100%;color: white;font-size: 16;margin-top: 15px;font-family: Courier;text-decoration:none">
+                brickcat.club
+           </a>
+    </h3>
     <div class="nav-tabs">
         <a pjax-title="${latestLabel} - ${symphonyLabel}" href="${servePath}/recent"<#if selected?? && 'recent' == selected> class="current"</#if>>
            <svg height="16" viewBox="0 0 14 16" width="14">${timeIcon}</svg> ${latestLabel}</a>
@@ -36,6 +39,9 @@
             <a href="${servePath}/pre-post" class="tooltipped tooltipped-w" aria-label="${postArticleLabel}"><span class="icon-addfile"></span></a>
             <#if permissions["menuAdmin"].permissionGrant>
             <a href="${servePath}/admin" aria-label="${adminLabel}" class="tooltipped tooltipped-w"><span class="icon-userrole"></span></a>
+            </#if>
+            <#if permissions["menuAdmin"].permissionGrant>
+            <a href="${servePath}/admin/mall" aria-label="${adminLabel}" class="tooltipped tooltipped-w"><span class="icon-star"></a>
             </#if>
             <a id="aNotifications" class="tooltipped tooltipped-w <#if unreadNotificationCount == 0>no-msg<#else>msg</#if>" href="${servePath}/notifications" aria-label="${messageLabel}">${unreadNotificationCount}</a>
             <a href="${servePath}/activities" aria-label="${activityLabel}" class="tooltipped tooltipped-w"><span class="icon-flag"></span></a>
