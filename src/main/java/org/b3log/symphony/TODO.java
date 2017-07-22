@@ -91,6 +91,8 @@ public class TODO {
     // TODO trends 表
     // TODO trends 添加（多图上传）、删除、修改
     // TODO 前台展示 赞、踩、转发、评论
+
+    //获取系统信息 sigar.jar
     /**
      * Nginx
      *location / {

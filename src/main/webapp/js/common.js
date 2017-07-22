@@ -1249,7 +1249,6 @@ var Util = {
                 $("#aPersonListPanel").addClass("current");
             }
         });
-
         $('.nav .avatar-small').parent().click(function () {
             $('#personListPanel').show();
         });

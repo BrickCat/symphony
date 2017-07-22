@@ -206,14 +206,14 @@
 									<img src="${staticServePath}/js/mall/images/a1.png" alt="" class="pro-image-back">
 										<div class="men-cart-pro">
 											<div class="inner-men-cart-pro">
-												<a href="single.html" class="link-product-add-cart">Quick View</a>
+												<a href="${servePath}/mall/single" class="link-product-add-cart">Quick View</a>
 											</div>
 										</div>
 										<span class="product-new-top">New</span>
 										
 								</div>
 								<div class="item-info-product ">
-									<h4><a href="single.html">Air Tshirt Black</a></h4>
+									<h4><a href="${servePath}/mall/single">Air Tshirt Black</a></h4>
 									<div class="info-product-price">
 										<span class="item_price">$45.99</span>
 										<del>$69.71</del>
@@ -925,5 +925,16 @@
 				</div>
 			</div>-->
 <!-- //login -->
+<script type="text/javascript">
+	$('#aPersonListPanel').click(function () {
+        $('#personListPanel').show();
+    });
+    $('body').click(function (event) {
+        if ($(event.target).closest('a').attr('id') !== 'aPersonListPanel' &&
+                $(event.target).closest('.module').attr('id') !== 'personListPanel') {
+            $('#personListPanel').hide();
+        }
+    });
+</script>
 </body>
 </html>

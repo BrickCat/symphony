@@ -1,10 +1,10 @@
 <div class="nav">
-    <h3 style="line-height: 100%;color: white;font-size: 16;margin-top: 15px;font-family: Courier">
-       <#-- ${logoIcon}-->
-           <a href="${servePath}" aria-label="搬砖猫" style="line-height: 100%;color: white;font-size: 16;margin-top: 15px;font-family: Courier;text-decoration:none">
+    <h1 style="line-height: 100%;">
+       ${logoIcon}
+          <#-- <a href="${servePath}" aria-label="搬砖猫" style="line-height: 100%;color: white;font-size: 16;margin-top: 15px;font-family: Courier;text-decoration:none">
                 brickcat.club
-           </a>
-    </h3>
+           </a>-->
+    </h1>
     <div class="nav-tabs">
         <a pjax-title="${latestLabel} - ${symphonyLabel}" href="${servePath}/recent"<#if selected?? && 'recent' == selected> class="current"</#if>>
            <svg height="16" viewBox="0 0 14 16" width="14">${timeIcon}</svg> ${latestLabel}</a>

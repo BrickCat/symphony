@@ -4,7 +4,7 @@
 <html>
     <head>
         <#if type == "index">
-        <@head title="${consoleIndexLabel} - ${symphonyLabel}"></@head>
+        <@head title="${mallAdminIndexLabel} - ${symphonyLabel}"></@head>
         </#if>
         <#if type == "users">
         <@head title="${userAdminLabel} - ${symphonyLabel}"></@head>
@@ -77,7 +77,7 @@
                         <div class="module-panel fn-oh">
                             <nav class="home-menu">
                                 <#if permissions["menuAdmin"].permissionGrant>
-                                <a href="${servePath}/admin"<#if type == "index"> class="current"</#if>>${consoleIndexLabel}</a>
+                                <a href="${servePath}/admin/mall"<#if type == "index"> class="current"</#if>>${mallAdminIndexLabel}</a>
                                 </#if>
                                 <#if permissions["menuAdminUsers"].permissionGrant>
                                 <a href="${servePath}/admin/users"<#if type == "users" || type == "addUser"> class="current"</#if>>${userAdminLabel}</a>

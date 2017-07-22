@@ -115,6 +115,19 @@ public class MallProcessor {
 
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
    }
+
+   @RequestProcessing(value = "/mall/single",method = HTTPRequestMethod.GET)
+   @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+   @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+   public void mallSingle(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+       final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+       context.setRenderer(renderer);
+       renderer.setTemplateName("mall/single.ftl");
+       final Map<String, Object> dataModel = renderer.getDataModel();
+
+       dataModelService.fillHeaderAndFooter(request, response, dataModel);
+   }
+
 /**
  * admin************************************************************************************************************************************************************************************************************************
  */
