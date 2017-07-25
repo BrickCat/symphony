@@ -19,12 +19,11 @@
                 <a href="${servePath}/tags">${tagLabel}</a>
                 <a href="${servePath}/forge/link">${forgeLabel}</a>
                 <a href="${servePath}/statistic">${dataStatLabel}</a>
-
                 <div class="fn-right">&COPY; ${year}
                     <a rel="copyright" href="http://brickcat.club" target="_blank">brickcat.club</a>
                     ${visionLabel}</div>
-            </div>
-            <div class="fn-clear ft-smaller">
+                </div>
+                <div class="fn-clear ft-smaller">
                        ${sloganLabel}
                     <div class="fn-right">
                       感谢 B3log 开源 Powered by <a href="http://b3log.org" target="_blank">B3log 开源</a> •
@@ -32,6 +31,12 @@
                             ${version} • ${elapsed?c}ms
                     </div>
                 </div>
+                <div class="fn-clear ft-smaller">
+                    <div class="fn-right">
+                        <img src="${staticServePath}/images/pol.png">&nbsp;&nbsp;鲁公网安备 37078602370868号
+                    </div>
+                </div>
+
         </div>
     </div>
 </div>

@@ -1,8 +1,7 @@
 package org.b3log.symphony.util;
 
-
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
+//import com.sun.image.codec.jpeg.JPEGCodec;
+//import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -17,47 +16,6 @@ import java.util.regex.Pattern;
  * Created by 860117030 on 2017/6/30.
  */
 public class TrendUtils {
-    /**
-     * 缩略字符串（不区分中英文字符）
-     * @param str 目标字符串
-     * @param length 截取长度
-     * @return
-     */
-    public static String abbr(String str, int length) {
-        if (str == null) {
-            return "";
-        }
-        try {
-            StringBuilder sb = new StringBuilder();
-            int currentLength = 0;
-            for (char c : replaceHtml(StringEscapeUtils.unescapeHtml4(str)).toCharArray()) {
-                currentLength += String.valueOf(c).getBytes("GBK").length;
-                if (currentLength <= length - 3) {
-                    sb.append(c);
-                } else {
-                    sb.append("...");
-                    break;
-                }
-            }
-            return sb.toString();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-    /**
-     * 替换掉HTML标签方法
-     */
-    public static String replaceHtml(String html) {
-        if (StringUtils.isEmpty(html)){
-            return "";
-        }
-        String regEx = "<.+?>";
-        Pattern p = Pattern.compile(regEx);
-        Matcher m = p.matcher(html);
-        String s = m.replaceAll("");
-        return s;
-    }
 
     /**
      * @param standardImgPath 原图片path
@@ -84,28 +42,14 @@ public class TrendUtils {
     }
 
     public static void gifHandle(final String gifPath,final String gifImgPath) throws IOException {
-        File infile = new File(gifPath);
-        BufferedImage src = ImageIO.read(infile);
-        int wideth = src.getWidth(null);
-        int height = src.getHeight(null);
-
-        BufferedImage tag = new BufferedImage(wideth , height ,BufferedImage.TYPE_INT_RGB);
-        tag.getGraphics().drawImage(src, 0, 0, wideth , height , null);
-        FileOutputStream out = new FileOutputStream(gifImgPath);
-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-        encoder.encode(tag);
-        out.close();
-//        try {
-//            JPGOptions options = new JPGOptions();
-//            options.setQuality(quality);
-//            ImageProducer image = Jimi.getImageProducer(gifPath);
-//            JimiWriter writer = Jimi.createJimiWriter(gifImgPath);
-//            writer.setSource(image);
-//            writer.setOptions(options);
-//            writer.putImage(dest);
-//        } catch (JimiException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            File f = new File(gifPath);
+            f.canRead();
+            BufferedImage src = ImageIO.read(f);
+            ImageIO.write(src, "png", new File(gifImgPath));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

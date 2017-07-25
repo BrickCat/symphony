@@ -56,6 +56,12 @@
     </cron>
 
     <cron>
+        <url>/mall/cron/chart</url>
+        <description>Load chart data</description>
+        <schedule>every 30 minutes</schedule>
+    </cron>
+
+    <cron>
         <url>/cron/xiaov?key=dev_key</url>
         <description>XiaoV replies Stm.</description>
         <schedule>every 5 seconds</schedule>
