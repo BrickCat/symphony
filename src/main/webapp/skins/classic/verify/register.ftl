@@ -15,7 +15,6 @@
                 <div class="verify-wrap">
                     <div class="form">
                         ${logoIcon2}
-
                         <div class="input-wrap">
                             <span class="icon-userrole"></span>
                             <input id="registerUserName" type="text" placeholder="${userNamePlaceholderLabel}" autocomplete="off" autofocus="autofocus" />
@@ -35,11 +34,14 @@
                             <img id="registerCaptchaImg" class="fn-pointer captcha-img " src="${servePath}/captcha" onclick="this.src = '${servePath}/captcha?' + (new Date()).getTime()" />
                             <input type="text" id="registerCaptcha" class="captcha-input" placeholder="${captchaLabel}" />
                         </div>
-                       
+
                         <div id="registerTip" class="tip"></div>
                         <input id="referral" type="hidden" value="${referral}">
-                        <button class="green" id="registerBtn" onclick="Verify.register()">${registerLabel}</button>
+                        <button class="green" id="registerBtn" onclick="Verify.register()">${registerLabel2}</button>
                         <button onclick="Util.goLogin()">${loginLabel}</button>
+                        <div class="input-wrap" style="text-align: center;line-height: 100%;color: #C0C0C0">
+                            <a href="${servePath}/article/1501057616840" style="color: #C0C0C0;">《用户注册须知与条款》</a>
+                        </div>
                     </div>
                 </div>
                 <div class="intro content-reset">

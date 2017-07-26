@@ -38,10 +38,12 @@
 
                         </div>
                         <div id="registerTip2" class="tip"></div>
-                        <button class="green" onclick="Verify.register2()">${registerLabel}</button>
+                        <button class="green" onclick="Verify.register2()">${registerLabel2}</button>
                         <input id="referral2" type="hidden" value="${referral}">
                         <input id="userId2" type="hidden" value="${user.oId}">
-
+                        <div class="input-wrap" style="text-align: center;line-height: 100%;color: #C0C0C0">
+                            <a href="${servePath}/article/1501057616840" style="color: #C0C0C0;">《用户注册须知与条款》</a>
+                        </div>
                     </div>
                 </div>
                 <div class="intro fn-flex-1 content-reset">

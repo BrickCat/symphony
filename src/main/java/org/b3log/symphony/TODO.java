@@ -56,6 +56,9 @@ public class TODO {
 
     //数据库优化
     //http://database.51cto.com/art/201407/445934.htm
+
+    //获取系统信息 sigar.jar
+
     /**
      * 后台
      */
@@ -92,7 +95,6 @@ public class TODO {
     // TODO trends 添加（多图上传）、删除、修改
     // TODO 前台展示 赞、踩、转发、评论
 
-    //获取系统信息 sigar.jar
     /**
      * Nginx
      *location / {
