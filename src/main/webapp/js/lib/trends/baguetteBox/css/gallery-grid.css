@@ -4,19 +4,27 @@
     margin-top: 10px;
     margin-left:5px;
     border-radius: 8px;
-    background-color: #fafafa;
+    background-color: #fbfafa;
     border: 1px dashed #D1CFCF;
 }
 .trend-comment-left{
     height: 100%;
+    background-color: white;
     border-radius: 8px 0 0 8px;
+    border-right: 1px dashed #CfCFCF;
 }
 .trend-comment-mid{
     height: 100%;
 }
 .trend-comment-right{
     height: 100%;
+    background-color: white;
     border-radius: 0 8px 8px 0;
+    border-left: 1px dashed #CFCFCF;
+}
+.trend-comment-img{
+    height: 46px;
+    width: 46px;
 }
 .container.gallery-container {
     background-color: #fafafa;

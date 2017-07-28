@@ -87,9 +87,24 @@
                         </div>
                     </div>
                     <div class="row trend-comment">
-                        <div class="col-sm-1 trend-comment-left"></div>
-                        <div class="col-sm-10 trend-comment-mid"></div>
-                        <div class="col-sm-1 trend-comment-right"></div>
+                        <div class="col-sm-1 trend-comment-left">
+                            <img class="trend-comment-img" src="${staticServePath}/images/trend/trend-sport-left.gif">
+                        </div>
+                        <div class="col-sm-10 trend-comment-mid">
+                            <div class="row" style="margin-top: 6px;">
+                                <div class="col-sm-2"></div>
+                                <div class="input-group col-sm-8">
+                                    <input type="text" class="form-control" placeholder="Please enter a comment&hellip;">
+                                    <span class="input-group-addon">
+                                        评论
+                                    </span>
+                                </div>
+                                <div class="col-sm-2"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 trend-comment-right">
+                            <img class="trend-comment-img" src="${staticServePath}/images/trend/trend-sport-right.gif">
+                        </div>
                     </div>
                 </#list>
                 </div>
