@@ -39,7 +39,7 @@
     <cron>
         <url>/cron/search/ajaxArticles</url>
         <description>Expire article</description>
-        <schedule>every 30 minutes</schedule>
+        <schedule>every 3 hours</schedule>
     </cron>
 
     <cron>

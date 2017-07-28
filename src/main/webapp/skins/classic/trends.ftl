@@ -74,7 +74,7 @@
                                                 </#list>
                                                 </a>
                                             </div>
-                                        <#elseif img == "png" >
+                                        <#elseif img == "png" || img == "jpg">
                                             <div class="col-sm-6 col-md-4">
                                                 <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
                                                     <img src="${nginxHost}:${nginxProt}/trend/${imageUrl}" style="width: 190px;height: 134px;" alt="Park">
@@ -85,6 +85,11 @@
                                 </#list>
                             </div>
                         </div>
+                    </div>
+                    <div class="row trend-comment">
+                        <div class="col-sm-1 trend-comment-left"></div>
+                        <div class="col-sm-10 trend-comment-mid"></div>
+                        <div class="col-sm-1 trend-comment-right"></div>
                     </div>
                 </#list>
                 </div>

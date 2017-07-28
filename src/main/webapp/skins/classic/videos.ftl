@@ -116,7 +116,7 @@
                         var html = '';
                         for (var i = 0; i < result.videos.length; i++) {
                             var imageUrl = '';
-                            if(isHasImg(result.videos[i].videoImgPath)){
+                            if(!isHasImg('${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath)){
                                 imageUrl = '${staticServePath}/images/video/sport.png';
                             }else{
                                 imageUrl = '${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath;
@@ -151,7 +151,7 @@
                                 var html = '';
                                 for (var i = 0; i < result.videos.length; i++) {
                                     var imageUrl = '';
-                                    if(isHasImg(result.videos[i].videoImgPath)){
+                                    if(!isHasImg('${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath)){
                                         imageUrl = '${staticServePath}/images/video/sport.png';
                                     }else{
                                         imageUrl = '${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath;
