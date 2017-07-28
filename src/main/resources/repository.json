@@ -1939,14 +1939,6 @@
                     "type":"decimal",
                     "length":10
                 },{
-                    "name":"featured_position",
-                    "type":"String",
-                    "length":255
-                },{
-                    "name":"featured_position_sort",
-                    "type":"int",
-                    "length":10
-                },{
                     "name":"short_description",
                     "type":"String",
                     "length":255
@@ -1978,10 +1970,6 @@
                     "name":"category_id",
                     "type":"String",
                     "length":20
-                },{
-                    "name":"image_medium",
-                    "type":"String",
-                    "length":1000
                 },{
                     "name":"image_large",
                     "type":"String",

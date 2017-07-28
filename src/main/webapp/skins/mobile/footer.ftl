@@ -54,9 +54,9 @@
     Util.initUserChannel("${wsScheme}://${serverHost}:${serverPort}${contextPath}/user-channel");
     </#if>
 </script>
-<#if algoliaEnabled>
+<#--<#if algoliaEnabled>
 <script src="${staticServePath}/js/lib/algolia/algolia.min.js"></script>
 <script>
     Util.initSearch('${algoliaAppId}', '${algoliaSearchKey}', '${algoliaIndex}');
 </script>
-</#if>
+</#if>-->

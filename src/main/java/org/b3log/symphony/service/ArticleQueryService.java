@@ -2555,6 +2555,51 @@ public class ArticleQueryService {
         return ret;
     }
 
+    public JSONObject getSearchArticles(final int avatarViewMode, final Map<String, Class<?>> articleFields) throws ServiceException {
+        final JSONObject ret = new JSONObject();
+        final Query query = new Query().addSort(Keys.OBJECT_ID, SortDirection.DESCENDING);
+        for (final Map.Entry<String, Class<?>> articleField : articleFields.entrySet()) {
+            query.addProjection(articleField.getKey(), articleField.getValue());
+        }
+
+        JSONObject result = null;
+
+        try {
+            result = articleRepository.get(query);
+        } catch (final RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets articles failed", e);
+
+            throw new ServiceException(e);
+        }
+
+
+
+        final JSONArray data = result.optJSONArray(Keys.RESULTS);
+        final List<JSONObject> articles = CollectionUtils.<JSONObject>jsonArrayToList(data);
+
+        for (final JSONObject article : articles) {
+            final String authorId = article.optString(Article.ARTICLE_AUTHOR_ID);
+
+            try {
+                final JSONObject author = userRepository.get(authorId);
+                if (Article.ARTICLE_ANONYMOUS_C_ANONYMOUS == article.optInt(Article.ARTICLE_ANONYMOUS)) {
+                    article.put(Article.ARTICLE_T_AUTHOR_THUMBNAIL_URL + "48", avatarQueryService.getDefaultAvatarURL("48"));
+                } else {
+                    article.put(Article.ARTICLE_T_AUTHOR_THUMBNAIL_URL + "48",
+                            avatarQueryService.getAvatarURLByUser(avatarViewMode, author, "48"));
+                }
+                article.put(Common.TYPE,0);
+            } catch (RepositoryException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ret.put(Article.ARTICLES, articles);
+
+        return ret;
+    }
+
+
     /**
      * Markdowns the specified article content.
      * <p>

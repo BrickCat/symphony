@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +119,43 @@ public class TrendsQueryService {
                     UserExt.USER_AVATAR_VIEW_MODE_C_ORIGINAL, sernder, "48"));
             organizeTrend(trend);
         }
+
+        return ret;
+    }
+
+    public JSONObject getSearchTrends(final int avatarViewMode, final Map<String, Class<?>> trendFields) throws ServiceException {
+        final JSONObject ret = new JSONObject();
+
+        final Query query = new Query().
+                addSort(Keys.OBJECT_ID, SortDirection.DESCENDING);
+        for (final Map.Entry<String, Class<?>> tagField : trendFields.entrySet()) {
+            query.addProjection(tagField.getKey(), tagField.getValue());
+        }
+
+        JSONObject result = null;
+
+        try {
+            result = trendsRepository.get(query);
+        } catch (RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets tags failed", e);
+        }
+        final JSONArray data = result.optJSONArray(Keys.RESULTS);
+        final List<JSONObject> trends = CollectionUtils.<JSONObject>jsonArrayToList(data);
+
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        for (final JSONObject trend :trends ){
+            JSONObject search = new JSONObject();
+            search.put(Keys.OBJECT_ID,trend.optString(Keys.OBJECT_ID));
+            search.put(Article.ARTICLE_TITLE,trend.optString(Trend.TREND_TITLE));
+            search.put(Common.TYPE,2);
+            final String senderId = trend.optString(Trend.TREND_AUTHOR_ID);
+            final JSONObject sernder = userQueryService.getUser(senderId);
+            search.put(Article.ARTICLE_T_AUTHOR_THUMBNAIL_URL + "48",
+                    avatarQueryService.getAvatarURLByUser(avatarViewMode, sernder, "48"));
+            list.add(search);
+        }
+
+        ret.put(Trend.TRENDS,list);
 
         return ret;
     }

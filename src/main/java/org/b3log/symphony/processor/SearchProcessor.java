@@ -18,10 +18,12 @@
 package org.b3log.symphony.processor;
 
 import org.apache.commons.lang.StringUtils;
+import org.b3log.latke.Keys;
 import org.b3log.latke.ioc.inject.Inject;
 import org.b3log.latke.logging.Logger;
 import org.b3log.latke.model.Pagination;
 import org.b3log.latke.service.LangPropsService;
+import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.servlet.HTTPRequestContext;
 import org.b3log.latke.servlet.HTTPRequestMethod;
 import org.b3log.latke.servlet.annotation.After;
@@ -29,19 +31,15 @@ import org.b3log.latke.servlet.annotation.Before;
 import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.servlet.renderer.freemarker.AbstractFreeMarkerRenderer;
+import org.b3log.latke.util.CollectionUtils;
 import org.b3log.latke.util.Paginator;
 import org.b3log.latke.util.Strings;
-import org.b3log.symphony.model.Article;
-import org.b3log.symphony.model.Common;
-import org.b3log.symphony.model.UserExt;
+import org.b3log.symphony.model.*;
 import org.b3log.symphony.processor.advice.AnonymousViewCheck;
 import org.b3log.symphony.processor.advice.PermissionGrant;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchEndAdvice;
 import org.b3log.symphony.processor.advice.stopwatch.StopwatchStartAdvice;
-import org.b3log.symphony.service.ArticleQueryService;
-import org.b3log.symphony.service.DataModelService;
-import org.b3log.symphony.service.SearchQueryService;
-import org.b3log.symphony.service.UserQueryService;
+import org.b3log.symphony.service.*;
 import org.b3log.symphony.util.Symphonys;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,6 +47,7 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,6 +100,18 @@ public class SearchProcessor {
      */
     @Inject
     private LangPropsService langPropsService;
+
+    /**
+     * Trend service.
+     */
+    @Inject
+    private TrendsQueryService trendsQueryService;
+
+    /**
+     *Video queryservice
+     */
+    @Inject
+    private VideoQueryService videoQueryService;
 
     /**
      * Searches.
@@ -218,4 +229,66 @@ public class SearchProcessor {
         searchEmptyLabel = searchEmptyLabel.replace("${key}", keyword);
         dataModel.put("searchEmptyLabel", searchEmptyLabel);
     }
+
+
+
+    /**
+     * History user counts.
+     */
+    private final Map<String, Object> dataModel = new HashMap<String,Object>();
+
+
+    @RequestProcessing(value = "/search/typeahead",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = StopwatchStartAdvice.class)
+    @After(adviceClass = StopwatchEndAdvice.class)
+    public void typeahead(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("search-typeahead.ftl");
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+    }
+
+    @RequestProcessing(value = "/cron/search/ajaxArticles",method = HTTPRequestMethod.GET)
+    public void ajaxArticles(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws ServiceException {
+        context.renderJSON().renderTrueResult();
+        dataModel.clear();
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+        //搜索文章
+        final Map<String, Class<?>> articleFields = new HashMap<>();
+        articleFields.put(Keys.OBJECT_ID, String.class);
+        articleFields.put(Article.ARTICLE_TITLE, String.class);
+        articleFields.put(Article.ARTICLE_AUTHOR_ID, String.class);
+        articleFields.put(Article.ARTICLE_ANONYMOUS, Integer.class);
+        final JSONObject result = articleQueryService.getSearchArticles(avatarViewMode,articleFields);
+        dataModel.put(Article.ARTICLES, CollectionUtils.jsonArrayToList(result.optJSONArray(Article.ARTICLES)));
+
+        //搜索视频
+        final Map<String, Class<?>> videoFields = new HashMap<>();
+        //TODO 视频缩略图
+        //Id
+        videoFields.put(Keys.OBJECT_ID, String.class);
+        //标题
+        videoFields.put(Video.VIDEO_TITLE, String.class);
+        //作者
+        videoFields.put(Video.VIDEO_AUTHORID,String.class);
+        final JSONObject result2 = videoQueryService.getSearchVideos(avatarViewMode,videoFields);
+        dataModel.put(Video.VIDEOS, CollectionUtils.jsonArrayToList(result2.optJSONArray(Video.VIDEOS)));
+
+        //搜索圈子
+        final Map<String, Class<?>> trendFields = new HashMap<>();
+        trendFields.put(Keys.OBJECT_ID, String.class);
+        trendFields.put(Trend.TREND_AUTHOR_ID,String.class);
+        trendFields.put(Trend.TREND_TITLE,String.class);
+        final JSONObject result3 = trendsQueryService.getSearchTrends(avatarViewMode,trendFields);
+        dataModel.put(Trend.TRENDS,CollectionUtils.jsonArrayToList(result3.optJSONArray(Trend.TRENDS)));
+
+
+    }
+    @RequestProcessing(value = "/search/all",method = HTTPRequestMethod.GET)
+    public void all(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws ServiceException {
+        context.renderJSON().renderTrueResult();
+        context.renderJSONValue(Common.DATA,dataModel);
+    }
+
 }

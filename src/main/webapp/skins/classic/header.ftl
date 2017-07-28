@@ -28,13 +28,13 @@
             <a pjax-title="${domain.domainTitle} - ${domainLabel} - ${symphonyLabel}" href="${servePath}/domain/${domain.domainURI}"<#if selected?? && selected == domain.domainURI> class="current"</#if>>${domain.domainIconPath} ${domain.domainTitle}</a>
         </#list>
     </div>
-    <#if esEnabled || algoliaEnabled>
-    <form class="responsive-hide fn-left" target="_blank" action="/search">
-        <input class="search" placeholder="Search HacPai" type="text" name="key" id="search" value="<#if key??>${key}</#if>" >
-        <input type="submit" class="fn-none" value=""/>
+    <#--<#if esEnabled || algoliaEnabled>
+    <form class="responsive-hide fn-left" target="_blank" >
+        <input class="search" placeholder="Search BrickCat" type="text" name="key" id="typeahead" autoComplete='off'/>
     </form>
-    </#if>
+    </#if>-->
     <div class="user-nav">
+        <a href="javascript:typeaheader();" class="tooltipped tooltipped-w" aria-label="${searchLabel}"><svg height="24" viewBox="0 -1 17 14" width="24">${searchIcon}</svg></a>
         <#if isLoggedIn>
             <a href="${servePath}/pre-post" class="tooltipped tooltipped-w" aria-label="${postArticleLabel}"><span class="icon-addfile"></span></a>
             <#if permissions["menuAdmin"].permissionGrant>
@@ -76,3 +76,24 @@
         </#if>
     </div>
 </div>
+<script src="${staticServePath}/js/lib/jquery/jquery.min.js"></script>
+<script src="${staticServePath}/js/lib/layer/layer/layer.js"></script>
+<script type="text/javascript">
+    layer.config({
+        extend: 'myskin/style.css', //加载您的扩展样式
+        skin: 'layer-class'
+    });
+    function typeaheader() {
+        layer.ready(function() {
+            layer.open({
+                skin: 'layer-class',
+                type: 2,
+                zIndex:9999,
+                title: '搜索',
+                scrollbar:false,
+                area: ['800px', '600px'],
+                content: '${servePath}/search/typeahead'
+            });
+        });
+    }
+</script>

@@ -1,4 +1,4 @@
 body .layer-class {border-radius:10px;}
-body .layer-class .layui-layer-title{border-radius:8px 8px 0 0;}
+body .layer-class .layui-layer-title{border-radius:8px 8px 0 0;font-size: large;font-weight: bold;}
 body .layer-class .layui-layer-content{border-radius:0 0 8px 8px;}
 body .layer-class .layui-layer-content iframe{border-radius:0 0 8px 8px;}

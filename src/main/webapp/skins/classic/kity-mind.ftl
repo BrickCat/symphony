@@ -368,7 +368,6 @@
                 cache: false,
                 data: "",
                 success: function (result, textStatus) {
-                    alert(result.sc);
                     if (result.sc != null || result.sc != undefined || result.sc != '') {
                         $(mind).parent().hide();
                         menu._toggleMenuOff();

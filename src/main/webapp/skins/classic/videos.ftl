@@ -116,7 +116,7 @@
                         var html = '';
                         for (var i = 0; i < result.videos.length; i++) {
                             var imageUrl = '';
-                            if(result.videos[i].videoImgPath == ''){
+                            if(!isHasImg(result.videos[i].videoImgPath)){
                                 imageUrl = '${staticServePath}/images/video/sport.png';
                             }else{
                                 imageUrl = '${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath;
@@ -151,7 +151,7 @@
                                 var html = '';
                                 for (var i = 0; i < result.videos.length; i++) {
                                     var imageUrl = '';
-                                    if(result.videos[i].videoImgPath == ''){
+                                    if(!isHasImg(result.videos[i].videoImgPath)){
                                         imageUrl = '${staticServePath}/images/video/sport.png';
                                     }else{
                                         imageUrl = '${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath;
@@ -176,6 +176,16 @@
             }
             $(".white-panel").onclick=function(){
             };
+            function isHasImg(pathImg){
+                var ImgObj=new Image();
+                ImgObj.src= pathImg;
+                if(ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0))
+                {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         </script>
     </body>
 </html>

@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,11 @@ public class VideoQueryService {
      */
     @Inject
     private CommentRepository commentRepository;
-
+    /**
+     * Avatar query service.
+     */
+    @Inject
+    private AvatarQueryService avatarQueryService;
 
     public JSONObject getVideo(final String videoId) throws ServiceException {
         try {
@@ -103,6 +108,46 @@ public class VideoQueryService {
             video.put(Video.VIDEO_CREATE_TIME,new Date(video.optLong(Keys.OBJECT_ID)));
         }
 
+        return ret;
+    }
+
+    public JSONObject getSearchVideos(final int avatarViewMode, Map<String, Class<?>> videoFields) throws ServiceException {
+        final JSONObject ret = new JSONObject();
+        final Query query = new Query().
+                addSort(Keys.OBJECT_ID, SortDirection.DESCENDING);
+        for (final Map.Entry<String, Class<?>> tagField : videoFields.entrySet()) {
+            query.addProjection(tagField.getKey(), tagField.getValue());
+        }
+        JSONObject result = null;
+
+        try {
+            result = videoRepository.get(query);
+        } catch (RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets tags failed", e);
+            throw new ServiceException(e);
+        }
+
+        final JSONArray data = result.optJSONArray(Keys.RESULTS);
+        final List<JSONObject> videos = CollectionUtils.<JSONObject>jsonArrayToList(data);
+
+        List<JSONObject> list = new ArrayList<JSONObject>();
+
+        for (final JSONObject video : videos  ){
+            final String authorId = video.optString(Video.VIDEO_AUTHORID);
+            JSONObject search = new JSONObject();
+            search.put(Keys.OBJECT_ID,video.optString(Keys.OBJECT_ID));
+            search.put(Article.ARTICLE_TITLE,video.optString(Video.VIDEO_TITLE));
+            search.put(Common.TYPE,1);
+            try {
+                final JSONObject author = userRepository.get(authorId);
+                search.put(Article.ARTICLE_T_AUTHOR_THUMBNAIL_URL + "48",
+                        avatarQueryService.getAvatarURLByUser(avatarViewMode, author, "48"));
+            } catch (RepositoryException e) {
+                e.printStackTrace();
+            }
+            list.add(search);
+        }
+        ret.put(Video.VIDEOS,list);
         return ret;
     }
 
