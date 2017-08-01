@@ -34,7 +34,7 @@
     </form>
     </#if>-->
     <div class="user-nav">
-        <a href="javascript:typeaheader();" class="tooltipped tooltipped-w" aria-label="${searchLabel}"><svg style="margin-bottom: 3px;"  height="26" viewBox="0 -1 17 14" width="24">${searchIcon}</svg></a>
+        <a href="javascript:typeaheader();" class="tooltipped tooltipped-w" aria-label="${searchLabel}"><svg height="22" viewBox="0 -1 17 14" width="24">${searchIcon}</svg></a>
         <#if isLoggedIn>
             <a href="${servePath}/pre-post" class="tooltipped tooltipped-w" aria-label="${postArticleLabel}"><span class="icon-addfile"></span></a>
             <#if permissions["menuAdmin"].permissionGrant>
