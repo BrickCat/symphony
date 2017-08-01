@@ -14,9 +14,8 @@
             <!-- If you'd like to support IE8 --><script src="${staticServePath}/js/lib/video.js/js/videojs-ie8.min.js"></script>
         <link rel="stylesheet" href="${staticServePath}/js/lib/highlight.js-9.6.0/styles/github.css">
         <link rel="stylesheet" href="${staticServePath}/css/index.css?${staticResourceVersion}" />
-        <link rel="stylesheet" href="${staticServePath}/js/lib/video.js/depend/videoCT.css" />
         <link rel="stylesheet" href="${staticServePath}/js/lib/editor/codemirror.min.css?${staticResourceVersion}">
-        <link href="${staticServePath}/js/lib/video.js/css/videojs-vjsdownload.css" rel="stylesheet">
+         <link href="${staticServePath}/js/lib/video.js/css/videojs-vjsdownload.css" rel="stylesheet">
         <!-- Open Graph -->
         <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="article" />
@@ -29,14 +28,6 @@
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:description" content="${video.videoRemarks}" />
         <meta name="twitter:title" content="${video.videoTitle} - ${symphonyLabel}" />
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                border: 0;
-                box-sizing: border-box;
-            }
-        </style>
     </head>
     <body itemscope itemtype="http://schema.org/Product" class="article" oncontextmenu=self.event.returnValue=false onselectstart="return false">
         <#include "header.ftl">
@@ -142,7 +133,6 @@
                 <script src="${staticServePath}/js/lib/video.js/js/videojs-vjsdownload.js"></script>
                 <script src="${staticServePath}/js/lib/video.js/js/videojs-media-sources.js"></script>
                 <script src="${staticServePath}/js/lib/video.js/js/videojs.hls.js"></script>
-
 
                 <div  class="aplayer" style="margin-top: 15px;">
                     <video id="my-video" class="video-js vjs-default-skin" controls preload="meta" width="840" height="384" poster="" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>

@@ -89,7 +89,7 @@
                     </div>
                     <div class="row trend-comment">
                         <div class="col-sm-1 trend-comment-left">
-                            <img class="trend-comment-img" src="${staticServePath}/images/trend/trend-sport-left.gif">
+                            <img class="trend-comment-img" style="padding-left: 10px;" src="${staticServePath}/images/trend/trend-sport-left.gif">
                         </div>
                         <div class="col-sm-10 trend-comment-mid">
                             <div class="trend-comment-bar">
@@ -112,7 +112,7 @@
                             </div>
                         </div>
                         <div class="col-sm-1 trend-comment-right">
-                            <img class="trend-comment-img" style="margin-left: 2px;" src="${staticServePath}/images/trend/trend-sport-right.gif">
+                            <img class="trend-comment-img" style="padding-left: 10px;" src="${staticServePath}/images/trend/trend-sport-right.gif">
                         </div>
                     </div>
                 </#list>

@@ -1,6 +1,6 @@
 var trends = {
     comment:function (id) {
-        
+        alert(id);
     },
     /**
      * @description 赞同
