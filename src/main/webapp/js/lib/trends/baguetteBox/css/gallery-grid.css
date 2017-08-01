@@ -5,7 +5,7 @@
     margin-left:5px;
     border-radius: 8px;
     background-color: #fbfafa;
-    border: 1px dashed #D1CFCF;
+    border: 1px dashed #c0c0c0;
 }
 .trend-comment-left{
     height: 100%;
@@ -25,6 +25,38 @@
 .trend-comment-img{
     height: 46px;
     width: 46px;
+}
+.trend-comment-bar{
+    width: 100%;
+    margin: 0 auto;
+}
+.trend-comment-bar-left{
+    height: 48px;
+    width: 20%;
+    height: 48px;
+    float: left;
+    margin-left: -2px;
+}
+.trend-comment-bar-right{
+    height: 48px;
+    width: 20%;
+    float: left;
+}
+.trend-comment-bar-input{
+    margin-top: 6px;
+    width: 60%;
+    float: left;
+}
+.trend-comment-bar-thumb{
+    height: 36px;
+    line-height:36px;
+    cursor:pointer;
+    overflow:hidden;
+    width: 108px;
+    margin-left: 18px;
+    margin-top: 6px;
+    text-align: center;
+    vertical-align: middle;
 }
 .container.gallery-container {
     background-color: #fafafa;

@@ -55,6 +55,7 @@
                                                 ${trend.timeAgo}
                                             </span>
                             </div>
+                            <span class="tooltipped tooltipped-n" style="margin-right: 10px;height: 48px;width: 48px;" aria-label="More">更多</span>
                         </div>
                         <div class="content-reset article-content" style="margin-left: 13%;margin-right: 3%;margin-bottom: 0%;margin-top: 2%;">
                         ${trend.trendContent}
@@ -91,19 +92,27 @@
                             <img class="trend-comment-img" src="${staticServePath}/images/trend/trend-sport-left.gif">
                         </div>
                         <div class="col-sm-10 trend-comment-mid">
-                            <div class="row" style="margin-top: 6px;">
-                                <div class="col-sm-2"></div>
-                                <div class="input-group col-sm-8">
+                            <div class="trend-comment-bar">
+                                <div class="trend-comment-bar-left">
+                                    <div class="trend-comment-bar-thumb" onclick="trends.voteUp(${trend.oId},'trend',this)">
+                                        <span class="icon-thumbs-up"></span>&nbsp;999
+                                    </div>
+                                </div>
+                                <div class="input-group trend-comment-bar-input">
                                     <input type="text" class="form-control" placeholder="Please enter a comment&hellip;">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-addon" onclick="trends.comment(${trend.oId})">
                                         评论
                                     </span>
                                 </div>
-                                <div class="col-sm-2"></div>
+                                <div class="trend-comment-bar-right">
+                                    <div class="trend-comment-bar-thumb" onclick="trends.voteDown(${trend.oId},'trend',this)">
+                                        <span class="icon-thumbs-down"></span>&nbsp;999
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-1 trend-comment-right">
-                            <img class="trend-comment-img" src="${staticServePath}/images/trend/trend-sport-right.gif">
+                            <img class="trend-comment-img" style="margin-left: 2px;" src="${staticServePath}/images/trend/trend-sport-right.gif">
                         </div>
                     </div>
                 </#list>
@@ -117,6 +126,7 @@
 </div>
 <#include "footer.ftl">
 <script type="text/javascript" src="${staticServePath}/js/lib/trends/baguetteBox/js/baguetteBox.min.js"></script>
+<script type="text/javascript" src="${staticServePath}/js/lib/trends/trend.js"></script>
 <script type="text/javascript">
     baguetteBox.run('.tz-gallery');
 </script>
