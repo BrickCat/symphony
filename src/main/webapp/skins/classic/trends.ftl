@@ -55,7 +55,9 @@
                                                 ${trend.timeAgo}
                                             </span>
                             </div>
-                            <span class="tooltipped tooltipped-n" style="margin-right: 10px;height: 48px;width: 48px;" aria-label="More">更多</span>
+                            <span class="tooltipped tooltipped-n" style="margin-right: 10px;height: 56px;width: 56px;" aria-label="More">
+                                <svg height="36" viewBox="0 -1 17 14" width="36">${moreIcon}</svg>
+                            </span>
                         </div>
                         <div class="content-reset article-content" style="margin-left: 13%;margin-right: 3%;margin-bottom: 0%;margin-top: 2%;">
                         ${trend.trendContent}
@@ -93,20 +95,60 @@
                         </div>
                         <div class="col-sm-10 trend-comment-mid">
                             <div class="trend-comment-bar">
-                                <div class="trend-comment-bar-left">
-                                    <div class="trend-comment-bar-thumb" onclick="trends.voteUp(${trend.oId},'trend',this)">
-                                        <span class="icon-thumbs-up"></span>&nbsp;999
+                                <div class="trend-comment-bar-left" style="border-right: 1px dashed #C0C0C0;">
+                                    <div class="trend-comment-bar-thumb">
+                                        <span class="tooltipped tooltipped-w<#if isLoggedIn && 0 == trend.trendGoodCnt> ft-red</#if>" aria-label="${upLabel}"
+                                            <#if permissions["commonGoodVideo"].permissionGrant>
+                                              onclick="Trend.voteUp('${trend.oId}', 'trend', this)"
+                                            <#else>
+                                              onclick="Trend.permissionTip(Label.noPermissionLabel)"
+                                            </#if>><span class="icon-thumbs-up"></span>&nbsp;${trend.trendGoodCnt}</span>
                                     </div>
                                 </div>
-                                <div class="input-group trend-comment-bar-input">
-                                    <input type="text" class="form-control" placeholder="Please enter a comment&hellip;">
-                                    <span class="input-group-addon" onclick="trends.comment(${trend.oId})">
-                                        评论
-                                    </span>
+                                <div class="trend-comment-bar-mid" style="border-right: 1px dashed #C0C0C0">
+                                    <div class="trend-comment-bar-thumb">
+                                        <#if isLoggedIn>
+                                            <span class="tooltipped tooltipped-n ft-red" aria-label="${uncollectLabel}"
+                                                <#if permissions["commonFollowVideo"].permissionGrant>
+                                                  onclick="Util.unfollow(this, '${trend.oId}', 'trend',${trend.trendCollectCnt})"
+                                                <#else>
+                                                  onclick="Trend.permissionTip(Label.noPermissionLabel)"
+                                                </#if>><span class="icon-star"></span>&nbsp;${trend.trendCollectCnt}</span>
+                                        <#else>
+                                            <span class="tooltipped tooltipped-n" aria-label="${collectLabel}"
+                                                <#if permissions["commonFollowVideo"].permissionGrant>
+                                                  onclick="Util.follow(this, '${trend.oId}', 'trend', ${trend.trendCollectCnt})"
+                                                <#else>
+                                                  onclick="Trend.permissionTip(Label.noPermissionLabel)"
+                                                </#if>><span class="icon-star"></span>&nbsp;${trend.trendCollectCnt}</span>
+                                        </#if>
+                                    </div>
+                                </div>
+                                <div class="trend-comment-bar-mid" style="border-right: 1px dashed #C0C0C0">
+                                    <div class="trend-comment-bar-thumb" onclick="Comment.trendetail('${trend.oId}')">
+                                        <span class="tooltipped tooltipped-w<#if isLoggedIn && 0 == trend.trendCommentCount> ft-red</#if>" aria-label="${upLabel}"
+                                            <#if permissions["commonAddComment"].permissionGrant>
+                                              onclick="Trend.trendetail('${trend.oId}')"
+                                            <#else>
+                                              onclick="Trend.permissionTip(Label.noPermissionLabel)"
+                                            </#if>><span class="icon-cmts"></span>&nbsp;${trend.trendCommentCount}</span>
+                                    </div>
+                                </div>
+                                <div class="trend-comment-bar-mid" style="border-right: 1px dashed #C0C0C0">
+                                    <div class="trend-comment-bar-thumb" onclick="Comment.trendetail('${trend.oId}')">
+                                        <a class="tooltipped tooltipped-w" aria-label="${stickLabel}">
+                                            <span class="icon-goods"></span>&nbsp;999
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="trend-comment-bar-right">
-                                    <div class="trend-comment-bar-thumb" onclick="trends.voteDown(${trend.oId},'trend',this)">
-                                        <span class="icon-thumbs-down"></span>&nbsp;999
+                                    <div class="trend-comment-bar-thumb">
+                                        <span  class="tooltipped tooltipped-n<#if isLoggedIn && 0 == trend.trendBadCnt> ft-red</#if>" aria-label="${downLabel}"
+                                            <#if permissions["commonBadVideo"].permissionGrant>
+                                               onclick="Trend.voteDown('${trend.oId}', 'trend', this)"
+                                            <#else>
+                                               onclick="Trend.permissionTip(Label.noPermissionLabel)"
+                                            </#if>><span class="icon-thumbs-down"></span>&nbsp;${trend.trendBadCnt}</span>
                                     </div>
                                 </div>
                             </div>
@@ -125,10 +167,13 @@
     </div>
 </div>
 <#include "footer.ftl">
+
 <script type="text/javascript" src="${staticServePath}/js/lib/trends/baguetteBox/js/baguetteBox.min.js"></script>
 <script type="text/javascript" src="${staticServePath}/js/lib/trends/trend.js"></script>
+
 <script type="text/javascript">
     baguetteBox.run('.tz-gallery');
+    Label.noPermissionLabel = '${noPermissionLabel}';
 </script>
 </body>
 </html>

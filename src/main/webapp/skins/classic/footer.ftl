@@ -36,6 +36,11 @@
                         <img src="${staticServePath}/images/pol.png">&nbsp;&nbsp;鲁公网安备 37078602370868号
                     </div>
                 </div>
+                <div class="fn-clear ft-smaller">
+                    <div class="fn-right">
+                        鲁 ICP 备 16017582号-2
+                    </div>
+                </div>
 
         </div>
     </div>

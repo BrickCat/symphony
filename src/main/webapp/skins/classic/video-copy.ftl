@@ -10,12 +10,13 @@
 
         </@head>
 
-        <link href="${staticServePath}/js/lib/video.js/css/video-js.css" rel="stylesheet">
+        <#--<link href="${staticServePath}/js/lib/video.js/css/video-js.css" rel="stylesheet">-->
             <!-- If you'd like to support IE8 --><script src="${staticServePath}/js/lib/video.js/js/videojs-ie8.min.js"></script>
         <link rel="stylesheet" href="${staticServePath}/js/lib/highlight.js-9.6.0/styles/github.css">
         <link rel="stylesheet" href="${staticServePath}/css/index.css?${staticResourceVersion}" />
         <link rel="stylesheet" href="${staticServePath}/js/lib/editor/codemirror.min.css?${staticResourceVersion}">
-         <link href="${staticServePath}/js/lib/video.js/css/videojs-vjsdownload.css" rel="stylesheet">
+        <#--<link rel="stylesheet" href="${staticServePath}/js/lib/video.js/css/videojs-vjsdownload.css">-->
+        <link rel="stylesheet" href="${staticServePath}/js/lib/video.js/depend/videoCT.css">
         <!-- Open Graph -->
         <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="article" />
@@ -28,6 +29,14 @@
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:description" content="${video.videoRemarks}" />
         <meta name="twitter:title" content="${video.videoTitle} - ${symphonyLabel}" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                box-sizing: border-box;
+            }
+        </style>
     </head>
     <body itemscope itemtype="http://schema.org/Product" class="article" oncontextmenu=self.event.returnValue=false onselectstart="return false">
         <#include "header.ftl">
@@ -129,37 +138,81 @@
                 <h1 class="article-title">
                     ${video.videoTitle}
                 </h1>
-                <script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
+                <#--<script src="${staticServePath}/js/lib/video.js/js/video.min.js"></script>
                 <script src="${staticServePath}/js/lib/video.js/js/videojs-vjsdownload.js"></script>
-                <script src="${staticServePath}/js/lib/video.js/js/videojs-media-sources.js"></script>
-                <script src="${staticServePath}/js/lib/video.js/js/videojs.hls.js"></script>
+                <script src="${staticServePath}/js/lib/video.js/js/videojs-media-sources.js"></script>-->
+                <#--<script src="${staticServePath}/js/lib/video.js/js/videojs.hls.js"></script>-->
+                <script src="${staticServePath}/js/lib/video.js/depend/jquery.min.js"></script>
+                <script src="${staticServePath}/js/lib/video.js/depend/videoCT.js"></script>
 
-                <div  class="aplayer" style="margin-top: 15px;">
-                    <video id="my-video" class="video-js vjs-default-skin" controls preload="meta" width="840" height="384" poster="" data-setup='{ "aspectRatio":"840:384", "playbackRates": [1, 1.5, 2] }'>
-                        <source src="${nginxHost}:${nginxProt}/m3u8/${video.videoUrl}"
-                                type="application/x-mpegURL">
+                <div  class="aplayer" style="margin-top: 15px;width: 840px;height:384px">
+                    <video id="my-video" type="application/x-mpegURL">
+                        <#--<source src="${nginxHost}:${nginxProt}/m3u8/${video.videoUrl}"-->
+                                <#--type="application/x-mpegURL">-->
                     </video>
 
                     <script type="text/javascript">
                         videojs.options.flash.swf = '${staticServePath}/js/lib/video.js/js/video-js.swf';
-                        var player = videojs(document.querySelector('.video-js'), {
-                            "playbackRates": [1, 1.5, 2],
-                            "autoplay": true,
-                            plugins: {
-                                vjsdownload:{
-                                    beforeElement: 'playbackRateMenuButton',
-                                    textControl: 'Download',
-                                    name: 'downloadButton'
-                                }
-                            }
-                        } , function() {
-                            this.on('downloadvideo', function(){
-                                var fileURL=window.open ('${nginxHost}:${nginxProt}/video/${video.videoDownPath}',"height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
-                                fileURL.document.execCommand("SaveAs");
-                                fileURL.window.close();
-                                fileURL.close();
+                        'user strict';
+
+                        window.onload = function () {
+
+                            //初始化
+                            var video = $('#my-video').videoCt({
+                                title: 'jq22 html5自定义视频控件',              //标题
+                                volume: 0.2,                //音量
+                                barrage: true,              //弹幕开关
+                                comment: true,              //弹幕
+                                reversal: true,             //镜像翻转
+                                playSpeed: true,            //播放速度
+                                update: true,               //下载
+                                autoplay: false,            //自动播放
+                                clarity: {
+                                    type: ['360P','480P'],            //清晰度
+                                    src: ['${nginxHost}:${nginxProt}/m3u8/${video.videoUrl}']      //链接地址
+                                },
+                                commentFile: 'comment.json'           //导入弹幕json数据
                             });
-                        });
+
+                            //扩展
+                            video.title;                    //标题
+                            video.status;                   //状态
+                            video.currentTime;              //当前时长
+                            video.duration;                 //总时长
+                            video.volume;                   //音量
+                            video.clarityType;              //清晰度
+                            video.claritySrc;               //链接地址
+                            video.fullScreen;               //全屏
+                            video.reversal;                 //镜像翻转
+                            video.playSpeed;                //播放速度
+                            video.cutover;                  //切换下个视频是否自动播放
+                            video.commentTitle;             //弹幕标题
+                            video.commentId;                //弹幕id
+                            video.commentClass;             //弹幕类型
+                            video.commentSwitch;            //弹幕是否打开
+                            $('#video1').bind('ended', function() {
+                                console.log('弹幕json数据：\n'+ video.comment());              //获取弹幕json数据
+                            });
+                        }
+
+                        <#--var player = videojs(document.querySelector('.video-js'), {-->
+                            <#--"playbackRates": [1, 1.5, 2],-->
+                            <#--"autoplay": true,-->
+                            <#--plugins: {-->
+                                <#--vjsdownload:{-->
+                                    <#--beforeElement: 'playbackRateMenuButton',-->
+                                    <#--textControl: 'Download',-->
+                                    <#--name: 'downloadButton'-->
+                                <#--}-->
+                            <#--}-->
+                        <#--} , function() {-->
+                            <#--this.on('downloadvideo', function(){-->
+                                <#--var fileURL=window.open ('${nginxHost}:${nginxProt}/video/${video.videoDownPath}',"height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");-->
+                                <#--fileURL.document.execCommand("SaveAs");-->
+                                <#--fileURL.window.close();-->
+                                <#--fileURL.close();-->
+                            <#--});-->
+                        <#--});-->
                     </script>
                 </div>
                 <#--内容-->

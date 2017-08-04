@@ -129,6 +129,11 @@ public final class Trend {
     public static final String TREND_BAD_CNT = "trendBadCnt";
 
     /**
+     * Key of trend bad count.
+     */
+    public static final String TREND_GIFT_CNT = "trendGiftCnt";
+
+    /**
      * Key of trend collection count.
      */
     public static final String TREND_COLLECT_CNT = "trendCollectCnt";

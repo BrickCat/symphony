@@ -33,7 +33,6 @@
 .trend-comment-bar-left{
     height: 48px;
     width: 20%;
-    height: 48px;
     float: left;
     margin-left: -2px;
 }
@@ -42,9 +41,9 @@
     width: 20%;
     float: left;
 }
-.trend-comment-bar-input{
-    margin-top: 6px;
-    width: 60%;
+.trend-comment-bar-mid{
+    height: 48px;
+    width: 20%;
     float: left;
 }
 .trend-comment-bar-thumb{
@@ -52,11 +51,14 @@
     line-height:36px;
     cursor:pointer;
     overflow:hidden;
-    width: 108px;
-    margin-left: 18px;
+    width: 100%;
     margin-top: 6px;
     text-align: center;
     vertical-align: middle;
+}
+.trend-comment-bar-thumb > a{
+    text-decoration:none;
+    color: black;
 }
 .container.gallery-container {
     background-color: #fafafa;

@@ -112,6 +112,8 @@ public class TrendsMgmtService {
         trends.put(Trend.TREND_COMMENT_CNT,0);
         //查看
         trends.put(Trend.TREND_VIEW_CNT,0);
+        //打赏
+        trends.put(Trend.TREND_GIFT_CNT,0);
         //内容
         trends.put(Trend.TREND_CONTENT,"");
         //打赏内容

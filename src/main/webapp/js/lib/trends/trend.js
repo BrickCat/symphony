@@ -1,6 +1,55 @@
-var trends = {
-    comment:function (id) {
-        alert(id);
+/*
+ * Symphony - A modern community (forum/SNS/blog) platform written in Java.
+ * Copyright (C) 2012-2017,  b3log.org & hacpai.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
+ * @fileoverview article page and add comment.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @author <a href="http://88250.b3log.org">Liang Ding</a>
+ * @version 1.38.54.34, May 7, 2017
+ */
+
+/**
+ * @description Add comment function.
+ * @static
+ */
+var Comment = {
+    trendetail:function (trendId) {
+        if (!Label.isLoggedIn) {
+            Util.needLogin();
+            return false;
+        }
+        window.location.href=Label.servePath+'/trend/'+trendId+"/info";
+
+    }
+
+};
+
+var Trend = {
+    /**
+     * @description 没有权限的提示
+     * @param {String} tip 提示内容
+     */
+    permissionTip: function (tip) {
+        if (Label.isLoggedIn) {
+            Util.alert(tip);
+        } else {
+            Util.needLogin();
+        }
     },
     /**
      * @description 赞同
@@ -103,4 +152,23 @@ var trends = {
         });
     },
 
+    /**
+     * @description 置顶
+     */
+    stick: function (trendId) {
+        var r = confirm(Label.stickVideoConfirmLabel);
+
+        if (r) {
+            $.ajax({
+                url: Label.servePath + "/video/stick?videoId=" + trendId,
+                type: "POST",
+                cache: false,
+                success: function (result, textStatus) {
+                    alert(result.msg);
+
+                    window.location.href = Label.servePath + "/recent";
+                }
+            });
+        }
+    }
 };

@@ -1755,6 +1755,10 @@
                     "type": "int"
                 },
                 {
+                   "name":"trendGiftCnt",
+                    "type":"int"
+                },
+                {
                     "name": "trendContent",
                     "type": "String",
                     "length": 102400

@@ -122,8 +122,8 @@ public class TrendsProcessor {
 
 
     @RequestProcessing(value = "/trends", method = HTTPRequestMethod.GET)
-    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
-    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
     public void frontTrends(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
@@ -154,8 +154,11 @@ public class TrendsProcessor {
         trendFields.put(Trend.TREND_CREATE_TIME,String.class);
         trendFields.put(Trend.TREND_STATUS,String.class);
         trendFields.put(Trend.TREND_GOOD_CNT,Integer.class);
+        trendFields.put(Trend.TREND_BAD_CNT,Integer.class);
         trendFields.put(Trend.TREND_VIEW_CNT,Integer.class);
         trendFields.put(Trend.TREND_COMMENT_CNT,Integer.class);
+        trendFields.put(Trend.TREND_GIFT_CNT,Integer.class);
+        trendFields.put(Trend.TREND_COLLECT_CNT,Integer.class);
         trendFields.put(Trend.TREND_IMAGE_URL,String.class);
         trendFields.put(Trend.TREND_CREATE_TIME,Long.class);
         trendFields.put(Trend.TREND_UPDATE_TIME,Long.class);
