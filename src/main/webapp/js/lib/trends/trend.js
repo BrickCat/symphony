@@ -185,10 +185,10 @@ var Trend = {
             return false;
         }
 
-        // if(userId == Label.currentUserId){
-        //     alert(Label.thankSelfLabel);
-        //     return false;
-        // }
+        if(userId == Label.currentUserId){
+            alert(Label.thankSelfLabel);
+            return false;
+        }
 
         var $thank = $(it);
 
@@ -197,6 +197,7 @@ var Trend = {
         }
 
         if ($thank.hasClass("ft-red")) {
+            alert(Label.trendAlreadyThankLabel);
             return false;
         }
 

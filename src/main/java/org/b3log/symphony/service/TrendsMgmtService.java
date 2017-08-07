@@ -263,7 +263,7 @@ public class TrendsMgmtService {
                     }
                     final int viewCnt = trend.optInt(Trend.TREND_VIEW_CNT);
                     trend.put(Trend.TREND_VIEW_CNT,viewCnt+1);
-                    videoRepository.update(trendId,trend);
+                    trendsRepository.update(trendId,trend);
                     transaction.commit();
                 }catch (final RepositoryException e){
                     if (transaction.isActive()){

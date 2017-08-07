@@ -371,7 +371,7 @@ public class TrendsProcessor {
 
         if (isLoggedIn){
             currentUserId = currentUser.optString(Keys.OBJECT_ID);
-            trend.put(Common.IS_MY_VIDEO, currentUserId.equals(trend.optString(Trend.TREND_AUTHOR_ID)));
+            trend.put(Common.IS_MY_TREND, currentUserId.equals(trend.optString(Trend.TREND_AUTHOR_ID)));
 
             final int trendVote = voteQueryService.isVoted(userId, trendId);
             dataModel.put(Trend.TREND_T_VOTE, trendVote);

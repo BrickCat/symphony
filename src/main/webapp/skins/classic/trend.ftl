@@ -11,6 +11,7 @@
         </@head>
         <link rel="stylesheet" href="${staticServePath}/css/index.css?${staticResourceVersion}" />
         <link rel="stylesheet" href="${staticServePath}/js/lib/editor/codemirror.min.css?${staticResourceVersion}">
+        <link rel="stylesheet" href="${staticServePath}/js/lib/trends/JPicture/css/jPicture.min.css">
         <!-- Open Graph -->
         <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="trend" />
@@ -56,7 +57,7 @@
                     <div class="article-actions action-btns">
                         <span class="tooltipped tooltipped-n<#if isLoggedIn && 0 == trendVote> ft-red</#if>" aria-label="${upLabel}"
                         <#if permissions["commonGoodVideo"].permissionGrant>
-                              onclick="trend.voteUp('${trend.oId}', 'trend', this)"
+                              onclick="Trend.voteUp('${trend.oId}', 'trend', this)"
                         <#else>
                               onclick="trend.permissionTip(Label.noPermissionLabel)"
                         </#if>><span class="icon-thumbs-up"></span>${trend.trendGoodCnt}</span> &nbsp;
@@ -66,7 +67,7 @@
                             <#if permissions["commonFollowVideo"].permissionGrant>
                               onclick="Util.unfollow(this, '${trend.oId}', 'trend',${trend.trendCollectCnt})"
                             <#else>
-                              onclick="trend.permissionTip(Label.noPermissionLabel)"
+                              onclick="Trend.permissionTip(Label.noPermissionLabel)"
                             </#if>><span class="icon-star"></span>${trend.trendCollectCnt}</span>
                     <#else>
                         <span class="tooltipped tooltipped-n" aria-label="${collectLabel}"
@@ -76,13 +77,15 @@
                               onclick="trend.permissionTip(Label.noPermissionLabel)"
                             </#if>><span class="icon-star"></span>${trend.trendCollectCnt}</span>
                     </#if> &nbsp;
-
+                        <span class="tooltipped tooltipped-w<#if isLoggedIn && isGift> ft-red</#if>" aria-label="${rewardLabel}"
+                              onclick="Trend.thank('${trend.oId}','${trend.trendAuthorId}',this)">
+                                            <span class="icon-goods"></span>&nbsp;${trend.trendGiftCnt}</span> &nbsp;
 
                     <#--编辑-->
-                    <#--<#if trend.isMytrend && permissions["adminUpdateVideo"].permissionGrant>-->
-                        <#--<a href="${servePath}/trend/${trend.oId}" aria-label="${editLabel}"-->
-                           <#--class="tooltipped tooltipped-n"><span class="icon-edit"></span></a> &nbsp;-->
-                    <#--</#if>-->
+                    <#if trend.isMyTrend && permissions["adminUpdateVideo"].permissionGrant>
+                        <a href="${servePath}/trend/${trend.oId}" aria-label="${editLabel}"
+                           class="tooltipped tooltipped-n"><span class="icon-edit"></span></a> &nbsp;
+                    </#if>
                     <#--管理-->
                     <#if permissions["adminUpdateVideo"].permissionGrant>
                         <a class="tooltipped tooltipped-n" href="${servePath}/trend/${trend.oId}" aria-label="${adminLabel}"><span class="icon-setting"></span></a> &nbsp;
@@ -90,21 +93,36 @@
                     </div>
                 </div>
                 <#--标题-->
-                <h1 class="article-title">
+                <#--<h1 class="article-title">
                     ${trend.trendTitle}
-                </h1>
-
+                </h1>-->
                 <#--内容-->
-
+                <#--<h3 style="margin-top: 15px">${videoDesIcon}&nbsp;&nbsp;${trendDescLabel}</h3>-->
                 <div class="content-reset article-content" style="margin-top: -5px;">
-                    ${trend.trendContent}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${trend.trendContent}fghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdf
                 </div>
+                <#--<div style="height: 10px;width:900px;margin-left:-70px;margin-top:15px;border-top: #C0C0C0 dashed 1px;">
+
+                </div>-->
+                <!-- HTML 主体结构，需按照此格式书写，其中的 <a> 链接可根据实际需要添加或删除 -->
+                <!-- 左右箭头和切换按钮的样式可根据实际需求在 jPicture.css 文件中进行修改 -->
+                <div id="imgBox" style=" width: 770px; height: 400px; margin-left: auto; margin-right: auto;margin-top: 15px;border-radius: 10px;">
+                    <div>
+                        <div><a href="#1"><img src="${staticServePath}/js/lib/trends/JPicture/images/1.png"></a></div>
+                        <div><a href="#2"><img src="${staticServePath}/js/lib/trends/JPicture/images/2.png"></a></div>
+                        <div><a href="#3"><img src="${staticServePath}/js/lib/trends/JPicture/images/3.png"></a></div>
+                        <div><a href="#4"><img src="${staticServePath}/js/lib/trends/JPicture/images/4.png"></a></div>
+                        <div><a href="#5"><img src="${staticServePath}/js/lib/trends/JPicture/images/5.png"></a></div>
+                        <div><a href="#6"><img src="${staticServePath}/js/lib/trends/JPicture/images/6.png"></a></div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <#--<div class="main <#if trend.trendComments?size == 0> fn-none</#if>">
+        <div class="main <#if trend.trendComments?size == 0> fn-none</#if>">
             <div class="wrapper" id="articleCommentsPanel">
-            <#if pjax><!---- pjax {#comments} start --&ndash;&gt;</#if>
+            <#if pjax><!---- pjax {#comments} start ---->;</#if>
                 <div class="module comments" id="comments">
                     <div class="comments-header module-header">
                         <span class="article-cmt-cnt">${trend.trendCommentCount} ${cmtLabel}</span>
@@ -120,16 +138,16 @@
                             <#list trend.trendComments as comment>
                             <#assign notificationCmtIds = notificationCmtIds + comment.oId>
                             <#if comment_has_next><#assign notificationCmtIds = notificationCmtIds + ","></#if>
-                           <#include 'common/trendcom.ftl' />
+                           <#include 'common/videocom.ftl' />
                         </#list>
                         </ul>
                         <div id="bottomComment"></div>
                     </div>
                     <@pagination url="${servePath}" query="m=${userCommentViewMode}#comments" pjaxTitle="${trend.trendTitle} - ${symphonyLabel}" />
                 </div>
-                <#if pjax><!---- pjax {#comments} end --&ndash;&gt;</#if>
+                <#if pjax><!---- pjax {#comments} end ----></#if>
             </div>
-        </div>-->
+        </div>
         <#include "footer.ftl">
         <span class="tooltipped tooltipped-w radio-btn" onclick="Comment._toggleReply()"
               data-hasPermission="${permissions['commonAddComment'].permissionGrant?c}"
@@ -160,8 +178,19 @@
         </div>
         </#if>
         <script src="${staticServePath}/js/lib/compress/video-libs.min.js?${staticResourceVersion}"></script>
-        <script src="${staticServePath}/js/video-channel.js?${staticResourceVersion}"></script>
-        <script src="${staticServePath}/js/video.js?${staticResourceVersion}"></script>
+        <script src="${staticServePath}/js/trend-channel.js?${staticResourceVersion}"></script>
+        <script src="${staticServePath}/js/lib/trends/trend.js?${staticResourceVersion}"></script>
+        <script src="${staticServePath}/js/lib/trends/JPicture/js/jquery-1.12.4.min.js"></script>
+        <script src="${staticServePath}/js/lib/trends/JPicture/js/jPicture.min.js"></script>
+
+        <script type="text/javascript">
+            jPicture("#imgBox", {
+                type: "slide",
+                autoplay: 3000
+            });
+
+        </script>
+
         <script>
             Label.commentErrorLabel = "${commentErrorLabel}";
             Label.symphonyLabel = "${symphonyLabel}";
@@ -177,6 +206,7 @@
             Label.confirmRemoveLabel = "${confirmRemoveLabel}";
             Label.removedLabel = "${removedLabel}";
             Label.uploadLabel = "${uploadLabel}";
+            Label.trendAlreadyThankLabel = "${trendAlreadyThankLabel}";
             Label.stickConfirmLabel = "${stickConfirmLabel}";
             Label.audioRecordingLabel = '${audioRecordingLabel}';
             Label.uploadingLabel = '${uploadingLabel}';

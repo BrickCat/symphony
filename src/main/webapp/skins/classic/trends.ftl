@@ -167,6 +167,7 @@
         window.location.href = '${servePath}/trend/'+trendId+'/info';
     }
     Label.noPermissionLabel = '${noPermissionLabel}';
+    Label.trendAlreadyThankLabel = "${trendAlreadyThankLabel}";
     Label.thankSelfLabel = '${thankSelfLabel}';
     <#if isLoggedIn>
     Label.currentUserId = '${currentUser.oId}';
