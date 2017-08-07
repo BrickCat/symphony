@@ -78,11 +78,22 @@ public final class Follow {
      */
     public static final int FOLLOWING_TYPE_C_VIDEO = 4;
 
-
     /**
      * Following type - video watch.
      */
     public static final int FOLLOWING_TYPE_C_VIDEO_WATCH = 5;
+
+    /**
+     * Following type - article collect.
+     */
+    public static final int FOLLOWING_TYPE_C_TREND = 6;
+
+    /**
+     * Following type - video watch.
+     */
+    public static final int FOLLOWING_TYPE_C_TREND_WATCH = 5;
+
+
     /**
      * Private constructor.
      */

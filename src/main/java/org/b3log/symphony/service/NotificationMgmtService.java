@@ -102,6 +102,19 @@ public class NotificationMgmtService {
             throw new ServiceException(msg);
         }
     }
+    @Transactional
+    public void addTrendVoteDownNotification(final JSONObject requestJSONObject) throws ServiceException {
+        try {
+            requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_C_TREND_VOTE_DOWN);
+
+            addNotification(requestJSONObject);
+        } catch (final RepositoryException e) {
+            final String msg = "Adds notification [type=Trend_vote_down] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+    }
 
     /**
      * Add a 'article vote up' type notification with the specified request json object.
@@ -129,6 +142,20 @@ public class NotificationMgmtService {
     public void addVideoVoteUpNotification(final JSONObject requestJSONObject) throws ServiceException {
         try {
             requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_C_VIDEO_VOTE_UP);
+
+            addNotification(requestJSONObject);
+        } catch (final RepositoryException e) {
+            final String msg = "Adds notification [type=video_vote_up] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+    }
+
+    @Transactional
+    public void addTrendVoteUpNotification(final JSONObject requestJSONObject) throws ServiceException {
+        try {
+            requestJSONObject.put(Notification.NOTIFICATION_DATA_TYPE, Notification.DATA_TYPE_C_TREND_VOTE_UP);
 
             addNotification(requestJSONObject);
         } catch (final RepositoryException e) {

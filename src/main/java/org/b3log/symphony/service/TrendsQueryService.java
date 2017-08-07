@@ -66,6 +66,29 @@ public class TrendsQueryService {
     @Inject
     private AvatarQueryService avatarQueryService;
 
+    /**
+     * Vote query service.
+     */
+    @Inject
+    private VoteQueryService voteQueryService;
+
+    /**
+     * Follow query service.
+     */
+    @Inject
+    private FollowQueryService followQueryService;
+
+    /**
+     * Follow query service.
+     */
+    @Inject
+    private CommentQueryService commentQueryService;
+
+    /**
+     * Reward query service.
+     */
+    @Inject
+    private RewardQueryService rewardQueryService;
 
     public JSONObject getTrend(final String trendId) throws ServiceException {
         try {
@@ -75,7 +98,7 @@ public class TrendsQueryService {
             throw new ServiceException(e);
         }
     }
-    public JSONObject getTrends(final JSONObject requestJSONObject, final Map<String, Class<?>> trendFields) throws ServiceException {
+    public JSONObject getTrends(final JSONObject requestJSONObject, final Map<String, Class<?>> trendFields,final boolean isLoggedIn) throws ServiceException {
         final JSONObject ret = new JSONObject();
 
         final int currentPageNum = requestJSONObject.optInt(Pagination.PAGINATION_CURRENT_PAGE_NUM);
@@ -108,8 +131,7 @@ public class TrendsQueryService {
         final List<JSONObject> trends = CollectionUtils.<JSONObject>jsonArrayToList(data);
 
         ret.put(Trend.TRENDS,trends);
-        for (int i = 0;i<data.length();i++){
-            final JSONObject trend = data.optJSONObject(i);
+        for (JSONObject trend : trends){
             trend.put(Trend.TREND_CREATE_TIME,new Date(trend.optLong(Keys.OBJECT_ID)));
             trend.put(Trend.TREND_CONTENT, trend.optString(Trend.TREND_CONTENT));
             final String senderId = trend.optString(Trend.TREND_AUTHOR_ID);
@@ -118,6 +140,18 @@ public class TrendsQueryService {
             trend.put(Trend.TREND_T_PARTICIPANT_THUMBNAIL_URL, avatarQueryService.getAvatarURLByUser(
                     UserExt.USER_AVATAR_VIEW_MODE_C_ORIGINAL, sernder, "48"));
             organizeTrend(trend);
+            final String trendId =  trend.optString(Keys.OBJECT_ID);
+            if (isLoggedIn){
+                final int trendVote = voteQueryService.isVoted(senderId, trendId);
+                trend.put(Trend.TREND_T_VOTE, trendVote);
+                final boolean isFollowing = followQueryService.isFollowing(senderId, trendId, Follow.FOLLOWING_TYPE_C_TREND);
+                trend.put(Common.IS_FOLLOWING, isFollowing);
+                final boolean isComment = commentQueryService.isComment(senderId, trendId);
+                trend.put(Common.IS_COMMENT, isComment);
+                boolean isGift = rewardQueryService.isRewarded(senderId, trendId, Reward.TYPE_C_THANK_TREND);
+                trend.put(Common.IS_GIFT, isGift);
+
+            }
         }
 
         return ret;
@@ -203,5 +237,58 @@ public class TrendsQueryService {
     }
 
 
+    public JSONObject getTrendById(final int avatarViewMode, final String trendId)throws ServiceException {
+        Stopwatchs.start("Get trend by id");
+        try {
+        final JSONObject trend = trendsRepository.get(trendId);
+        if(null == trend){
+            return null;
+        }
+        organizeTrend(avatarViewMode,trend);
+        return trend;
+        } catch (RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets an trend [trendId=" + trendId + "] failed", e);
+            throw new ServiceException(e);
+        }finally {
+            Stopwatchs.end();
+        }
+    }
+
+    private void organizeTrend(int avatarViewMode, JSONObject trend) {
+        toTrendDate(trend);
+        final String trendId = trend.optString(Keys.OBJECT_ID);
+
+        final int viewCnt = trend.optInt(Trend.TREND_VIEW_CNT);
+
+        final double views = (double)viewCnt/1000;
+
+        if (views >= 1){
+            final DecimalFormat df = new DecimalFormat("#.#");
+            trend.put(Trend.TREND_T_VIEW_CNT_DISPLAY_FORMAT,df.format(views)+"K");
+        }
+        String trendLatestCmterName = trend.optString(Trend.TREND_LATEST_CMTER_NAME);
+        if(StringUtils.isNotBlank(trendLatestCmterName)
+                && UserRegisterValidation.invalidUserName(trendLatestCmterName)){
+            trendLatestCmterName = UserExt.ANONYMOUS_USER_NAME;
+            trend.put(Trend.TREND_LATEST_CMTER_NAME,trendLatestCmterName);
+        }
+
+        final Query query = new Query()
+                .setPageCount(1).setCurrentPageNum(1).setPageSize(1)
+                .setFilter(new PropertyFilter(Comment.COMMENT_ON_ARTICLE_ID, FilterOperator.EQUAL, trendId)).
+                        addSort(Keys.OBJECT_ID, SortDirection.DESCENDING);
+        try {
+            final JSONArray cmts = commentRepository.get(query).optJSONArray(Keys.RESULTS);
+            if (cmts.length()>0){
+                final  JSONObject latestCmt = cmts.optJSONObject(0);
+                latestCmt.put(Comment.COMMENT_CLIENT_COMMENT_ID,latestCmt.optString(Comment.COMMENT_CLIENT_COMMENT_ID));
+                trend.put(Trend.TREND_T_LATEST_CMT,latestCmt);
+            }
+        } catch (RepositoryException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
 

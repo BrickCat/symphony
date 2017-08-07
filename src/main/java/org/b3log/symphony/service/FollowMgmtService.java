@@ -24,14 +24,8 @@ import org.b3log.latke.repository.RepositoryException;
 import org.b3log.latke.repository.annotation.Transactional;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
-import org.b3log.symphony.model.Article;
-import org.b3log.symphony.model.Follow;
-import org.b3log.symphony.model.Tag;
-import org.b3log.symphony.model.Video;
-import org.b3log.symphony.repository.ArticleRepository;
-import org.b3log.symphony.repository.FollowRepository;
-import org.b3log.symphony.repository.TagRepository;
-import org.b3log.symphony.repository.VideoRepository;
+import org.b3log.symphony.model.*;
+import org.b3log.symphony.repository.*;
 import org.json.JSONObject;
 
 /**
@@ -72,6 +66,12 @@ public class FollowMgmtService {
      */
     @Inject
     private VideoRepository videoRepository;
+
+    /**
+     * Trend repository.
+     */
+    @Inject
+    private TrendsRepository trendsRepository;
 
     /**
      * The specified follower follows the specified following tag.
@@ -302,7 +302,18 @@ public class FollowMgmtService {
 
             videoRepository.update(followingId,video);
 
-        } else if (Follow.FOLLOWING_TYPE_C_ARTICLE_WATCH == followingType) {
+        } else if (Follow.FOLLOWING_TYPE_C_TREND == followingType){
+            final JSONObject trend = trendsRepository.get(followingId);
+            if (null == trend){
+                LOGGER.log(Level.ERROR, "Not found trend [id={0}] to follow", followingId);
+
+                return;
+            }
+            trend.put(Trend.TREND_COLLECT_CNT,trend.optInt(Trend.TREND_COLLECT_CNT)+1);
+
+            trendsRepository.update(followingId,trend);
+
+        }else if (Follow.FOLLOWING_TYPE_C_ARTICLE_WATCH == followingType) {
             final JSONObject article = articleRepository.get(followingId);
             if (null == article) {
                 LOGGER.log(Level.ERROR, "Not found article [id={0}] to watch", followingId);
@@ -389,7 +400,20 @@ public class FollowMgmtService {
             }
 
             videoRepository.update(followingId, video);
-        }else if (Follow.FOLLOWING_TYPE_C_ARTICLE_WATCH == followingType) {
+        } else if(Follow.FOLLOWING_TYPE_C_TREND == followingType){
+            final JSONObject trend = trendsRepository.get(followingId);
+            if (null == trend) {
+                LOGGER.log(Level.ERROR, "Not found trend [id={0}] to unfollow", followingId);
+
+                return;
+            }
+            trend.put(Trend.TREND_COLLECT_CNT, trend.optInt(Trend.TREND_COLLECT_CNT) - 1);
+            if (trend.optInt(Trend.TREND_COLLECT_CNT) < 0) {
+                trend.put(Trend.TREND_COLLECT_CNT, 0);
+            }
+
+            trendsRepository.update(followingId, trend);
+        } else if (Follow.FOLLOWING_TYPE_C_ARTICLE_WATCH == followingType) {
             final JSONObject article = articleRepository.get(followingId);
             if (null == article) {
                 LOGGER.log(Level.ERROR, "Not found article [id={0}] to unwatch", followingId);
@@ -432,9 +456,34 @@ public class FollowMgmtService {
 
     }
     @Transactional
+    public void followTrend(final String followerUserId, final  String followingVideoId) throws ServiceException {
+        try{
+            follow(followerUserId,followingVideoId,Follow.FOLLOWING_TYPE_C_TREND);
+        }catch (final RepositoryException e){
+            final String msg = "User[id=" + followerUserId + "] follows an article[id=" + followingVideoId + "] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+
+    }
+    @Transactional
     public void unfollowVideo(final String followerUserId, final String followingVideoId) throws ServiceException {
         try {
             unfollow(followerUserId,followingVideoId,Follow.FOLLOWING_TYPE_C_VIDEO);
+        }catch (final RepositoryException e) {
+            final String msg = "User[id=" + followerUserId + "] unfollows an video[id=" + followingVideoId + "] failed";
+            LOGGER.log(Level.ERROR, msg, e);
+
+            throw new ServiceException(msg);
+        }
+
+    }
+
+    @Transactional
+    public void unfollowTrend(final String followerUserId, final String followingVideoId) throws ServiceException {
+        try {
+            unfollow(followerUserId,followingVideoId,Follow.FOLLOWING_TYPE_C_TREND);
         }catch (final RepositoryException e) {
             final String msg = "User[id=" + followerUserId + "] unfollows an video[id=" + followingVideoId + "] failed";
             LOGGER.log(Level.ERROR, msg, e);

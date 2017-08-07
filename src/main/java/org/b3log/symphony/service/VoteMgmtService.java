@@ -77,6 +77,12 @@ public class VoteMgmtService {
     private VideoRepository videoRepository;
 
     /**
+     * Trend repository.
+     */
+    @Inject
+    private TrendsRepository trendsRepository;
+
+    /**
      * Liveness management service.
      */
     @Inject
@@ -142,6 +148,26 @@ public class VoteMgmtService {
 
                 videoRepository.update(dataId, video);
 
+            } else if(Vote.DATA_TYPE_C_TREND == dataType){
+                final JSONObject trend = trendsRepository.get(dataId);
+                if (null == trend){
+                    LOGGER.log(Level.ERROR, "Not found trend [id={0}] to vote cancel", dataId);
+                    return;
+                }
+
+                if (Vote.TYPE_C_UP == oldType) {
+                    trend.put(Trend.TREND_GOOD_CNT, trend.optInt(Trend.TREND_GOOD_CNT) - 1);
+                } else if (Vote.TYPE_C_DOWN == oldType) {
+                    trend.put(Trend.TREND_BAD_CNT, trend.optInt(Trend.TREND_BAD_CNT) - 1);
+                }
+                final int ups = trend.optInt(Trend.TREND_GOOD_CNT);
+                final int downs = trend.optInt(Trend.TREND_BAD_CNT);
+
+                final long t = trend.optLong(Keys.OBJECT_ID) /1000;
+                final double redditScore = redditVideoScore(ups, downs, t);
+                trend.put(Trend.REDDIT_SCORE,redditScore);
+
+                trendsRepository.update(dataId,trend);
             } else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
                 final JSONObject comment = commentRepository.get(dataId);
                 if (null == comment) {
@@ -274,6 +300,28 @@ public class VoteMgmtService {
             //updateTagVideoScore(video);
 
             videoRepository.update(dataId,video);
+        } else if(Vote.DATA_TYPE_C_TREND == dataType){
+            JSONObject trend = trendsRepository.get(dataId);
+            if (null == trend){
+                LOGGER.log(Level.ERROR, "Not found Trend [id={0}] to vote up", dataId);
+                return;
+            }
+            if (-1 == oldType){
+                trend.put(Trend.TREND_GOOD_CNT,trend.optInt(Trend.TREND_GOOD_CNT) + 1);
+            }else{
+                trend.put(Trend.TREND_BAD_CNT,trend.optInt(Trend.TREND_BAD_CNT)-1);
+                trend.put(Trend.TREND_GOOD_CNT,trend.optInt(Trend.TREND_GOOD_CNT) + 1);
+            }
+
+            final int ups = trend.optInt(Trend.TREND_GOOD_CNT);
+            final int downs = trend.optInt(Trend.TREND_BAD_CNT);
+
+            final long t = trend.optLong(Keys.OBJECT_ID) /1000;
+            final double redditScore = redditVideoScore(ups, downs, t);
+            trend.put(Trend.REDDIT_SCORE,redditScore);
+
+            trendsRepository.update(dataId,trend);
+
         } else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
             final JSONObject comment = commentRepository.get(dataId);
             if (null == comment) {
@@ -391,6 +439,29 @@ public class VoteMgmtService {
             //updateTagVideoScore(video);
 
             videoRepository.update(dataId, video);
+        } else if (Vote.DATA_TYPE_C_TREND == dataType){
+            final JSONObject trend = trendsRepository.get(dataId);
+            if (null == trend){
+                LOGGER.log(Level.ERROR, "Not found trend [id={0}] to vote down", dataId);
+                return;
+            }
+            if (-1 == oldType) {
+                trend.put(Trend.TREND_BAD_CNT, trend.optInt(Trend.TREND_BAD_CNT) + 1);
+            } else if (Vote.TYPE_C_UP == oldType) {
+                trend.put(Trend.TREND_GOOD_CNT, trend.optInt(Trend.TREND_GOOD_CNT) - 1);
+                trend.put(Trend.TREND_BAD_CNT, trend.optInt(Trend.TREND_BAD_CNT) + 1);
+            }
+
+            final int ups = trend.optInt(Trend.TREND_GOOD_CNT);
+            final int downs = trend.optInt(Trend.TREND_BAD_CNT);
+            final long t = trend.optLong(Keys.OBJECT_ID) / 1000;
+
+            final double redditScore = redditVideoScore(ups, downs, t);
+            trend.put(Trend.REDDIT_SCORE, redditScore);
+
+            //updateTagVideoScore(video);
+
+            trendsRepository.update(dataId, trend);
         } else if (Vote.DATA_TYPE_C_COMMENT == dataType) {
             final JSONObject comment = commentRepository.get(dataId);
             if (null == comment) {

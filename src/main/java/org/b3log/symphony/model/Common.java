@@ -430,6 +430,15 @@ public final class Common {
      * Key of is following.
      */
     public static final String IS_FOLLOWING = "isFollowing";
+    /**
+     * Key of is Comment.
+     */
+    public static final String IS_COMMENT = "isComment";
+
+    /**
+     * Key of is Comment.
+     */
+    public static final String IS_GIFT = "isGift";
 
     /**
      * Key of is watching.
@@ -445,6 +454,11 @@ public final class Common {
      * Key of is my article.
      */
     public static final String IS_MY_VIDEO = "isMyVideo";
+
+    /**
+     * Key of is my article.
+     */
+    public static final String IS_MY_TREND = "isMyTrend";
 
     /**
      * Key of logout URL.
@@ -480,6 +494,11 @@ public final class Common {
      * Key of timeline.
      */
     public static final String VIDEOS = "videos";
+
+    /**
+     * Key of timeline.
+     */
+    public static final String TRENDS = "trends";
 
     /**
      * Key of timelines.

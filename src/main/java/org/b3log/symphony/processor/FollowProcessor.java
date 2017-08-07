@@ -27,16 +27,10 @@ import org.b3log.latke.servlet.annotation.Before;
 import org.b3log.latke.servlet.annotation.RequestProcessing;
 import org.b3log.latke.servlet.annotation.RequestProcessor;
 import org.b3log.latke.util.Requests;
-import org.b3log.symphony.model.Article;
-import org.b3log.symphony.model.Follow;
-import org.b3log.symphony.model.Notification;
-import org.b3log.symphony.model.Video;
+import org.b3log.symphony.model.*;
 import org.b3log.symphony.processor.advice.LoginCheck;
 import org.b3log.symphony.processor.advice.PermissionCheck;
-import org.b3log.symphony.service.ArticleQueryService;
-import org.b3log.symphony.service.FollowMgmtService;
-import org.b3log.symphony.service.NotificationMgmtService;
-import org.b3log.symphony.service.VideoQueryService;
+import org.b3log.symphony.service.*;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,6 +88,9 @@ public class FollowProcessor {
      */
     @Inject
     private VideoQueryService videoQueryService;
+
+    @Inject
+    private TrendsQueryService trendsQueryService;
     /**
      * Follows a user.
      * <p>
@@ -330,6 +327,36 @@ public class FollowProcessor {
         context.renderTrueResult();
     }
 
+    @RequestProcessing(value = "/follow/trend",method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {LoginCheck.class, PermissionCheck.class})
+    public void followTrend(final HTTPRequestContext context, final HttpServletRequest request,
+                            final HttpServletResponse response) throws Exception {
+        context.renderJSON();
+
+        final JSONObject requestJSONObject = Requests.parseRequestJSONObject(request, context.getResponse());
+        final String followingTrendId = requestJSONObject.optString(Follow.FOLLOWING_ID);
+
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        final String followerUserId = currentUser.optString(Keys.OBJECT_ID);
+
+        followMgmtService.followTrend(followerUserId, followingTrendId);
+
+        final JSONObject trend = trendsQueryService.getTrend(followingTrendId);
+        final String trendAuthorId = trend.optString(Trend.TREND_AUTHOR_ID);
+
+        if (!FOLLOWS.contains(trendAuthorId + followingTrendId + "-" + followerUserId) &&
+                !trendAuthorId.equals(followerUserId)) {
+            final JSONObject notification = new JSONObject();
+            notification.put(Notification.NOTIFICATION_USER_ID, trendAuthorId);
+            notification.put(Notification.NOTIFICATION_DATA_ID, followingTrendId + "-" + followerUserId);
+
+            notificationMgmtService.addVideoNewFollowerNotification(notification);
+        }
+
+        FOLLOWS.add(trendAuthorId + followingTrendId + "-" + followerUserId);
+
+        context.renderTrueResult();
+    }
 
     /**
      * Unfollows an article.
@@ -385,6 +412,21 @@ public class FollowProcessor {
                                 final HttpServletResponse response) throws Exception {
         context.renderJSON();
 
+        final JSONObject requestJSONObject = Requests.parseRequestJSONObject(request, context.getResponse());
+        final String followingVideoId = requestJSONObject.optString(Follow.FOLLOWING_ID);
+
+        final JSONObject currentUser = (JSONObject) request.getAttribute(User.USER);
+        final String followerUserId = currentUser.optString(Keys.OBJECT_ID);
+
+        followMgmtService.unfollowVideo(followerUserId, followingVideoId);
+
+        context.renderTrueResult();
+    }
+    @RequestProcessing(value = "/follow/trend",method = HTTPRequestMethod.DELETE)
+    @Before(adviceClass = LoginCheck.class)
+    public void unfollowTrend(final HTTPRequestContext context, final HttpServletRequest request,
+                              final HttpServletResponse response) throws Exception {
+        context.renderJSON();
         final JSONObject requestJSONObject = Requests.parseRequestJSONObject(request, context.getResponse());
         final String followingVideoId = requestJSONObject.optString(Follow.FOLLOWING_ID);
 

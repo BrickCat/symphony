@@ -1181,7 +1181,7 @@ public class AdminProcessor {
         trendFields.put(Trend.TREND_GOOD_CNT,Integer.class);
         trendFields.put(Trend.TREND_COMMENT_CNT,Integer.class);
 
-        final JSONObject result = trendsQueryService.getTrends(requestJSONObject,trendFields);
+        final JSONObject result = trendsQueryService.getTrends(requestJSONObject,trendFields,true);
         final List<JSONObject> trends = CollectionUtils.jsonArrayToList(result.optJSONArray(Trend.TRENDS));
         dataModel.put(Trend.TRENDS, trends);
 

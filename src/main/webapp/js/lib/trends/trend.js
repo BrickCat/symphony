@@ -35,6 +35,12 @@ var Comment = {
         }
         window.location.href=Label.servePath+'/trend/'+trendId+"/info";
 
+    },
+    trendGIft:function (trendId) {
+        if (!Label.isLoggedIn) {
+            Util.needLogin();
+            return false;
+        }
     }
 
 };
@@ -63,7 +69,7 @@ var Trend = {
         }
 
         var $voteUp = $(it);
-        var $voteDown = $voteUp.next();
+        var $voteDown = $('#down');
 
         if ($voteUp.hasClass("disabled")) {
             return false;
@@ -89,9 +95,9 @@ var Trend = {
                         $voteUp.html('<span class="icon-thumbs-up"></span> ' + (upCnt - 1)).removeClass('ft-red');
                     } else {
                         $voteUp.html('<span class="icon-thumbs-up"></span> ' + (upCnt + 1)).addClass('ft-red');
-                        if ($voteDown.hasClass('ft-red')) {
+                        /*if ($voteDown.hasClass('ft-red')) {
                             $voteDown.html('<span class="icon-thumbs-down"></span> ' + (downCnt - 1)).removeClass('ft-red');
-                        }
+                        }*/
                     }
 
                     return;
@@ -112,7 +118,7 @@ var Trend = {
             return false;
         }
         var $voteDown = $(it);
-        var $voteUp = $voteDown.prev();
+        var $voteUp = $('#up');
 
         if ($voteDown.hasClass("disabled")) {
             return false;
@@ -138,7 +144,7 @@ var Trend = {
                         $voteDown.html('<span class="icon-thumbs-down"></span> ' + (downCnt - 1)).removeClass('ft-red');
                     } else {
                         $voteDown.html('<span class="icon-thumbs-down"></span> ' + (downCnt + 1)).addClass('ft-red');
-                        ;
+                        alert($voteUp.hasClass('ft-red'));
                         if ($voteUp.hasClass('ft-red')) {
                             $voteUp.html('<span class="icon-thumbs-up"></span> ' + (upCnt - 1)).removeClass('ft-red');
                         }
@@ -170,5 +176,52 @@ var Trend = {
                 }
             });
         }
+    }, /**
+     * @description 感谢文章
+     */
+    thank: function (trendId,userId,it) {
+        if (!Label.isLoggedIn) {
+            Util.needLogin();
+            return false;
+        }
+
+        // if(userId == Label.currentUserId){
+        //     alert(Label.thankSelfLabel);
+        //     return false;
+        // }
+
+        var $thank = $(it);
+
+        if ($thank.hasClass("disabled")) {
+            return false;
+        }
+
+        if ($thank.hasClass("ft-red")) {
+            return false;
+        }
+
+        // 匿名贴不需要 confirm
+        if (!confirm(Label.thankArticleConfirmLabel)) {
+            return false;
+        }
+
+        $thank.addClass("disabled");
+
+        $.ajax({
+            url: Label.servePath + "/trend/thank?trendId=" + trendId,
+            type: "POST",
+            cache: false,
+            success: function (result, textStatus) {
+                $thank.removeClass("disabled");
+                var thxCnt = parseInt($thank.text())
+                if (result.sc) {
+                    $thank.removeAttr("onclick").html('<span class="icon-goods"></span>&nbsp;' + (thxCnt + 1))
+                        .addClass('ft-red');
+
+                    return false;
+                }
+                alert(result.msg);
+            }
+        });
     }
 };

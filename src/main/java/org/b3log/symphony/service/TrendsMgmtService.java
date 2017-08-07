@@ -10,10 +10,7 @@ import org.b3log.latke.service.LangPropsService;
 import org.b3log.latke.service.ServiceException;
 import org.b3log.latke.service.annotation.Service;
 import org.b3log.latke.util.Ids;
-import org.b3log.symphony.model.Pointtransfer;
-import org.b3log.symphony.model.Trend;
-import org.b3log.symphony.model.UserExt;
-import org.b3log.symphony.model.Video;
+import org.b3log.symphony.model.*;
 import org.b3log.symphony.repository.*;
 import org.b3log.symphony.util.Symphonys;
 import org.json.JSONArray;
@@ -83,6 +80,19 @@ public class TrendsMgmtService {
      */
     @Inject
     private PointtransferMgmtService pointtransferMgmtService;
+
+    @Inject
+    private RewardQueryService rewardQueryService;
+
+    @Inject
+    private RewardMgmtService rewardMgmtService;
+
+    @Inject
+    private NotificationMgmtService notificationMgmtService;
+
+    @Inject
+    private LivenessMgmtService livenessMgmtService;
+
     /**
      * Adds a video
      * @param requestJSONObject
@@ -241,19 +251,19 @@ public class TrendsMgmtService {
         return dir.delete();
     }
 
-    public void inVideoViewCount(final String videoId) throws ServiceException {
+    public void inTrendViewCount(final String trendId) throws ServiceException {
         Symphonys.EXECUTOR_SERVICE.submit(new Runnable() {
             @Override
             public void run() {
-                final Transaction transaction = videoRepository.beginTransaction();
+                final Transaction transaction = trendsRepository.beginTransaction();
                 try {
-                    final JSONObject video = videoRepository.get(videoId);
-                    if (null == video){
+                    final JSONObject trend = trendsRepository.get(trendId);
+                    if (null == trend){
                         return;
                     }
-                    final int viewCnt = video.optInt(Video.VIDEO_VIEW_COUNT);
-                    video.put(Video.VIDEO_VIEW_COUNT,viewCnt+1);
-                    videoRepository.update(videoId,video);
+                    final int viewCnt = trend.optInt(Trend.TREND_VIEW_CNT);
+                    trend.put(Trend.TREND_VIEW_CNT,viewCnt+1);
+                    videoRepository.update(trendId,trend);
                     transaction.commit();
                 }catch (final RepositoryException e){
                     if (transaction.isActive()){
@@ -324,4 +334,83 @@ public class TrendsMgmtService {
             throw new ServiceException(langPropsService.get("stickFailedLabel"));
         }
     }
+
+    /**
+     * A user specified by the given sender id thanks the author of an trend specified by the given article id.
+     *
+     * @param trendId the given article id
+     * @param senderId  the given sender id
+     * @throws ServiceException service exception
+     */
+    @Transactional
+    public void thank(final String trendId, final String senderId) throws ServiceException {
+        try {
+            final JSONObject trend = trendsRepository.get(trendId);
+
+            if (null == trend) {
+                return;
+            }
+
+            final JSONObject sender = userRepository.get(senderId);
+            if (null == sender) {
+                return;
+            }
+
+            if (UserExt.USER_STATUS_C_VALID != sender.optInt(UserExt.USER_STATUS)) {
+                return;
+            }
+
+            final String receiverId = trend.optString(Trend.TREND_AUTHOR_ID);
+            final JSONObject receiver = userRepository.get(receiverId);
+            if (null == receiver) {
+                return;
+            }
+
+            if (UserExt.USER_STATUS_C_VALID != receiver.optInt(UserExt.USER_STATUS)) {
+                return;
+            }
+
+//            if (receiverId.equals(senderId)) {
+//                return;
+//            }
+            final String thankId = Ids.genTimeMillisId();
+
+            if (rewardQueryService.isRewarded(senderId, trendId, Reward.TYPE_C_THANK_TREND)) {
+                return;
+            }else {
+//                final boolean succ = null != pointtransferMgmtService.transfer(senderId, receiverId,
+//                        Pointtransfer.TRANSFER_TYPE_C_ARTICLE_THANK,
+//                        Pointtransfer.TRANSFER_SUM_C_ARTICLE_THANK, thankId, System.currentTimeMillis());
+//
+//                if (!succ) {
+//                    throw new ServiceException();
+//                }
+                trend.put(Trend.TREND_GIFT_CNT,trend.optInt(Trend.TREND_GIFT_CNT)+1);
+                trendsRepository.update(trendId,trend);
+                int point = receiver.optInt(UserExt.USER_POINT) + Integer.parseInt(Symphonys.get("thankTrendPoint"));
+                receiver.put(UserExt.USER_POINT,point);
+                userRepository.update(receiverId,receiver);
+            }
+
+            final JSONObject reward = new JSONObject();
+            reward.put(Keys.OBJECT_ID, thankId);
+            reward.put(Reward.SENDER_ID, senderId);
+            reward.put(Reward.DATA_ID, trendId);
+            reward.put(Reward.TYPE, Reward.TYPE_C_THANK_TREND);
+
+            rewardMgmtService.addReward(reward);
+
+            final JSONObject notification = new JSONObject();
+            notification.put(Notification.NOTIFICATION_USER_ID, receiverId);
+            notification.put(Notification.NOTIFICATION_DATA_ID, thankId);
+
+            notificationMgmtService.addArticleThankNotification(notification);
+
+            livenessMgmtService.incLiveness(senderId, Liveness.LIVENESS_REWARD);
+        } catch (final RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Thanks an trend[id=" + trendId + "] failed", e);
+            throw new ServiceException(e);
+        }
+    }
+
 }

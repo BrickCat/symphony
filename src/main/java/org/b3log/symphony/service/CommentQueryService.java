@@ -839,4 +839,36 @@ public class CommentQueryService {
 
         comment.put(Comment.COMMENT_CONTENT, commentContent);
     }
+
+    /**
+     * Determines whether the specified user dose comment the specified entity.
+     *
+     * @param userId the specified user id
+     * @param dataId the specified entity id
+     * @return voted type, returns {@code -1} if has not voted yet
+     */
+    public boolean isComment(final String userId, final String dataId) {
+        try {
+            final List<Filter> filters = new ArrayList<>();
+            filters.add(new PropertyFilter(Comment.COMMENT_AUTHOR_ID, FilterOperator.EQUAL, userId));
+            filters.add(new PropertyFilter(Comment.COMMENT_ON_ARTICLE_ID, FilterOperator.EQUAL, dataId));
+
+            final Query query = new Query().setFilter(new CompositeFilter(CompositeFilterOperator.AND, filters));
+
+            final JSONObject result = commentRepository.get(query);
+            final JSONArray array = result.optJSONArray(Keys.RESULTS);
+
+            if (0 == array.length()) {
+                return false;
+            }
+
+            final JSONObject vote = array.optJSONObject(0);
+
+            return true;
+        } catch (final RepositoryException e) {
+            LOGGER.log(Level.ERROR, e.getMessage());
+
+            return false;
+        }
+    }
 }

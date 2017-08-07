@@ -57,6 +57,11 @@ public class TrendsProcessor {
      */
     private static final int WINDOW_SIZE = 15;
 
+    /**
+     * Avatar query service.
+     */
+    @Inject
+    private AvatarQueryService avatarQueryService;
 
     /**
      * Pagination page size.
@@ -163,8 +168,10 @@ public class TrendsProcessor {
         trendFields.put(Trend.TREND_CREATE_TIME,Long.class);
         trendFields.put(Trend.TREND_UPDATE_TIME,Long.class);
         trendFields.put(Trend.TREND_LATEST_CMT_TIME,Long.class);
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+        final boolean isLoggedIn = (Boolean) dataModel.get(Common.IS_LOGGED_IN);
 
-        final JSONObject results = trendsQueryService.getTrends(requestJSONObject,trendFields);
+        final JSONObject results = trendsQueryService.getTrends(requestJSONObject,trendFields,isLoggedIn);
         final List<JSONObject> trends = CollectionUtils.jsonArrayToList(results.optJSONArray(Trend.TRENDS));
         dataModel.put(Trend.TRENDS, trends);
 
@@ -278,5 +285,179 @@ public class TrendsProcessor {
         trendsMgmtService.deleteTrend(trendId);
 
         response.sendRedirect(Latkes.getServePath() + "/admin/trends");
+    }
+
+    @RequestProcessing(value = "/trend/thank",method = HTTPRequestMethod.POST)
+    @Before(adviceClass = {StopwatchStartAdvice.class, PermissionCheck.class})
+    @After(adviceClass = StopwatchEndAdvice.class)
+    public void thank(final HttpServletRequest request, final HttpServletResponse response, final HTTPRequestContext context)
+            throws Exception {
+        final JSONObject currentUser = userQueryService.getCurrentUser(request);
+        if (null == currentUser) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+
+            return;
+        }
+
+        final String trendId = request.getParameter(Trend.TREND_T_ID);
+        if (Strings.isEmptyOrNull(trendId)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+            return;
+        }
+
+        context.renderJSON();
+
+        try {
+            trendsMgmtService.thank(trendId, currentUser.optString(Keys.OBJECT_ID));
+        } catch (final ServiceException e) {
+            context.renderMsg(langPropsService.get("transferFailLabel"));
+
+            return;
+        }
+
+        context.renderTrueResult();
+    }
+
+    @RequestProcessing(value = "/trend/{trendId}/info",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
+    public void trend(final HttpServletRequest request, final HttpServletResponse response, final HTTPRequestContext context,
+                      final String trendId)
+            throws Exception{
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("/trend.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+
+        final JSONObject trend = trendsQueryService.getTrendById(avatarViewMode,trendId);
+
+
+        if (null == trend){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        final HttpSession session = request.getSession(false);
+        if (null != session){
+            session.setAttribute(Trend.TREND_T_ID,trendId);
+        }
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+        final String authorId = trend.optString(Trend.TREND_AUTHOR_ID);
+
+        final JSONObject author = userQueryService.getUser(authorId);
+        trend.put(Trend.TREND_T_AUTHOR_NAME,author.optString(User.USER_NAME));
+        trend.put(Trend.TREND_T_AUTHOR_URL, author.optString(User.USER_URL));
+        trend.put(Trend.TREND_T_AUTHOR_INTRO, author.optString(UserExt.USER_INTRO));
+
+
+        final JSONObject currentUser = userQueryService.getCurrentUser(request);
+        final String userId = currentUser.optString(Keys.OBJECT_ID);
+
+
+        dataModel.put(Trend.TREND,trend);
+
+        trend.put(Common.IS_MY_TREND, false);
+        trend.put(Trend.TREND_T_AUTHOR, author);
+
+        String cmtViewModeStr = request.getParameter("m");
+
+        String currentUserId = null;
+        final boolean isLoggedIn = (Boolean) dataModel.get(Common.IS_LOGGED_IN);
+
+        if (isLoggedIn){
+            currentUserId = currentUser.optString(Keys.OBJECT_ID);
+            trend.put(Common.IS_MY_VIDEO, currentUserId.equals(trend.optString(Trend.TREND_AUTHOR_ID)));
+
+            final int trendVote = voteQueryService.isVoted(userId, trendId);
+            dataModel.put(Trend.TREND_T_VOTE, trendVote);
+
+            final boolean isFollowing = followQueryService.isFollowing(userId, trendId, Follow.FOLLOWING_TYPE_C_TREND);
+            dataModel.put(Common.IS_FOLLOWING, isFollowing);
+
+            final boolean isComment = commentQueryService.isComment(userId, trendId);
+            dataModel.put(Common.IS_COMMENT, isComment);
+
+            boolean isGift = rewardQueryService.isRewarded(userId, trendId, Reward.TYPE_C_THANK_TREND);
+            dataModel.put(Common.IS_GIFT, isGift);
+
+            if (Strings.isEmptyOrNull(cmtViewModeStr) || !Strings.isNumeric(cmtViewModeStr)) {
+                cmtViewModeStr = currentUser.optString(UserExt.USER_COMMENT_VIEW_MODE);
+            }
+        }else if (Strings.isEmptyOrNull(cmtViewModeStr) || !Strings.isNumeric(cmtViewModeStr)) {
+            cmtViewModeStr = "0";
+        }
+        final int cmtViewMode = Integer.valueOf(cmtViewModeStr);
+        dataModel.put(UserExt.USER_COMMENT_VIEW_MODE, cmtViewMode);
+
+        if(!(Boolean)request.getAttribute((Keys.HttpRequest.IS_SEARCH_ENGINE_BOT))){
+            trendsMgmtService.inTrendViewCount(trendId);
+        }
+
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = Symphonys.getInt("articleCommentsPageSize");
+        final int windowSize = Symphonys.getInt("articleCommentsWindowSize");
+
+        final int commentCnt = trend.getInt(Trend.TREND_COMMENT_CNT);
+        final int pageCount = (int) Math.ceil((double) commentCnt / (double) pageSize);
+
+        final List<Integer> pageNums = Paginator.paginate(pageNum, pageSize, pageCount, windowSize);
+
+        if (!pageNums.isEmpty()) {
+            dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.get(0));
+            dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.get(pageNums.size() - 1));
+        }
+
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
+        dataModel.put(Common.VIDEO_COMMENTS_PAGE_SIZE, pageSize);
+
+        final String commenterId = trend.optString(Trend.TREND_AUTHOR_ID);
+        final JSONObject videoer = userQueryService.getUser(commenterId);
+
+        // Load comments
+        final List<JSONObject> trendComments =
+                commentQueryService.getArticleComments(avatarViewMode, trendId, pageNum, pageSize, cmtViewMode);
+        trend.put(Trend.TREND_T_COMMENTS, (Object) trendComments);
+        trend.put(Trend.TREND_T_AUTHOR_THUMBNAIL_URL, avatarQueryService.getAvatarURLByUser(
+                UserExt.USER_AVATAR_VIEW_MODE_C_ORIGINAL, videoer, "48"));
+        // Fill comment thank
+        Stopwatchs.start("Fills comment thank");
+        try{
+            final String thankTemplate = langPropsService.get("thankConfirmLabel");
+            for (final JSONObject comment : trendComments){
+                comment.put(Comment.COMMENT_T_NICE, comment.optDouble(Comment.COMMENT_SCORE, 0D));
+
+                final String thankStr = thankTemplate.replace("{point}", String.valueOf(Symphonys.getInt("pointThankComment")))
+                        .replace("{user}", comment.optJSONObject(Comment.COMMENT_T_COMMENTER).optString(User.USER_NAME));
+                comment.put(Comment.COMMENT_T_THANK_LABEL, thankStr);
+
+                final String commentId = comment.optString(Keys.OBJECT_ID);
+                if (isLoggedIn) {
+                    comment.put(Common.REWARDED,
+                            rewardQueryService.isRewarded(currentUserId, commentId, Reward.TYPE_C_COMMENT));
+                    final int commentVote = voteQueryService.isVoted(currentUserId, commentId);
+                    comment.put(Comment.COMMENT_T_VOTE, commentVote);
+                }
+                comment.put(Common.REWARED_COUNT, rewardQueryService.rewardedCount(commentId, Reward.TYPE_C_COMMENT));
+            }
+
+        }finally {
+            Stopwatchs.end();
+        }
+
+        dataModel.put(Common.SELECTED, Common.TRENDS);
+
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 }

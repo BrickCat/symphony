@@ -961,11 +961,11 @@ var Util = {
 
                     $(it).removeClass("disabled");
                     if (typeof (index) !== 'undefined') {
-                        if ('article' === type || 'tag' === type || 'video' === type) {
+                        if ('article' === type || 'tag' === type || 'video' === type || 'trend' === type) {
                             $(it).html('<span class="icon-star"></span> ' + (index + 1)).
                                 attr("onclick", "Util.unfollow(this, '" + id + "', '" + type + "', " + (index + 1) + ")")
                                 .attr("aria-label", Label.uncollectLabel).addClass('ft-red');
-                        } else if ('article-watch' === type || 'video-watch' === type) {
+                        } else if ('article-watch' === type || 'video-watch' === type || 'trend-watch' === type ) {
                             $(it).html('<span class="icon-view"></span> ' + (index + 1)).
                                 attr("onclick", "Util.unfollow(this, '" + id + "', '" + type + "', " + (index + 1) + ")")
                                 .attr("aria-label", Label.unfollowLabel).addClass('ft-red');
@@ -1005,11 +1005,11 @@ var Util = {
             success: function (result, textStatus) {
                 if (result.sc) {
                     if (typeof (index) !== 'undefined') {
-                        if ('article' === type || 'tag' === type || 'video' === type) {
+                        if ('article' === type || 'tag' === type || 'video' === type || 'trend' === type) {
                             $(it).removeClass('ft-red').html('<span class="icon-star"></span> ' + (index - 1))
                                 .attr("onclick", "Util.follow(this, '" + id + "', '" + type + "'," + (index - 1) + ")")
                                 .attr("aria-label", Label.collectLabel);
-                        } else if ('article-watch' === type||'video-watch' === type) {
+                        } else if ('article-watch' === type||'video-watch' === type||'trend-watch') {
                             $(it).removeClass('ft-red').html('<span class="icon-view"></span> ' + (index - 1))
                                 .attr("onclick", "Util.follow(this, '" + id + "', '" + type + "'," + (index - 1) + ")")
                                 .attr("aria-label", Label.followLabel);

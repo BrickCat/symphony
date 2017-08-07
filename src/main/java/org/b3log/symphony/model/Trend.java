@@ -200,6 +200,11 @@ public final class Trend {
     public static final String TREND_T_VOTE = "trendVote";
 
     /**
+     * Key of trend vote.
+     */
+    public static final String TREND_IS_ = "trendIsComment";
+
+    /**
      * Key of trend stick flag.
      */
     public static final String TREND_T_IS_STICK = "trendIsStick";

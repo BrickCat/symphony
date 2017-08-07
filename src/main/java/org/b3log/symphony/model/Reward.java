@@ -72,6 +72,11 @@ public final class Reward {
      */
     public static final int TYPE_C_THANK_ARTICLE = 3;
 
+    /**
+     * Reward type - thank article.
+     */
+    public static final int TYPE_C_THANK_TREND = 4;
+
 
     /**
      * Private constructor.
