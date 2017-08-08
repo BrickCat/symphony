@@ -355,10 +355,6 @@ public class TrendsProcessor {
         trend.put(Trend.TREND_T_AUTHOR_INTRO, author.optString(UserExt.USER_INTRO));
 
 
-        final JSONObject currentUser = userQueryService.getCurrentUser(request);
-        final String userId = currentUser.optString(Keys.OBJECT_ID);
-
-
         dataModel.put(Trend.TREND,trend);
 
         trend.put(Common.IS_MY_TREND, false);
@@ -366,23 +362,25 @@ public class TrendsProcessor {
 
         String cmtViewModeStr = request.getParameter("m");
 
+        JSONObject currentUser = null;
         String currentUserId = null;
         final boolean isLoggedIn = (Boolean) dataModel.get(Common.IS_LOGGED_IN);
 
         if (isLoggedIn){
+            currentUser = (JSONObject) dataModel.get(Common.CURRENT_USER);;
             currentUserId = currentUser.optString(Keys.OBJECT_ID);
             trend.put(Common.IS_MY_TREND, currentUserId.equals(trend.optString(Trend.TREND_AUTHOR_ID)));
 
-            final int trendVote = voteQueryService.isVoted(userId, trendId);
+            final int trendVote = voteQueryService.isVoted(currentUserId, trendId);
             dataModel.put(Trend.TREND_T_VOTE, trendVote);
 
-            final boolean isFollowing = followQueryService.isFollowing(userId, trendId, Follow.FOLLOWING_TYPE_C_TREND);
+            final boolean isFollowing = followQueryService.isFollowing(currentUserId, trendId, Follow.FOLLOWING_TYPE_C_TREND);
             dataModel.put(Common.IS_FOLLOWING, isFollowing);
 
-            final boolean isComment = commentQueryService.isComment(userId, trendId);
+            final boolean isComment = commentQueryService.isComment(currentUserId, trendId);
             dataModel.put(Common.IS_COMMENT, isComment);
 
-            boolean isGift = rewardQueryService.isRewarded(userId, trendId, Reward.TYPE_C_THANK_TREND);
+            boolean isGift = rewardQueryService.isRewarded(currentUserId, trendId, Reward.TYPE_C_THANK_TREND);
             dataModel.put(Common.IS_GIFT, isGift);
 
             if (Strings.isEmptyOrNull(cmtViewModeStr) || !Strings.isNumeric(cmtViewModeStr)) {
@@ -423,14 +421,14 @@ public class TrendsProcessor {
         dataModel.put(Common.VIDEO_COMMENTS_PAGE_SIZE, pageSize);
 
         final String commenterId = trend.optString(Trend.TREND_AUTHOR_ID);
-        final JSONObject videoer = userQueryService.getUser(commenterId);
+        final JSONObject trender = userQueryService.getUser(commenterId);
 
         // Load comments
         final List<JSONObject> trendComments =
                 commentQueryService.getArticleComments(avatarViewMode, trendId, pageNum, pageSize, cmtViewMode);
         trend.put(Trend.TREND_T_COMMENTS, (Object) trendComments);
         trend.put(Trend.TREND_T_AUTHOR_THUMBNAIL_URL, avatarQueryService.getAvatarURLByUser(
-                UserExt.USER_AVATAR_VIEW_MODE_C_ORIGINAL, videoer, "48"));
+                UserExt.USER_AVATAR_VIEW_MODE_C_ORIGINAL, trender, "48"));
         // Fill comment thank
         Stopwatchs.start("Fills comment thank");
         try{

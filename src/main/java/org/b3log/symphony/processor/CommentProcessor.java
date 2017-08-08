@@ -484,8 +484,10 @@ public class CommentProcessor {
                         return;
                     }
                 }
-            }else{
+            }else if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                 comment.put("type","video");
+            }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
+                comment.put("type","trend");
             }
 
             comment.put(Comment.COMMENT_AUTHOR_ID, currentUser.optString(Keys.OBJECT_ID));

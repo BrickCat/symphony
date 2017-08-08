@@ -108,75 +108,6 @@ var Trend = {
         });
     },
     /**
-     * @description 反对
-     * @param {String} id 反对的实体数据 id
-     * @param {String} type 反对的实体类型
-     */
-    voteDown: function (id, type, it) {
-        if (!Label.isLoggedIn) {
-            Util.needLogin();
-            return false;
-        }
-        var $voteDown = $(it);
-        var $voteUp = $('#up');
-
-        if ($voteDown.hasClass("disabled")) {
-            return false;
-        }
-
-        var requestJSONObject = {
-            dataId: id
-        };
-
-        $voteDown.addClass("disabled");
-
-        $.ajax({
-            url: Label.servePath + "/vote/down/" + type,
-            type: "POST",
-            cache: false,
-            data: JSON.stringify(requestJSONObject),
-            success: function (result, textStatus) {
-                $voteDown.removeClass("disabled");
-                var upCnt = parseInt($voteUp.text()),
-                    downCnt = parseInt($voteDown.text());
-                if (result.sc) {
-                    if (1 === result.type) { // cancel down
-                        $voteDown.html('<span class="icon-thumbs-down"></span> ' + (downCnt - 1)).removeClass('ft-red');
-                    } else {
-                        $voteDown.html('<span class="icon-thumbs-down"></span> ' + (downCnt + 1)).addClass('ft-red');
-                        alert($voteUp.hasClass('ft-red'));
-                        if ($voteUp.hasClass('ft-red')) {
-                            $voteUp.html('<span class="icon-thumbs-up"></span> ' + (upCnt - 1)).removeClass('ft-red');
-                        }
-                    }
-
-                    return false;
-                }
-
-                alert(result.msg);
-            }
-        });
-    },
-
-    /**
-     * @description 置顶
-     */
-    stick: function (trendId) {
-        var r = confirm(Label.stickVideoConfirmLabel);
-
-        if (r) {
-            $.ajax({
-                url: Label.servePath + "/video/stick?videoId=" + trendId,
-                type: "POST",
-                cache: false,
-                success: function (result, textStatus) {
-                    alert(result.msg);
-
-                    window.location.href = Label.servePath + "/recent";
-                }
-            });
-        }
-    }, /**
      * @description 感谢文章
      */
     thank: function (trendId,userId,it) {
@@ -197,7 +128,6 @@ var Trend = {
         }
 
         if ($thank.hasClass("ft-red")) {
-            alert(Label.trendAlreadyThankLabel);
             return false;
         }
 

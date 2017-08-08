@@ -159,7 +159,7 @@
 <#include "footer.ftl">
 
 <script type="text/javascript" src="${staticServePath}/js/lib/trends/baguetteBox/js/baguetteBox.min.js"></script>
-<script type="text/javascript" src="${staticServePath}/js/lib/trends/trend.js"></script>
+<script type="text/javascript" src="${staticServePath}/js/lib/trends/trends.js"></script>
 
 <script type="text/javascript">
     baguetteBox.run('.tz-gallery');

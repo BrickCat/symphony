@@ -148,10 +148,16 @@ public class CommentMgmtService {
     @Inject
     private LivenessMgmtService livenessMgmtService;
     /**
-     * video res
+     * video repository
      */
     @Inject
     private VideoRepository videoRepository;
+
+    /**
+     * Trend repository
+     */
+    @Inject
+    private TrendsRepository trendsRepository;
 
     /**
      * Removes a comment specified with the given comemnt id. A comemnt is removable if:
@@ -356,8 +362,10 @@ public class CommentMgmtService {
                 }
             }
 
-            if(requestJSONObject.has("type")){
+            if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                 article = videoRepository.get(articleId);
+            }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
+                article = trendsRepository.get(articleId);
             }else{
                 article = articleRepository.get(articleId);
             }
@@ -369,8 +377,10 @@ public class CommentMgmtService {
                 // Point
                 String articleAuthorId="";
 
-                if(requestJSONObject.has("type")){
+                if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                     articleAuthorId = article.optString(Video.VIDEO_AUTHORID);
+                }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
+                    articleAuthorId = article.optString(Trend.TREND_AUTHOR_ID);
                 }else{
                     articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
                 }
@@ -392,13 +402,20 @@ public class CommentMgmtService {
         final Transaction transaction = commentRepository.beginTransaction();
 
         try {
-            if(requestJSONObject.has("type")){
+            if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                 article.put(Video.VIDEO_COMMENT_COUNT,article.optInt(Video.VIDEO_COMMENT_COUNT)+1);
                 article.put(Video.VIDEO_LATEST_CMTER_NAME,commenter.optString(User.USER_NAME));
                 if (Comment.COMMENT_ANONYMOUS_C_ANONYMOUS == commentAnonymous) {
                     article.put(Video.VIDEO_LATEST_CMTER_NAME, UserExt.ANONYMOUS_USER_NAME);
                 }
                 article.put(Video.VIDEO_LATEST_CMT_TIME, currentTimeMillis);
+            }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
+                article.put(Trend.TREND_COMMENT_CNT,article.optInt(Trend.TREND_COMMENT_CNT)+1);
+                article.put(Trend.TREND_LATEST_CMTER_NAME,commenter.optString(User.USER_NAME));
+                if (Comment.COMMENT_ANONYMOUS_C_ANONYMOUS == commentAnonymous) {
+                    article.put(Trend.TREND_LATEST_CMTER_NAME, UserExt.ANONYMOUS_USER_NAME);
+                }
+                article.put(Trend.TREND_LATEST_CMT_TIME, currentTimeMillis);
             }else{
                 article.put(Article.ARTICLE_COMMENT_CNT, article.optInt(Article.ARTICLE_COMMENT_CNT) + 1);
                 article.put(Article.ARTICLE_LATEST_CMTER_NAME, commenter.optString(User.USER_NAME));
@@ -460,16 +477,20 @@ public class CommentMgmtService {
             final int cmtCnt = cmtCntOption.optInt(Option.OPTION_VALUE);
             cmtCntOption.put(Option.OPTION_VALUE, String.valueOf(cmtCnt + 1));
 
-            if(requestJSONObject.has("type")){
+            if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                 videoRepository.update(articleId,article);
+            }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
+                trendsRepository.update(articleId,article);
             }else{
                 articleRepository.update(articleId, article); // Updates article comment count, latest commenter name and time
             }
             optionRepository.update(Option.ID_C_STATISTIC_CMT_COUNT, cmtCntOption); // Updates global comment count
             // Updates tag comment count and User-Tag relation
             String tagsString = "";
-            if(requestJSONObject.has("type")){
+            if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                 tagsString = article.optString(Video.VIDEO_TAG);
+            }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
+                tagsString = article.optString(Trend.TREND_TAGS);
             }else{
                 tagsString = article.optString(Article.ARTICLE_TAGS);
             }
@@ -532,8 +553,10 @@ public class CommentMgmtService {
                     && !TuringQueryService.ROBOT_NAME.equals(commenterName)) {
                 // Point
                 String articleAuthorId = "";
-                if(requestJSONObject.has("type")){
+                if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                     articleAuthorId = article.optString(Video.VIDEO_AUTHORID);
+                }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
+                    articleAuthorId = article.optString(Trend.TREND_AUTHOR_ID);
                 }else{
                     articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
                 }

@@ -32,13 +32,8 @@ import org.b3log.latke.servlet.advice.BeforeRequestProcessAdvice;
 import org.b3log.latke.servlet.advice.RequestProcessAdviceException;
 import org.b3log.latke.util.Requests;
 import org.b3log.latke.util.Strings;
-import org.b3log.symphony.model.Article;
-import org.b3log.symphony.model.Comment;
-import org.b3log.symphony.model.UserExt;
-import org.b3log.symphony.service.ArticleQueryService;
-import org.b3log.symphony.service.CommentQueryService;
-import org.b3log.symphony.service.OptionQueryService;
-import org.b3log.symphony.service.VideoQueryService;
+import org.b3log.symphony.model.*;
+import org.b3log.symphony.service.*;
 import org.b3log.symphony.util.StatusCodes;
 import org.json.JSONObject;
 
@@ -81,6 +76,7 @@ public class CommentAddValidation extends BeforeRequestProcessAdvice {
     @Inject
     private OptionQueryService optionQueryService;
 
+
     /**
      * Validates comment fields.
      *
@@ -94,6 +90,7 @@ public class CommentAddValidation extends BeforeRequestProcessAdvice {
         final ArticleQueryService articleQueryService = beanManager.getReference(ArticleQueryService.class);
         final CommentQueryService commentQueryService = beanManager.getReference(CommentQueryService.class);
         final VideoQueryService videoQueryService = beanManager.getReference(VideoQueryService.class);
+        final TrendsQueryService trendsQueryService = beanManager.getReference(TrendsQueryService.class);
         final JSONObject exception = new JSONObject();
         exception.put(Keys.STATUS_CODE, StatusCodes.ERR);
 
@@ -109,7 +106,7 @@ public class CommentAddValidation extends BeforeRequestProcessAdvice {
         try {
 
             final String articleId = requestJSONObject.optString(Article.ARTICLE_T_ID);
-            if(requestJSONObject.has("type")){
+            if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                 if (Strings.isEmptyOrNull(articleId)) {
                     throw new RequestProcessAdviceException(exception.put(Keys.MSG, langPropsService.get("commentVideoErrorLabel")));
                 }
@@ -118,8 +115,16 @@ public class CommentAddValidation extends BeforeRequestProcessAdvice {
                     throw new RequestProcessAdviceException(exception.put(Keys.MSG, langPropsService.get("commentVideoErrorLabel")));
                 }
                 return;
-            }
-            if (Strings.isEmptyOrNull(articleId)) {
+            }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
+                if (Strings.isEmptyOrNull(articleId)) {
+                    throw new RequestProcessAdviceException(exception.put(Keys.MSG, langPropsService.get("commentTrendErrorLabel")));
+                }
+                final JSONObject trend = trendsQueryService.getTrend(articleId);
+                if(null == trend){
+                    throw new RequestProcessAdviceException(exception.put(Keys.MSG, langPropsService.get("commentTrendErrorLabel")));
+                }
+                return;
+            }else if (Strings.isEmptyOrNull(articleId)) {
                 throw new RequestProcessAdviceException(exception.put(Keys.MSG, langPropsService.get("commentArticleErrorLabel")));
             }
 

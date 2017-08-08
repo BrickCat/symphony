@@ -28,7 +28,7 @@
  * @description Article channel.
  * @static
  */
-var VideoChannel = {
+var TrendChannel = {
     /**
      * WebSocket instance.
      * 
@@ -39,16 +39,16 @@ var VideoChannel = {
      * @description Initializes message channel
      */
     init: function (channelServer) {
-        VideoChannel.ws = new ReconnectingWebSocket(channelServer);
-        VideoChannel.ws.reconnectInterval = 10000;
+        TrendChannel.ws = new ReconnectingWebSocket(channelServer);
+        TrendChannel.ws.reconnectInterval = 10000;
 
-        VideoChannel.ws.onopen = function () {
+        TrendChannel.ws.onopen = function () {
             setInterval(function () {
-                VideoChannel.ws.send('-hb-');
+                TrendChannel.ws.send('-hb-');
             }, 1000 * 60 * 3);
         };
 
-        VideoChannel.ws.onmessage = function (evt) {
+        TrendChannel.ws.onmessage = function (evt) {
             var data = JSON.parse(evt.data);
             if (Label.trendId !== data.articleId) { // It's not the current article
                 return;
@@ -114,10 +114,10 @@ var VideoChannel = {
 
         };
 
-        VideoChannel.ws.onclose = function () {
+        TrendChannel.ws.onclose = function () {
         };
 
-        VideoChannel.ws.onerror = function (err) {
+        TrendChannel.ws.onerror = function (err) {
             console.log(err);
         };
     }

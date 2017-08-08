@@ -1,4 +1,4 @@
-<#include "macro-head.ftl">
+<#include "macro-head-trend.ftl">
 <#include "macro-pagination-query.ftl">
 <!DOCTYPE html>
 <html>
@@ -9,9 +9,12 @@
         <meta http-equiv="Access-Control-Allow-Origin" content="*">
 
         </@head>
-        <link rel="stylesheet" href="${staticServePath}/css/index.css?${staticResourceVersion}" />
-        <link rel="stylesheet" href="${staticServePath}/js/lib/editor/codemirror.min.css?${staticResourceVersion}">
-        <link rel="stylesheet" href="${staticServePath}/js/lib/trends/JPicture/css/jPicture.min.css">
+            <link rel="stylesheet" href="${staticServePath}/css/index.css?${staticResourceVersion}" />
+            <link rel="stylesheet" href="${staticServePath}/js/lib/editor/codemirror.min.css?${staticResourceVersion}">
+            <link href="${staticServePath}/js/lib/trends/baguetteBox/css/bootstrap.css" rel="stylesheet">
+            <link rel="stylesheet" href="${staticServePath}/js/lib/trends/baguetteBox/css/baguetteBox.min.css">
+            <link rel="stylesheet" href="${staticServePath}/js/lib/trends/baguetteBox/css/gallery-grid.css">
+            <link rel="stylesheet" href="${staticServePath}/js/lib/gifsee.js/js/gifplayer.min.css">
         <!-- Open Graph -->
         <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="trend" />
@@ -59,7 +62,7 @@
                         <#if permissions["commonGoodVideo"].permissionGrant>
                               onclick="Trend.voteUp('${trend.oId}', 'trend', this)"
                         <#else>
-                              onclick="trend.permissionTip(Label.noPermissionLabel)"
+                              onclick="Trend.permissionTip(Label.noPermissionLabel)"
                         </#if>><span class="icon-thumbs-up"></span>${trend.trendGoodCnt}</span> &nbsp;
 
                     <#if isLoggedIn && isFollowing>
@@ -74,7 +77,7 @@
                             <#if permissions["commonFollowVideo"].permissionGrant>
                               onclick="Util.follow(this, '${trend.oId}', 'trend', ${trend.trendCollectCnt})"
                             <#else>
-                              onclick="trend.permissionTip(Label.noPermissionLabel)"
+                              onclick="Trend.permissionTip(Label.noPermissionLabel)"
                             </#if>><span class="icon-star"></span>${trend.trendCollectCnt}</span>
                     </#if> &nbsp;
                         <span class="tooltipped tooltipped-w<#if isLoggedIn && isGift> ft-red</#if>" aria-label="${rewardLabel}"
@@ -99,30 +102,46 @@
                 <#--内容-->
                 <#--<h3 style="margin-top: 15px">${videoDesIcon}&nbsp;&nbsp;${trendDescLabel}</h3>-->
                 <div class="content-reset article-content" style="margin-top: -5px;">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${trend.trendContent}fghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdf
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${trend.trendContent}fghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdf
                 </div>
                 <#--<div style="height: 10px;width:900px;margin-left:-70px;margin-top:15px;border-top: #C0C0C0 dashed 1px;">
 
                 </div>-->
-                <!-- HTML 主体结构，需按照此格式书写，其中的 <a> 链接可根据实际需要添加或删除 -->
-                <!-- 左右箭头和切换按钮的样式可根据实际需求在 jPicture.css 文件中进行修改 -->
-                <div id="imgBox" style=" width: 770px; height: 400px; margin-left: auto; margin-right: auto;margin-top: 15px;border-radius: 10px;">
-                    <div>
-                        <div><a href="#1"><img src="${staticServePath}/js/lib/trends/JPicture/images/1.png"></a></div>
-                        <div><a href="#2"><img src="${staticServePath}/js/lib/trends/JPicture/images/2.png"></a></div>
-                        <div><a href="#3"><img src="${staticServePath}/js/lib/trends/JPicture/images/3.png"></a></div>
-                        <div><a href="#4"><img src="${staticServePath}/js/lib/trends/JPicture/images/4.png"></a></div>
-                        <div><a href="#5"><img src="${staticServePath}/js/lib/trends/JPicture/images/5.png"></a></div>
-                        <div><a href="#6"><img src="${staticServePath}/js/lib/trends/JPicture/images/6.png"></a></div>
+                <div class="container gallery-container" style="margin-top: 3%;border:1px solid #D1CFCF;">
+                    <div class="tz-gallery">
+                        <div class="row">
+                        <#list trend.trendImageURL?split(",") as imageUrl>
+                            <#list imageUrl?split(".") as img>
+                                <#if img == "gif">
+                                    <div class="col-sm-6 col-md-4">
+                                        <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
+                                            <#list imageUrl?split(".") as img2>
+                                                <#if img2 != "gif" && img2 != "png">
+                                                    <ins class='play-gif'>GIF</ins>
+                                                    <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 240px;height: 160px;" alt="Park">
+
+                                                </#if>
+                                            </#list>
+                                        </a>
+                                    </div>
+                                <#elseif img == "png" || img == "jpg">
+                                    <div class="col-sm-6 col-md-4">
+                                        <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
+                                            <img src="${nginxHost}:${nginxProt}/trend/${imageUrl}" style="width: 240px;height: 160px;" alt="Park">
+                                        </a>
+                                    </div>
+                                </#if>
+                            </#list>
+                        </#list>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
         <div class="main <#if trend.trendComments?size == 0> fn-none</#if>">
             <div class="wrapper" id="articleCommentsPanel">
-            <#if pjax><!---- pjax {#comments} start ---->;</#if>
+                <#if pjax><!---- pjax {#comments} start ----></#if>
                 <div class="module comments" id="comments">
                     <div class="comments-header module-header">
                         <span class="article-cmt-cnt">${trend.trendCommentCount} ${cmtLabel}</span>
@@ -138,12 +157,12 @@
                             <#list trend.trendComments as comment>
                             <#assign notificationCmtIds = notificationCmtIds + comment.oId>
                             <#if comment_has_next><#assign notificationCmtIds = notificationCmtIds + ","></#if>
-                           <#include 'common/videocom.ftl' />
+                            <#include 'common/videocom.ftl' />
                         </#list>
                         </ul>
                         <div id="bottomComment"></div>
                     </div>
-                    <@pagination url="${servePath}" query="m=${userCommentViewMode}#comments" pjaxTitle="${trend.trendTitle} - ${symphonyLabel}" />
+                <@pagination url="${servePath}" query="m=${userCommentViewMode}#comments" pjaxTitle="${trend.trendTitle} - ${symphonyLabel}" />
                 </div>
                 <#if pjax><!---- pjax {#comments} end ----></#if>
             </div>
@@ -177,17 +196,13 @@
             </div>
         </div>
         </#if>
-        <script src="${staticServePath}/js/lib/compress/video-libs.min.js?${staticResourceVersion}"></script>
+        <script src="${staticServePath}/js/lib/compress/trend-libs.min.js?${staticResourceVersion}"></script>
         <script src="${staticServePath}/js/trend-channel.js?${staticResourceVersion}"></script>
-        <script src="${staticServePath}/js/lib/trends/trend.js?${staticResourceVersion}"></script>
-        <script src="${staticServePath}/js/lib/trends/JPicture/js/jquery-1.12.4.min.js"></script>
-        <script src="${staticServePath}/js/lib/trends/JPicture/js/jPicture.min.js"></script>
+        <script src="${staticServePath}/js/trend.js?${staticResourceVersion}"></script>
+        <script type="text/javascript" src="${staticServePath}/js/lib/trends/baguetteBox/js/baguetteBox.min.js"></script>
 
         <script type="text/javascript">
-            jPicture("#imgBox", {
-                type: "slide",
-                autoplay: 3000
-            });
+            baguetteBox.run('.tz-gallery');
 
         </script>
 
@@ -206,7 +221,6 @@
             Label.confirmRemoveLabel = "${confirmRemoveLabel}";
             Label.removedLabel = "${removedLabel}";
             Label.uploadLabel = "${uploadLabel}";
-            Label.trendAlreadyThankLabel = "${trendAlreadyThankLabel}";
             Label.stickConfirmLabel = "${stickConfirmLabel}";
             Label.audioRecordingLabel = '${audioRecordingLabel}';
             Label.uploadingLabel = '${uploadingLabel}';
@@ -241,6 +255,7 @@
             Label.trendChannel = "${wsScheme}://${serverHost}:${serverPort}${contextPath}/article-channel?articleId=${trend.oId}&articleType=0";
             <#if isLoggedIn>
             Label.currentUserName = '${currentUser.userName}';
+            Label.notificationCmtIds = '${notificationCmtIds}';
             </#if>
         </script>
     </body>
