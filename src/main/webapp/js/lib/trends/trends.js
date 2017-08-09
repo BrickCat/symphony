@@ -132,7 +132,7 @@ var Trend = {
         }
 
         // 匿名贴不需要 confirm
-        if (!confirm(Label.thankArticleConfirmLabel)) {
+        if (!confirm(Label.thankTrendConfirmLabel)) {
             return false;
         }
 

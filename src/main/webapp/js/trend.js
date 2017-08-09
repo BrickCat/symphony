@@ -369,8 +369,13 @@ var Comment = {
                 {name: 'italic'},
                 {name: 'quote'},
                 {name: 'link'},
+                {
+                    name: 'image',
+                    html: '<div class="tooltipped tooltipped-n" aria-label="' + Label.uploadFileLabel + '" ><form id="fileUpload" method="POST" enctype="multipart/form-data"><label class="icon-upload"><input type="file"/></label></form></div>'
+                },
                 {name: 'unordered-list'},
                 {name: 'ordered-list'},
+                {name: 'view'},
                 {name: 'fullscreen'},
                 {name: 'question', action: 'https://hacpai.com/guide/markdown'}
             ],
@@ -773,7 +778,7 @@ var Comment = {
                             commentContent: ""
                         };
 
-                        window.localStorage[Label.articleOId] = JSON.stringify(emptyContent);
+                        window.localStorage[Label.trendOId] = JSON.stringify(emptyContent);
                     }
                     // 定为到回贴位置
                     if (Label.userCommentViewMode === 1) {
@@ -1325,7 +1330,7 @@ var Trend = {
         }
 
         // 匿名贴不需要 confirm
-        if (!confirm(Label.thankArticleConfirmLabel)) {
+        if (!confirm(Label.thankTrendConfirmLabel)) {
             return false;
         }
 
@@ -1501,9 +1506,8 @@ $(document).ready(function () {
         "uploadingLabel": Label.uploadingLabel,
         "qiniuDomain": Label.qiniuDomain,
         "imgMaxSize": Label.imgMaxSize,
-        "fileMaxSize": 1048576
+        "fileMaxSize": Label.fileMaxSize
     });
-
     // Init [Article] channel
     TrendChannel.init(Label.trendChannel);
     // make nogification read

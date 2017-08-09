@@ -50,10 +50,9 @@ var TrendChannel = {
 
         TrendChannel.ws.onmessage = function (evt) {
             var data = JSON.parse(evt.data);
-            if (Label.trendId !== data.articleId) { // It's not the current article
+            if (Label.trendOId !== data.articleId) { // It's not the current article
                 return;
             }
-
             switch (data.type) {
                 case "comment":
                     var cmtCount = parseInt($(".comments-header .article-cmt-cnt").text()) + 1;
@@ -108,7 +107,7 @@ var TrendChannel = {
                     }
                     break;
                 default:
-                    console.error("Wrong data [type=" + data.type + "]");
+                    //console.error("Wrong data [type=" + data.type + "]");
             }
 
 

@@ -80,6 +80,12 @@ public class CommentRepository extends AbstractRepository {
     private NotificationRepository notificationRepository;
 
     /**
+     * Trend repository.
+     */
+    @Inject
+    private TrendsRepository trendsRepository;
+
+    /**
      * Public constructor.
      */
     public CommentRepository() {
@@ -100,19 +106,25 @@ public class CommentRepository extends AbstractRepository {
         }
 
         final String articleId = comment.optString(Comment.COMMENT_ON_ARTICLE_ID);
-        if (StringUtils.isBlank(type)){
+        if (Video.VIDEO.equals(type)){
+            final JSONObject video = vidoeRepository.get(articleId);
+            video.put(Video.VIDEO_COMMENT_COUNT,video.optInt(Video.VIDEO_COMMENT_COUNT) - 1);
+            video.put(Video.VIDEO_LATEST_CMT_TIME,0);
+            video.put(Video.VIDEO_LATEST_CMTER_NAME,"");
+            vidoeRepository.update(articleId,video);
+        }else if(Trend.TREND.equals(type)){
+            final JSONObject trend = trendsRepository.get(articleId);
+            trend.put(Trend.TREND_COMMENT_CNT,trend.optInt(Trend.TREND_COMMENT_CNT) - 1);
+            trend.put(Trend.TREND_LATEST_CMT_TIME,0);
+            trend.put(Trend.TREND_LATEST_CMTER_NAME,"");
+            trendsRepository.update(articleId,trend);
+        }else{
             final JSONObject article = articleRepository.get(articleId);
             article.put(Article.ARTICLE_COMMENT_CNT, article.optInt(Article.ARTICLE_COMMENT_CNT) - 1);
             // Just clear latest time and commenter name, do not get the real latest comment to update
             article.put(Article.ARTICLE_LATEST_CMT_TIME, 0);
             article.put(Article.ARTICLE_LATEST_CMTER_NAME, "");
             articleRepository.update(articleId, article);
-        }else{
-           final JSONObject video = vidoeRepository.get(articleId);
-           video.put(Video.VIDEO_COMMENT_COUNT,video.optInt(Video.VIDEO_COMMENT_COUNT) - 1);
-           video.put(Video.VIDEO_LATEST_CMT_TIME,0);
-           video.put(Video.VIDEO_LATEST_CMTER_NAME,"");
-           vidoeRepository.update(articleId,video);
         }
 
 

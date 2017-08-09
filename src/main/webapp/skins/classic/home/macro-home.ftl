@@ -83,7 +83,7 @@
                                     href="${servePath}/member/${user.userName}"><svg height="18" viewBox="0 1 16 16" width="16">${boolIcon}</svg> ${postLabel}</a>
 
                                 <a pjax-title="${addVideoLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "videos"> class="current"</#if>
-                                   href="${servePath}/video/front/videos"><svg height="17" width="17" viewBox="0 1 14 16">${videoIcon}</svg> ${addVideoLabel}</a>
+                                   href="${servePath}/member/${user.userName}/videos"><svg height="20" width="16" viewBox="0 1 14 16">${videoIcon2}</svg> ${addVideoLabel}</a>
 
                                 <a pjax-title="${postTrendsLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "trends"> class="current"</#if>
                                     href="${servePath}/trends"><svg height="16" width="16" viewBox="0 1 14 16" width="14">${trendsIcon}</svg> ${trendsLabel}</a>

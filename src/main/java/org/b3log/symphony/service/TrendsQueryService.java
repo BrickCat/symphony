@@ -152,6 +152,12 @@ public class TrendsQueryService {
                 trend.put(Common.IS_GIFT, isGift);
 
             }
+            String imageUrl[] = trend.optString(Trend.TREND_IMAGE_URL).split(",");
+            if(imageUrl.length > 1){
+                trend.put(Trend.IMAGE_STATUS,Trend.IMAGE_MORE);
+            }else {
+                trend.put(Trend.IMAGE_STATUS,Trend.IMAGE_ONCE);
+            }
         }
 
         return ret;
@@ -261,6 +267,13 @@ public class TrendsQueryService {
         final int viewCnt = trend.optInt(Trend.TREND_VIEW_CNT);
 
         final double views = (double)viewCnt/1000;
+
+        String imageUrl[] = trend.optString(Trend.TREND_IMAGE_URL).split(",");
+        if(imageUrl.length > 1){
+            trend.put(Trend.IMAGE_STATUS,Trend.IMAGE_MORE);
+        }else {
+            trend.put(Trend.IMAGE_STATUS,Trend.IMAGE_ONCE);
+        }
 
         if (views >= 1){
             final DecimalFormat df = new DecimalFormat("#.#");

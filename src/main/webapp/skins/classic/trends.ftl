@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="${staticServePath}/js/lib/trends/baguetteBox/css/gallery-grid.css">
     <link rel="stylesheet" href="${staticServePath}/js/lib/gifsee.js/js/gifplayer.min.css">
 </head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+</style>
 <body>
 <#include "header.ftl">
 <div class="main">
@@ -63,6 +68,7 @@
                         ${trend.trendContent}
                         </div>
                         <div class="tz-gallery" style="margin-left: 10%;">
+                            <#if trend.imgStatus == "more">
                             <div class="row">
                                 <#list trend.trendImageURL?split(",") as imageUrl>
                                     <#list imageUrl?split(".") as img>
@@ -87,6 +93,26 @@
                                     </#list>
                                 </#list>
                             </div>
+                                <#else>
+                                <div class="row">
+                                    <#list trend.trendImageURL?split(".") as img>
+                                        <#if img == "gif">
+                                            <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}">
+                                                <#list imageUrl?split(".") as img2>
+                                                    <#if img2 != "gif" && img2 != "png">
+                                                        <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 300px;height: 400px;" alt="Park">
+                                                        <ins class='play-gif'>GIF</ins>
+                                                    </#if>
+                                                </#list>
+                                            </a>
+                                        <#elseif img == "png" || img == "jpg">
+                                            <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}">
+                                                <img src="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}" style="width: 300px;height: 400px;" alt="Park">
+                                            </a>
+                                        </#if>
+                                    </#list>
+                                </div>
+                            </#if>
                         </div>
                     </div>
                     <div class="row trend-comment">
@@ -172,7 +198,7 @@
     <#if isLoggedIn>
     Label.currentUserId = '${currentUser.oId}';
     </#if>
-    Label.thankArticleConfirmLabel = "${thankTrendConfirmLabel?replace('{point}',10)}";
+    Label.thankTrendConfirmLabel = "${thankTrendConfirmLabel?replace('{point}',10)}";
 </script>
 </body>
 </html>

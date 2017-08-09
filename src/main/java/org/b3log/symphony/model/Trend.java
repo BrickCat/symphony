@@ -27,6 +27,21 @@ package org.b3log.symphony.model;
 public final class Trend {
 
     /**
+     * more
+     */
+    public static final String IMAGE_MORE = "more";
+
+    /**
+     * once
+     */
+    public static final String IMAGE_ONCE = "once";
+
+    /**
+     * image status
+     */
+    public static final String IMAGE_STATUS = "imgStatus";
+
+    /**
      * trend.
      */
     public static final String TREND = "trend";

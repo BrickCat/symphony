@@ -282,6 +282,10 @@
             Label.commonAtUser = '${permissions["commonAtUser"].permissionGrant?c}';
             Label.noPermissionLabel = '${noPermissionLabel}';
             Label.rewardLabel = '${rewardLabel}';
+            Label.qiniuDomain = '${qiniuDomain}';
+            Label.qiniuUploadToken = '${qiniuUploadToken}';
+            Label.imgMaxSize = ${imgMaxSize?c};
+            Label.fileMaxSize = ${fileMaxSize?c};
             Label.videoChannel = "${wsScheme}://${serverHost}:${serverPort}${contextPath}/article-channel?articleId=${video.oId}&articleType=0";
             <#if isLoggedIn>
             Label.currentUserName = '${currentUser.userName}';

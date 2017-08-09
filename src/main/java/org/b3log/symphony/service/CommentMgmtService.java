@@ -639,8 +639,10 @@ public class CommentMgmtService {
 
             transaction.commit();
             JSONObject article = null;
-            if(StringUtils.isNotBlank(type)){
+            if(Video.VIDEO.equals(type)){
                 article= videoRepository.get(comment.optString(Comment.COMMENT_ON_ARTICLE_ID));
+            }else if(Trend.TREND.equals(type)){
+                article= trendsRepository.get(comment.optString(Comment.COMMENT_ON_ARTICLE_ID));
             }else{
                 article= articleRepository.get(comment.optString(Comment.COMMENT_ON_ARTICLE_ID));
                 final int articleAnonymous = article.optInt(Article.ARTICLE_ANONYMOUS);
@@ -665,8 +667,10 @@ public class CommentMgmtService {
             // Event
             final JSONObject eventData = new JSONObject();
             eventData.put(Common.FROM_CLIENT, fromClient);
-            if(StringUtils.isNotBlank(type)){
+            if(Video.VIDEO.equals(type)){
                 eventData.put(Video.VIDEO, article);
+            }else if(Trend.TREND.equals(type)){
+                eventData.put(Trend.TREND,article);
             }else{
                 eventData.put(Article.ARTICLE, article);
             }

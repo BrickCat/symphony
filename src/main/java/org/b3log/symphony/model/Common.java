@@ -596,6 +596,11 @@ public final class Common {
     public static final String USER_HOME_ARTICLES = "userHomeArticles";
 
     /**
+     * Key of user home vidoes.
+     */
+    public static final String USER_HOME_VIDEOS = "userHomeVideos";
+
+    /**
      * Key of user home comments.
      */
     public static final String USER_HOME_COMMENTS = "userHomeComments";

@@ -86,12 +86,12 @@
 
                     <#--编辑-->
                     <#if trend.isMyTrend && permissions["adminUpdateVideo"].permissionGrant>
-                        <a href="${servePath}/trend/${trend.oId}" aria-label="${editLabel}"
+                        <a href="${servePath}/trends/${trend.oId}" aria-label="${editLabel}"
                            class="tooltipped tooltipped-n"><span class="icon-edit"></span></a> &nbsp;
                     </#if>
                     <#--管理-->
                     <#if permissions["adminUpdateVideo"].permissionGrant>
-                        <a class="tooltipped tooltipped-n" href="${servePath}/trend/${trend.oId}" aria-label="${adminLabel}"><span class="icon-setting"></span></a> &nbsp;
+                        <a class="tooltipped tooltipped-n" href="${servePath}/trends/${trend.oId}" aria-label="${adminLabel}"><span class="icon-setting"></span></a> &nbsp;
                     </#if>
                     </div>
                 </div>
@@ -102,13 +102,14 @@
                 <#--内容-->
                 <#--<h3 style="margin-top: 15px">${videoDesIcon}&nbsp;&nbsp;${trendDescLabel}</h3>-->
                 <div class="content-reset article-content" style="margin-top: -5px;">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${trend.trendContent}fghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdffghdfggfdhfghdfghdfghdfghdfghfgbcvnvnghfgdhrthgfdhfghdfghrhdtgfhdfhfghdf
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${trend.trendContent}
                 </div>
                 <#--<div style="height: 10px;width:900px;margin-left:-70px;margin-top:15px;border-top: #C0C0C0 dashed 1px;">
 
                 </div>-->
-                <div class="container gallery-container" style="margin-top: 3%;border:1px solid #D1CFCF;">
+                <div class="container gallery-container" style="margin-top: 3%;<#if trend.imgStatus == "more">border:1px solid #D1CFCF;<#else >background-color:#FFF</#if>">
                     <div class="tz-gallery">
+                    <#if trend.imgStatus == "more">
                         <div class="row">
                         <#list trend.trendImageURL?split(",") as imageUrl>
                             <#list imageUrl?split(".") as img>
@@ -119,7 +120,6 @@
                                                 <#if img2 != "gif" && img2 != "png">
                                                     <ins class='play-gif'>GIF</ins>
                                                     <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 240px;height: 160px;" alt="Park">
-
                                                 </#if>
                                             </#list>
                                         </a>
@@ -134,6 +134,26 @@
                             </#list>
                         </#list>
                         </div>
+                    <#else>
+                        <div class="row" style="margin-left: 22%">
+                            <#list trend.trendImageURL?split(".") as img>
+                                <#if img == "gif">
+                                    <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}">
+                                        <#list imageUrl?split(".") as img2>
+                                            <#if img2 != "gif" && img2 != "png">
+                                                <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 400px;height: 600px;" alt="Park">
+                                                <ins class='play-gif'>GIF</ins>
+                                            </#if>
+                                        </#list>
+                                    </a>
+                                <#elseif img == "png" || img == "jpg">
+                                    <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}">
+                                        <img src="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}" style="width: 400px;height: 600px;" alt="Park">
+                                    </a>
+                                </#if>
+                            </#list>
+                        </div>
+                    </#if>
                     </div>
                 </div>
             </div>
@@ -157,7 +177,7 @@
                             <#list trend.trendComments as comment>
                             <#assign notificationCmtIds = notificationCmtIds + comment.oId>
                             <#if comment_has_next><#assign notificationCmtIds = notificationCmtIds + ","></#if>
-                            <#include 'common/videocom.ftl' />
+                            <#include 'common/trendcom.ftl' />
                         </#list>
                         </ul>
                         <div id="bottomComment"></div>
@@ -244,12 +264,17 @@
             Label.undoLabel = '${undoLabel}';
             Label.redoLabel = '${redoLabel}';
             Label.previewLabel = '${previewLabel}';
+            Label.userCommentViewMode = ${userCommentViewMode};
             Label.helpLabel = '${helpLabel}';
             Label.fullscreenLabel = '${fullscreenLabel}';
             Label.uploadFileLabel = '${uploadFileLabel}';
             Label.commonUpdateCommentPermissionLabel = '${commonUpdateCommentPermissionLabel}';
             Label.insertEmojiLabel = '${insertEmojiLabel}';
             Label.commonAtUser = '${permissions["commonAtUser"].permissionGrant?c}';
+            Label.qiniuDomain = '${qiniuDomain}';
+            Label.qiniuUploadToken = '${qiniuUploadToken}';
+            Label.imgMaxSize = ${imgMaxSize?c};
+            Label.fileMaxSize = ${fileMaxSize?c};
             Label.noPermissionLabel = '${noPermissionLabel}';
             Label.rewardLabel = '${rewardLabel}';
             Label.trendChannel = "${wsScheme}://${serverHost}:${serverPort}${contextPath}/article-channel?articleId=${trend.oId}&articleType=0";
@@ -257,6 +282,7 @@
             Label.currentUserName = '${currentUser.userName}';
             Label.notificationCmtIds = '${notificationCmtIds}';
             </#if>
+            Label.thankTrendConfirmLabel = "${thankTrendConfirmLabel?replace('{point}',10)}";
         </script>
     </body>
 </html>
