@@ -1141,6 +1141,90 @@ public class UserProcessor {
     }
 
     /**
+     * Shows user home videos page.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @param userName the specified user name
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/member/{userName}/trends",method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class, UserBlockCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void showHomeTrends(final HTTPRequestContext context, final HttpServletRequest request,
+                               final HttpServletResponse response, final String userName) throws Exception {
+        final JSONObject user = (JSONObject) request.getAttribute(User.USER);
+
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("/home/videos.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+        final String followingId = user.optString(Keys.OBJECT_ID);
+        dataModel.put(Follow.FOLLOWING_ID, followingId);
+        dataModel.put(User.USER, user);
+        fillHomeUser(dataModel, user);
+
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+        avatarQueryService.fillUserAvatarURL(avatarViewMode, user);
+
+        final boolean isLoggedIn = (Boolean) dataModel.get(Common.IS_LOGGED_IN);
+        if (isLoggedIn) {
+            final JSONObject currentUser = (JSONObject) dataModel.get(Common.CURRENT_USER);
+            final String followerId = currentUser.optString(Keys.OBJECT_ID);
+
+            final boolean isFollowing = followQueryService.isFollowing(followerId, followingId, Follow.FOLLOWING_TYPE_C_USER);
+            dataModel.put(Common.IS_FOLLOWING, isFollowing);
+        }
+
+        user.put(UserExt.USER_T_CREATE_TIME, new Date(user.getLong(Keys.OBJECT_ID)));
+
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+
+        final int pageNum = Integer.valueOf(pageNumStr);
+        final int pageSize = Symphonys.getInt("userHomeCmtsCnt");
+        final int windowSize = Symphonys.getInt("userHomeCmtsWindowSize");
+
+        final List<JSONObject> userVideos = videoQueryService.getUserVideos(avatarViewMode,
+                user.optString(Keys.OBJECT_ID), pageNum, pageSize);
+        dataModel.put(Common.USER_HOME_VIDEOS, userVideos);
+
+        int recordCount = 0;
+        int pageCount = 0;
+        if (!userVideos.isEmpty()) {
+            final JSONObject first = userVideos.get(0);
+            pageCount = first.optInt(Pagination.PAGINATION_PAGE_COUNT);
+            recordCount = first.optInt(Pagination.PAGINATION_RECORD_COUNT);
+        }
+
+        final List<Integer> pageNums = Paginator.paginate(pageNum, pageSize, pageCount, windowSize);
+        if (!pageNums.isEmpty()) {
+            dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.get(0));
+            dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.get(pageNums.size() - 1));
+        }
+
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
+        dataModel.put(Pagination.PAGINATION_RECORD_COUNT, recordCount);
+
+        final JSONObject currentUser = Sessions.currentUser(request);
+        if (null == currentUser) {
+            dataModel.put(Common.IS_MY_VIDEO, false);
+        } else {
+            dataModel.put(Common.IS_MY_VIDEO, userName.equals(currentUser.optString(User.USER_NAME)));
+        }
+
+        dataModel.put(Common.TYPE, "trends");
+    }
+
+
+    /**
      * Shows user home comments page.
      *
      * @param context  the specified context

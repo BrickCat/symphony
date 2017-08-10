@@ -207,6 +207,7 @@ public class TrendsProcessor {
         }
         dataModel.put(Common.STICK_ARTICLES, stickArticles);
         dataModel.put(Common.LATEST_ARTICLES, allArticles);
+        dataModel.put(Common.SELECTED, Common.TRENDS);
         dataModelService.fillRandomArticles(avatarViewMode, dataModel);
         dataModelService.fillSideHotArticles(avatarViewMode, dataModel);
         dataModelService.fillSideTags(dataModel);

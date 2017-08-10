@@ -496,6 +496,11 @@ public final class Common {
     public static final String VIDEOS = "videos";
 
     /**
+     * Key of mall.
+     */
+    public static final String MALL = "mall";
+
+    /**
      * Key of timeline.
      */
     public static final String TRENDS = "trends";

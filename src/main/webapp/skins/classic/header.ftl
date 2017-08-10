@@ -18,11 +18,11 @@
            <svg height="14" viewBox="0 0 16 14" width="16">${timelineIcon}</svg> ${timelineLabel}</a>
         <#--<a href="https://hacpai.com/tag/book_share"<#if selected?? && 'book' == selected> class="current"</#if>>
            <svg height="16" viewBox="0 -1 17 14" width="16">${bookIcon}</svg> ${bookShareLabel}</a>-->
-        <a href="${servePath}/video/front/videos">
+        <a href="${servePath}/video/front/videos" <#if selected?? && 'videos' == selected> class="current"</#if>>
            <svg height="16" viewBox="0 -1 17 14" width="16">${videoIcon}</svg> ${videoLabel}</a>
-        <a href="${servePath}/trends">
+        <a href="${servePath}/trends" <#if selected?? && 'trends' == selected> class="current"</#if>>
             <svg height="16" viewBox="0 -1 17 14" width="16">${trendsIcon}</svg> ${trendsLabel}</a>
-        <a href="${servePath}/mall">
+        <a href="${servePath}/mall" <#if selected?? && 'mall' == selected> class="current"</#if>>
             <svg height="16" viewBox="0 -1 17 14" width="16">${mallIcon}</svg> ${mallLabel}</a>
         <#list domains as domain>
             <a pjax-title="${domain.domainTitle} - ${domainLabel} - ${symphonyLabel}" href="${servePath}/domain/${domain.domainURI}"<#if selected?? && selected == domain.domainURI> class="current"</#if>>${domain.domainIconPath} ${domain.domainTitle}</a>
@@ -41,7 +41,7 @@
             <a href="${servePath}/admin" aria-label="${adminLabel}" class="tooltipped tooltipped-w"><span class="icon-userrole"></span></a>
             </#if>
             <#if permissions["menuAdmin"].permissionGrant>
-            <a href="${servePath}/admin/mall" aria-label="${adminLabel}" class="tooltipped tooltipped-w"><span class="icon-star"></a>
+            <a href="${servePath}/admin/mall" aria-label="${mallLabel}" class="tooltipped tooltipped-w"><span class="icon-star"></a>
             </#if>
             <a id="aNotifications" class="tooltipped tooltipped-w <#if unreadNotificationCount == 0>no-msg<#else>msg</#if>" href="${servePath}/notifications" aria-label="${messageLabel}">${unreadNotificationCount}</a>
             <a href="${servePath}/activities" aria-label="${activityLabel}" class="tooltipped tooltipped-w"><span class="icon-flag"></span></a>

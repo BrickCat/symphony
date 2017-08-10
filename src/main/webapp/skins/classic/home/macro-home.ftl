@@ -86,7 +86,7 @@
                                    href="${servePath}/member/${user.userName}/videos"><svg height="20" width="16" viewBox="0 1 14 16">${videoIcon2}</svg> ${addVideoLabel}</a>
 
                                 <a pjax-title="${postTrendsLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "trends"> class="current"</#if>
-                                    href="${servePath}/trends"><svg height="16" width="16" viewBox="0 1 14 16" width="14">${trendsIcon}</svg> ${trendsLabel}</a>
+                                    href="${servePath}/member/${user.userName}/trends"><svg height="16" width="16" viewBox="0 1 14 16" width="14">${trendsIcon}</svg> ${trendsLabel}</a>
 
                                 <a pjax-title="${watchingArticlesLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "watchingArticles" || type == "followingUsers" || type == "followingTags" || type == "followingArticles" || type == "followers"> class="current"</#if>
                                    href="${servePath}/member/${user.userName}/watching/articles"><svg height="18" viewBox="0 1 14 16" width="14">${starIcon}</svg> ${followLabel}</a>

@@ -187,13 +187,10 @@ public class VideoProcessor {
                 return;
             }
         }
-        dataModel.put(Common.SELECTED, Common.VIDEOS);
         final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
 
         final JSONObject result = articleQueryService.getRecentArticles(avatarViewMode, 0, pageNum, pageSize);
         final List<JSONObject> allArticles = (List<JSONObject>) result.get(Article.ARTICLES);
-
-        dataModel.put(Common.SELECTED, Common.RECENT);
 
         final List<JSONObject> stickArticles = new ArrayList<>();
 
@@ -225,7 +222,7 @@ public class VideoProcessor {
         dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
         dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
         dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
-
+        dataModel.put(Common.SELECTED, Common.VIDEOS);
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
 
         dataModelService.fillRandomArticles(avatarViewMode, dataModel);
