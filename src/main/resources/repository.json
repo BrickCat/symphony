@@ -832,6 +832,9 @@
                     "name": "commentAudioURL",
                     "type": "String",
                     "length": 256
+                },{
+                    "name" : "commentType",
+                    "type":"int"
                 }
             ]
         },

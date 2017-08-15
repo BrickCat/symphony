@@ -303,5 +303,64 @@ public class TrendsQueryService {
 
 
     }
+
+    /**
+     * Gets the user videos with the specified user id, page number and page size.
+     *
+     * @param avatarViewMode the specified avatar view mode
+     * @param userId         the specified user id
+     * @param currentPageNum the specified page number
+     * @param pageSize       the specified page size
+     * @return user articles, return an empty list if not found
+     * @throws ServiceException service exception
+     */
+    public List<JSONObject> getUserTrends(final int avatarViewMode, final String userId,
+                                          final int currentPageNum, final int pageSize) throws ServiceException {
+        final Query query = new Query().addSort(Trend.TREND_CREATE_TIME, SortDirection.DESCENDING)
+                .setCurrentPageNum(currentPageNum).setPageSize(pageSize).
+                        setFilter(CompositeFilterOperator.and(
+                                new PropertyFilter(Trend.TREND_AUTHOR_ID, FilterOperator.EQUAL, userId),
+                                new PropertyFilter(Trend.TREND_STATUS, FilterOperator.EQUAL, Trend.TREND_STATUS_C_VALID)));
+        try {
+            final JSONObject result = trendsRepository.get(query);
+            final List<JSONObject> ret = CollectionUtils.<JSONObject>jsonArrayToList(result.optJSONArray(Keys.RESULTS));
+            if (ret.isEmpty()) {
+                return ret;
+            }
+
+            final JSONObject pagination = result.optJSONObject(Pagination.PAGINATION);
+            final int recordCount = pagination.optInt(Pagination.PAGINATION_RECORD_COUNT);
+            final int pageCount = pagination.optInt(Pagination.PAGINATION_PAGE_COUNT);
+
+            final JSONObject first = ret.get(0);
+            first.put(Pagination.PAGINATION_RECORD_COUNT, recordCount);
+            first.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+
+            organizeTrends(avatarViewMode, ret);
+
+            return ret;
+        } catch (final RepositoryException e) {
+            LOGGER.log(Level.ERROR, "Gets user videos failed", e);
+            throw new ServiceException(e);
+        }
+    }
+    /**
+     * Organizes the specified articles.
+     *
+     * @param avatarViewMode the specified avatarViewMode
+     * @param videos       the specified videos
+     * @throws RepositoryException repository exception
+     * @see #organizeTrend(int, org.json.JSONObject)
+     */
+    public void organizeTrends(final int avatarViewMode, final List<JSONObject> videos) throws RepositoryException {
+        Stopwatchs.start("Organize videos");
+        try {
+            for (final JSONObject video : videos) {
+                organizeTrend(avatarViewMode, video);
+            }
+        } finally {
+            Stopwatchs.end();
+        }
+    }
 }
 

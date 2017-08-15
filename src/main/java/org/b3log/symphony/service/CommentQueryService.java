@@ -466,12 +466,13 @@ public class CommentQueryService {
      * @throws ServiceException service exception
      */
     public List<JSONObject> getUserComments(final int avatarViewMode, final String userId, final int anonymous,
-                                            final int currentPageNum, final int pageSize, final JSONObject viewer) throws ServiceException {
+                                            final int currentPageNum, final int pageSize, final JSONObject viewer,final int type) throws ServiceException {
         final Query query = new Query().addSort(Comment.COMMENT_CREATE_TIME, SortDirection.DESCENDING)
                 .setCurrentPageNum(currentPageNum).setPageSize(pageSize).
                         setFilter(CompositeFilterOperator.and(
                                 new PropertyFilter(Comment.COMMENT_AUTHOR_ID, FilterOperator.EQUAL, userId),
-                                new PropertyFilter(Comment.COMMENT_ANONYMOUS, FilterOperator.EQUAL, anonymous)
+                                new PropertyFilter(Comment.COMMENT_ANONYMOUS, FilterOperator.EQUAL, anonymous),
+                                new PropertyFilter(Comment.COMMENT_T_TYPE, FilterOperator.EQUAL, type)
                         ));
         try {
             final JSONObject result = commentRepository.get(query);
@@ -494,68 +495,69 @@ public class CommentQueryService {
                 final String articleId = comment.optString(Comment.COMMENT_ON_ARTICLE_ID);
                 final JSONObject article = articleRepository.get(articleId);
 
-                comment.put(Comment.COMMENT_T_ARTICLE_TITLE,
-                        Article.ARTICLE_STATUS_C_INVALID == article.optInt(Article.ARTICLE_STATUS)
-                                ? langPropsService.get("articleTitleBlockLabel")
-                                : Emotions.convert(article.optString(Article.ARTICLE_TITLE)));
-                comment.put(Comment.COMMENT_T_ARTICLE_TYPE, article.optInt(Article.ARTICLE_TYPE));
-                comment.put(Comment.COMMENT_T_ARTICLE_PERMALINK, article.optString(Article.ARTICLE_PERMALINK));
-                comment.put(Comment.COMMENT_T_ARTICLE_PERFECT, article.optInt(Article.ARTICLE_PERFECT));
+                if(null != article){
+                    comment.put(Comment.COMMENT_T_ARTICLE_TITLE,
+                            Article.ARTICLE_STATUS_C_INVALID == article.optInt(Article.ARTICLE_STATUS)
+                                    ? langPropsService.get("articleTitleBlockLabel")
+                                    : Emotions.convert(article.optString(Article.ARTICLE_TITLE)));
+                    comment.put(Comment.COMMENT_T_ARTICLE_TYPE, article.optInt(Article.ARTICLE_TYPE));
+                    comment.put(Comment.COMMENT_T_ARTICLE_PERMALINK, article.optString(Article.ARTICLE_PERMALINK));
+                    comment.put(Comment.COMMENT_T_ARTICLE_PERFECT, article.optInt(Article.ARTICLE_PERFECT));
 
-                final JSONObject commenter = userRepository.get(userId);
-                comment.put(Comment.COMMENT_T_COMMENTER, commenter);
+                    final JSONObject commenter = userRepository.get(userId);
+                    comment.put(Comment.COMMENT_T_COMMENTER, commenter);
 
-                final String articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
-                final JSONObject articleAuthor = userRepository.get(articleAuthorId);
-                final String articleAuthorName = articleAuthor.optString(User.USER_NAME);
-                if (Article.ARTICLE_ANONYMOUS_C_PUBLIC == article.optInt(Article.ARTICLE_ANONYMOUS)) {
-                    comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_NAME, articleAuthorName);
-                    comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_URL, "/member/" + articleAuthor.optString(User.USER_NAME));
-                    final String articleAuthorThumbnailURL = avatarQueryService.getAvatarURLByUser(
-                            avatarViewMode, articleAuthor, "48");
-                    comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_THUMBNAIL_URL, articleAuthorThumbnailURL);
-                } else {
-                    comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_NAME, UserExt.ANONYMOUS_USER_NAME);
-                    comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_URL, "");
-                    comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_THUMBNAIL_URL, avatarQueryService.getDefaultAvatarURL("48"));
-                }
-
-                if (Article.ARTICLE_TYPE_C_DISCUSSION == article.optInt(Article.ARTICLE_TYPE)
-                        && Article.ARTICLE_ANONYMOUS_C_PUBLIC == article.optInt(Article.ARTICLE_ANONYMOUS)) {
-                    final String msgContent = langPropsService.get("articleDiscussionLabel").
-                            replace("{user}", "<a href='" + Latkes.getServePath()
-                                    + "/member/" + articleAuthorName + "'>" + articleAuthorName + "</a>");
-
-                    if (null == viewer) {
-                        comment.put(Comment.COMMENT_CONTENT, msgContent);
+                    final String articleAuthorId = article.optString(Article.ARTICLE_AUTHOR_ID);
+                    final JSONObject articleAuthor = userRepository.get(articleAuthorId);
+                    final String articleAuthorName = articleAuthor.optString(User.USER_NAME);
+                    if (Article.ARTICLE_ANONYMOUS_C_PUBLIC == article.optInt(Article.ARTICLE_ANONYMOUS)) {
+                        comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_NAME, articleAuthorName);
+                        comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_URL, "/member/" + articleAuthor.optString(User.USER_NAME));
+                        final String articleAuthorThumbnailURL = avatarQueryService.getAvatarURLByUser(
+                                avatarViewMode, articleAuthor, "48");
+                        comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_THUMBNAIL_URL, articleAuthorThumbnailURL);
                     } else {
-                        final String commenterName = commenter.optString(User.USER_NAME);
-                        final String viewerUserName = viewer.optString(User.USER_NAME);
-                        final String viewerRole = viewer.optString(User.USER_ROLE);
+                        comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_NAME, UserExt.ANONYMOUS_USER_NAME);
+                        comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_URL, "");
+                        comment.put(Comment.COMMENT_T_ARTICLE_AUTHOR_THUMBNAIL_URL, avatarQueryService.getDefaultAvatarURL("48"));
+                    }
 
-                        if (!commenterName.equals(viewerUserName) && !Role.ROLE_ID_C_ADMIN.equals(viewerRole)) {
-                            final String articleContent = article.optString(Article.ARTICLE_CONTENT);
-                            final Set<String> userNames = userQueryService.getUserNames(articleContent);
+                    if (Article.ARTICLE_TYPE_C_DISCUSSION == article.optInt(Article.ARTICLE_TYPE)
+                            && Article.ARTICLE_ANONYMOUS_C_PUBLIC == article.optInt(Article.ARTICLE_ANONYMOUS)) {
+                        final String msgContent = langPropsService.get("articleDiscussionLabel").
+                                replace("{user}", "<a href='" + Latkes.getServePath()
+                                        + "/member/" + articleAuthorName + "'>" + articleAuthorName + "</a>");
 
-                            boolean invited = false;
-                            for (final String userName : userNames) {
-                                if (userName.equals(viewerUserName)) {
-                                    invited = true;
+                        if (null == viewer) {
+                            comment.put(Comment.COMMENT_CONTENT, msgContent);
+                        } else {
+                            final String commenterName = commenter.optString(User.USER_NAME);
+                            final String viewerUserName = viewer.optString(User.USER_NAME);
+                            final String viewerRole = viewer.optString(User.USER_ROLE);
 
-                                    break;
+                            if (!commenterName.equals(viewerUserName) && !Role.ROLE_ID_C_ADMIN.equals(viewerRole)) {
+                                final String articleContent = article.optString(Article.ARTICLE_CONTENT);
+                                final Set<String> userNames = userQueryService.getUserNames(articleContent);
+
+                                boolean invited = false;
+                                for (final String userName : userNames) {
+                                    if (userName.equals(viewerUserName)) {
+                                        invited = true;
+
+                                        break;
+                                    }
                                 }
-                            }
 
-                            if (!invited) {
-                                comment.put(Comment.COMMENT_CONTENT, msgContent);
+                                if (!invited) {
+                                    comment.put(Comment.COMMENT_CONTENT, msgContent);
+                                }
                             }
                         }
                     }
+
+                    processCommentContent(comment);
                 }
-
-                processCommentContent(comment);
             }
-
             return ret;
         } catch (final RepositoryException e) {
             LOGGER.log(Level.ERROR, "Gets user comments failed", e);

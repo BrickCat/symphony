@@ -505,7 +505,7 @@ public class UserAPI2 {
             final JSONObject currentUser = userQueryService.getCurrentUser(request);
 
             final List<JSONObject> comments = commentQueryService.getUserComments(avatarViewMode,
-                    user.optString(Keys.OBJECT_ID), Comment.COMMENT_ANONYMOUS_C_PUBLIC, page, V2s.PAGE_SIZE, currentUser);
+                    user.optString(Keys.OBJECT_ID), Comment.COMMENT_ANONYMOUS_C_PUBLIC, page, V2s.PAGE_SIZE, currentUser,Common.COMMENT_ARTICLE);
             V2s.cleanComments(comments);
 
             ret.put(Keys.STATUS_CODE, StatusCodes.SUCC);

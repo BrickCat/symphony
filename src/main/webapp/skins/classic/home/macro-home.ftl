@@ -15,7 +15,7 @@
             <@head title="${trendsLabel} - ${user.userName} - ${symphonyLabel}">
                 <meta name="description" content="${user.userName}${deLabel}${trendsLabel}"/>
             </@head>
-        <#elseif type == "videos">
+        <#elseif type == "videos" || type == "videoComments">
             <@head title="${videoLabel} - ${user.userName} - ${symphonyLabel}">
                 <meta name="description" content="${user.userName}${deLabel}${videoLabel}"/>
             </@head>
@@ -30,6 +30,14 @@
         <#elseif type == "followingArticles">
         <@head title="${followingArticlesLabel} - ${user.userName} - ${symphonyLabel}">
         <meta name="description" content="${user.userName}${deLabel}${followingArticlesLabel}"/>
+        </@head>
+        <#elseif type == "watchingVideos">
+        <@head title="${followingArticlesLabel} - ${user.userName} - ${symphonyLabel}">
+        <meta name="description" content="${user.userName}${deLabel}${watchingVideosLabel}"/>
+        </@head>
+        <#elseif type == "watchingTrends">
+        <@head title="${followingArticlesLabel} - ${user.userName} - ${symphonyLabel}">
+        <meta name="description" content="${user.userName}${deLabel}${watchingTrendsLabel}"/>
         </@head>
         <#elseif type == "watchingArticles">
             <@head title="${watchingArticlesLabel} - ${user.userName} - ${symphonyLabel}">
@@ -82,13 +90,7 @@
                                     class="current"</#if>
                                     href="${servePath}/member/${user.userName}"><svg height="18" viewBox="0 1 16 16" width="16">${boolIcon}</svg> ${postLabel}</a>
 
-                                <a pjax-title="${addVideoLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "videos"> class="current"</#if>
-                                   href="${servePath}/member/${user.userName}/videos"><svg height="20" width="16" viewBox="0 1 14 16">${videoIcon2}</svg> ${addVideoLabel}</a>
-
-                                <a pjax-title="${postTrendsLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "trends"> class="current"</#if>
-                                    href="${servePath}/member/${user.userName}/trends"><svg height="16" width="16" viewBox="0 1 14 16" width="14">${trendsIcon}</svg> ${trendsLabel}</a>
-
-                                <a pjax-title="${watchingArticlesLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "watchingArticles" || type == "followingUsers" || type == "followingTags" || type == "followingArticles" || type == "followers"> class="current"</#if>
+                                <a pjax-title="${watchingArticlesLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "watchingArticles" || type == "watchingVideos" || type == "watchingVideos" || type == "followingUsers" || type == "followingTags" || type == "followingArticles" || type == "followers"> class="current"</#if>
                                    href="${servePath}/member/${user.userName}/watching/articles"><svg height="18" viewBox="0 1 14 16" width="14">${starIcon}</svg> ${followLabel}</a>
 
                                 <a pjax-title="${pointLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "points"> class="current"</#if> href="${servePath}/member/${user.userName}/points">
@@ -96,6 +98,14 @@
 
                                 <a pjax-title="${linkForgeLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "linkForge"> class="current"</#if> href="${servePath}/member/${user.userName}/forge/link">
                                     <svg height="18" viewBox="0 1 16 16" width="16">${baguaIcon}</svg>  ${forgeLabel}</a>
+
+                                <a pjax-title="${addVideoLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "videos" || type == "videoComments">
+                                   class="current"</#if>
+                                   onclick="openTo('${user.userName}','video')" style="cursor:pointer;"><svg height="20" width="16" viewBox="0 1 14 16" style="margin-top: 2px;">${videoIcon2}</svg>&nbsp;${addVideoLabel}</a>
+
+                                <a pjax-title="${postTrendsLabel} - ${user.userName} - ${symphonyLabel}" <#if type == "trends"> class="current"</#if>
+                                   onclick="openTo('${user.userName}','trend')" style="cursor:pointer;"><svg height="16" width="16" viewBox="0 1 14 16" style="margin-top: 2px;">${trendsIcon}</svg>&nbsp;${trendsLabel}</a>
+
                             </nav>
                         </div>
                     </div>
@@ -126,6 +136,18 @@
             Label.userName = '${user.userName}';
 
             Settings.initHome();
+        </script>
+        <script type="text/javascript">
+            function openTo(username,type) {
+                for(var i = 0 ; i< 2 ; i++){
+                    if(type == 'video'){
+                        window.location.href='${servePath}/member/'+username+"/videos";
+                    }else{
+                        window.location.href='${servePath}/member/'+username+"/trends";
+                    }
+                }
+
+            }
         </script>
     </body>
 </html>

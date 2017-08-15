@@ -23,7 +23,7 @@
 	top: 0;
 	bottom: 0;
 	width: 10px;
-	background: #17A05E;
+	background: #B0D0CF;
 	left: 20%;
 	margin-left: -10px;
 }
@@ -43,22 +43,22 @@
 
 .cbp_tmtimeline > li .cbp_tmtime span:first-child {
 	font-size: 0.9em;
-	color: #17A05E;
+	color: #B0D0CF;
 }
 
 .cbp_tmtimeline > li .cbp_tmtime span:last-child {
 	font-size: 2.9em;
-	color: #17A05E;
+	color: #B0D0CF;
 }
 
 .cbp_tmtimeline > li:nth-child(odd) .cbp_tmtime span:last-child {
-	color: #17A05E;
+	color: #B0D0CF;
 }
 
 /* Right content */
 .cbp_tmtimeline > li .cbp_tmlabel {
 	margin: 0 0 15px 25%;
-	background: #17A05E;
+	background: #B0D0CF;
 	color: #fff;
 	padding: 2em;
 	font-size: 1.2em;
@@ -69,7 +69,7 @@
 }
 
 .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel {
-	background: #17A05E;
+	background: #B0D0CF;
 }
 
 .cbp_tmtimeline > li .cbp_tmlabel h2 { 
@@ -87,13 +87,13 @@
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-	border-right-color: #17A05E;
+	border-right-color: #B0D0CF;
 	border-width: 10px;
 	top: 10px;
 }
 
 .cbp_tmtimeline > li:nth-child(odd) .cbp_tmlabel:after {
-	border-right-color: #17A05E;
+	border-right-color: #B0D0CF;
 }
 
 /* The icons */
@@ -111,9 +111,9 @@
 	-webkit-font-smoothing: antialiased;
 	position: absolute;
 	color: #fff;
-	background: #17A05E;
+	background: #B0D0CF;
 	border-radius: 50%;
-	box-shadow: 0 0 0 8px #B9E993;
+	box-shadow: 0 0 0 8px #79FF79;
 	text-align: center;
 	left: 20%;
 	top: 0;

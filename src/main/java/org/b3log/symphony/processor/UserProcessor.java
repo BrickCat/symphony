@@ -238,6 +238,12 @@ public class UserProcessor {
     private VideoQueryService videoQueryService;
 
     /**
+     * Trend query service.
+     */
+    @Inject
+    private TrendsQueryService trendsQueryService;
+
+    /**
      * Updates user i18n.
      *
      * @param context  the specified context
@@ -731,7 +737,7 @@ public class UserProcessor {
                                           final HttpServletResponse response, final String userName) throws Exception {
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
-        renderer.setTemplateName("/home/comments.ftl");
+        renderer.setTemplateName("/home/articlt-comments.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
 
@@ -780,7 +786,7 @@ public class UserProcessor {
 
         final List<JSONObject> userComments = commentQueryService.getUserComments(
                 avatarViewMode, user.optString(Keys.OBJECT_ID), Comment.COMMENT_ANONYMOUS_C_ANONYMOUS,
-                pageNum, pageSize, currentUser);
+                pageNum, pageSize, currentUser,Common.COMMENT_ARTICLE);
         dataModel.put(Common.USER_HOME_COMMENTS, userComments);
 
         int recordCount = 0;
@@ -1158,7 +1164,7 @@ public class UserProcessor {
 
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
-        renderer.setTemplateName("/home/videos.ftl");
+        renderer.setTemplateName("/home/trends.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
 
@@ -1190,14 +1196,13 @@ public class UserProcessor {
         final int pageSize = Symphonys.getInt("userHomeCmtsCnt");
         final int windowSize = Symphonys.getInt("userHomeCmtsWindowSize");
 
-        final List<JSONObject> userVideos = videoQueryService.getUserVideos(avatarViewMode,
+        final List<JSONObject> userTrends = trendsQueryService.getUserTrends(avatarViewMode,
                 user.optString(Keys.OBJECT_ID), pageNum, pageSize);
-        dataModel.put(Common.USER_HOME_VIDEOS, userVideos);
-
+        dataModel.put(Common.USER_HOME_TRENDS, userTrends);
         int recordCount = 0;
         int pageCount = 0;
-        if (!userVideos.isEmpty()) {
-            final JSONObject first = userVideos.get(0);
+        if (!userTrends.isEmpty()) {
+            final JSONObject first = userTrends.get(0);
             pageCount = first.optInt(Pagination.PAGINATION_PAGE_COUNT);
             recordCount = first.optInt(Pagination.PAGINATION_RECORD_COUNT);
         }
@@ -1215,9 +1220,9 @@ public class UserProcessor {
 
         final JSONObject currentUser = Sessions.currentUser(request);
         if (null == currentUser) {
-            dataModel.put(Common.IS_MY_VIDEO, false);
+            dataModel.put(Common.IS_MY_TREND, false);
         } else {
-            dataModel.put(Common.IS_MY_VIDEO, userName.equals(currentUser.optString(User.USER_NAME)));
+            dataModel.put(Common.IS_MY_TREND, userName.equals(currentUser.optString(User.USER_NAME)));
         }
 
         dataModel.put(Common.TYPE, "trends");
@@ -1242,7 +1247,7 @@ public class UserProcessor {
 
         final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
         context.setRenderer(renderer);
-        renderer.setTemplateName("/home/comments.ftl");
+        renderer.setTemplateName("/home/articlt-comments.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
 
@@ -1277,7 +1282,7 @@ public class UserProcessor {
         user.put(UserExt.USER_T_CREATE_TIME, new Date(user.getLong(Keys.OBJECT_ID)));
 
         final List<JSONObject> userComments = commentQueryService.getUserComments(avatarViewMode,
-                user.optString(Keys.OBJECT_ID), Comment.COMMENT_ANONYMOUS_C_PUBLIC, pageNum, pageSize, currentUser);
+                user.optString(Keys.OBJECT_ID), Comment.COMMENT_ANONYMOUS_C_PUBLIC, pageNum, pageSize, currentUser,Common.COMMENT_ARTICLE);
         dataModel.put(Common.USER_HOME_COMMENTS, userComments);
 
         int recordCount = 0;
@@ -1302,6 +1307,161 @@ public class UserProcessor {
         dataModel.put(Common.TYPE, "comments");
     }
 
+    /**
+     * Shows user home comments page.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @param userName the specified user name
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/member/{userName}/videos/comments", method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class, UserBlockCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void showHomeVideosComments(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+                                 final String userName) throws Exception {
+        final JSONObject user = (JSONObject) request.getAttribute(User.USER);
+
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("/home/video-comments.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+
+        final int pageNum = Integer.valueOf(pageNumStr);
+
+        final int pageSize = Symphonys.getInt("userHomeCmtsCnt");
+        final int windowSize = Symphonys.getInt("userHomeCmtsWindowSize");
+
+        fillHomeUser(dataModel, user);
+
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+        avatarQueryService.fillUserAvatarURL(avatarViewMode, user);
+
+        final String followingId = user.optString(Keys.OBJECT_ID);
+        dataModel.put(Follow.FOLLOWING_ID, followingId);
+
+        final boolean isLoggedIn = (Boolean) dataModel.get(Common.IS_LOGGED_IN);
+        JSONObject currentUser = null;
+        if (isLoggedIn) {
+            currentUser = (JSONObject) dataModel.get(Common.CURRENT_USER);
+            final String followerId = currentUser.optString(Keys.OBJECT_ID);
+
+            final boolean isFollowing = followQueryService.isFollowing(followerId, followingId, Follow.FOLLOWING_TYPE_C_USER);
+            dataModel.put(Common.IS_FOLLOWING, isFollowing);
+        }
+
+        user.put(UserExt.USER_T_CREATE_TIME, new Date(user.getLong(Keys.OBJECT_ID)));
+
+        final List<JSONObject> userComments = commentQueryService.getUserComments(avatarViewMode,
+                user.optString(Keys.OBJECT_ID), Comment.COMMENT_ANONYMOUS_C_PUBLIC, pageNum, pageSize, currentUser,Common.COMMENT_VIDEO);
+        dataModel.put(Common.USER_HOME_COMMENTS, userComments);
+
+        int recordCount = 0;
+        int pageCount = 0;
+        if (!userComments.isEmpty()) {
+            final JSONObject first = userComments.get(0);
+            pageCount = first.optInt(Pagination.PAGINATION_PAGE_COUNT);
+            recordCount = first.optInt(Pagination.PAGINATION_RECORD_COUNT);
+        }
+
+        final List<Integer> pageNums = Paginator.paginate(pageNum, pageSize, pageCount, windowSize);
+        if (!pageNums.isEmpty()) {
+            dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.get(0));
+            dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.get(pageNums.size() - 1));
+        }
+
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
+        dataModel.put(Pagination.PAGINATION_RECORD_COUNT, recordCount);
+
+        dataModel.put(Common.TYPE, "videoComments");
+    }
+
+    /**
+     * Shows user home comments page.
+     *
+     * @param context  the specified context
+     * @param request  the specified request
+     * @param response the specified response
+     * @param userName the specified user name
+     * @throws Exception exception
+     */
+    @RequestProcessing(value = "/member/{userName}/trends/comments", method = HTTPRequestMethod.GET)
+    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class, UserBlockCheck.class})
+    @After(adviceClass = {PermissionGrant.class, StopwatchEndAdvice.class})
+    public void showHomeTrendsComments(final HTTPRequestContext context, final HttpServletRequest request, final HttpServletResponse response,
+                                       final String userName) throws Exception {
+        final JSONObject user = (JSONObject) request.getAttribute(User.USER);
+
+        final AbstractFreeMarkerRenderer renderer = new SkinRenderer(request);
+        context.setRenderer(renderer);
+        renderer.setTemplateName("/home/trend-comments.ftl");
+        final Map<String, Object> dataModel = renderer.getDataModel();
+        dataModelService.fillHeaderAndFooter(request, response, dataModel);
+
+        String pageNumStr = request.getParameter("p");
+        if (Strings.isEmptyOrNull(pageNumStr) || !Strings.isNumeric(pageNumStr)) {
+            pageNumStr = "1";
+        }
+
+        final int pageNum = Integer.valueOf(pageNumStr);
+
+        final int pageSize = Symphonys.getInt("userHomeCmtsCnt");
+        final int windowSize = Symphonys.getInt("userHomeCmtsWindowSize");
+
+        fillHomeUser(dataModel, user);
+
+        final int avatarViewMode = (int) request.getAttribute(UserExt.USER_AVATAR_VIEW_MODE);
+        avatarQueryService.fillUserAvatarURL(avatarViewMode, user);
+
+        final String followingId = user.optString(Keys.OBJECT_ID);
+        dataModel.put(Follow.FOLLOWING_ID, followingId);
+
+        final boolean isLoggedIn = (Boolean) dataModel.get(Common.IS_LOGGED_IN);
+        JSONObject currentUser = null;
+        if (isLoggedIn) {
+            currentUser = (JSONObject) dataModel.get(Common.CURRENT_USER);
+            final String followerId = currentUser.optString(Keys.OBJECT_ID);
+
+            final boolean isFollowing = followQueryService.isFollowing(followerId, followingId, Follow.FOLLOWING_TYPE_C_USER);
+            dataModel.put(Common.IS_FOLLOWING, isFollowing);
+        }
+
+        user.put(UserExt.USER_T_CREATE_TIME, new Date(user.getLong(Keys.OBJECT_ID)));
+
+        final List<JSONObject> userComments = commentQueryService.getUserComments(avatarViewMode,
+                user.optString(Keys.OBJECT_ID), Comment.COMMENT_ANONYMOUS_C_PUBLIC, pageNum, pageSize, currentUser,Common.COMMENT_TREND);
+        dataModel.put(Common.USER_HOME_COMMENTS, userComments);
+
+        int recordCount = 0;
+        int pageCount = 0;
+        if (!userComments.isEmpty()) {
+            final JSONObject first = userComments.get(0);
+            pageCount = first.optInt(Pagination.PAGINATION_PAGE_COUNT);
+            recordCount = first.optInt(Pagination.PAGINATION_RECORD_COUNT);
+        }
+
+        final List<Integer> pageNums = Paginator.paginate(pageNum, pageSize, pageCount, windowSize);
+        if (!pageNums.isEmpty()) {
+            dataModel.put(Pagination.PAGINATION_FIRST_PAGE_NUM, pageNums.get(0));
+            dataModel.put(Pagination.PAGINATION_LAST_PAGE_NUM, pageNums.get(pageNums.size() - 1));
+        }
+
+        dataModel.put(Pagination.PAGINATION_CURRENT_PAGE_NUM, pageNum);
+        dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
+        dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
+        dataModel.put(Pagination.PAGINATION_RECORD_COUNT, recordCount);
+
+        dataModel.put(Common.TYPE, "trendComments");
+    }
 
 
     /**

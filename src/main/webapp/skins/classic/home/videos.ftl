@@ -10,7 +10,7 @@
 
 <div class="tabs-sub fn-clear">
     <a pjax-title="${videoLabel} - ${user.userName} - ${symphonyLabel}" href="${servePath}/member/${user.userName}/videos" <#if type == "videos">class="current"</#if>>${videoLabel}<#if type == "videos"> &nbsp;<span class="count">${paginationRecordCount?c}</span></#if></a>
-    <a pjax-title="${trendAddCommentLabel} - ${user.userName} - ${symphonyLabel}" href="${servePath}/member/${user.userName}/videos/comments"<#if type == "comments"> class="current"</#if>>${trendAddCommentLabel}</a>
+    <a pjax-title="${trendAddCommentLabel} - ${user.userName} - ${symphonyLabel}" href="${servePath}/member/${user.userName}/videos/comments"<#if type == "videoComments"> class="current"</#if>>${trendAddCommentLabel}</a>
 <#--<#if currentUser?? && currentUser.userName == user.userName>
 <a pjax-title="${anonymousArticleLabel} - ${user.userName} - ${symphonyLabel}"<#if type == "articlesAnonymous"> class="current"</#if> href="${servePath}/member/${user.userName}/articles/anonymous">${anonymousArticleLabel}<#if type == "articlesAnonymous"> &nbsp;<span class="count">${paginationRecordCount?c}</span></#if></a>
 <a pjax-title="${anonymousCommentLabel} - ${user.userName} - ${symphonyLabel}"<#if type == "commentsAnonymous"> class="current"</#if> href="${servePath}/member/${user.userName}/comments/anonymous">${anonymousCommentLabel}</a>

@@ -218,6 +218,11 @@ public final class Comment {
     public static final String COMMENT_T_REPLIES = "commentReplies";
 
     /**
+     * Key of comment replies.
+     */
+    public static final String COMMENT_T_TYPE = "commentType";
+
+    /**
      * Key of comment original author thumbnail URL.
      */
     public static final String COMMENT_T_ORIGINAL_AUTHOR_THUMBNAIL_URL = "commentOriginalAuthorThumbnailURL";

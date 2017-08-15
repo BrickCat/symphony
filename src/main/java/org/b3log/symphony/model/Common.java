@@ -407,6 +407,21 @@ public final class Common {
     public static final String GOTO = "goto";
 
     /**
+     * Key of go to.
+     */
+    public static final int COMMENT_ARTICLE = 0;
+
+    /**
+     * Key of go to.
+     */
+    public static final int COMMENT_VIDEO = 1;
+
+    /**
+     * Key of go to.
+     */
+    public static final int COMMENT_TREND = 2;
+
+    /**
      * Key of current user.
      */
     public static final String CURRENT_USER = "currentUser";
@@ -604,6 +619,10 @@ public final class Common {
      * Key of user home vidoes.
      */
     public static final String USER_HOME_VIDEOS = "userHomeVideos";
+    /**
+     * Key of user home vidoes.
+     */
+    public static final String USER_HOME_TRENDS = "userHomeTrends";
 
     /**
      * Key of user home comments.

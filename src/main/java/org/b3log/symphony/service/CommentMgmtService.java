@@ -479,10 +479,13 @@ public class CommentMgmtService {
 
             if(Video.VIDEO.equals(requestJSONObject.optString(Common.TYPE))){
                 videoRepository.update(articleId,article);
+                comment.put(Comment.COMMENT_T_TYPE,Common.COMMENT_VIDEO);
             }else if(Trend.TREND.equals(requestJSONObject.optString(Common.TYPE))){
                 trendsRepository.update(articleId,article);
+                comment.put(Comment.COMMENT_T_TYPE,Common.COMMENT_TREND);
             }else{
                 articleRepository.update(articleId, article); // Updates article comment count, latest commenter name and time
+                comment.put(Comment.COMMENT_T_TYPE,Common.COMMENT_ARTICLE);
             }
             optionRepository.update(Option.ID_C_STATISTIC_CMT_COUNT, cmtCntOption); // Updates global comment count
             // Updates tag comment count and User-Tag relation
