@@ -2849,7 +2849,7 @@
                 title: '修图小工具',
                 maxmin: true,
                 area: ['100%', '100%'],
-                content: '${nginxHost}:${nginxProt}/photo-editor/'
+                content: '${nginxHost}${nginxUtilSuffix}/photo-editor/'
             });
         });
     }

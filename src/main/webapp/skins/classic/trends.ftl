@@ -68,16 +68,16 @@
                         ${trend.trendContent}
                         </div>
                         <div class="tz-gallery" style="margin-left: 10%;">
-                            <#if trend.imgStatus == "more">
+                            <#if trend.imgStatus != "once">
                             <div class="row">
                                 <#list trend.trendImageURL?split(",") as imageUrl>
                                     <#list imageUrl?split(".") as img>
                                         <#if img == "gif">
                                             <div class="col-sm-6 col-md-4">
-                                                <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
+                                                <a class="lightbox" href="${nginxHost}${nginxSuffix}/trend/${imageUrl}">
                                                 <#list imageUrl?split(".") as img2>
                                                     <#if img2 != "gif" && img2 != "png">
-                                                        <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 190px;height: 134px;" alt="Park">
+                                                        <img src="${nginxHost}${nginxSuffix}/trend/${img2}.png" class="gifs" style="width: 190px;height: 134px;" alt="Park">
                                                         <ins class='play-gif'>GIF</ins>
                                                     </#if>
                                                 </#list>
@@ -85,8 +85,8 @@
                                             </div>
                                         <#elseif img == "png" || img == "jpg">
                                             <div class="col-sm-6 col-md-4">
-                                                <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
-                                                    <img src="${nginxHost}:${nginxProt}/trend/${imageUrl}" style="width: 190px;height: 134px;" alt="Park">
+                                                <a class="lightbox" href="${nginxHost}${nginxSuffix}/trend/${imageUrl}">
+                                                    <img src="${nginxHost}${nginxSuffix}/trend/${imageUrl}" style="width: 190px;height: 134px;" alt="Park">
                                                 </a>
                                             </div>
                                         </#if>
@@ -97,17 +97,17 @@
                                 <div class="row">
                                     <#list trend.trendImageURL?split(".") as img>
                                         <#if img == "gif">
-                                            <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}">
-                                                <#list imageUrl?split(".") as img2>
+                                            <a class="lightbox" href="${nginxHost}${nginxSuffix}/trend/${trend.trendImageURL}">
+                                                <#list trend.trendImageURL?split(".") as img2>
                                                     <#if img2 != "gif" && img2 != "png">
-                                                        <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 300px;height: 400px;" alt="Park">
-                                                        <ins class='play-gif'>GIF</ins>
+                                                        <img src="${nginxHost}${nginxSuffix}/trend/${img2}.png" class="gifs" style="width: 300px;height: 400px;" alt="Park">
+                                                        <#--<ins class='play-gif'>GIF</ins>-->
                                                     </#if>
                                                 </#list>
                                             </a>
                                         <#elseif img == "png" || img == "jpg">
-                                            <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}">
-                                                <img src="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}" style="width: 300px;height: 400px;" alt="Park">
+                                            <a class="lightbox" href="${nginxHost}${nginxSuffix}/trend/${trend.trendImageURL}">
+                                                <img src="${nginxHost}${nginxSuffix}/trend/${trend.trendImageURL}" style="width: 300px;height: 400px;" alt="Park">
                                             </a>
                                         </#if>
                                     </#list>

@@ -33,7 +33,7 @@
                     <h2>${trend.trendTitle}</h2>
                     <#list trend.trendImageURL?split(",") as imageUrl>
                         <#if imageUrl_index = 0>
-                            <img src="${nginxHost}:${nginxProt}/trend/${imageUrl}" style="width: 100%;height: 200px;margin-top: 15px;border-radius: 5px;">
+                            <img src="${nginxHost}${nginxSuffix}/trend/${imageUrl}" style="width: 100%;height: 200px;margin-top: 15px;border-radius: 5px;">
                         </#if>
                     </#list>
                     <p>${trend.trendContent}</p>

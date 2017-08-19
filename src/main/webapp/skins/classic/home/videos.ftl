@@ -34,7 +34,7 @@
                     <h2>${video.videoTitle}</h2>
 
                     <div style="height: 150px;margin-top: 10px;">
-                        <div style="float: left;width: 40%;"><img src="${nginxHost}:${nginxProt}/image/${video.videoImgPath}" onerror="this.src='${staticServePath}/images/video/sport.png'" style="height: 150px;border-radius: 5px;"/></div>
+                        <div style="float: left;width: 40%;"><img src="${nginxHost}${nginxSuffix}/image/${video.videoImgPath}" onerror="this.src='${staticServePath}/images/video/sport.png'" style="height: 150px;border-radius: 5px;"/></div>
                         <div style="float: left;width: 59%;margin-left: 5px;"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${video.videoRemarks}</p></div>
                     </div>
                 </div>

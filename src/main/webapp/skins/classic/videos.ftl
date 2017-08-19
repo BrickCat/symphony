@@ -115,15 +115,10 @@
                     success: function (result, textStatus) {
                         var html = '';
                         for (var i = 0; i < result.videos.length; i++) {
-                            var imageUrl = '';
-                            if(!isHasImg('${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath)){
-                                imageUrl = '${staticServePath}/images/video/sport.png';
-                            }else{
-                                imageUrl = '${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath;
-                            }
+                            var imageUrl = '${nginxHost}${nginxSuffix}/image/'+result.videos[i].videoImgPath;
                             if(result.videos[i].videoStatus == 0){
                                 html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
-                                        + '<img src="'+imageUrl+'" class="thumb">'
+                                        + '<img src="'+imageUrl+'" onerror="this.src=${staticServePath}/images/video/sport.png" class="thumb">'
                                         + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
                                         + '<p>'+result.videos[i].videoRemarks+'</p>'
                                         + '</a></article>';
@@ -150,15 +145,11 @@
                             success: function (result, textStatus) {
                                 var html = '';
                                 for (var i = 0; i < result.videos.length; i++) {
-                                    var imageUrl = '';
-                                    if(!isHasImg('${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath)){
-                                        imageUrl = '${staticServePath}/images/video/sport.png';
-                                    }else{
-                                        imageUrl = '${nginxHost}:${nginxProt}/image/'+result.videos[i].videoImgPath;
-                                    }
+                                    var imageUrl = '${nginxHost}${nginxSuffix}/image/'+result.videos[i].videoImgPath;
+
                                     if(result.videos[i].videoStatus == 0) {
                                         html += '<article class="white-panel"><a href="${servePath}/video/front/' + result.videos[i].oId + '/show-video">'
-                                                + '<img src="' + imageUrl + '" class="thumb">'
+                                                + '<img src="' + imageUrl + '" onerror="this.src=${staticServePath}/images/video/sport.png" class="thumb">'
                                                 + '<h1><a href="#">' + result.videos[i].videoTitle + '</a></h1>'
                                                 + '<p>' + result.videos[i].videoRemarks + '</p>'
                                                 + '</a></article>';
@@ -176,16 +167,6 @@
             }
             $(".white-panel").onclick=function(){
             };
-            function isHasImg(pathImg){
-                var ImgObj=new Image();
-                ImgObj.src= pathImg;
-                if(ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0))
-                {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
         </script>
     </body>
 </html>

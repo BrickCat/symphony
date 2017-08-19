@@ -811,8 +811,7 @@ public class UserProcessor {
         dataModel.put(Common.TYPE, "commentsAnonymous");
     }
 
-    @RequestProcessing(value = "/member/mind",method = HTTPRequestMethod.GET)
-    @Before(adviceClass = {StopwatchStartAdvice.class, AnonymousViewCheck.class})
+    @RequestProcessing(value = "/member/mind")
     @After(adviceClass = {CSRFToken.class, PermissionGrant.class, StopwatchEndAdvice.class})
     public void getMind(final HTTPRequestContext context, final HttpServletRequest request,
                         final HttpServletResponse response) throws Exception {

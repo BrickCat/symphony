@@ -115,19 +115,19 @@
                             <#list imageUrl?split(".") as img>
                                 <#if img == "gif">
                                     <div class="col-sm-6 col-md-4">
-                                        <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
+                                        <a class="lightbox" href="${nginxHost}${nginxSuffix}/trend/${imageUrl}">
                                             <#list imageUrl?split(".") as img2>
                                                 <#if img2 != "gif" && img2 != "png">
                                                     <ins class='play-gif'>GIF</ins>
-                                                    <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 240px;height: 160px;" alt="Park">
+                                                    <img src="${nginxHost}${nginxSuffix}/trend/${img2}.png" class="gifs" style="width: 240px;height: 160px;" alt="Park">
                                                 </#if>
                                             </#list>
                                         </a>
                                     </div>
                                 <#elseif img == "png" || img == "jpg">
                                     <div class="col-sm-6 col-md-4">
-                                        <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${imageUrl}">
-                                            <img src="${nginxHost}:${nginxProt}/trend/${imageUrl}" style="width: 240px;height: 160px;" alt="Park">
+                                        <a class="lightbox" href="${nginxHost}${nginxSuffix}/trend/${imageUrl}">
+                                            <img src="${nginxHost}${nginxSuffix}/trend/${imageUrl}" style="width: 240px;height: 160px;" alt="Park">
                                         </a>
                                     </div>
                                 </#if>
@@ -138,17 +138,17 @@
                         <div class="row" style="margin-left: 22%">
                             <#list trend.trendImageURL?split(".") as img>
                                 <#if img == "gif">
-                                    <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}">
+                                    <a class="lightbox" href="${nginxHost}${nginxSuffix}/trend/${trend.trendImageURL}">
                                         <#list imageUrl?split(".") as img2>
                                             <#if img2 != "gif" && img2 != "png">
-                                                <img src="${nginxHost}:${nginxProt}/trend/${img2}.png" class="gifs" style="width: 400px;height: 600px;" alt="Park">
+                                                <img src="${nginxHost}${nginxSuffix}/trend/${img2}.png" class="gifs" style="width: 400px;height: 600px;" alt="Park">
                                                 <ins class='play-gif'>GIF</ins>
                                             </#if>
                                         </#list>
                                     </a>
                                 <#elseif img == "png" || img == "jpg">
-                                    <a class="lightbox" href="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}">
-                                        <img src="${nginxHost}:${nginxProt}/trend/${trend.trendImageURL}" style="width: 400px;height: 600px;" alt="Park">
+                                    <a class="lightbox" href="${nginxHost}${nginxSuffix}/trend/${trend.trendImageURL}">
+                                        <img src="${nginxHost}${nginxSuffix}/trend/${trend.trendImageURL}" style="width: 400px;height: 600px;" alt="Park">
                                     </a>
                                 </#if>
                             </#list>

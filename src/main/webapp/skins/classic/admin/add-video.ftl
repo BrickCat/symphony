@@ -44,7 +44,12 @@
 
                 fileSizeLimit:400*1024*1024,
                 //是否压缩
-                resize:false
+                resize:false,
+                accept: {
+                    title: '视频上传',             //文字描述
+                    extensions: 'mp4',     //允许的文件后缀，不带点，多个用逗号分割。,jpg,png,
+                    mimeTypes: 'video/mp4',      //多个用逗号分割。image/*,
+                }
             });
 
             uploader.on( 'fileQueued', function( file ) {
