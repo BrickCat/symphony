@@ -99,6 +99,7 @@ public class MallProcessor {
         renderer.setTemplateName("mall/index.ftl");
         final Map<String, Object> dataModel = renderer.getDataModel();
         dataModel.put(Common.SELECTED, Common.MALL);
+        dataModel.put(Common.IS_MALL,"isMall");
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
     }
 

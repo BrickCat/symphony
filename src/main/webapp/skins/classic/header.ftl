@@ -1,9 +1,9 @@
 <div class="nav">
     <h1 style="line-height: 100%;">
        ${logoIcon}
-          <#-- <a href="${servePath}" aria-label="搬砖猫" style="line-height: 100%;color: white;font-size: 16;margin-top: 15px;font-family: Courier;text-decoration:none">
+          <a href="${servePath}" aria-label="搬砖猫" style="color: white;font-size: 24px;font-weight:bold;margin-top: <#if isMall??>-40px<#else >-36px</#if>;margin-left: 50px;font-family: Courier;text-decoration:none;float: left;">
                 brickcat.club
-           </a>-->
+           </a>
     </h1>
     <div class="nav-tabs">
         <a pjax-title="${latestLabel} - ${symphonyLabel}" href="${servePath}/recent"<#if selected?? && 'recent' == selected> class="current"</#if>>
@@ -34,8 +34,11 @@
     </form>
     </#if>-->
     <div class="user-nav">
-        <a href="javascript:typeaheader();" class="tooltipped tooltipped-w" aria-label="${searchLabel}"><svg height="22" viewBox="0 -1 17 14" width="24">${searchIcon}</svg></a>
-        <#if isLoggedIn>
+        <#if isMall??>
+        <#else >
+            <a href="javascript:typeaheader();" class="tooltipped tooltipped-w" aria-label="${searchLabel}"><svg height="22" viewBox="0 -1 17 14" width="24">${searchIcon}</svg></a>
+        </#if>
+            <#if isLoggedIn>
             <a href="${servePath}/pre-post" class="tooltipped tooltipped-w" aria-label="${postArticleLabel}"><span class="icon-addfile"></span></a>
             <#if permissions["menuAdmin"].permissionGrant>
             <a href="${servePath}/admin" aria-label="${adminLabel}" class="tooltipped tooltipped-w"><span class="icon-userrole"></span></a>
@@ -76,24 +79,27 @@
         </#if>
     </div>
 </div>
-<script src="${staticServePath}/js/lib/jquery/jquery.min.js"></script>
-<script src="${staticServePath}/js/lib/layer/layer/layer.js"></script>
-<script type="text/javascript">
-    layer.config({
-        extend: 'myskin/style.css', //加载您的扩展样式
-        skin: 'layer-class'
-    });
-    function typeaheader() {
-        layer.ready(function() {
-            layer.open({
-                skin: 'layer-class',
-                type: 2,
-                zIndex:9999,
-                title: '搜索',
-                scrollbar:false,
-                area: ['800px', '600px'],
-                content: '${servePath}/search/typeahead'
-            });
+<#if isMall ??>
+<#else >
+    <script src="${staticServePath}/js/lib/jquery/jquery.min.js"></script>
+    <script src="${staticServePath}/js/lib/layer/layer/layer.js"></script>
+    <script type="text/javascript">
+        layer.config({
+            extend: 'myskin/style.css', //加载您的扩展样式
+            skin: 'layer-class'
         });
-    }
-</script>
+        function typeaheader() {
+            layer.ready(function() {
+                layer.open({
+                    skin: 'layer-class',
+                    type: 2,
+                    zIndex:9999,
+                    title: '搜索',
+                    scrollbar:false,
+                    area: ['800px', '600px'],
+                    content: '${servePath}/search/typeahead'
+                });
+            });
+        }
+    </script>
+</#if>

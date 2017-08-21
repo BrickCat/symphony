@@ -4,7 +4,7 @@
             <h1><a href="index.html"><img src="${staticServePath}/js/mall/images/logo3.png"></a></h1>
         </div>
         <div class="col-md-6 header-middle" style="height: 52px;">
-            <form >
+            <form style="line-height: 20px;">
                 <div class="search">
                     <input type="search" value="${searchLabel}" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '${searchLabel}';}" required="">
                 </div>

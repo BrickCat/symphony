@@ -1072,7 +1072,7 @@ var Video = {
 //            }
 //        }, false);
 
-        $(window).resize(function () {
+        /*$(window).resize(function () {
             var shareL = parseInt($('.article-footer').css('margin-left')) / 2 - 15;
             $('.share').css('left', (shareL < 0 ? 0 : shareL) + 'px');
 
@@ -1087,7 +1087,7 @@ var Video = {
                 return false;
             }
             $('.article-header > h2').css('margin-left', Math.max(20, ($('.article-footer').offset().left - 58)) + 'px');
-        });
+        });*/
     },
     /**
      * 历史版本对比

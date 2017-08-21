@@ -119,7 +119,7 @@
                             if(result.videos[i].videoStatus == 0){
                                 html += '<article class="white-panel"><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'
                                         + '<img src="'+imageUrl+'" onerror="this.src=${staticServePath}/images/video/sport.png" class="thumb">'
-                                        + '<h1><a href="#">'+result.videos[i].videoTitle+'</a></h1>'
+                                        + '<h1><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">'+result.videos[i].videoTitle+'</a></h1>'
                                         + '<p>'+result.videos[i].videoRemarks+'</p>'
                                         + '</a></article>';
                             }
@@ -150,7 +150,7 @@
                                     if(result.videos[i].videoStatus == 0) {
                                         html += '<article class="white-panel"><a href="${servePath}/video/front/' + result.videos[i].oId + '/show-video">'
                                                 + '<img src="' + imageUrl + '" onerror="this.src=${staticServePath}/images/video/sport.png" class="thumb">'
-                                                + '<h1><a href="#">' + result.videos[i].videoTitle + '</a></h1>'
+                                                + '<h1><a href="${servePath}/video/front/'+result.videos[i].oId+'/show-video">' + result.videos[i].videoTitle + '</a></h1>'
                                                 + '<p>' + result.videos[i].videoRemarks + '</p>'
                                                 + '</a></article>';
                                     }

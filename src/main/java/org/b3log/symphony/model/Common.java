@@ -147,6 +147,11 @@ public final class Common {
     public static final String SELECTED = "selected";
 
     /**
+     * Key of selected.
+     */
+    public static final String IS_MALL = "isMall";
+
+    /**
      * Key of last modified.
      */
     public static final String LAST_MOD = "lastModified";
