@@ -238,6 +238,11 @@ public final class Article {
     public static final String ARTICLE_T_VOTE = "articleVote";
 
     /**
+     * Key of article vote.
+     */
+    public static final String ARTICLE_T_COLLECT = "articleCollect";
+
+    /**
      * Key of article stick flag.
      */
     public static final String ARTICLE_T_IS_STICK = "articleIsStick";
@@ -301,6 +306,10 @@ public final class Article {
      * Key of article comments.
      */
     public static final String ARTICLE_T_COMMENTS = "articleComments";
+    /**
+     * Key of article comments.
+     */
+    public static final String ARTICLE_T_COMMENT = "articleComment";
 
     /**
      * Key of article nice comments.

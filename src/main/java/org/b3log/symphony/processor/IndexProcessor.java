@@ -314,6 +314,7 @@ public class IndexProcessor {
         dataModel.put(Pagination.PAGINATION_PAGE_COUNT, pageCount);
         dataModel.put(Pagination.PAGINATION_PAGE_NUMS, pageNums);
 
+
         dataModelService.fillHeaderAndFooter(request, response, dataModel);
 
         dataModelService.fillRandomArticles(avatarViewMode, dataModel);

@@ -134,7 +134,7 @@
                     <div id="player"></div>
                     <script>
                         var player = new Clappr.Player({
-                            source: "${nginxHost}:${nginxProt}/m3u8/output.m3u8",
+                            source: "${nginxHost}${nginxSuffix}/m3u8/${video.videoUrl}",
                             parentId: "#player",
                             width: 780,
                             height:384,

@@ -91,7 +91,7 @@ public final class Follow {
     /**
      * Following type - video watch.
      */
-    public static final int FOLLOWING_TYPE_C_TREND_WATCH = 5;
+    public static final int FOLLOWING_TYPE_C_TREND_WATCH = 7;
 
 
     /**

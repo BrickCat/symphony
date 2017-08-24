@@ -146,6 +146,8 @@ public class ArticleQueryService {
     @Inject
     private LangPropsService langPropsService;
 
+    @Inject
+    private VoteQueryService voteQueryService;
     /**
      * Article cache.
      */
@@ -2253,6 +2255,11 @@ public class ArticleQueryService {
             article.put(Article.ARTICLE_T_AUTHOR_THUMBNAIL_URL + "20",
                     avatarQueryService.getAvatarURLByUser(avatarViewMode, author, "20"));
         }
+        article.put(Article.ARTICLE_T_VOTE,voteQueryService.isVoted(authorId,article.optString(Keys.OBJECT_ID)));
+        article.put(Article.ARTICLE_T_COLLECT,followQueryService.isFollowing(authorId,article.optString(Keys.OBJECT_ID),Follow.FOLLOWING_TYPE_C_ARTICLE));
+        article.put(Article.ARTICLE_T_COMMENT,commentQueryService.isComment(authorId,article.optString(Keys.OBJECT_ID)));
+        
+
     }
 
     /**
