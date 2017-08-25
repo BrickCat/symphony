@@ -779,7 +779,7 @@ public class LoginProcessor {
 
                 context.renderMsg("").renderTrueResult();
                 context.renderJSONValue(Common.TOKEN, token);
-                context.renderJSONValue(UserExt.USER_T_ID,userId);
+                context.renderJSONValue(User.USER,user);
 
                 WRONG_PWD_TRIES.remove(userId);
 
